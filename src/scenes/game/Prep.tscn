@@ -1,0 +1,279 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://assets/buttons/blue_button02_freeze.png" type="Texture" id=1]
+[ext_resource path="res://assets/buttons/blue_button02_go_excl.png" type="Texture" id=2]
+[ext_resource path="res://assets/buttons/blue_button02_reroll.png" type="Texture" id=3]
+[ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=4]
+[ext_resource path="res://assets/characters/male_wizard.png" type="Texture" id=5]
+[ext_resource path="res://src/scripts/prep/PrepMain.cs" type="Script" id=6]
+[ext_resource path="res://assets/misc/grey_sliderHorizontal.png" type="Texture" id=7]
+[ext_resource path="res://assets/misc/ui_num5.png" type="Texture" id=9]
+[ext_resource path="res://assets/misc/ui_num3.png" type="Texture" id=10]
+[ext_resource path="res://assets/misc/ui_num4.png" type="Texture" id=11]
+[ext_resource path="res://assets/misc/ui_num1.png" type="Texture" id=12]
+[ext_resource path="res://assets/misc/ui_num2.png" type="Texture" id=13]
+[ext_resource path="res://assets/stats/medal2.png" type="Texture" id=14]
+[ext_resource path="res://assets/stats/trophy.png" type="Texture" id=15]
+[ext_resource path="res://assets/stats/medal1.png" type="Texture" id=16]
+[ext_resource path="res://assets/stats/star.png" type="Texture" id=17]
+[ext_resource path="res://assets/misc/ui_num0.png" type="Texture" id=19]
+[ext_resource path="res://assets/stats/heart.png" type="Texture" id=20]
+[ext_resource path="res://assets/stats/coin.png" type="Texture" id=21]
+[ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
+[ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=23]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_vertical_guides_": [  ]
+}
+
+[node name="backgroundEmpty" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 1.875, 1.05469 )
+z_index = -2
+texture = ExtResource( 23 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Control" type="Control" parent="."]
+margin_top = 960.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 200.0
+margin_right = -200.0
+margin_bottom = -65.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="Control/MarginContainer"]
+margin_right = 1520.0
+margin_bottom = 55.0
+custom_constants/hseparation = 40
+columns = 2
+
+[node name="Button_Reroll" type="Button" parent="Control/MarginContainer/GridContainer"]
+margin_right = 202.0
+margin_bottom = 55.0
+size_flags_vertical = 3
+icon = ExtResource( 3 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button_Freeze" type="Button" parent="Control/MarginContainer/GridContainer"]
+margin_left = 242.0
+margin_right = 444.0
+margin_bottom = 55.0
+icon = ExtResource( 1 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/MarginContainer"]
+margin_right = 1520.0
+margin_bottom = 55.0
+alignment = 2
+
+[node name="Button_Go" type="Button" parent="Control/MarginContainer/HBoxContainer"]
+margin_left = 1318.0
+margin_right = 1520.0
+margin_bottom = 55.0
+icon = ExtResource( 2 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerCharacter" type="Sprite" parent="."]
+position = Vector2( 312, 312 )
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 5 )
+
+[node name="slot_0" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 760, 256 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="slot_1" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 952, 256 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="slot_2" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 1144, 256 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="slot_3" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 1336, 256 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="slot_4" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 1528, 256 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="ui_num1" type="Sprite" parent="."]
+position = Vector2( 837, 208 )
+texture = ExtResource( 12 )
+
+[node name="ui_num2" type="Sprite" parent="."]
+position = Vector2( 1029, 208 )
+texture = ExtResource( 13 )
+
+[node name="ui_num3" type="Sprite" parent="."]
+position = Vector2( 1221, 208 )
+texture = ExtResource( 10 )
+
+[node name="ui_num4" type="Sprite" parent="."]
+position = Vector2( 1413, 208 )
+texture = ExtResource( 11 )
+
+[node name="ui_num5" type="Sprite" parent="."]
+position = Vector2( 1605, 208 )
+texture = ExtResource( 9 )
+
+[node name="shop_slot_0" type="Sprite" parent="."]
+position = Vector2( 672, 648 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="shop_slot_1" type="Sprite" parent="."]
+position = Vector2( 864, 648 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="shop_slot_2" type="Sprite" parent="."]
+position = Vector2( 1056, 648 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="shop_slot_3" type="Sprite" parent="."]
+position = Vector2( 1248, 648 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="shop_slot_4" type="Sprite" parent="."]
+position = Vector2( 1440, 648 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="shop_slot_5" type="Sprite" parent="."]
+position = Vector2( 1632, 648 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="grey_divider" type="Sprite" parent="."]
+position = Vector2( 1230, 536 )
+scale = Vector2( 6, 3 )
+texture = ExtResource( 7 )
+
+[node name="panel_blue" type="Sprite" parent="."]
+position = Vector2( 320, 736 )
+scale = Vector2( 4, 2.88 )
+texture = ExtResource( 4 )
+
+[node name="trophy" type="Sprite" parent="."]
+position = Vector2( 192, 648 )
+texture = ExtResource( 15 )
+
+[node name="medal2" type="Sprite" parent="."]
+position = Vector2( 280, 648 )
+texture = ExtResource( 14 )
+
+[node name="medal1" type="Sprite" parent="."]
+position = Vector2( 368, 648 )
+texture = ExtResource( 16 )
+
+[node name="star" type="Sprite" parent="."]
+position = Vector2( 448, 648 )
+texture = ExtResource( 17 )
+
+[node name="first_place_count" type="Sprite" parent="."]
+position = Vector2( 192, 712 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+
+[node name="second_place_count" type="Sprite" parent="."]
+position = Vector2( 280, 712 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+
+[node name="third_place_count3" type="Sprite" parent="."]
+position = Vector2( 368, 712 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+
+[node name="fourth_place_count4" type="Sprite" parent="."]
+position = Vector2( 448, 712 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+
+[node name="flag" type="Sprite" parent="."]
+position = Vector2( 224, 784 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 22 )
+
+[node name="heart" type="Sprite" parent="."]
+position = Vector2( 320, 784 )
+scale = Vector2( 0.25, 0.25 )
+texture = ExtResource( 20 )
+
+[node name="coin" type="Sprite" parent="."]
+position = Vector2( 416, 784 )
+scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 21 )
+
+[node name="ui_num0" type="Sprite" parent="."]
+position = Vector2( 224, 832 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )
+
+[node name="ui_num6" type="Sprite" parent="."]
+position = Vector2( 320, 832 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 11 )
+
+[node name="ui_num7" type="Sprite" parent="."]
+position = Vector2( 408, 832 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+
+[node name="ui_num8" type="Sprite" parent="."]
+position = Vector2( 432, 832 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 19 )

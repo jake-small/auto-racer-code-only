@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
+[ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
+[ext_resource path="res://assets/panels/blue_panel.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_18.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_24.tres" type="DynamicFont" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 80, 80 )
+
+[node name="Card" type="KinematicBody2D"]
+input_pickable = true
+collision_layer = 2
+script = ExtResource( 1 )
+
+[node name="Panel_selected" type="Sprite" parent="."]
+visible = false
+position = Vector2( -16, -16 )
+scale = Vector2( 1.68, 1.68 )
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Panel_blue" type="Sprite" parent="."]
+scale = Vector2( 1.47, 1.47 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2( 68, 68 )
+shape = SubResource( 1 )
+
+[node name="Label_header" type="Label" parent="."]
+margin_left = 6.0
+margin_top = 7.0
+margin_right = 131.0
+margin_bottom = 47.0
+custom_fonts/font = ExtResource( 5 )
+text = "Example of Power"
+align = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_body" type="Label" parent="."]
+margin_left = 6.0
+margin_top = 47.0
+margin_right = 131.0
+margin_bottom = 135.0
+custom_fonts/font = ExtResource( 4 )
+text = "Here is the card's text. It goes on and on my friend. One and two and three and four."
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
