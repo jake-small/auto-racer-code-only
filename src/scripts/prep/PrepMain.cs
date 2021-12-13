@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PrepMain : Node2D
 {
@@ -8,9 +9,14 @@ public class PrepMain : Node2D
 
   private List<string> _shopCards = new List<string>();
   private List<Sprite> _cardSlots = new List<Sprite>();
-  private DroppedCard _droppedCard = null;
 
   public static Inventory _inventory = new Inventory();
+
+  private Label _debugInventoryLabel;
+  private List<Card> _cachedDebugCards = new List<Card>();
+  private Timer _dropCardTimer;
+  private const float _dropCardTimerLength = 0.1f;
+  private bool _canDropCard = true;
 
   public override void _Ready()
   {
@@ -20,90 +26,118 @@ public class PrepMain : Node2D
     {
       _cardSlots.Add(sprite);
     }
+    _debugInventoryLabel = GetNode<Label>(PrepSceneData.DebugInventoryLabel);
+
+    _dropCardTimer = new Timer();
+    _dropCardTimer.WaitTime = _dropCardTimerLength;
+    _dropCardTimer.Connect("timeout", this, nameof(_on_dropCardTimer_timeout));
+    AddChild(_dropCardTimer);
   }
 
-  public override void _PhysicsProcess(float delta)
+  public override void _Process(float delta)
   {
-    if (_droppedCard != null)
+    var cards = _inventory.GetCards();
+    if (cards.SequenceEqual(_cachedDebugCards))
     {
-      _droppedCard.CardNode.Position = _droppedCard.DroppedPosition;
-      _droppedCard = null;
-    }
-  }
-
-  public void _on_Card_droppedInSlot(Card card, KinematicBody2D cardNode, int slot, Vector2 droppedPosition, Vector2 originalPosition)
-  {
-    GD.Print($"Drop signal received for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
-    if (_inventory.IsCardInSlot(slot))
-    {
-      GD.Print($"Card already exists in slot {slot}");
-      _droppedCard = new DroppedCard
-      {
-        Card = card,
-        CardNode = cardNode,
-        DroppedPosition = originalPosition,
-        OriginalPosition = originalPosition
-      };
       return;
     }
-    else
+    _cachedDebugCards = cards;
+    var cardsText = "";
+    foreach (var card in cards)
     {
-      if (card.Slot != -1)
+      if (card == null)
       {
-        var result = _inventory.MoveCard(card, slot);
-        if (result)
-        {
-          GD.Print($"Moved card from slot {card.Slot} to {slot}");
-          card.Slot = slot;
-        }
-        else
-        {
-          GD.Print($"Failed to move card from slot {card.Slot} to {slot}");
-          _droppedCard = new DroppedCard
-          {
-            Card = card,
-            CardNode = cardNode,
-            DroppedPosition = originalPosition,
-            OriginalPosition = originalPosition
-          };
-          return;
-        }
+        cardsText += $"null\n";
+        continue;
       }
-      else
+      cardsText += $"{card.Name} in slot {card.Slot}. Body: {card.Body}\n";
+    }
+    _debugInventoryLabel.Text = cardsText;
+  }
+
+  public void _on_Card_droppedInSlot(Card card, int slot, Vector2 droppedPosition, Vector2 originalPosition)
+  {
+    if (_canDropCard && _dropCardTimer.IsStopped())
+    {
+      GD.Print($"drop card timer started!!!");
+      _dropCardTimer.Start();
+      _canDropCard = false;
+    }
+    else if (!_canDropCard)
+    {
+      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
+      DropCard(card, originalPosition);
+      DeselectAllCards();
+      return;
+    }
+
+    GD.Print($"Drop signal RECEIVED for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
+    if (_inventory.IsCardInSlot(slot) && card.Slot != -1)
+    {
+      // Swap cards in player inventory
+      var targetCard = _inventory.GetCardInSlot(slot);
+      var result = _inventory.SwapCards(slot, card.Slot);
+      if (result)
       {
-        var result = _inventory.AddCard(card, slot);
-        if (result)
-        {
-          GD.Print($"Added card to slot {slot} from shop");
-          card.Slot = slot;
-        }
-        else
-        {
-          GD.Print($"Failed to add card to slot {slot}");
-          _droppedCard = new DroppedCard
-          {
-            Card = card,
-            CardNode = cardNode,
-            DroppedPosition = originalPosition,
-            OriginalPosition = originalPosition
-          };
-          return;
-        }
+        DeselectAllCards();
+        DropCard(targetCard, originalPosition);
+        DropCard(card, droppedPosition);
+        return;
       }
-      _droppedCard = new DroppedCard
+    }
+    else if (_inventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
+    {
+      // GD.Print($"Card already exists in slot {slot}");
+      // TODO: combine cards if the same type
+    }
+    else if (card.Slot != -1) // Card in inventory
+    {
+      var result = _inventory.MoveCard(card, slot);
+      if (result)
       {
-        Card = card,
-        CardNode = cardNode,
-        DroppedPosition = droppedPosition,
-        OriginalPosition = originalPosition
-      };
-      // _dropped = true;
-      //_bought = true;
-      // _startingPosition = _droppedPosition;
-      cardNode.Set("_dropped", true);
-      cardNode.Set("_bought", true);
-      cardNode.Set("_startingPosition", droppedPosition);
-      cardNode.Set("_card", card);
+        DropCard(card, droppedPosition);
+        return;
+      }
+    }
+    else // Card in shop
+    {
+      var result = _inventory.AddCard(card, slot);
+      if (result)
+      {
+        DropCard(card, droppedPosition);
+        return;
+      }
+    }
+
+    // Card couldn't be dropped in slot
+    DropCard(card, droppedPosition);
+  }
+
+  public void _on_dropCardTimer_timeout()
+  {
+    _canDropCard = true;
+    _dropCardTimer.Stop();
+  }
+
+  private void DropCard(Card card, Vector2 droppedPosition)
+  {
+    card.CardNode.Set("_selected", false);
+    card.CardNode.Set("_dropped", true);
+    card.CardNode.Set("_droppedPosition", droppedPosition);
+    card.CardNode.Set("_startingPosition", droppedPosition);
+    card.CardNode.Set("_currentCardSlot", card.Slot);
+  }
+
+  private void DeselectAllCards()
+  {
+    var cards = _inventory.GetCards();
+    foreach (var card in cards)
+    {
+      if (card == null)
+      {
+        continue;
+      }
+      card.CardNode.Set("_selected", false);
     }
   }
 

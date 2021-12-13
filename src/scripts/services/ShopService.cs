@@ -20,7 +20,8 @@ public class ShopService
     {
       var r = _rnd.Next(_cards.Count);
       Console.WriteLine($"random card #{r}");
-      var card = _cards[r];
+      var card = _cards[r].Clone();
+      card.Body = Guid.NewGuid().ToString();
       cards.Add(card);
     }
 
