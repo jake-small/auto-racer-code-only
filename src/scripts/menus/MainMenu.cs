@@ -6,9 +6,9 @@ public class MainMenu : Control
   public override void _Ready()
   {
     var startButton = GetNode("MarginContainer/VBoxContainer/HBoxContainer/Button_Start") as Button;
-    startButton.Connect("pressed", this, "Button_start_pressed");
+    startButton.Connect("pressed", this, nameof(Button_start_pressed));
     var quitButton = GetNode("MarginContainer/VBoxContainer/HBoxContainer/Button_Quit") as Button;
-    quitButton.Connect("pressed", this, "Button_quit_pressed");
+    quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
   }
 
   private void Button_start_pressed()

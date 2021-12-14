@@ -5,11 +5,9 @@
 [ext_resource path="res://assets/buttons/red_button01_quit.png" type="Texture" id=3]
 [ext_resource path="res://assets/buttons/red_button01_start.png" type="Texture" id=4]
 [ext_resource path="res://assets/buttons/red_button01_options.png" type="Texture" id=5]
+[ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=6]
 
 [sub_resource type="Theme" id=1]
-
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.109804, 0.517647, 0.509804, 1 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -20,14 +18,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="."]
-margin_right = 1920.0
-margin_bottom = 1080.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = SubResource( 2 )
+[node name="backgroundEmpty" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 1.875, 1.05469 )
+z_index = -2
+texture = ExtResource( 6 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_lock_": true
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -41,6 +38,7 @@ custom_constants/margin_top = 80
 custom_constants/margin_left = 120
 custom_constants/margin_bottom = 80
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

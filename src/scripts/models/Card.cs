@@ -21,9 +21,9 @@ public class Card : Godot.Object
 
   public Card Clone() { return new Card(this); }
 
-  public bool LevelUp()
+  public bool AddLevels(int level)
   {
-    Level += 1;
+    Level += level;
     if (CardNode != null)
     {
       var levelLabel = CardNode.GetNode<Label>(PrepSceneData.CardLabelLevel);

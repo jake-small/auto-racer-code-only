@@ -21,16 +21,16 @@ public class CardScript : KinematicBody2D
   private int _currentCardSlot = -1;
   private Sprite _selectedSprite = new Sprite();
 
-  public Card _card { get; set; }
+  public Card Card { get; set; }
 
   public override void _Ready()
   {
     var headerLabel = GetNode<Label>(PrepSceneData.CardLabelHeader);
     var bodyLabel = GetNode<Label>(PrepSceneData.CardLabelBody);
     var levelLabel = GetNode<Label>(PrepSceneData.CardLabelLevel);
-    headerLabel.Text = _card.Name;
-    bodyLabel.Text = _card.Body;
-    levelLabel.Text = _card.Level.ToString();
+    headerLabel.Text = Card.Name;
+    bodyLabel.Text = Card.Body;
+    levelLabel.Text = Card.Level.ToString();
 
     _startingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
@@ -300,8 +300,8 @@ public class CardScript : KinematicBody2D
   public delegate void droppedInSlot(Card card, int slot, Vector2 droppedPosition, Vector2 originalPosition);
   public void emitDroppedInSlotSignal(int slot, Vector2 droppedPosition, Vector2 originalPosition)
   {
-    GD.Print($"Drop signal EMITTED for {_card.Name} at slot {_card.Slot} to {slot} at position {droppedPosition}");
-    _card.CardNode = this;
-    EmitSignal(nameof(droppedInSlot), _card, slot, droppedPosition, originalPosition);
+    GD.Print($"Drop signal EMITTED for {Card.Name} at slot {Card.Slot} to {slot} at position {droppedPosition}");
+    Card.CardNode = this;
+    EmitSignal(nameof(droppedInSlot), Card, slot, droppedPosition, originalPosition);
   }
 }
