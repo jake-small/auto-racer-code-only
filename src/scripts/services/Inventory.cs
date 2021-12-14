@@ -54,6 +54,8 @@ public class Inventory
       GD.Print($"Can't REMOVE card from {slot}. There's no card there.");
       return false;
     }
+    var card = GetCardInSlot(slot);
+    card.CardNode.QueueFree(); // Remove card node
     _cards.Remove(slot);
     GD.Print($"REMOVED card from {slot}");
     return true;

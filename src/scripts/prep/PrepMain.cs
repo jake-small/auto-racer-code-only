@@ -72,14 +72,20 @@ public class PrepMain : Node2D
     }
 
     GD.Print($"Drop signal RECEIVED for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
-    if (_inventory.IsCardInSlot(slot) && card.Slot != -1)
+    if (_inventory.IsCardInSlot(slot) && card.Slot != -1) // Card in inventory but card exists in targetted slot
     {
-      // Swap cards in player inventory
+      DeselectAllCards();
       var targetCard = _inventory.GetCardInSlot(slot);
-      var result = _inventory.SwapCards(slot, card.Slot);
-      if (result)
+      if (card.Name == targetCard.Name) // Combine cards of same type
       {
-        DeselectAllCards();
+        targetCard.LevelUp();
+        _inventory.RemoveCard(card.Slot); // Remove dropped card
+        return;
+      }
+
+      var result = _inventory.SwapCards(slot, card.Slot);
+      if (result) // Swap cards in player inventory
+      {
         DropCard(targetCard, originalPosition);
         DropCard(card, droppedPosition);
         return;
@@ -87,8 +93,14 @@ public class PrepMain : Node2D
     }
     else if (_inventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
     {
-      // GD.Print($"Card already exists in slot {slot}");
-      // TODO: combine cards if the same type
+      DeselectAllCards();
+      var targetCard = _inventory.GetCardInSlot(slot);
+      if (card.Name == targetCard.Name) // Combine cards of same type
+      {
+        targetCard.LevelUp();
+        card.CardNode.QueueFree(); // Remove dropped card node
+        return;
+      }
     }
     else if (card.Slot != -1) // Card in inventory
     {
@@ -110,7 +122,7 @@ public class PrepMain : Node2D
     }
 
     // Card couldn't be dropped in slot
-    DropCard(card, droppedPosition);
+    DropCard(card, originalPosition);
   }
 
   public void _on_dropCardTimer_timeout()

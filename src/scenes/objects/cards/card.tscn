@@ -49,13 +49,24 @@ __meta__ = {
 margin_left = 6.0
 margin_top = 47.0
 margin_right = 131.0
-margin_bottom = 135.0
+margin_bottom = 120.0
 custom_fonts/font = ExtResource( 4 )
 text = "Here is the card's text. It goes on and on my friend. One and two and three and four."
 align = 1
 valign = 1
 autowrap = true
 clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_level" type="Label" parent="."]
+margin_left = 6.0
+margin_top = 122.0
+margin_right = 120.0
+margin_bottom = 136.0
+text = "-1"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

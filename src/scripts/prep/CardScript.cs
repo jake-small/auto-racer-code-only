@@ -27,8 +27,10 @@ public class CardScript : KinematicBody2D
   {
     var headerLabel = GetNode<Label>(PrepSceneData.CardLabelHeader);
     var bodyLabel = GetNode<Label>(PrepSceneData.CardLabelBody);
+    var levelLabel = GetNode<Label>(PrepSceneData.CardLabelLevel);
     headerLabel.Text = _card.Name;
     bodyLabel.Text = _card.Body;
+    levelLabel.Text = _card.Level.ToString();
 
     _startingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
