@@ -15,6 +15,7 @@ public class CardScript : KinematicBody2D
   private Vector2 _dragPosition = new Vector2();
   private Vector2 _droppedPosition = new Vector2();
   private bool _mouseIn = false;
+  private bool _mouseInCardActionButton = false;
   private bool _selected = false;
   private readonly Vector2 CardSlotOffset = new Vector2(6, 4);
   private List<Sprite> _cardSlots = new List<Sprite>();
@@ -66,124 +67,6 @@ public class CardScript : KinematicBody2D
     }
   }
 
-  /*public void _InputBACKUP(InputEvent @event)
-  {
-    if (@event is InputEventMouseButton eventMouseButton)
-    {
-      if (_hovered && eventMouseButton.IsPressed() && _mouseIn)
-      {
-        // _dropped = false;
-        GD.Print("Selecting item at: ", eventMouseButton.Position);
-        var mousePosition = GetViewport().GetMousePosition();
-        _draggingDistance = Position.DistanceTo(mousePosition);
-        _direction = (mousePosition - Position).Normalized();
-        _dragging = true;
-        _dragPosition = mousePosition - (_draggingDistance * _direction);
-      }
-      // item in shop slot
-      else if (_selected && !_bought)
-      {
-        GD.Print("Hovered & NOT bought");
-        _dragging = false;
-        _hovered = false;
-        var mousePosition = GetViewport().GetMousePosition();
-        foreach (var itemSlot in _itemSlots)
-        {
-          var rect = itemSlot.GetRect();
-          rect.Position = itemSlot.Position;
-          rect.Size = rect.Size * itemSlot.Scale;
-          if (rect.HasPoint(mousePosition))
-          {
-            // lock in spell
-            _droppedPosition = rect.Position + ItemSlotOffset;
-            _selected = false;
-            _currentItemSlot = itemSlot;
-            // _item.Slot = GetSlotNumberFromName(_currentItemSlot.Name);
-            var slot = GetSlotNumberFromName(_currentItemSlot.Name);
-            emitDroppedInSlotSignal(this, slot, _droppedPosition, _startingPosition);
-            // TODO
-            // _dropped = true;
-            //_bought = true;
-            // _startingPosition = _droppedPosition;
-          }
-        }
-        if (!_bought && _mouseIn)
-        {
-          // put item back in player slot
-          _droppedPosition = _startingPosition;
-          _dropped = true;
-        }
-        else if (!_bought)
-        {
-          // put item back in shop slot
-          _droppedPosition = _startingPosition;
-          _dropped = true;
-          _selected = false;
-        }
-      }
-      // item in player slot
-      else if (_selected && _bought)
-      {
-        GD.Print("Hovered & bought");
-        _dragging = false;
-        _hovered = false;
-        var mousePosition = GetViewport().GetMousePosition();
-        var movedSlots = false;
-        foreach (var itemSlot in _itemSlots)
-        {
-          if (_currentItemSlot == itemSlot)
-          {
-            continue;
-          }
-          var rect = itemSlot.GetRect();
-          rect.Position = itemSlot.Position;
-          rect.Size = rect.Size * itemSlot.Scale;
-          if (rect.HasPoint(mousePosition))
-          {
-            // lock in spell
-            GD.Print("Dropped in slot at: ", mousePosition);
-            _droppedPosition = rect.Position + ItemSlotOffset;
-            // _startingPosition = _droppedPosition;
-            // _dropped = true;
-            movedSlots = true;
-            _selected = false;
-            _currentItemSlot = itemSlot;
-            // _item.Slot = GetSlotNumberFromName(_currentItemSlot.Name);
-            var slot = GetSlotNumberFromName(_currentItemSlot.Name);
-            emitDroppedInSlotSignal(this, slot, _droppedPosition, _startingPosition);
-          }
-        }
-        if (!movedSlots && _mouseIn)
-        {
-          // put item back in player slot
-          _droppedPosition = _startingPosition;
-          _dropped = true;
-        }
-        else if (!movedSlots)
-        {
-          // put item back in player slot
-          _droppedPosition = _startingPosition;
-          _dropped = true;
-          _selected = false;
-        }
-      }
-      else
-      {
-        _dragging = false;
-        _hovered = false;
-      }
-    }
-    else if (@event is InputEventMouseMotion eventMouseMotion)
-    {
-      if (_dragging)
-      {
-        var mousePosition = GetViewport().GetMousePosition();
-        _dragPosition = mousePosition - (_draggingDistance * _direction);
-      }
-    }
-  }
-  */
-
   public override void _Input(InputEvent @event)
   {
     if (!_selected || _dropped)
@@ -225,12 +108,26 @@ public class CardScript : KinematicBody2D
       _droppedPosition = _startingPosition;
       _dropped = true;
     }
+    else if (_mouseInCardActionButton) // Card is dragged over either Freeze or Sell button
+    {
+      if (Card.Slot == -1)
+      {
+        GD.Print($"Card {Card.Name} dropped on freeze button");
+        // TODO: implement freeze
+      }
+      else
+      {
+        GD.Print($"Card {Card.Name} dropped on sell button");
+        emitDroppedOnSellButtonSignal();
+      }
+    }
     else
     {
       // put card back in shop slot
       _droppedPosition = _startingPosition;
       _dropped = true;
       _selected = false;
+      emitCardDeselectedSignal();
     }
   }
 
@@ -242,7 +139,7 @@ public class CardScript : KinematicBody2D
       {
         GD.Print("Selected card at: ", eventMouseButton.Position);
         _selected = true; // TODO
-
+        emitCardSelectedSignal();
         StartDraggingCard();
       }
     }
@@ -301,7 +198,34 @@ public class CardScript : KinematicBody2D
   public void emitDroppedInSlotSignal(int slot, Vector2 droppedPosition, Vector2 originalPosition)
   {
     GD.Print($"Drop signal EMITTED for {Card.Name} at slot {Card.Slot} to {slot} at position {droppedPosition}");
-    Card.CardNode = this;
+    Card.CardNode = this; // TODO: move this to Ready() ???
     EmitSignal(nameof(droppedInSlot), Card, slot, droppedPosition, originalPosition);
+  }
+
+  [Signal]
+  public delegate void droppedOnSellButton(Card card);
+  public void emitDroppedOnSellButtonSignal()
+  {
+    GD.Print($"DroppedOnSellButton signal EMITTED for {Card.Name} at slot {Card.Slot}");
+    Card.CardNode = this;
+    EmitSignal(nameof(droppedOnSellButton), Card);
+  }
+
+  [Signal]
+  public delegate void cardSelected(Card card);
+  public void emitCardSelectedSignal()
+  {
+    GD.Print($"CardSelected signal EMITTED for {Card.Name} at slot {Card.Slot}");
+    Card.CardNode = this;
+    EmitSignal(nameof(cardSelected), Card);
+  }
+
+  [Signal]
+  public delegate void cardDeselected(Card card);
+  public void emitCardDeselectedSignal()
+  {
+    GD.Print($"CardDeselected signal EMITTED for {Card.Name} at slot {Card.Slot}");
+    Card.CardNode = this;
+    EmitSignal(nameof(cardDeselected), Card);
   }
 }

@@ -29,7 +29,10 @@ public class Inventory
     for (int i = 0; i < PrepSceneData.InventorySize; i++)
     {
       var card = GetCardInSlot(i);
-      cards.Add(card);
+      if (card != null)
+      {
+        cards.Add(card);
+      }
     }
     return cards;
   }
