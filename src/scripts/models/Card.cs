@@ -26,7 +26,7 @@ public class Card : Godot.Object
     Level += level;
     if (CardNode != null)
     {
-      var levelLabel = CardNode.GetNode<Label>(PrepSceneData.CardLabelLevel);
+      var levelLabel = CardNode.GetNode<Label>(PrepSceneData.LabelCardLevel);
       levelLabel.Text = Level.ToString();
     }
     return true;

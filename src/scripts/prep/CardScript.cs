@@ -27,9 +27,9 @@ public class CardScript : KinematicBody2D
 
   public override void _Ready()
   {
-    var headerLabel = GetNode<Label>(PrepSceneData.CardLabelHeader);
-    var bodyLabel = GetNode<Label>(PrepSceneData.CardLabelBody);
-    var levelLabel = GetNode<Label>(PrepSceneData.CardLabelLevel);
+    var headerLabel = GetNode<Label>(PrepSceneData.LabelCardHeader);
+    var bodyLabel = GetNode<Label>(PrepSceneData.LabelCardBody);
+    var levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     headerLabel.Text = Card.Name;
     bodyLabel.Text = Card.Body;
     levelLabel.Text = Card.Level.ToString();

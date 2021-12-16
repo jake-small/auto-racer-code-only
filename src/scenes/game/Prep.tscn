@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/buttons/blue_button02_freeze.png" type="Texture" id=1]
 [ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=2]
@@ -17,7 +17,8 @@
 [ext_resource path="res://assets/stats/trophy.png" type="Texture" id=15]
 [ext_resource path="res://assets/stats/medal1.png" type="Texture" id=16]
 [ext_resource path="res://assets/stats/star.png" type="Texture" id=17]
-[ext_resource path="res://assets/misc/ui_num0.png" type="Texture" id=19]
+[ext_resource path="res://assets/panels/runeBlue_tileOutline_035.png" type="Texture" id=18]
+[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_48.tres" type="DynamicFont" id=19]
 [ext_resource path="res://assets/stats/heart.png" type="Texture" id=20]
 [ext_resource path="res://assets/stats/coin.png" type="Texture" id=21]
 [ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
@@ -210,81 +211,110 @@ position = Vector2( 1230, 536 )
 scale = Vector2( 6, 3 )
 texture = ExtResource( 7 )
 
-[node name="panel_blue" type="Sprite" parent="."]
-position = Vector2( 320, 736 )
-scale = Vector2( 4, 2.88 )
-texture = ExtResource( 4 )
+[node name="Container_win_record" type="Node2D" parent="."]
 
-[node name="trophy" type="Sprite" parent="."]
-position = Vector2( 192, 648 )
+[node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
+position = Vector2( 316, 596 )
+scale = Vector2( 4.2963, 1.46667 )
+texture = ExtResource( 18 )
+
+[node name="trophy" type="Sprite" parent="Container_win_record"]
+position = Vector2( 240.64, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 15 )
 
-[node name="medal2" type="Sprite" parent="."]
-position = Vector2( 280, 648 )
+[node name="medal2" type="Sprite" parent="Container_win_record"]
+position = Vector2( 295.2, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 14 )
 
-[node name="medal1" type="Sprite" parent="."]
-position = Vector2( 368, 648 )
+[node name="medal1" type="Sprite" parent="Container_win_record"]
+position = Vector2( 349.76, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 16 )
 
-[node name="star" type="Sprite" parent="."]
-position = Vector2( 448, 648 )
+[node name="star" type="Sprite" parent="Container_win_record"]
+position = Vector2( 399.36, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 17 )
 
-[node name="first_place_count" type="Sprite" parent="."]
-position = Vector2( 192, 712 )
-scale = Vector2( 0.5, 0.5 )
+[node name="first_place_count" type="Sprite" parent="Container_win_record"]
+position = Vector2( 240.64, 617.382 )
+scale = Vector2( 0.31, 0.295139 )
 texture = ExtResource( 12 )
 
-[node name="second_place_count" type="Sprite" parent="."]
-position = Vector2( 280, 712 )
-scale = Vector2( 0.5, 0.5 )
+[node name="second_place_count" type="Sprite" parent="Container_win_record"]
+position = Vector2( 295.2, 615.611 )
+scale = Vector2( 0.31, 0.295139 )
 texture = ExtResource( 12 )
 
-[node name="third_place_count3" type="Sprite" parent="."]
-position = Vector2( 368, 712 )
-scale = Vector2( 0.5, 0.5 )
+[node name="third_place_count3" type="Sprite" parent="Container_win_record"]
+position = Vector2( 349.76, 615.611 )
+scale = Vector2( 0.31, 0.295139 )
 texture = ExtResource( 12 )
 
-[node name="fourth_place_count4" type="Sprite" parent="."]
-position = Vector2( 448, 712 )
-scale = Vector2( 0.5, 0.5 )
+[node name="fourth_place_count4" type="Sprite" parent="Container_win_record"]
+position = Vector2( 399.36, 615.611 )
+scale = Vector2( 0.31, 0.295139 )
 texture = ExtResource( 12 )
 
-[node name="flag" type="Sprite" parent="."]
-position = Vector2( 224, 784 )
+[node name="Container_info" type="Node2D" parent="."]
+
+[node name="panel_runeBlue2" type="Sprite" parent="Container_info"]
+position = Vector2( 318.76, 727.114 )
+scale = Vector2( 4.74074, 1.77045 )
+texture = ExtResource( 18 )
+
+[node name="flag" type="Sprite" parent="Container_info"]
+position = Vector2( 248, 704 )
 scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 22 )
 
-[node name="heart" type="Sprite" parent="."]
-position = Vector2( 320, 784 )
+[node name="heart" type="Sprite" parent="Container_info"]
+position = Vector2( 320, 704 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 20 )
 
-[node name="coin" type="Sprite" parent="."]
-position = Vector2( 416, 784 )
-scale = Vector2( 0.6, 0.6 )
+[node name="coin" type="Sprite" parent="Container_info"]
+position = Vector2( 392, 704 )
+scale = Vector2( 0.64, 0.62 )
 texture = ExtResource( 21 )
 
-[node name="ui_num0" type="Sprite" parent="."]
-position = Vector2( 224, 832 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 19 )
+[node name="Label_raceTotal" type="Label" parent="Container_info"]
+margin_left = 230.296
+margin_top = 727.332
+margin_right = 270.296
+margin_bottom = 763.332
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ui_num6" type="Sprite" parent="."]
-position = Vector2( 320, 832 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 11 )
+[node name="Label_hearts" type="Label" parent="Container_info"]
+margin_left = 300.923
+margin_top = 727.332
+margin_right = 340.923
+margin_bottom = 763.332
+custom_fonts/font = ExtResource( 19 )
+text = "4"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ui_num7" type="Sprite" parent="."]
-position = Vector2( 408, 832 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 12 )
-
-[node name="ui_num8" type="Sprite" parent="."]
-position = Vector2( 432, 832 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 19 )
+[node name="Label_coins" type="Label" parent="Container_info"]
+margin_left = 380.76
+margin_top = 727.332
+margin_right = 410.76
+margin_bottom = 763.332
+custom_fonts/font = ExtResource( 19 )
+text = "10"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Debug" type="Node" parent="."]
 

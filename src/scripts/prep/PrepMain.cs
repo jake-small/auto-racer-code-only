@@ -8,10 +8,11 @@ public class PrepMain : Node2D
   private readonly Vector2 ShopSlotOffset = new Vector2(6, 4);
 
   private static Inventory _inventory = new Inventory();
-  private IEnumerable<string> _shopCards = new List<string>();
+  private static Bank _bank = new Bank();
+  private int? _newCoinTotal;
+  private Label _coinTotalLabel;
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Card _selectedCard = null;
-
   private Button _freezeButton;
   private Button _sellButton;
   private Label _debugInventoryLabel;
@@ -28,7 +29,9 @@ public class PrepMain : Node2D
     {
       _cardSlots.Add(sprite);
     }
-    _debugInventoryLabel = GetNode<Label>(PrepSceneData.DebugInventoryLabel);
+
+    _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
+    _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
     _dropCardTimer = new Timer();
     _dropCardTimer.WaitTime = _dropCardTimerLength;
@@ -43,10 +46,18 @@ public class PrepMain : Node2D
     _sellButton.Connect("pressed", this, nameof(Button_sell_pressed));
     var goButton = GetNode(PrepSceneData.ButtonGoPath) as Button;
     goButton.Connect("pressed", this, nameof(Button_go_pressed));
+
+    _newCoinTotal = _bank.SetStartingCoins();
   }
 
   public override void _Process(float delta)
   {
+    if (_newCoinTotal != null)
+    {
+      _coinTotalLabel.Text = _newCoinTotal.ToString();
+      _newCoinTotal = null;
+    }
+
     var cards = _inventory.GetCards();
     if (cards.SequenceEqual(_cachedDebugCards))
     {
@@ -131,9 +142,14 @@ public class PrepMain : Node2D
       var targetCard = _inventory.GetCardInSlot(slot);
       if (card.Name == targetCard.Name) // Combine cards of same type
       {
-        targetCard.AddLevels(card.Level);
-        card.CardNode.QueueFree(); // Remove dropped card node
-        return;
+        var bankResult = _bank.Buy();
+        if (bankResult.Success)
+        {
+          _newCoinTotal = bankResult.CoinTotal;
+          targetCard.AddLevels(card.Level);
+          card.CardNode.QueueFree(); // Remove dropped card node
+          return;
+        }
       }
     }
     else if (card.Slot != -1) // Card in inventory
@@ -147,11 +163,16 @@ public class PrepMain : Node2D
     }
     else // Card in shop
     {
-      var result = _inventory.AddCard(card, slot);
-      if (result)
+      var bankResult = _bank.Buy();
+      if (bankResult.Success)
       {
-        DropCard(card, droppedPosition);
-        return;
+        _newCoinTotal = bankResult.CoinTotal;
+        var result = _inventory.AddCard(card, slot);
+        if (result)
+        {
+          DropCard(card, droppedPosition);
+          return;
+        }
       }
     }
 
@@ -208,10 +229,14 @@ public class PrepMain : Node2D
   private void Button_reroll_pressed()
   {
     Console.WriteLine("Reroll button pressed");
-    CardShopClear();
-    // TODO get frozen cards?
-    var frozenCards = GetFrozenCardNodesInShop().ToList();
-    CardShopFill(frozenCards);
+    var bankResult = _bank.Reroll();
+    if (bankResult.Success)
+    {
+      _newCoinTotal = bankResult.CoinTotal;
+      CardShopClear();
+      var frozenCards = GetFrozenCardNodesInShop().ToList();
+      CardShopFill(frozenCards);
+    }
   }
 
   private void Button_freeze_pressed()
@@ -335,7 +360,6 @@ public class PrepMain : Node2D
   private void SellCard()
   {
     DisableCardActionButtons();
-
     if (_selectedCard == null)
     {
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
@@ -346,7 +370,12 @@ public class PrepMain : Node2D
       GD.Print("Can't sell card that's in the shop");
       return;
     }
-    _inventory.RemoveCard(_selectedCard.Slot);
+    var bankResult = _bank.Sell();
+    if (bankResult.Success)
+    {
+      _newCoinTotal = bankResult.CoinTotal;
+      _inventory.RemoveCard(_selectedCard.Slot);
+    }
   }
 
   private IEnumerable<CardScript> GetCardNodesInShop()
