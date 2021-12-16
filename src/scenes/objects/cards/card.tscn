@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
 [ext_resource path="res://assets/panels/blue_panel.png" type="Texture" id=3]
 [ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_18.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_24.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/effects/iceBlockAlt.png" type="Texture" id=6]
+[ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
@@ -16,12 +18,75 @@ input_pickable = true
 collision_layer = 2
 script = ExtResource( 1 )
 
-[node name="Panel_selected" type="Sprite" parent="."]
+[node name="Panel_frozen" type="Sprite" parent="."]
+visible = false
+position = Vector2( -16, -16 )
+scale = Vector2( 2.4, 2.4 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Panel_selectedOld" type="Sprite" parent="."]
 visible = false
 position = Vector2( -16, -16 )
 scale = Vector2( 1.68, 1.68 )
 texture = ExtResource( 3 )
 centered = false
+
+[node name="Panel_selected" type="Sprite" parent="."]
+visible = false
+modulate = Color( 0.94902, 0.466667, 0.14902, 0.784314 )
+position = Vector2( -32, 152 )
+scale = Vector2( 0.32, 0.16 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Panel_selected3" type="Sprite" parent="Panel_selected"]
+position = Vector2( 0, -1150 )
+scale = Vector2( 0.510638, 2 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Panel_selected2" type="Sprite" parent="Panel_selected"]
+position = Vector2( 0, -1150 )
+scale = Vector2( 1, 1 )
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Panel_selected4" type="Sprite" parent="Panel_selected"]
+position = Vector2( -477.608, -1050 )
+scale = Vector2( 0.500001, 2 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 2105.21, -50.0002 )
+
+[node name="Panel_selected5" type="Sprite" parent="Panel_selected"]
+position = Vector2( -1580.21, -1100 )
+scale = Vector2( 1, 0.999996 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 2105.21, -50.0002 )
+
+[node name="Panel_selected7" type="Sprite" parent="Panel_selected"]
+position = Vector2( -477.606, 0.000476837 )
+scale = Vector2( 0.5, 2 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 2105.21, -50.0002 )
+
+[node name="Panel_selected6" type="Sprite" parent="Panel_selected"]
+position = Vector2( -1580.21, 50.0001 )
+scale = Vector2( 1, 0.999996 )
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 2105.21, -50.0002 )
+
+[node name="Panel_selected8" type="Sprite" parent="Panel_selected"]
+position = Vector2( -1052.6, 0.000450135 )
+scale = Vector2( 0.499999, 2 )
+z_index = -1
+texture = ExtResource( 7 )
+centered = false
+offset = Vector2( 2105.21, -50.0002 )
 
 [node name="Panel_blue" type="Sprite" parent="."]
 scale = Vector2( 1.47, 1.47 )
@@ -39,6 +104,7 @@ margin_top = 7.0
 margin_right = 131.0
 margin_bottom = 47.0
 custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Example of Power"
 align = 1
 autowrap = true
@@ -53,6 +119,7 @@ margin_top = 47.0
 margin_right = 131.0
 margin_bottom = 120.0
 custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Here is the card's text. It goes on and on my friend. One and two and three and four."
 align = 1
 valign = 1
@@ -63,15 +130,25 @@ __meta__ = {
 }
 
 [node name="Label_level" type="Label" parent="."]
-margin_left = 6.0
-margin_top = 122.0
-margin_right = 120.0
-margin_bottom = 136.0
+margin_left = 8.0
+margin_top = 116.0
+margin_right = 122.0
+margin_bottom = 138.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "-1"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Panel_frozen2" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0.501961 )
+position = Vector2( -16, -16 )
+scale = Vector2( 2.4, 2.4 )
+texture = ExtResource( 6 )
+centered = false
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

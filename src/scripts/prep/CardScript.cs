@@ -6,23 +6,24 @@ using System.Linq;
 public class CardScript : KinematicBody2D
 {
   private readonly float DragSpeed = 40f;
-
   private float _draggingDistance;
   private bool _dragging = false;
   private Vector2 _direction = new Vector2();
-  private bool _dropped = false;
-  private Vector2 _startingPosition = new Vector2();
   private Vector2 _dragPosition = new Vector2();
-  private Vector2 _droppedPosition = new Vector2();
   private bool _mouseIn = false;
-  private bool _mouseInCardActionButton = false;
-  private bool _selected = false;
   private readonly Vector2 CardSlotOffset = new Vector2(6, 4);
   private List<Sprite> _cardSlots = new List<Sprite>();
-  private int _currentCardSlot = -1;
   private Sprite _selectedSprite = new Sprite();
+  private List<Sprite> _frozenSprites = new List<Sprite>();
 
   public Card Card { get; set; }
+  public bool Selected = false;
+  public bool Frozen = false;
+  public bool Dropped = false;
+  public Vector2 DroppedPosition = new Vector2();
+  public Vector2 StartingPosition = new Vector2();
+  public int CurrentCardSlot = -1;
+  public bool MouseInCardActionButton = false;
 
   public override void _Ready()
   {
@@ -33,24 +34,43 @@ public class CardScript : KinematicBody2D
     bodyLabel.Text = Card.Body;
     levelLabel.Text = Card.Level.ToString();
 
-    _startingPosition = Position;
+    StartingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
     foreach (Sprite sprite in cardSlotNodes)
     {
       _cardSlots.Add(sprite);
     }
-    _selectedSprite = GetNode(PrepSceneData.SelectedPanelSprite) as Sprite;
+    _selectedSprite = GetNode(PrepSceneData.PanelSpriteSelected) as Sprite;
+    var frozenSprite1 = GetNode(PrepSceneData.PanelSpriteFrozen1) as Sprite;
+    var frozenSprite2 = GetNode(PrepSceneData.PanelSpriteFrozen2) as Sprite;
+    _frozenSprites.Add(frozenSprite1);
+    _frozenSprites.Add(frozenSprite2);
   }
 
   public override void _Process(float delta)
   {
-    if (_selected)
+    if (Selected)
     {
       _selectedSprite.Visible = true;
     }
     else
     {
       _selectedSprite.Visible = false;
+    }
+
+    if (Frozen)
+    {
+      foreach (var frozenSprite in _frozenSprites)
+      {
+        frozenSprite.Visible = true;
+      }
+    }
+    else
+    {
+      foreach (var frozenSprite in _frozenSprites)
+      {
+        frozenSprite.Visible = false;
+      }
     }
   }
 
@@ -60,16 +80,16 @@ public class CardScript : KinematicBody2D
     {
       MoveAndSlide((_dragPosition - Position) * DragSpeed);
     }
-    if (_dropped)
+    if (Dropped)
     {
-      Position = _droppedPosition;
-      _dropped = false;
+      Position = DroppedPosition;
+      Dropped = false;
     }
   }
 
   public override void _Input(InputEvent @event)
   {
-    if (!_selected || _dropped)
+    if (!Selected || Dropped)
     {
       return;
     }
@@ -96,24 +116,27 @@ public class CardScript : KinematicBody2D
     {
       GD.Print("not dropped in slot");
     }
-    else if (_currentCardSlot != potentialSlot)
+    else if (CurrentCardSlot != potentialSlot)
     {
-      emitDroppedInSlotSignal(potentialSlot, _droppedPosition, _startingPosition);
+      emitDroppedInSlotSignal(potentialSlot, DroppedPosition, StartingPosition);
       return;
     }
 
     if (_mouseIn)
     {
       // mouse released right after picking up card, don't deselect it
-      _droppedPosition = _startingPosition;
-      _dropped = true;
+      DroppedPosition = StartingPosition;
+      Dropped = true;
     }
-    else if (_mouseInCardActionButton) // Card is dragged over either Freeze or Sell button
+    else if (MouseInCardActionButton) // Card is dragged over either Freeze or Sell button
     {
       if (Card.Slot == -1)
       {
         GD.Print($"Card {Card.Name} dropped on freeze button");
-        // TODO: implement freeze
+        DroppedPosition = StartingPosition;
+        Dropped = true;
+        Selected = false;
+        emitDroppedOnFreezeButtonSignal();
       }
       else
       {
@@ -124,9 +147,9 @@ public class CardScript : KinematicBody2D
     else
     {
       // put card back in shop slot
-      _droppedPosition = _startingPosition;
-      _dropped = true;
-      _selected = false;
+      DroppedPosition = StartingPosition;
+      Dropped = true;
+      Selected = false;
       emitCardDeselectedSignal();
     }
   }
@@ -138,7 +161,7 @@ public class CardScript : KinematicBody2D
       if (inputEvent.IsPressed())
       {
         GD.Print("Selected card at: ", eventMouseButton.Position);
-        _selected = true; // TODO
+        Selected = true; // TODO
         emitCardSelectedSignal();
         StartDraggingCard();
       }
@@ -173,7 +196,7 @@ public class CardScript : KinematicBody2D
       if (rect.HasPoint(mousePosition))
       {
         // lock in spell
-        _droppedPosition = rect.Position + CardSlotOffset;
+        DroppedPosition = rect.Position + CardSlotOffset;
         return GetSlotNumberFromName(cardSlot.Name);
       }
     }
@@ -200,6 +223,15 @@ public class CardScript : KinematicBody2D
     GD.Print($"Drop signal EMITTED for {Card.Name} at slot {Card.Slot} to {slot} at position {droppedPosition}");
     Card.CardNode = this; // TODO: move this to Ready() ???
     EmitSignal(nameof(droppedInSlot), Card, slot, droppedPosition, originalPosition);
+  }
+
+  [Signal]
+  public delegate void droppedOnFreezeButton(Card card);
+  public void emitDroppedOnFreezeButtonSignal()
+  {
+    GD.Print($"DroppedOnFreezeButton signal EMITTED for {Card.Name} at slot {Card.Slot}");
+    Card.CardNode = this;
+    EmitSignal(nameof(droppedOnFreezeButton), Card);
   }
 
   [Signal]

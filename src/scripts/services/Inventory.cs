@@ -41,9 +41,10 @@ public class Inventory
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't ADD '{card.Name}' to {slot}. There's an card there already.");
+      GD.Print($"Can't ADD '{card.Name}' to {slot}. There's already a card there.");
       return false;
     }
+    card.CardNode.Frozen = false;
     card.Slot = slot;
     _cards[card.Slot] = card;
     GD.Print($"ADDED '{card.Name}' to {slot}");
@@ -101,9 +102,6 @@ public class Inventory
     var card2 = GetCardInSlot(slot2);
     card1.Slot = slot2;
     card2.Slot = slot1;
-
-    // _cards.Remove(slot1);
-    // _cards.Remove(slot2);
     _cards[slot1] = card2;
     _cards[slot2] = card1;
     GD.Print($"SWAPPED card '{card1.Name}' to {slot2} and '{card2.Name}' in {slot1}");

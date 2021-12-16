@@ -7,7 +7,7 @@ public class Card : Godot.Object
   public string Body { get; set; }
   public int Level { get; private set; } = 1;
   public int Slot { get; set; } = -1;
-  public KinematicBody2D CardNode { get; set; }
+  public CardScript CardNode { get; set; }
 
   public Card() { }
   public Card(Card anotherCard)

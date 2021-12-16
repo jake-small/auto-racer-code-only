@@ -8,14 +8,14 @@ public class PrepMain : Node2D
   private readonly Vector2 ShopSlotOffset = new Vector2(6, 4);
 
   private static Inventory _inventory = new Inventory();
-  private List<string> _shopCards = new List<string>();
+  private IEnumerable<string> _shopCards = new List<string>();
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Card _selectedCard = null;
 
   private Button _freezeButton;
   private Button _sellButton;
   private Label _debugInventoryLabel;
-  private List<Card> _cachedDebugCards = new List<Card>();
+  private IEnumerable<Card> _cachedDebugCards = new List<Card>();
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
@@ -77,6 +77,11 @@ public class PrepMain : Node2D
   {
     _selectedCard = null;
     DisableCardActionButtons();
+  }
+
+  public void _on_Card_droppedOnFreezeButton(Card card)
+  {
+    FreezeCard();
   }
 
   public void _on_Card_droppedOnSellButton(Card card)
@@ -166,7 +171,7 @@ public class PrepMain : Node2D
     var shopCardNodes = GetCardNodesInShop();
     foreach (var shopCardNode in shopCardNodes)
     {
-      shopCardNode.Set("_mouseInCardActionButton", true);
+      shopCardNode.MouseInCardActionButton = true;
     }
   }
 
@@ -176,7 +181,7 @@ public class PrepMain : Node2D
     var shopCardNodes = GetCardNodesInShop();
     foreach (var shopCardNode in shopCardNodes)
     {
-      shopCardNode.Set("_mouseInCardActionButton", false);
+      shopCardNode.MouseInCardActionButton = false;
     }
   }
 
@@ -186,7 +191,7 @@ public class PrepMain : Node2D
     var cards = _inventory.GetCards();
     foreach (var card in cards)
     {
-      card.CardNode.Set("_mouseInCardActionButton", true);
+      card.CardNode.MouseInCardActionButton = true;
     }
   }
 
@@ -196,7 +201,7 @@ public class PrepMain : Node2D
     var cards = _inventory.GetCards();
     foreach (var card in cards)
     {
-      card.CardNode.Set("_mouseInCardActionButton", false);
+      card.CardNode.MouseInCardActionButton = false;
     }
   }
 
@@ -204,12 +209,15 @@ public class PrepMain : Node2D
   {
     Console.WriteLine("Reroll button pressed");
     CardShopClear();
-    CardShopFill();
+    // TODO get frozen cards?
+    var frozenCards = GetFrozenCardNodesInShop().ToList();
+    CardShopFill(frozenCards);
   }
 
   private void Button_freeze_pressed()
   {
     Console.WriteLine("Freeze button pressed");
+    FreezeCard();
   }
 
   private void Button_sell_pressed()
@@ -226,11 +234,11 @@ public class PrepMain : Node2D
   private void DropCard(Card card, Vector2 droppedPosition)
   {
     DisableCardActionButtons();
-    card.CardNode.Set("_selected", false);
-    card.CardNode.Set("_dropped", true);
-    card.CardNode.Set("_droppedPosition", droppedPosition);
-    card.CardNode.Set("_startingPosition", droppedPosition);
-    card.CardNode.Set("_currentCardSlot", card.Slot);
+    card.CardNode.Selected = false;
+    card.CardNode.Dropped = true;
+    card.CardNode.DroppedPosition = droppedPosition;
+    card.CardNode.StartingPosition = droppedPosition;
+    card.CardNode.CurrentCardSlot = card.Slot;
   }
 
   private void DeselectAllCards()
@@ -239,7 +247,7 @@ public class PrepMain : Node2D
     var cards = _inventory.GetCards();
     foreach (var card in cards)
     {
-      card.CardNode.Set("_selected", false);
+      card.CardNode.Selected = false;
     }
   }
 
@@ -255,26 +263,47 @@ public class PrepMain : Node2D
     _sellButton.Disabled = true;
   }
 
-  private void CardShopFill()
+  private void CardShopFill(List<Card> frozenCards = null)
   {
+    frozenCards = frozenCards ?? new List<Card>();
+    if (frozenCards.Count > PrepSceneData.ShopSize)
+    {
+      GD.Print("Error: more frozen cards than there are shop slots");
+      return;
+    }
+
+    // add any cards that were frozen to scene
+    for (int i = 0; i < frozenCards.Count; i++)
+    {
+      var frozenCard = frozenCards[i];
+      CreateShopCard(frozenCard, i);
+    }
+
+    // fill in the rest of the slots with cards
     var shopService = new ShopService();
     var cards = shopService.GetRandomCards(PrepSceneData.ShopSize);
-
-    var cardScene = ResourceLoader.Load(PrepSceneData.CardScenePath) as PackedScene;
-    for (int i = 0; i < PrepSceneData.ShopSize; i++)
+    for (int i = frozenCards.Count; i < PrepSceneData.ShopSize; i++)
     {
       var card = cards[i];
-      var cardInstance = (KinematicBody2D)cardScene.Instance();
-      var containerPosition = GetNode<Sprite>($"shop_slot_{i}").Position;
-      var position = containerPosition + ShopSlotOffset;
-      cardInstance.Position = position;
-      cardInstance.Set("Card", card);
-      cardInstance.Connect(nameof(CardScript.droppedInSlot), this, nameof(_on_Card_droppedInSlot));
-      cardInstance.Connect(nameof(CardScript.droppedOnSellButton), this, nameof(_on_Card_droppedOnSellButton));
-      cardInstance.Connect(nameof(CardScript.cardSelected), this, nameof(_on_Card_selected));
-      cardInstance.Connect(nameof(CardScript.cardDeselected), this, nameof(_on_Card_deselected));
-      AddChild(cardInstance);
+      CreateShopCard(card, i);
     }
+  }
+
+  private void CreateShopCard(Card card, int slot)
+  {
+    var cardScene = ResourceLoader.Load(PrepSceneData.CardScenePath) as PackedScene;
+    var cardInstance = (CardScript)cardScene.Instance();
+    var containerPosition = GetNode<Sprite>($"shop_slot_{slot}").Position;
+    var position = containerPosition + ShopSlotOffset;
+    cardInstance.Position = position;
+    cardInstance.Card = card;
+    cardInstance.Frozen = card.CardNode?.Frozen ?? false;
+    cardInstance.Connect(nameof(CardScript.droppedInSlot), this, nameof(_on_Card_droppedInSlot));
+    cardInstance.Connect(nameof(CardScript.droppedOnSellButton), this, nameof(_on_Card_droppedOnSellButton));
+    cardInstance.Connect(nameof(CardScript.droppedOnFreezeButton), this, nameof(_on_Card_droppedOnFreezeButton));
+    cardInstance.Connect(nameof(CardScript.cardSelected), this, nameof(_on_Card_selected));
+    cardInstance.Connect(nameof(CardScript.cardDeselected), this, nameof(_on_Card_deselected));
+    AddChild(cardInstance);
   }
 
   private void CardShopClear()
@@ -286,8 +315,27 @@ public class PrepMain : Node2D
     }
   }
 
+  private void FreezeCard()
+  {
+    DisableCardActionButtons();
+    if (_selectedCard == null)
+    {
+      GD.Print("Error: _selectedCard is null in PrepMain.cs");
+      return;
+    }
+    if (_selectedCard.Slot != -1)
+    {
+      GD.Print("Can't freeze card that's in player inventory");
+      return;
+    }
+    var selectedCardNode = (_selectedCard.CardNode as CardScript);
+    selectedCardNode.Frozen = !selectedCardNode.Frozen;
+  }
+
   private void SellCard()
   {
+    DisableCardActionButtons();
+
     if (_selectedCard == null)
     {
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
@@ -299,10 +347,9 @@ public class PrepMain : Node2D
       return;
     }
     _inventory.RemoveCard(_selectedCard.Slot);
-    DisableCardActionButtons();
   }
 
-  private List<CardScript> GetCardNodesInShop()
+  private IEnumerable<CardScript> GetCardNodesInShop()
   {
     var shopCards = new List<CardScript>();
     var cardNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCard);
@@ -314,9 +361,14 @@ public class PrepMain : Node2D
         {
           shopCards.Add(cardScript);
         }
-
       }
     }
     return shopCards;
+  }
+
+  private IEnumerable<Card> GetFrozenCardNodesInShop()
+  {
+    var cardsInShop = GetCardNodesInShop();
+    return cardsInShop.Where(c => c.Frozen).Select(cs => cs.Card).ToList();
   }
 }
