@@ -5,13 +5,13 @@ using System.Linq;
 
 public class CardScript : KinematicBody2D
 {
-  private readonly float DragSpeed = 40f;
+  private readonly float _dragSpeed = 40f;
   private float _draggingDistance;
   private bool _dragging = false;
   private Vector2 _direction = new Vector2();
   private Vector2 _dragPosition = new Vector2();
   private bool _mouseIn = false;
-  private readonly Vector2 CardSlotOffset = new Vector2(6, 4);
+  private readonly Vector2 _cardSlotOffset = new Vector2(6, 4);
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Sprite _selectedSprite = new Sprite();
   private List<Sprite> _frozenSprites = new List<Sprite>();
@@ -78,7 +78,7 @@ public class CardScript : KinematicBody2D
   {
     if (_dragging)
     {
-      MoveAndSlide((_dragPosition - Position) * DragSpeed);
+      MoveAndSlide((_dragPosition - Position) * _dragSpeed);
     }
     if (Dropped)
     {
@@ -196,7 +196,7 @@ public class CardScript : KinematicBody2D
       if (rect.HasPoint(mousePosition))
       {
         // lock in spell
-        DroppedPosition = rect.Position + CardSlotOffset;
+        DroppedPosition = rect.Position + _cardSlotOffset;
         return GetSlotNumberFromName(cardSlot.Name);
       }
     }

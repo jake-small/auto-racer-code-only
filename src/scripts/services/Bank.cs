@@ -2,11 +2,19 @@ using Godot;
 
 public class Bank
 {
-  private int _buyCost = 3;
-  private int _rerollCost = 1;
-  private int _sellValue = 1;
-  private int _startingCoins = 10;
+  private int _buyCost;
+  private int _rerollCost;
+  private int _sellValue;
+  private int _startingCoins;
   private int _coinTotal;
+
+  public Bank(BankData bankData)
+  {
+    _buyCost = bankData.BuyCost;
+    _rerollCost = bankData.RerollCost;
+    _sellValue = bankData.SellValue;
+    _startingCoins = bankData.StartingCoins;
+  }
 
   public int SetStartingCoins()
   {

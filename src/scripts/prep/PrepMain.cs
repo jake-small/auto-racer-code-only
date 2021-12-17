@@ -2,13 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.IO;
 
 public class PrepMain : Node2D
 {
-  private readonly Vector2 ShopSlotOffset = new Vector2(6, 4);
-
+  private readonly Vector2 shopSlotOffset = new Vector2(6, 4);
   private static Inventory _inventory = new Inventory();
-  private static Bank _bank = new Bank();
+  private static Bank _bank;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
   private List<Sprite> _cardSlots = new List<Sprite>();
@@ -23,6 +24,10 @@ public class PrepMain : Node2D
 
   public override void _Ready()
   {
+    var bankData = LoadBankDataJson(); // TODO: load bank data from config
+    GD.Print($"json bank data Starting Coins: {bankData.StartingCoins}");
+    _bank = new Bank(bankData);
+
     CardShopFill();
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
     foreach (Sprite sprite in cardSlotNodes)
@@ -319,7 +324,7 @@ public class PrepMain : Node2D
     var cardScene = ResourceLoader.Load(PrepSceneData.CardScenePath) as PackedScene;
     var cardInstance = (CardScript)cardScene.Instance();
     var containerPosition = GetNode<Sprite>($"shop_slot_{slot}").Position;
-    var position = containerPosition + ShopSlotOffset;
+    var position = containerPosition + shopSlotOffset;
     cardInstance.Position = position;
     cardInstance.Card = card;
     cardInstance.Frozen = card.CardNode?.Frozen ?? false;
@@ -399,5 +404,14 @@ public class PrepMain : Node2D
   {
     var cardsInShop = GetCardNodesInShop();
     return cardsInShop.Where(c => c.Frozen).Select(cs => cs.Card).ToList();
+  }
+
+  private BankData LoadBankDataJson()
+  {
+    var bankDataConfigArr = System.IO.File.ReadAllLines(PrepSceneData.BankDataConfigRelativePath);
+    var bankDataConfig = String.Join("\n", bankDataConfigArr);
+    GD.Print($"Bank Data:\n{bankDataConfig}");
+    // TODO: error handling
+    return JsonSerializer.Deserialize<BankData>(bankDataConfig);
   }
 }

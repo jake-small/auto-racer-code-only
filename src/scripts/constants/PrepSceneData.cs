@@ -2,6 +2,7 @@ using System;
 
 public static class PrepSceneData
 {
+  public const string BankDataConfigRelativePath = @"configs\bank.config.json";
   public const string ButtonRerollPath = "Control/HBoxContainerLeft/Button_Reroll";
   public const string ButtonFreezePath = "Control/HBoxContainerLeft/Button_Freeze";
   public const string ButtonSellPath = "Control/HBoxContainerLeft/Button_Sell";
