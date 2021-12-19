@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ShopService
 {
-  private List<Card> _availableCards { get; set; }
+  private List<CardViewModel> _availableCards { get; set; }
   private static Random _rnd = new Random();
 
 
@@ -13,9 +13,9 @@ public class ShopService
     _availableCards = cardLoader.GetCards();
   }
 
-  public List<Card> GetRandomCards(int count)
+  public List<CardViewModel> GetRandomCards(int count)
   {
-    var cards = new List<Card>();
+    var cards = new List<CardViewModel>();
     for (int i = 0; i < count; i++)
     {
       var r = _rnd.Next(_availableCards.Count);

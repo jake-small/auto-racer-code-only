@@ -1,5 +1,3 @@
-using System;
-
 public static class PrepSceneData
 {
   public const string BankDataConfigRelativePath = @"configs\bank.config.json";
@@ -20,6 +18,4 @@ public static class PrepSceneData
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";
   public const string LabelDebugInventory = "Debug/Label_inventory";
-  public const int InventorySize = 5;
-  public const int ShopSize = 6;
 }

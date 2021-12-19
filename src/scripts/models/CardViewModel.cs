@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-public class Card : Godot.Object
+public class CardViewModel
 {
   public string Name { get; set; }
   public string Body { get; set; }
@@ -9,8 +9,8 @@ public class Card : Godot.Object
   public int Slot { get; set; } = -1;
   public CardScript CardNode { get; set; }
 
-  public Card() { }
-  public Card(Card anotherCard)
+  public CardViewModel() { }
+  public CardViewModel(CardViewModel anotherCard)
   {
     Name = anotherCard.Name;
     Body = anotherCard.Body;
@@ -19,7 +19,7 @@ public class Card : Godot.Object
     CardNode = anotherCard.CardNode;
   }
 
-  public Card Clone() { return new Card(this); }
+  public CardViewModel Clone() { return new CardViewModel(this); }
 
   public bool AddLevels(int level)
   {

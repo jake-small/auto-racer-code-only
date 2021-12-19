@@ -5,7 +5,7 @@ using Godot;
 public class Inventory
 {
   private List<Sprite> _cardSlots = new List<Sprite>();
-  private Dictionary<int, Card> _cards = new Dictionary<int, Card>();
+  private Dictionary<int, CardViewModel> _cards = new Dictionary<int, CardViewModel>();
 
   public Inventory() { }
 
@@ -14,7 +14,7 @@ public class Inventory
     return _cards.ContainsKey(slotNum);
   }
 
-  public Card GetCardInSlot(int slotNum)
+  public CardViewModel GetCardInSlot(int slotNum)
   {
     if (_cards.ContainsKey(slotNum))
     {
@@ -23,10 +23,10 @@ public class Inventory
     return null;
   }
 
-  public List<Card> GetCards()
+  public List<CardViewModel> GetCards()
   {
-    var cards = new List<Card>();
-    for (int i = 0; i < PrepSceneData.InventorySize; i++)
+    var cards = new List<CardViewModel>();
+    for (int i = 0; i < GameData.InventorySize; i++)
     {
       var card = GetCardInSlot(i);
       if (card != null)
@@ -37,7 +37,7 @@ public class Inventory
     return cards;
   }
 
-  public bool AddCard(Card card, int slot)
+  public bool AddCard(CardViewModel card, int slot)
   {
     if (IsCardInSlot(slot))
     {
@@ -65,7 +65,7 @@ public class Inventory
     return true;
   }
 
-  public bool MoveCard(Card card, int slot)
+  public bool MoveCard(CardViewModel card, int slot)
   {
     if (IsCardInSlot(slot))
     {

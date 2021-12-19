@@ -16,7 +16,7 @@ public class CardScript : KinematicBody2D
   private Sprite _selectedSprite = new Sprite();
   private List<Sprite> _frozenSprites = new List<Sprite>();
 
-  public Card Card { get; set; }
+  public CardViewModel Card { get; set; }
   public bool Selected = false;
   public bool Frozen = false;
   public bool Dropped = false;
@@ -217,7 +217,7 @@ public class CardScript : KinematicBody2D
   }
 
   [Signal]
-  public delegate void droppedInSlot(Card card, int slot, Vector2 droppedPosition, Vector2 originalPosition);
+  public delegate void droppedInSlot(CardViewModel card, int slot, Vector2 droppedPosition, Vector2 originalPosition);
   public void emitDroppedInSlotSignal(int slot, Vector2 droppedPosition, Vector2 originalPosition)
   {
     GD.Print($"Drop signal EMITTED for {Card.Name} at slot {Card.Slot} to {slot} at position {droppedPosition}");
@@ -226,7 +226,7 @@ public class CardScript : KinematicBody2D
   }
 
   [Signal]
-  public delegate void droppedOnFreezeButton(Card card);
+  public delegate void droppedOnFreezeButton(CardViewModel card);
   public void emitDroppedOnFreezeButtonSignal()
   {
     GD.Print($"DroppedOnFreezeButton signal EMITTED for {Card.Name} at slot {Card.Slot}");
@@ -235,7 +235,7 @@ public class CardScript : KinematicBody2D
   }
 
   [Signal]
-  public delegate void droppedOnSellButton(Card card);
+  public delegate void droppedOnSellButton(CardViewModel card);
   public void emitDroppedOnSellButtonSignal()
   {
     GD.Print($"DroppedOnSellButton signal EMITTED for {Card.Name} at slot {Card.Slot}");
@@ -244,7 +244,7 @@ public class CardScript : KinematicBody2D
   }
 
   [Signal]
-  public delegate void cardSelected(Card card);
+  public delegate void cardSelected(CardViewModel card);
   public void emitCardSelectedSignal()
   {
     GD.Print($"CardSelected signal EMITTED for {Card.Name} at slot {Card.Slot}");
@@ -253,7 +253,7 @@ public class CardScript : KinematicBody2D
   }
 
   [Signal]
-  public delegate void cardDeselected(Card card);
+  public delegate void cardDeselected(CardViewModel card);
   public void emitCardDeselectedSignal()
   {
     GD.Print($"CardDeselected signal EMITTED for {Card.Name} at slot {Card.Slot}");
