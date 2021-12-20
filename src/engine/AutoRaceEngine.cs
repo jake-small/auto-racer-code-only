@@ -14,6 +14,7 @@ public class AutoRaceEngine
   private TurnPhases _phase;
   public enum TurnPhases
   {
+    PreRace = -1,
     Start = 0,
     Abilities1 = 1,
     Move = 2,
@@ -28,10 +29,11 @@ public class AutoRaceEngine
     _slotCount = slotCount;
     _turn = 0;
     _currentSlot = -1;
-    _phase = TurnPhases.Start;
+    _phase = TurnPhases.PreRace;
     _turnManager = new TurnManager();
   }
 
+  public int GetTurn() => _turn;
   public TurnPhases GetTurnPhase() => _phase;
 
   public IEnumerable<PlayerTurnResult> GetTurnResults()
@@ -42,6 +44,7 @@ public class AutoRaceEngine
   public bool AdvanceRace()
   {
     _phase = NextTurnPhase(_phase);
+    GD.Print($"engine phase: {_phase}");
     switch (_phase)
     {
       case TurnPhases.Start:
@@ -67,6 +70,7 @@ public class AutoRaceEngine
   {
     GD.Print("StartTurnPhase");
     NextTurn();
+    GD.Print($"engine turn: {_turn}");
   }
 
   private void Abilities1Phase()
