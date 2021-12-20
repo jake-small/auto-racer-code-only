@@ -1,7 +1,7 @@
 using System;
 using Godot;
 
-public class CardViewModel
+public class CardViewModel : Godot.Object // this inheritance is necessary for signals to function
 {
   public string Name { get; set; }
   public string Body { get; set; }
