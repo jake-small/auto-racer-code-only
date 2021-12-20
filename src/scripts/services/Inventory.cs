@@ -20,7 +20,9 @@ public static class Inventory
     return null;
   }
 
-  public static List<CardViewModel> GetCards()
+  public static Dictionary<int, CardViewModel> GetCards() => _cards;
+
+  public static List<CardViewModel> GetCardsFlattened()
   {
     var cards = new List<CardViewModel>();
     for (int i = 0; i < GameData.InventorySize; i++)

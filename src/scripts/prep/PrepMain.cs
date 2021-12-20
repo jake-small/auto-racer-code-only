@@ -17,7 +17,7 @@ public class PrepMain : Node2D
   private Button _freezeButton;
   private Button _sellButton;
   private Label _debugInventoryLabel;
-  private IEnumerable<CardViewModel> _cachedDebugCards = new List<CardViewModel>();
+  private Dictionary<int, CardViewModel> _cachedDebugCards = new Dictionary<int, CardViewModel>();
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
@@ -64,7 +64,7 @@ public class PrepMain : Node2D
     }
 
     var cards = Inventory.GetCards();
-    if (cards.SequenceEqual(_cachedDebugCards))
+    if (cards.OrderBy(kv => kv.Key).ToList() == _cachedDebugCards.OrderBy(kv => kv.Key).ToList())
     {
       return;
     }
@@ -214,7 +214,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_entered()
   {
     GD.Print($"Mouse entered sell button");
-    var cards = Inventory.GetCards();
+    var cards = Inventory.GetCardsFlattened();
     foreach (var card in cards)
     {
       card.CardNode.MouseInCardActionButton = true;
@@ -224,7 +224,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_exited()
   {
     GD.Print($"Mouse exited sell button");
-    var cards = Inventory.GetCards();
+    var cards = Inventory.GetCardsFlattened();
     foreach (var card in cards)
     {
       card.CardNode.MouseInCardActionButton = false;
@@ -275,7 +275,7 @@ public class PrepMain : Node2D
   private void DeselectAllCards()
   {
     DisableCardActionButtons();
-    var cards = Inventory.GetCards();
+    var cards = Inventory.GetCardsFlattened();
     foreach (var card in cards)
     {
       card.CardNode.Selected = false;
