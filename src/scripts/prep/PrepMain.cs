@@ -259,6 +259,7 @@ public class PrepMain : Node2D
   private void Button_go_pressed()
   {
     Console.WriteLine("Go button pressed");
+    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
   private void DropCard(CardViewModel card, Vector2 droppedPosition)
@@ -326,7 +327,7 @@ public class PrepMain : Node2D
     var containerPosition = GetNode<Sprite>($"shop_slot_{slot}").Position;
     var position = containerPosition + shopSlotOffset;
     cardInstance.Position = position;
-    cardInstance.Card = card;
+    cardInstance.CardVM = card;
     cardInstance.Frozen = card.CardNode?.Frozen ?? false;
     cardInstance.Connect(nameof(CardScript.droppedInSlot), this, nameof(_on_Card_droppedInSlot));
     cardInstance.Connect(nameof(CardScript.droppedOnSellButton), this, nameof(_on_Card_droppedOnSellButton));
@@ -391,7 +392,7 @@ public class PrepMain : Node2D
     {
       if (cardNode is CardScript cardScript)
       {
-        if (cardScript.Card.Slot == -1)
+        if (cardScript.CardVM.Slot == -1)
         {
           shopCards.Add(cardScript);
         }
@@ -403,7 +404,7 @@ public class PrepMain : Node2D
   private IEnumerable<CardViewModel> GetFrozenCardNodesInShop()
   {
     var cardsInShop = GetCardNodesInShop();
-    return cardsInShop.Where(c => c.Frozen).Select(cs => cs.Card).ToList();
+    return cardsInShop.Where(c => c.Frozen).Select(cs => cs.CardVM).ToList();
   }
 
   private BankData LoadBankDataJson()

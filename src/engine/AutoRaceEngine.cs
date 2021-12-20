@@ -1,48 +1,119 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 public class AutoRaceEngine
 {
-  // take in list of players (including their cards) and number of turns
-  // simulate X number of turns, returning state for each turn
-  //   - start with base move 1
-  // print out state of each turn for debugging purposes
-
+  private TurnManager _turnManager;
   private IEnumerable<Player> _players;
   private int _raceLength;
   private int _turn;
   private int _currentSlot;
   private readonly int _slotCount;
-  private readonly int _finishLine;
+  private TurnPhases _phase;
+  public enum TurnPhases
+  {
+    Start = 0,
+    Abilities1 = 1,
+    Move = 2,
+    Abilities2 = 3,
+    End = 4,
+  }
 
-  public AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount, int finishLine)
+  public AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount)
   {
     _players = players;
     _raceLength = raceLength;
     _slotCount = slotCount;
-    _finishLine = finishLine;
     _turn = 0;
     _currentSlot = -1;
+    _phase = TurnPhases.Start;
+    _turnManager = new TurnManager();
   }
 
-  public IEnumerable<PlayerTurnResult> NextTurn()
+  public TurnPhases GetTurnPhase() => _phase;
+
+  public IEnumerable<PlayerTurnResult> GetTurnResults()
   {
-    IncrementTurn();
-    var turnManager = new TurnManager();
+    return _turnManager.PlayerTurns;
+  }
+
+  public bool AdvanceRace()
+  {
+    _phase = NextTurnPhase(_phase);
+    switch (_phase)
+    {
+      case TurnPhases.Start:
+        StartTurnPhase();
+        break;
+      case TurnPhases.Abilities1:
+        Abilities1Phase();
+        break;
+      case TurnPhases.Move:
+        MovePhase();
+        break;
+      case TurnPhases.Abilities2:
+        Abilities2Phase();
+        break;
+      case TurnPhases.End:
+        var isRaceOver = EndTurnPhase();
+        return isRaceOver;
+    }
+    return false;
+  }
+
+  private void StartTurnPhase()
+  {
+    GD.Print("StartTurnPhase");
+    NextTurn();
+  }
+
+  private void Abilities1Phase()
+  {
+    GD.Print("Abilities1Phase");
+    GD.Print($"number of players: {_players.Count()}");
     foreach (var player in _players)
     {
-      turnManager.AddPlayerTurn(CalculatePlayerTurn(player));
+      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player));
     }
-
-    turnManager.ApplyTokensGiven();
-    // TODO: update ui showing tokens given
-    turnManager.UpdatePositions();
-    // TODO: update ui showing characters moving
-    return turnManager.PlayerTurns;
+    _turnManager.ApplyTokensGiven();
   }
 
-  private void IncrementTurn()
+  private void MovePhase()
+  {
+    GD.Print("MovePhase");
+    _turnManager.UpdatePositions();
+  }
+
+  private void Abilities2Phase()
+  {
+    GD.Print("Abilities2Phase");
+  }
+
+  private bool EndTurnPhase()
+  {
+    GD.Print("EndTurnPhase");
+    _turnManager.ClearPlayerTurns();
+    if (_turn >= _raceLength)
+    {
+      GD.Print("Race is over");
+      return true;
+    }
+    return false;
+  }
+
+  private TurnPhases NextTurnPhase(TurnPhases phase)
+  {
+    var nextPhaseInt = (int)phase + 1;
+    if (nextPhaseInt > 4)
+    {
+      nextPhaseInt = 0;
+    }
+    return (TurnPhases)nextPhaseInt;
+  }
+
+  private void NextTurn()
   {
     _turn = _turn + 1;
     _currentSlot = _currentSlot + 1;
@@ -54,7 +125,7 @@ public class AutoRaceEngine
 
   private PlayerTurnResult CalculatePlayerTurn(Player player)
   {
-    var result = new PlayerTurnResult();
+    var result = new PlayerTurnResult(player);
     if (player.Cards.TryGetValue(_currentSlot, out var card))
     {
       result.Movement = CalculateMovement(card);

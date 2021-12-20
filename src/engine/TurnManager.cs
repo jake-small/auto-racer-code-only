@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 public class TurnManager
 {
@@ -13,6 +14,11 @@ public class TurnManager
   public void AddPlayerTurn(PlayerTurnResult playerTurn)
   {
     PlayerTurns.Add(playerTurn);
+  }
+
+  public void ClearPlayerTurns()
+  {
+    PlayerTurns.Clear();
   }
 
   public void ApplyTokensGiven()
@@ -47,6 +53,7 @@ public class TurnManager
     foreach (var playerTurn in PlayerTurns)
     {
       playerTurn.Player.Position = playerTurn.Player.Position + playerTurn.Movement;
+      GD.Print($"player {playerTurn.Player.Id} moves {playerTurn.Movement}");
     }
   }
 }
