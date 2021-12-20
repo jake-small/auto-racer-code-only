@@ -8,7 +8,7 @@ using System.IO;
 public class PrepMain : Node2D
 {
   private readonly Vector2 shopSlotOffset = new Vector2(6, 4);
-  private static Inventory _inventory = new Inventory();
+  // private static Inventory _inventory = new Inventory();
   private static Bank _bank;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
@@ -63,7 +63,7 @@ public class PrepMain : Node2D
       _newCoinTotal = null;
     }
 
-    var cards = _inventory.GetCards();
+    var cards = Inventory.GetCards();
     if (cards.SequenceEqual(_cachedDebugCards))
     {
       return;
@@ -72,7 +72,7 @@ public class PrepMain : Node2D
     var cardsText = "";
     for (int i = 0; i < GameData.InventorySize; i++)
     {
-      var card = _inventory.GetCardInSlot(i);
+      var card = Inventory.GetCardInSlot(i);
       if (card == null)
       {
         cardsText += $"empty slot\n";
@@ -122,18 +122,18 @@ public class PrepMain : Node2D
     }
 
     GD.Print($"Drop signal RECEIVED for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
-    if (_inventory.IsCardInSlot(slot) && card.Slot != -1) // Card in inventory but card exists in targetted slot
+    if (Inventory.IsCardInSlot(slot) && card.Slot != -1) // Card in inventory but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCard = _inventory.GetCardInSlot(slot);
+      var targetCard = Inventory.GetCardInSlot(slot);
       if (card.Name == targetCard.Name) // Combine cards of same type
       {
         targetCard.AddLevels(card.Level);
-        _inventory.RemoveCard(card.Slot); // Remove dropped card
+        Inventory.RemoveCard(card.Slot); // Remove dropped card
         return;
       }
 
-      var result = _inventory.SwapCards(slot, card.Slot);
+      var result = Inventory.SwapCards(slot, card.Slot);
       if (result) // Swap cards in player inventory
       {
         DropCard(targetCard, originalPosition);
@@ -141,10 +141,10 @@ public class PrepMain : Node2D
         return;
       }
     }
-    else if (_inventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
+    else if (Inventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCard = _inventory.GetCardInSlot(slot);
+      var targetCard = Inventory.GetCardInSlot(slot);
       if (card.Name == targetCard.Name) // Combine cards of same type
       {
         var bankResult = _bank.Buy();
@@ -159,7 +159,7 @@ public class PrepMain : Node2D
     }
     else if (card.Slot != -1) // Card in inventory
     {
-      var result = _inventory.MoveCard(card, slot);
+      var result = Inventory.MoveCard(card, slot);
       if (result)
       {
         DropCard(card, droppedPosition);
@@ -172,7 +172,7 @@ public class PrepMain : Node2D
       if (bankResult.Success)
       {
         _newCoinTotal = bankResult.CoinTotal;
-        var result = _inventory.AddCard(card, slot);
+        var result = Inventory.AddCard(card, slot);
         if (result)
         {
           DropCard(card, droppedPosition);
@@ -214,7 +214,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_entered()
   {
     GD.Print($"Mouse entered sell button");
-    var cards = _inventory.GetCards();
+    var cards = Inventory.GetCards();
     foreach (var card in cards)
     {
       card.CardNode.MouseInCardActionButton = true;
@@ -224,7 +224,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_exited()
   {
     GD.Print($"Mouse exited sell button");
-    var cards = _inventory.GetCards();
+    var cards = Inventory.GetCards();
     foreach (var card in cards)
     {
       card.CardNode.MouseInCardActionButton = false;
@@ -275,7 +275,7 @@ public class PrepMain : Node2D
   private void DeselectAllCards()
   {
     DisableCardActionButtons();
-    var cards = _inventory.GetCards();
+    var cards = Inventory.GetCards();
     foreach (var card in cards)
     {
       card.CardNode.Selected = false;
@@ -380,7 +380,7 @@ public class PrepMain : Node2D
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
-      _inventory.RemoveCard(_selectedCard.Slot);
+      Inventory.RemoveCard(_selectedCard.Slot);
     }
   }
 

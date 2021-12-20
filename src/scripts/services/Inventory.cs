@@ -2,19 +2,16 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-public class Inventory
+public static class Inventory
 {
-  private List<Sprite> _cardSlots = new List<Sprite>();
-  private Dictionary<int, CardViewModel> _cards = new Dictionary<int, CardViewModel>();
+  private static Dictionary<int, CardViewModel> _cards = new Dictionary<int, CardViewModel>();
 
-  public Inventory() { }
-
-  public bool IsCardInSlot(int slotNum)
+  public static bool IsCardInSlot(int slotNum)
   {
     return _cards.ContainsKey(slotNum);
   }
 
-  public CardViewModel GetCardInSlot(int slotNum)
+  public static CardViewModel GetCardInSlot(int slotNum)
   {
     if (_cards.ContainsKey(slotNum))
     {
@@ -23,7 +20,7 @@ public class Inventory
     return null;
   }
 
-  public List<CardViewModel> GetCards()
+  public static List<CardViewModel> GetCards()
   {
     var cards = new List<CardViewModel>();
     for (int i = 0; i < GameData.InventorySize; i++)
@@ -37,7 +34,7 @@ public class Inventory
     return cards;
   }
 
-  public bool AddCard(CardViewModel card, int slot)
+  public static bool AddCard(CardViewModel card, int slot)
   {
     if (IsCardInSlot(slot))
     {
@@ -51,7 +48,7 @@ public class Inventory
     return true;
   }
 
-  public bool RemoveCard(int slot)
+  public static bool RemoveCard(int slot)
   {
     if (!IsCardInSlot(slot))
     {
@@ -65,7 +62,7 @@ public class Inventory
     return true;
   }
 
-  public bool MoveCard(CardViewModel card, int slot)
+  public static bool MoveCard(CardViewModel card, int slot)
   {
     if (IsCardInSlot(slot))
     {
@@ -80,7 +77,7 @@ public class Inventory
     return true;
   }
 
-  public bool SwapCards(int slot1, int slot2)
+  public static bool SwapCards(int slot1, int slot2)
   {
     if (!IsCardInSlot(slot1) && !IsCardInSlot(slot2))
     {
@@ -108,7 +105,7 @@ public class Inventory
     return true;
   }
 
-  public void PrintCards()
+  public static void PrintCards()
   {
     foreach (var card in _cards.Values)
     {
