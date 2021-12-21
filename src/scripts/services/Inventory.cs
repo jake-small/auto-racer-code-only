@@ -41,11 +41,10 @@ public static class Inventory
     var cardDict = new Dictionary<int, Card>();
     for (int i = 0; i < GameData.InventorySize; i++)
     {
-      var card = GetCardInSlot(i).Card;
-      // if (card != null)
-      // {
+      var cardVM = GetCardInSlot(i);
+      var card = (cardVM == null ? new CardEmpty() : cardVM.Card);
       cardDict[i] = card;
-      // }
+      GD.Print($"card: {card.Name} {card.BaseMove}");
     }
     return cardDict;
   }
