@@ -4,49 +4,63 @@ using Godot;
 
 public static class Inventory
 {
-  private static Dictionary<int, CardViewModel> _cards = new Dictionary<int, CardViewModel>();
+  private static Dictionary<int, CardViewModel> _cardVMs = new Dictionary<int, CardViewModel>();
 
   public static bool IsCardInSlot(int slotNum)
   {
-    return _cards.ContainsKey(slotNum);
+    return _cardVMs.ContainsKey(slotNum);
   }
 
   public static CardViewModel GetCardInSlot(int slotNum)
   {
-    if (_cards.ContainsKey(slotNum))
+    if (_cardVMs.ContainsKey(slotNum))
     {
-      return _cards[slotNum];
+      return _cardVMs[slotNum];
     }
     return null;
   }
 
-  public static Dictionary<int, CardViewModel> GetCards() => _cards;
+  public static Dictionary<int, CardViewModel> GetCardVMs() => _cardVMs;
 
-  public static List<CardViewModel> GetCardsFlattened()
+  public static List<CardViewModel> GetCardVMsFlattened()
   {
-    var cards = new List<CardViewModel>();
+    var cardVMs = new List<CardViewModel>();
     for (int i = 0; i < GameData.InventorySize; i++)
     {
-      var card = GetCardInSlot(i);
-      if (card != null)
+      var cardVM = GetCardInSlot(i);
+      if (cardVM != null)
       {
-        cards.Add(card);
+        cardVMs.Add(cardVM);
       }
     }
-    return cards;
+    return cardVMs;
   }
 
-  public static bool AddCard(CardViewModel card, int slot)
+  public static Dictionary<int, Card> GetCards()
+  {
+    var cardDict = new Dictionary<int, Card>();
+    for (int i = 0; i < GameData.InventorySize; i++)
+    {
+      var card = GetCardInSlot(i).Card;
+      // if (card != null)
+      // {
+      cardDict[i] = card;
+      // }
+    }
+    return cardDict;
+  }
+
+  public static bool AddCard(CardViewModel cardVM, int slot)
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't ADD '{card.Name}' to {slot}. There's already a card there.");
+      GD.Print($"Can't ADD '{cardVM.Card.Name}' to {slot}. There's already a card there.");
       return false;
     }
-    card.CardNode.Frozen = false;
-    card.Slot = slot;
-    _cards[card.Slot] = card;
-    GD.Print($"ADDED '{card.Name}' to {slot}");
+    cardVM.CardNode.Frozen = false;
+    cardVM.Slot = slot;
+    _cardVMs[cardVM.Slot] = cardVM;
+    GD.Print($"ADDED '{cardVM.Card.Name}' to {slot}");
     return true;
   }
 
@@ -59,23 +73,23 @@ public static class Inventory
     }
     var card = GetCardInSlot(slot);
     card.CardNode.QueueFree(); // Remove card node
-    _cards.Remove(slot);
+    _cardVMs.Remove(slot);
     GD.Print($"REMOVED card from {slot}");
     return true;
   }
 
-  public static bool MoveCard(CardViewModel card, int slot)
+  public static bool MoveCard(CardViewModel cardVM, int slot)
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't MOVE '{card.Name}' from {card.Slot} to {slot}. There's already a card there.");
+      GD.Print($"Can't MOVE '{cardVM.Card.Name}' from {cardVM.Slot} to {slot}. There's already a card there.");
       return false;
     }
-    var previousSlot = card.Slot;
-    card.Slot = slot;
-    _cards[slot] = card;
-    _cards.Remove(previousSlot);
-    GD.Print($"MOVED '{card.Name}' from {previousSlot} to {slot}");
+    var previousSlot = cardVM.Slot;
+    cardVM.Slot = slot;
+    _cardVMs[slot] = cardVM;
+    _cardVMs.Remove(previousSlot);
+    GD.Print($"MOVED '{cardVM.Card.Name}' from {previousSlot} to {slot}");
     return true;
   }
 
@@ -97,21 +111,21 @@ public static class Inventory
       return false;
     }
 
-    var card1 = GetCardInSlot(slot1);
-    var card2 = GetCardInSlot(slot2);
-    card1.Slot = slot2;
-    card2.Slot = slot1;
-    _cards[slot1] = card2;
-    _cards[slot2] = card1;
-    GD.Print($"SWAPPED card '{card1.Name}' to {slot2} and '{card2.Name}' in {slot1}");
+    var cardVM1 = GetCardInSlot(slot1);
+    var cardVM2 = GetCardInSlot(slot2);
+    cardVM1.Slot = slot2;
+    cardVM2.Slot = slot1;
+    _cardVMs[slot1] = cardVM2;
+    _cardVMs[slot2] = cardVM1;
+    GD.Print($"SWAPPED card '{cardVM1.Card.Name}' to {slot2} and '{cardVM2.Card.Name}' in {slot1}");
     return true;
   }
 
   public static void PrintCards()
   {
-    foreach (var card in _cards.Values)
+    foreach (var cardVM in _cardVMs.Values)
     {
-      GD.Print($"Slot: '{card.Slot}' Name: '{card.Name}'");
+      GD.Print($"Slot: '{cardVM.Slot}' Name: '{cardVM.Card.Name}'");
     }
   }
 }

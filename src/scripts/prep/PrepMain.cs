@@ -8,7 +8,6 @@ using System.IO;
 public class PrepMain : Node2D
 {
   private readonly Vector2 shopSlotOffset = new Vector2(6, 4);
-  // private static Inventory _inventory = new Inventory();
   private static Bank _bank;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
@@ -24,7 +23,7 @@ public class PrepMain : Node2D
 
   public override void _Ready()
   {
-    var bankData = LoadBankDataJson(); // TODO: load bank data from config
+    var bankData = LoadBankDataJson();
     GD.Print($"json bank data Starting Coins: {bankData.StartingCoins}");
     _bank = new Bank(bankData);
 
@@ -63,7 +62,7 @@ public class PrepMain : Node2D
       _newCoinTotal = null;
     }
 
-    var cards = Inventory.GetCards();
+    var cards = Inventory.GetCardVMs();
     if (cards.OrderBy(kv => kv.Key).ToList() == _cachedDebugCards.OrderBy(kv => kv.Key).ToList())
     {
       return;
@@ -72,13 +71,13 @@ public class PrepMain : Node2D
     var cardsText = "";
     for (int i = 0; i < GameData.InventorySize; i++)
     {
-      var card = Inventory.GetCardInSlot(i);
-      if (card == null)
+      var cardVM = Inventory.GetCardInSlot(i);
+      if (cardVM == null)
       {
         cardsText += $"empty slot\n";
         continue;
       }
-      cardsText += $"{card.Name} in slot {card.Slot} at level {card.Level}. Body: {card.Body}\n";
+      cardsText += $"{cardVM.Card.Name} in slot {cardVM.Slot} at level {cardVM.Level}. Body: {cardVM.Card.Description}\n";
     }
     _debugInventoryLabel.Text = cardsText;
   }
@@ -105,7 +104,7 @@ public class PrepMain : Node2D
     SellCard();
   }
 
-  public void _on_Card_droppedInSlot(CardViewModel card, int slot, Vector2 droppedPosition, Vector2 originalPosition)
+  public void _on_Card_droppedInSlot(CardViewModel cardVM, int slot, Vector2 droppedPosition, Vector2 originalPosition)
   {
     if (_canDropCard && _dropCardTimer.IsStopped())
     {
@@ -115,54 +114,54 @@ public class PrepMain : Node2D
     }
     else if (!_canDropCard)
     {
-      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
-      DropCard(card, originalPosition);
+      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {cardVM.Card.Name} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
+      DropCard(cardVM, originalPosition);
       DeselectAllCards();
       return;
     }
 
-    GD.Print($"Drop signal RECEIVED for {card.Name} at slot {card.Slot} to {slot} at position {droppedPosition}");
-    if (Inventory.IsCardInSlot(slot) && card.Slot != -1) // Card in inventory but card exists in targetted slot
+    GD.Print($"Drop signal RECEIVED for {cardVM.Card.Name} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
+    if (Inventory.IsCardInSlot(slot) && cardVM.Slot != -1) // Card in inventory but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCard = Inventory.GetCardInSlot(slot);
-      if (card.Name == targetCard.Name) // Combine cards of same type
+      var targetCardVM = Inventory.GetCardInSlot(slot);
+      if (cardVM.Card.Name == targetCardVM.Card.Name) // Combine cards of same type
       {
-        targetCard.AddLevels(card.Level);
-        Inventory.RemoveCard(card.Slot); // Remove dropped card
+        targetCardVM.AddLevels(cardVM.Level);
+        Inventory.RemoveCard(cardVM.Slot); // Remove dropped card
         return;
       }
 
-      var result = Inventory.SwapCards(slot, card.Slot);
+      var result = Inventory.SwapCards(slot, cardVM.Slot);
       if (result) // Swap cards in player inventory
       {
-        DropCard(targetCard, originalPosition);
-        DropCard(card, droppedPosition);
+        DropCard(targetCardVM, originalPosition);
+        DropCard(cardVM, droppedPosition);
         return;
       }
     }
     else if (Inventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCard = Inventory.GetCardInSlot(slot);
-      if (card.Name == targetCard.Name) // Combine cards of same type
+      var targetCardVM = Inventory.GetCardInSlot(slot);
+      if (cardVM.Card.Name == targetCardVM.Card.Name) // Combine cards of same type
       {
         var bankResult = _bank.Buy();
         if (bankResult.Success)
         {
           _newCoinTotal = bankResult.CoinTotal;
-          targetCard.AddLevels(card.Level);
-          card.CardNode.QueueFree(); // Remove dropped card node
+          targetCardVM.AddLevels(cardVM.Level);
+          cardVM.CardNode.QueueFree(); // Remove dropped card node
           return;
         }
       }
     }
-    else if (card.Slot != -1) // Card in inventory
+    else if (cardVM.Slot != -1) // Card in inventory
     {
-      var result = Inventory.MoveCard(card, slot);
+      var result = Inventory.MoveCard(cardVM, slot);
       if (result)
       {
-        DropCard(card, droppedPosition);
+        DropCard(cardVM, droppedPosition);
         return;
       }
     }
@@ -172,17 +171,17 @@ public class PrepMain : Node2D
       if (bankResult.Success)
       {
         _newCoinTotal = bankResult.CoinTotal;
-        var result = Inventory.AddCard(card, slot);
+        var result = Inventory.AddCard(cardVM, slot);
         if (result)
         {
-          DropCard(card, droppedPosition);
+          DropCard(cardVM, droppedPosition);
           return;
         }
       }
     }
 
     // Card couldn't be dropped in slot
-    DropCard(card, originalPosition);
+    DropCard(cardVM, originalPosition);
   }
 
   public void _on_dropCardTimer_timeout()
@@ -214,7 +213,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_entered()
   {
     GD.Print($"Mouse entered sell button");
-    var cards = Inventory.GetCardsFlattened();
+    var cards = Inventory.GetCardVMsFlattened();
     foreach (var card in cards)
     {
       card.CardNode.MouseInCardActionButton = true;
@@ -224,7 +223,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_exited()
   {
     GD.Print($"Mouse exited sell button");
-    var cards = Inventory.GetCardsFlattened();
+    var cards = Inventory.GetCardVMsFlattened();
     foreach (var card in cards)
     {
       card.CardNode.MouseInCardActionButton = false;
@@ -275,7 +274,7 @@ public class PrepMain : Node2D
   private void DeselectAllCards()
   {
     DisableCardActionButtons();
-    var cards = Inventory.GetCardsFlattened();
+    var cards = Inventory.GetCardVMsFlattened();
     foreach (var card in cards)
     {
       card.CardNode.Selected = false;

@@ -41,7 +41,6 @@ public class RaceMain : Node2D
     _backButton = GetNode(RaceSceneData.ButtonBackPath) as Button;
     _backButton.Connect("pressed", this, nameof(Button_back_pressed));
 
-    // AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount, int finishLine)
     _autoRaceEngine = EngineTesting.RaceEngine();
     _currentTurnView = _autoRaceEngine.GetTurn();
   }

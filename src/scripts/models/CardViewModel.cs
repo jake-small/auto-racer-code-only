@@ -3,20 +3,18 @@ using Godot;
 
 public class CardViewModel : Godot.Object // this inheritance is necessary for signals to function
 {
-  public string Name { get; set; }
-  public string Body { get; set; }
   public int Level { get; private set; } = 1;
   public int Slot { get; set; } = -1;
   public CardScript CardNode { get; set; }
+  public Card Card { get; set; }
 
   public CardViewModel() { }
   public CardViewModel(CardViewModel anotherCard)
   {
-    Name = anotherCard.Name;
-    Body = anotherCard.Body;
     Level = anotherCard.Level;
     Slot = anotherCard.Slot;
     CardNode = anotherCard.CardNode;
+    Card = anotherCard.Card;
   }
 
   public CardViewModel Clone() { return new CardViewModel(this); }

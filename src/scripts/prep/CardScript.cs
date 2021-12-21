@@ -30,8 +30,8 @@ public class CardScript : KinematicBody2D
     var headerLabel = GetNode<Label>(PrepSceneData.LabelCardHeader);
     var bodyLabel = GetNode<Label>(PrepSceneData.LabelCardBody);
     var levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
-    headerLabel.Text = CardVM.Name;
-    bodyLabel.Text = CardVM.Body;
+    headerLabel.Text = CardVM.Card.Name;
+    bodyLabel.Text = CardVM.Card.Description;
     levelLabel.Text = CardVM.Level.ToString();
 
     StartingPosition = Position;
@@ -132,7 +132,7 @@ public class CardScript : KinematicBody2D
     {
       if (CardVM.Slot == -1)
       {
-        GD.Print($"Card {CardVM.Name} dropped on freeze button");
+        GD.Print($"Card {CardVM.Card.Name} dropped on freeze button");
         DroppedPosition = StartingPosition;
         Dropped = true;
         Selected = false;
@@ -140,7 +140,7 @@ public class CardScript : KinematicBody2D
       }
       else
       {
-        GD.Print($"Card {CardVM.Name} dropped on sell button");
+        GD.Print($"Card {CardVM.Card.Name} dropped on sell button");
         emitDroppedOnSellButtonSignal();
       }
     }
@@ -220,7 +220,7 @@ public class CardScript : KinematicBody2D
   public delegate void droppedInSlot(CardViewModel card, int slot, Vector2 droppedPosition, Vector2 originalPosition);
   public void emitDroppedInSlotSignal(int slot, Vector2 droppedPosition, Vector2 originalPosition)
   {
-    GD.Print($"Drop signal EMITTED for {CardVM.Name} at slot {CardVM.Slot} to {slot} at position {droppedPosition}");
+    GD.Print($"Drop signal EMITTED for {CardVM.Card.Name} at slot {CardVM.Slot} to {slot} at position {droppedPosition}");
     CardVM.CardNode = this; // TODO: move this to Ready() ???
     EmitSignal(nameof(droppedInSlot), CardVM, slot, droppedPosition, originalPosition);
   }
@@ -229,7 +229,7 @@ public class CardScript : KinematicBody2D
   public delegate void droppedOnFreezeButton(CardViewModel card);
   public void emitDroppedOnFreezeButtonSignal()
   {
-    GD.Print($"DroppedOnFreezeButton signal EMITTED for {CardVM.Name} at slot {CardVM.Slot}");
+    GD.Print($"DroppedOnFreezeButton signal EMITTED for {CardVM.Card.Name} at slot {CardVM.Slot}");
     CardVM.CardNode = this;
     EmitSignal(nameof(droppedOnFreezeButton), CardVM);
   }
@@ -238,7 +238,7 @@ public class CardScript : KinematicBody2D
   public delegate void droppedOnSellButton(CardViewModel card);
   public void emitDroppedOnSellButtonSignal()
   {
-    GD.Print($"DroppedOnSellButton signal EMITTED for {CardVM.Name} at slot {CardVM.Slot}");
+    GD.Print($"DroppedOnSellButton signal EMITTED for {CardVM.Card.Name} at slot {CardVM.Slot}");
     CardVM.CardNode = this;
     EmitSignal(nameof(droppedOnSellButton), CardVM);
   }
@@ -247,7 +247,7 @@ public class CardScript : KinematicBody2D
   public delegate void cardSelected(CardViewModel card);
   public void emitCardSelectedSignal()
   {
-    GD.Print($"CardSelected signal EMITTED for {CardVM.Name} at slot {CardVM.Slot}");
+    GD.Print($"CardSelected signal EMITTED for {CardVM.Card.Name} at slot {CardVM.Slot}");
     CardVM.CardNode = this;
     EmitSignal(nameof(cardSelected), CardVM);
   }
@@ -256,7 +256,7 @@ public class CardScript : KinematicBody2D
   public delegate void cardDeselected(CardViewModel card);
   public void emitCardDeselectedSignal()
   {
-    GD.Print($"CardDeselected signal EMITTED for {CardVM.Name} at slot {CardVM.Slot}");
+    GD.Print($"CardDeselected signal EMITTED for {CardVM.Card.Name} at slot {CardVM.Slot}");
     CardVM.CardNode = this;
     EmitSignal(nameof(cardDeselected), CardVM);
   }

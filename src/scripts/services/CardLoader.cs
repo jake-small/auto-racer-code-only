@@ -25,18 +25,18 @@ public class CardLoader
 
   private List<CardViewModel> LoadSampleCards()
   {
-    var cards = new List<CardViewModel>();
-
+    var cardVMs = new List<CardViewModel>();
     for (var i = 0; i < 12; i++)
     {
-      var card = new CardViewModel
+      var card = EngineTesting.GetSampleCard();
+      card.Name = $"card #{i}";
+      card.Description = $"base move: {card.BaseMove}";
+      var cardVM = new CardViewModel
       {
-        Name = $"card #{i}",
-        Body = $"This is the sample card's body"
+        Card = card
       };
-      cards.Add(card);
+      cardVMs.Add(cardVM);
     }
-
-    return cards;
+    return cardVMs;
   }
 }

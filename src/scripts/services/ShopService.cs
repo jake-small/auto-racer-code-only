@@ -21,7 +21,6 @@ public class ShopService
       var r = _rnd.Next(_availableCards.Count);
       Console.WriteLine($"random card #{r}");
       var card = _availableCards[r].Clone();
-      card.Body = Guid.NewGuid().ToString();
       cards.Add(card);
     }
 

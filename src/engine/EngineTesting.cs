@@ -8,22 +8,30 @@ public static class EngineTesting
   public static AutoRaceEngine RaceEngine()
   {
     var players = new List<Player>();
-    for (var i = 0; i < 4; i++)
+    // Add player 1
+    var p1 = new Player
     {
-      var player = new Player
-      {
-        Id = i,
-        Cards = new Dictionary<int, Card>(),
-        Position = 0
-      };
-      for (var c = 0; c < 5; c++)
-      {
-        player.Cards.Add(c, GetSampleCard());
-      }
-      players.Add(player);
-    }
+      Id = 0,
+      Cards = Inventory.GetCards(),
+      Position = 0
+    };
+    players.Add(p1);
+    // Add other players
+    players.AddRange(GetOpponents(3));
 
     return new AutoRaceEngine(players, 5, 5);
+  }
+
+  public static Card GetSampleCard()
+  {
+    var rnd = new Random();
+    int number = rnd.Next(1, 5);
+    return new Card
+    {
+      Name = $"Card {number}",
+      Description = $"sample card with base move of {number}",
+      BaseMove = number.ToString()
+    };
   }
 
   public static string GetPositionTextView(IEnumerable<PlayerTurnResult> turnResults)
@@ -50,15 +58,23 @@ public static class EngineTesting
     return positionViewString;
   }
 
-  private static Card GetSampleCard()
+  private static List<Player> GetOpponents(int numOpponents)
   {
-    var rnd = new Random();
-    int number = rnd.Next(1, 5);
-    return new Card
+    var players = new List<Player>();
+    for (var i = 1; i < numOpponents + 1; i++)
     {
-      Name = $"Card {number}",
-      Description = $"sample card with base move of {number}",
-      BaseMove = number.ToString()
-    };
+      var player = new Player
+      {
+        Id = i,
+        Cards = new Dictionary<int, Card>(),
+        Position = 0
+      };
+      for (var c = 0; c < 5; c++)
+      {
+        player.Cards.Add(c, GetSampleCard());
+      }
+      players.Add(player);
+    }
+    return players;
   }
 }
