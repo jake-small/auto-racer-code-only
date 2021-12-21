@@ -48,7 +48,6 @@ centered = false
 
 [node name="Panel_selected2" type="Sprite" parent="Panel_selected"]
 position = Vector2( 0, -1150 )
-scale = Vector2( 1, 1 )
 texture = ExtResource( 7 )
 centered = false
 
@@ -130,10 +129,24 @@ __meta__ = {
 }
 
 [node name="Label_level" type="Label" parent="."]
-margin_left = 8.0
+margin_left = 13.0
 margin_top = 116.0
-margin_right = 122.0
+margin_right = 60.0
 margin_bottom = 138.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "-1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_basemove" type="Label" parent="."]
+margin_left = 79.0
+margin_top = 116.0
+margin_right = 126.0
+margin_bottom = 138.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "-1"

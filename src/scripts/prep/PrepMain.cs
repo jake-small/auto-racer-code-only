@@ -11,6 +11,10 @@ public class PrepMain : Node2D
   private static Bank _bank;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
+  private Node2D _selectedCardPanel;
+  private Label _selectedCardNameLabel;
+  private Label _selectedCardDescriptionLabel;
+  private Label _selectedCardBaseMoveLabel;
   private List<Sprite> _cardSlots = new List<Sprite>();
   private CardViewModel _selectedCard = null;
   private Button _freezeButton;
@@ -34,6 +38,10 @@ public class PrepMain : Node2D
       _cardSlots.Add(sprite);
     }
 
+    _selectedCardPanel = GetNode<Node2D>(PrepSceneData.ContainerSelectedCard);
+    _selectedCardNameLabel = GetNode<Label>(PrepSceneData.LabelSelectedNamePath);
+    _selectedCardDescriptionLabel = GetNode<Label>(PrepSceneData.LabelSelectedDescriptionPath);
+    _selectedCardBaseMoveLabel = GetNode<Label>(PrepSceneData.LabelSelectedBaseMovePath);
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
@@ -82,24 +90,26 @@ public class PrepMain : Node2D
     _debugInventoryLabel.Text = cardsText;
   }
 
-  public void _on_Card_selected(CardViewModel card)
+  public void _on_Card_selected(CardViewModel cardVM)
   {
-    _selectedCard = card;
-    EnableCardActionButtons(card.Slot == -1);
+    _selectedCard = cardVM;
+    DisplaySelectedCardData(cardVM.Card);
+    EnableCardActionButtons(cardVM.Slot == -1);
   }
 
-  public void _on_Card_deselected(CardViewModel card)
+  public void _on_Card_deselected(CardViewModel cardVM)
   {
     _selectedCard = null;
+    HideSelectedCardData();
     DisableCardActionButtons();
   }
 
-  public void _on_Card_droppedOnFreezeButton(CardViewModel card)
+  public void _on_Card_droppedOnFreezeButton(CardViewModel cardVM)
   {
     FreezeCard();
   }
 
-  public void _on_Card_droppedOnSellButton(CardViewModel card)
+  public void _on_Card_droppedOnSellButton(CardViewModel cardVM)
   {
     SellCard();
   }
@@ -404,6 +414,22 @@ public class PrepMain : Node2D
   {
     var cardsInShop = GetCardNodesInShop();
     return cardsInShop.Where(c => c.Frozen).Select(cs => cs.CardVM).ToList();
+  }
+
+  private void DisplaySelectedCardData(Card card)
+  {
+    _selectedCardPanel.Visible = true;
+    _selectedCardNameLabel.Text = card.Name;
+    _selectedCardDescriptionLabel.Text = card.Description;
+    _selectedCardBaseMoveLabel.Text = card.BaseMove;
+  }
+
+  private void HideSelectedCardData()
+  {
+    _selectedCardPanel.Visible = false;
+    _selectedCardNameLabel.Text = "";
+    _selectedCardDescriptionLabel.Text = "";
+    _selectedCardBaseMoveLabel.Text = "";
   }
 
   private BankData LoadBankDataJson()

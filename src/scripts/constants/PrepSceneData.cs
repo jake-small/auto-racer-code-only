@@ -15,8 +15,13 @@ public static class PrepSceneData
   public const string LabelCardHeader = "Label_header";
   public const string LabelCardBody = "Label_body";
   public const string LabelCardLevel = "Label_level";
+  public const string LabelCardBaseMove = "Label_basemove";
   public const string LabelRaceTotalPath = "Container_info/Label_raceTotal";
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";
+  public const string ContainerSelectedCard = "Container_selected_card";
+  public const string LabelSelectedNamePath = "Container_selected_card/Label_selected_name";
+  public const string LabelSelectedDescriptionPath = "Container_selected_card/Label_selected_description";
+  public const string LabelSelectedBaseMovePath = "Container_selected_card/Label_selected_basemove";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }

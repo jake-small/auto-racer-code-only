@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/buttons/blue_button02_freeze.png" type="Texture" id=1]
 [ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=2]
@@ -23,6 +23,20 @@
 [ext_resource path="res://assets/stats/coin.png" type="Texture" id=21]
 [ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
 [ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=23]
+[ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=24]
+[ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=25]
+
+[sub_resource type="DynamicFont" id=1]
+size = 46
+font_data = ExtResource( 25 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 34
+font_data = ExtResource( 25 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 56
+font_data = ExtResource( 25 )
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 6 )
@@ -101,6 +115,54 @@ margin_right = 202.0
 margin_bottom = 55.0
 icon = ExtResource( 2 )
 flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container_selected_card" type="Node2D" parent="."]
+visible = false
+
+[node name="Panel_selected" type="Sprite" parent="Container_selected_card"]
+position = Vector2( 576.44, 310.542 )
+scale = Vector2( 2.88881, 3.33083 )
+texture = ExtResource( 24 )
+
+[node name="Label_selected_name" type="Label" parent="Container_selected_card"]
+margin_left = 447.0
+margin_top = 169.0
+margin_right = 708.0
+margin_bottom = 244.0
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Card Name
+second line"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_selected_description" type="Label" parent="Container_selected_card"]
+margin_left = 447.0
+margin_top = 254.0
+margin_right = 708.0
+margin_bottom = 431.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Card Description Card Description Card Description Card Description Card Description Card Description"
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_selected_basemove" type="Label" parent="Container_selected_card"]
+margin_left = 534.888
+margin_top = 423.191
+margin_right = 693.888
+margin_bottom = 465.191
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "99"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -319,12 +381,11 @@ __meta__ = {
 [node name="Debug" type="Node" parent="."]
 
 [node name="Label_inventory" type="Label" parent="Debug"]
-margin_left = 433.0
-margin_top = 59.0
-margin_right = 736.0
-margin_bottom = 500.0
+margin_right = 303.0
+margin_bottom = 441.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 

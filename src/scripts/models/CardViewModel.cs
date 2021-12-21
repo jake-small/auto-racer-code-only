@@ -25,7 +25,7 @@ public class CardViewModel : Godot.Object // this inheritance is necessary for s
     if (CardNode != null)
     {
       var levelLabel = CardNode.GetNode<Label>(PrepSceneData.LabelCardLevel);
-      levelLabel.Text = Level.ToString();
+      levelLabel.Text = "lvl" + Level.ToString();
     }
     return true;
   }
