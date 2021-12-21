@@ -1,0 +1,72 @@
+{
+  "Cards": [
+    {
+      "Name": "quick curse",
+      "Description": "All opponents within {A} gain {B} move",
+      "BaseMove": "2",
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "token_move",
+            "Phase": "Premove",
+            "Value": "{B}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Amount": "all",
+              "Range": {
+                "Min": "0",
+                "Max": "{A}"
+              }
+            },
+            "BuiltInFunctions": [],
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "Tiers": [
+        {
+          "Id": 1,
+          "Params": [
+            {
+              "Key": "A",
+              "Value": "1"
+            },
+            {
+              "Key": "B",
+              "Value": "-1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "Params": [
+            {
+              "Key": "A",
+              "Value": "1"
+            },
+            {
+              "Key": "B",
+              "Value": "-2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "Params": [
+            {
+              "Key": "A",
+              "Value": "1"
+            },
+            {
+              "Key": "B",
+              "Value": "-3"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

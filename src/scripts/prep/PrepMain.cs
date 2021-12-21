@@ -408,7 +408,13 @@ public class PrepMain : Node2D
 
   private BankData LoadBankDataJson()
   {
-    var bankDataConfigArr = System.IO.File.ReadAllLines(PrepSceneData.BankDataConfigRelativePath);
+    var bankConfigFile = PrepSceneData.BankDataConfigRelativePath;
+    if (!System.IO.File.Exists(bankConfigFile))
+    {
+      GD.Print($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
+      throw new Exception($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
+    }
+    var bankDataConfigArr = System.IO.File.ReadAllLines(bankConfigFile);
     var bankDataConfig = String.Join("\n", bankDataConfigArr);
     GD.Print($"Bank Data:\n{bankDataConfig}");
     // TODO: error handling

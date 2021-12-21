@@ -73,26 +73,20 @@
       "baseMove": "2",
       "abilities": [
         {
-          "premove": [
-            {
-              "ability1": {
-                "name": "token",
-                "type": "move",
-                "value": "{B}",
-                "duration": "1",
-                "target": {
-                  "type": "others", // others, self, all, closest, furthest
-                  "amount": "all",
-                  "range": {
-                    "min": "0",
-                    "max": "{A}"
-                  }
-                },
-                "builtInFunctions": [],
-                "functions": []
-              }
+          "name": "ability1",
+          "type": "token_move",
+          "value": "{B}",
+          "duration": "1",
+          "target": {
+            "type": "others",
+            "amount": "all",
+            "range": {
+              "min": "0",
+              "max": "{A}"
             }
-          ]
+          },
+          "builtInFunctions": [],
+          "functions": []
         }
       ],
       "tiers": {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Godot;
 
 public class ShopService
 {
@@ -9,8 +10,17 @@ public class ShopService
 
   public ShopService()
   {
-    var cardLoader = new CardLoader("todo/json/file/path");
-    _availableCards = cardLoader.GetCards();
+    var cardLoader = new CardLoader(PrepSceneData.CardDataRelativePath);
+    var cards = cardLoader.GetCards();
+
+    _availableCards = new List<CardViewModel>();
+    foreach (var card in cards)
+    {
+      _availableCards.Add(new CardViewModel
+      {
+        Card = card
+      });
+    }
   }
 
   public List<CardViewModel> GetRandomCards(int count)
@@ -19,7 +29,6 @@ public class ShopService
     for (int i = 0; i < count; i++)
     {
       var r = _rnd.Next(_availableCards.Count);
-      Console.WriteLine($"random card #{r}");
       var card = _availableCards[r].Clone();
       cards.Add(card);
     }

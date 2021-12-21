@@ -1,15 +1,15 @@
-public class BankAction
+public class BankActionResult
 {
   public bool Success { get; }
   public int CoinTotal { get; }
 
-  public BankAction(bool success, int coinTotal)
+  public BankActionResult(bool success, int coinTotal)
   {
     Success = success;
     CoinTotal = coinTotal;
   }
 
-  public BankAction(bool success)
+  public BankActionResult(bool success)
   {
     Success = success;
   }

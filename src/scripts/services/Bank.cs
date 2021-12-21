@@ -22,34 +22,34 @@ public class Bank
     return _coinTotal;
   }
 
-  public BankAction Buy()
+  public BankActionResult Buy()
   {
     if (_coinTotal >= _buyCost)
     {
       GD.Print("Paid for card");
       _coinTotal = _coinTotal - _buyCost;
-      return new BankAction(true, _coinTotal);
+      return new BankActionResult(true, _coinTotal);
     }
     GD.Print("Can't afford to buy card");
-    return new BankAction(false);
+    return new BankActionResult(false);
   }
 
-  public BankAction Sell()
+  public BankActionResult Sell()
   {
     GD.Print("Sold card");
     _coinTotal = _coinTotal + _sellValue;
-    return new BankAction(true, _coinTotal);
+    return new BankActionResult(true, _coinTotal);
   }
 
-  public BankAction Reroll()
+  public BankActionResult Reroll()
   {
     if (_coinTotal >= _rerollCost)
     {
       GD.Print("Paid for reroll");
       _coinTotal = _coinTotal - _rerollCost;
-      return new BankAction(true, _coinTotal);
+      return new BankActionResult(true, _coinTotal);
     }
     GD.Print("Can't afford to reroll");
-    return new BankAction(false);
+    return new BankActionResult(false);
   }
 }

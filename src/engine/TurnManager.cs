@@ -31,10 +31,10 @@ public class TurnManager
       {
         if (allTokensGiven.ContainsKey(token.Key))
         {
-          allTokensGiven[token.Key].Add(token.Value);
+          allTokensGiven[token.Key].AddRange(token.Value);
           continue;
         }
-        allTokensGiven.Add(token.Key, new List<int>(token.Value));
+        allTokensGiven.Add(token.Key, token.Value.ToList());
       }
     }
 
