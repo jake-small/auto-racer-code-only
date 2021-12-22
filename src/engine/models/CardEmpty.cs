@@ -8,6 +8,6 @@ public class CardEmpty : Card
     Description = "";
     BaseMove = "1";
     Abilities = Abilities;
-    Tiers = new List<Tier>();
+    Levels = new List<Level>();
   }
 }

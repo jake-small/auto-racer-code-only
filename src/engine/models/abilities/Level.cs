@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class Tier
+public class Level
 {
   public int Id { get; set; }
   public List<Param> Params { get; set; }

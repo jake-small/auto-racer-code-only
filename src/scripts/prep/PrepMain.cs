@@ -85,7 +85,7 @@ public class PrepMain : Node2D
         cardsText += $"empty slot\n";
         continue;
       }
-      cardsText += $"{cardVM.Card.Name} in slot {cardVM.Slot} at level {cardVM.Level}. Body: {cardVM.Card.Description}\n";
+      cardsText += $"{cardVM.Card.Name} in slot {cardVM.Slot} at level {cardVM.Card.Level}\n";
     }
     _debugInventoryLabel.Text = cardsText;
   }
@@ -137,7 +137,7 @@ public class PrepMain : Node2D
       var targetCardVM = Inventory.GetCardInSlot(slot);
       if (cardVM.Card.Name == targetCardVM.Card.Name) // Combine cards of same type
       {
-        targetCardVM.AddLevels(cardVM.Level);
+        targetCardVM.AddLevels(cardVM.Card.Level);
         Inventory.RemoveCard(cardVM.Slot); // Remove dropped card
         return;
       }
@@ -160,7 +160,7 @@ public class PrepMain : Node2D
         if (bankResult.Success)
         {
           _newCoinTotal = bankResult.CoinTotal;
-          targetCardVM.AddLevels(cardVM.Level);
+          targetCardVM.AddLevels(cardVM.Card.Level);
           cardVM.CardNode.QueueFree(); // Remove dropped card node
           return;
         }
@@ -420,7 +420,7 @@ public class PrepMain : Node2D
   {
     _selectedCardPanel.Visible = true;
     _selectedCardNameLabel.Text = card.Name;
-    _selectedCardDescriptionLabel.Text = card.Description;
+    _selectedCardDescriptionLabel.Text = card.GetDescription(card.Level);
     _selectedCardBaseMoveLabel.Text = card.BaseMove;
   }
 

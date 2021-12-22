@@ -4,6 +4,7 @@
       "Name": "quick curse",
       "Description": "All opponents within {A} gain {B} move",
       "BaseMove": "2",
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -26,7 +27,7 @@
         ],
         "PrepAbilities": []
       },
-      "Tiers": [
+      "Levels": [
         {
           "Id": 1,
           "Params": [

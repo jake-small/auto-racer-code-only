@@ -32,8 +32,8 @@ public class CardScript : KinematicBody2D
     var levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     var baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
     headerLabel.Text = CardVM.Card.Name;
-    bodyLabel.Text = CardVM.Card.Description;
-    levelLabel.Text = "lvl" + CardVM.Level.ToString();
+    bodyLabel.Text = CardVM.Card.GetDescription(CardVM.Card.Level);
+    levelLabel.Text = "lvl" + CardVM.Card.Level.ToString();
     baseMoveLabel.Text = CardVM.Card.BaseMove + "m";
 
     StartingPosition = Position;

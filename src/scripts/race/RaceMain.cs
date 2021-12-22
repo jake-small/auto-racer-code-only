@@ -106,7 +106,7 @@ public class RaceMain : Node2D
       foreach (var turnResult in turnResults)
       {
         var card = turnResult.Player.Cards[_currentTurnView - 1];
-        var cardState = $"{card.Name}\n{card.BaseMove}\n...";
+        var cardState = $"{card.Name}\n{card.BaseMove}\n{card.GetDescription(card.Level)}";
         _labelCardArray[p].Text = cardState;
         currentCardStates.Add(cardState);
         p = p + 1;

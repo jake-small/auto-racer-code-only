@@ -40,9 +40,9 @@ __meta__ = {
 
 [node name="Label_TurnPhase" type="Label" parent="."]
 margin_left = 744.613
-margin_top = 75.5953
+margin_top = 26.5953
 margin_right = 1183.61
-margin_bottom = 169.595
+margin_bottom = 120.595
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Turn Phase"
@@ -54,7 +54,7 @@ __meta__ = {
 margin_right = 1920.0
 margin_bottom = 1080.0
 custom_constants/margin_right = 240
-custom_constants/margin_top = 240
+custom_constants/margin_top = 140
 custom_constants/margin_left = 240
 custom_constants/margin_bottom = 240
 __meta__ = {
@@ -63,7 +63,7 @@ __meta__ = {
 
 [node name="RichTextLabel_GameState" type="RichTextLabel" parent="MarginContainer"]
 margin_left = 240.0
-margin_top = 240.0
+margin_top = 140.0
 margin_right = 1680.0
 margin_bottom = 840.0
 custom_fonts/normal_font = SubResource( 1 )
@@ -150,10 +150,10 @@ __meta__ = {
 }
 
 [node name="Control_cards" type="Control" parent="."]
-margin_left = 200.0
-margin_top = 649.0
-margin_right = 1720.0
-margin_bottom = 960.0
+margin_left = 59.0
+margin_top = 547.0
+margin_right = 1865.0
+margin_bottom = 941.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -161,7 +161,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="Control_cards"]
 margin_right = 1522.0
 margin_bottom = 64.0
-custom_constants/separation = 360
+custom_constants/separation = 420
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -178,21 +178,22 @@ __meta__ = {
 
 [node name="Label_p1_card" type="Label" parent="Control_cards/HBoxContainer/Label_p1"]
 margin_top = 64.0
-margin_right = 104.0
-margin_bottom = 265.0
+margin_right = 400.0
+margin_bottom = 394.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
 BM
 A"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_p2" type="Label" parent="Control_cards/HBoxContainer"]
-margin_left = 413.0
-margin_right = 477.0
+margin_left = 473.0
+margin_right = 537.0
 margin_bottom = 64.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -203,21 +204,22 @@ __meta__ = {
 
 [node name="Label_p2_card" type="Label" parent="Control_cards/HBoxContainer/Label_p2"]
 margin_top = 64.0
-margin_right = 104.0
-margin_bottom = 265.0
+margin_right = 400.0
+margin_bottom = 394.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
 BM
 A"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_p3" type="Label" parent="Control_cards/HBoxContainer"]
-margin_left = 837.0
-margin_right = 901.0
+margin_left = 957.0
+margin_right = 1021.0
 margin_bottom = 64.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -228,21 +230,22 @@ __meta__ = {
 
 [node name="Label_p3_card" type="Label" parent="Control_cards/HBoxContainer/Label_p3"]
 margin_top = 64.0
-margin_right = 104.0
-margin_bottom = 265.0
+margin_right = 400.0
+margin_bottom = 394.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
 BM
 A"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_p4" type="Label" parent="Control_cards/HBoxContainer"]
-margin_left = 1261.0
-margin_right = 1325.0
+margin_left = 1441.0
+margin_right = 1505.0
 margin_bottom = 64.0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -253,14 +256,15 @@ __meta__ = {
 
 [node name="Label_p4_card" type="Label" parent="Control_cards/HBoxContainer/Label_p4"]
 margin_top = 64.0
-margin_right = 104.0
-margin_bottom = 265.0
+margin_right = 400.0
+margin_bottom = 394.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
 BM
 A"
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
