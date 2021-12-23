@@ -44,7 +44,7 @@ public static class Inventory
       var cardVM = GetCardInSlot(i);
       var card = (cardVM == null ? new CardEmpty() : cardVM.Card);
       cardDict[i] = card;
-      GD.Print($"card: {card.Name} {card.BaseMove}");
+      GD.Print($"card: {card.GetName()} {card.GetBaseMove()}");
     }
     return cardDict;
   }
@@ -53,13 +53,13 @@ public static class Inventory
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't ADD '{cardVM.Card.Name}' to {slot}. There's already a card there.");
+      GD.Print($"Can't ADD '{cardVM.Card.GetName()}' to {slot}. There's already a card there.");
       return false;
     }
     cardVM.CardNode.Frozen = false;
     cardVM.Slot = slot;
     _cardVMs[cardVM.Slot] = cardVM;
-    GD.Print($"ADDED '{cardVM.Card.Name}' to {slot}");
+    GD.Print($"ADDED '{cardVM.Card.GetName()}' to {slot}");
     return true;
   }
 
@@ -81,14 +81,14 @@ public static class Inventory
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't MOVE '{cardVM.Card.Name}' from {cardVM.Slot} to {slot}. There's already a card there.");
+      GD.Print($"Can't MOVE '{cardVM.Card.GetName()}' from {cardVM.Slot} to {slot}. There's already a card there.");
       return false;
     }
     var previousSlot = cardVM.Slot;
     cardVM.Slot = slot;
     _cardVMs[slot] = cardVM;
     _cardVMs.Remove(previousSlot);
-    GD.Print($"MOVED '{cardVM.Card.Name}' from {previousSlot} to {slot}");
+    GD.Print($"MOVED '{cardVM.Card.GetName()}' from {previousSlot} to {slot}");
     return true;
   }
 
@@ -116,7 +116,7 @@ public static class Inventory
     cardVM2.Slot = slot1;
     _cardVMs[slot1] = cardVM2;
     _cardVMs[slot2] = cardVM1;
-    GD.Print($"SWAPPED card '{cardVM1.Card.Name}' to {slot2} and '{cardVM2.Card.Name}' in {slot1}");
+    GD.Print($"SWAPPED card '{cardVM1.Card.GetName()}' to {slot2} and '{cardVM2.Card.GetName()}' in {slot1}");
     return true;
   }
 
@@ -124,7 +124,7 @@ public static class Inventory
   {
     foreach (var cardVM in _cardVMs.Values)
     {
-      GD.Print($"Slot: '{cardVM.Slot}' Name: '{cardVM.Card.Name}'");
+      GD.Print($"Slot: '{cardVM.Slot}' Name: '{cardVM.Card.GetName()}'");
     }
   }
 }

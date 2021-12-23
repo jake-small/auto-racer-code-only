@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class MoveTokenAbility
+public class TokenAbility : Ability // TODO make ability and create a calcualation (similar to how level data is handled for description)
 {
   public string Name { get; set; }
   public string Type { get; set; }

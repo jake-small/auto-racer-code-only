@@ -70,24 +70,25 @@ public class PrepMain : Node2D
       _newCoinTotal = null;
     }
 
-    var cards = Inventory.GetCardVMs();
-    if (cards.OrderBy(kv => kv.Key).ToList() == _cachedDebugCards.OrderBy(kv => kv.Key).ToList())
-    {
-      return;
-    }
-    _cachedDebugCards = cards;
-    var cardsText = "";
-    for (int i = 0; i < GameData.InventorySize; i++)
-    {
-      var cardVM = Inventory.GetCardInSlot(i);
-      if (cardVM == null)
-      {
-        cardsText += $"empty slot\n";
-        continue;
-      }
-      cardsText += $"{cardVM.Card.Name} in slot {cardVM.Slot} at level {cardVM.Card.Level}\n";
-    }
-    _debugInventoryLabel.Text = cardsText;
+    // var cards = Inventory.GetCardVMs();
+    // if (cards.OrderBy(kv => kv.Key).ToList() == _cachedDebugCards.OrderBy(kv => kv.Key).ToList())
+    // {
+    //   return;
+    // }
+    // _cachedDebugCards = cards;
+    // var cardsText = "";
+    // for (int i = 0; i < GameData.InventorySize; i++)
+    // {
+    //   var cardVM = Inventory.GetCardInSlot(i);
+    //   if (cardVM == null)
+    //   {
+    //     cardsText += $"empty slot\n";
+    //     continue;
+    //   }
+    //   cardsText += $"{cardVM.Card.GetName()} in slot {cardVM.Slot} at level {cardVM.Card.Level}\n";
+    // }
+    // GD.Print("updated debug inventory cards");
+    // _debugInventoryLabel.Text = cardsText;
   }
 
   public void _on_Card_selected(CardViewModel cardVM)
@@ -124,18 +125,18 @@ public class PrepMain : Node2D
     }
     else if (!_canDropCard)
     {
-      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {cardVM.Card.Name} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
+      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {cardVM.Card.GetName()} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
       DropCard(cardVM, originalPosition);
       DeselectAllCards();
       return;
     }
 
-    GD.Print($"Drop signal RECEIVED for {cardVM.Card.Name} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
+    GD.Print($"Drop signal RECEIVED for {cardVM.Card.GetName()} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
     if (Inventory.IsCardInSlot(slot) && cardVM.Slot != -1) // Card in inventory but card exists in targetted slot
     {
       DeselectAllCards();
       var targetCardVM = Inventory.GetCardInSlot(slot);
-      if (cardVM.Card.Name == targetCardVM.Card.Name) // Combine cards of same type
+      if (cardVM.Card.GetName() == targetCardVM.Card.GetName()) // Combine cards of same type
       {
         targetCardVM.AddLevels(cardVM.Card.Level);
         Inventory.RemoveCard(cardVM.Slot); // Remove dropped card
@@ -154,7 +155,7 @@ public class PrepMain : Node2D
     {
       DeselectAllCards();
       var targetCardVM = Inventory.GetCardInSlot(slot);
-      if (cardVM.Card.Name == targetCardVM.Card.Name) // Combine cards of same type
+      if (cardVM.Card.GetName() == targetCardVM.Card.GetName()) // Combine cards of same type
       {
         var bankResult = _bank.Buy();
         if (bankResult.Success)
@@ -419,9 +420,9 @@ public class PrepMain : Node2D
   private void DisplaySelectedCardData(Card card)
   {
     _selectedCardPanel.Visible = true;
-    _selectedCardNameLabel.Text = card.Name;
-    _selectedCardDescriptionLabel.Text = card.GetDescription(card.Level);
-    _selectedCardBaseMoveLabel.Text = card.BaseMove;
+    _selectedCardNameLabel.Text = card.GetName();
+    _selectedCardDescriptionLabel.Text = card.GetDescription();
+    _selectedCardBaseMoveLabel.Text = card.GetBaseMove();
   }
 
   private void HideSelectedCardData()

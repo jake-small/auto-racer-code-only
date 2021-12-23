@@ -6,10 +6,10 @@
       "BaseMove": "2",
       "Tier": 1,
       "Abilities": {
-        "MoveTokenAbilities": [
+        "TokenAbilities": [
           {
             "Name": "ability1",
-            "Type": "token_move",
+            "Type": "move",
             "Phase": "Premove",
             "Value": "{B}",
             "Duration": "1",
@@ -27,7 +27,7 @@
         ],
         "PrepAbilities": []
       },
-      "Levels": [
+      "LevelValues": [
         {
           "Id": 1,
           "Params": [

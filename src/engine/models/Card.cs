@@ -5,38 +5,46 @@ using Godot;
 
 public class Card
 {
-  public string Name { get; set; }
+  public string Name { private get; set; }
   public string Description { private get; set; }
-  public string BaseMove { get; set; }
+  public string BaseMove { private get; set; }
   public int Tier { get; set; }
   public Abilities Abilities { get; set; }
-  public List<Level> Levels { get; set; }
+  public List<LevelValue> LevelValues { get; set; }
   public int Level { get; set; } = 1;
   public int Exp { get; set; } = 0;
 
-  public string GetDescription(int levelId)
+  public Card GetLeveledCard()
   {
-    return ApplyTierValues(Description, levelId);
+    return CalculationLayer.ApplyLevelValues(this);
   }
 
-  private string ApplyTierValues(string text, int levelId)
+  public string GetName()
   {
-    if (Levels == null || !Levels.Any())
-    {
-      GD.Print($"No Tiers exist for card {Name}");
-      return text;
-    }
-    var level = Levels?.FirstOrDefault(t => t.Id == levelId);
-    if (level == null)
-    {
-      GD.Print($"Error: level does not exist: {levelId}");
-      throw new Exception($"Error: level does not exist: {levelId}");
-    }
-    foreach (var param in level.Params)
-    {
-      var key = "{" + param.Key + "}";
-      text = text.Replace(key, param.Value);
-    }
-    return text;
+    return CalculationLayer.ApplyLevelValues(this, Name, Level);
+  }
+
+  public string GetRawName()
+  {
+    return Name;
+  }
+  public string GetDescription()
+  {
+    return CalculationLayer.ApplyLevelValues(this, Description, Level);
+  }
+
+  public string GetRawDescription()
+  {
+    return Description;
+  }
+
+  public string GetBaseMove()
+  {
+    return CalculationLayer.ApplyLevelValues(this, BaseMove, Level);
+  }
+
+  public string GetRawBaseMove()
+  {
+    return BaseMove;
   }
 }

@@ -140,7 +140,7 @@ public class AutoRaceEngine
 
   private int CalculateBaseMovement(Card card)
   {
-    if (!Int32.TryParse(card.BaseMove, out var baseMove))
+    if (!Int32.TryParse(card.GetBaseMove(), out var baseMove))
     {
       return 0;
     }
@@ -149,11 +149,24 @@ public class AutoRaceEngine
 
   private Dictionary<int, List<int>> CalculateTokensGiven(Card card)
   {
+    var leveledCard = CalculationLayer.ApplyLevelValues(card);
+    var calculatedCard = CalculationLayer.ApplyFunctionValues(leveledCard);
+    var tokenAbilities = calculatedCard.Abilities?.TokenAbilities ?? new List<TokenAbility>();
+    var tokensGiven = CalculateTokens(tokenAbilities);
+    return tokensGiven;
+  }
+
+  private Dictionary<int, List<int>> CalculateTokens(List<TokenAbility> tokenAbilities)
+  {
     var tokensGiven = new Dictionary<int, List<int>>();
-    var moveAbilities = card.Abilities?.MoveTokenAbilities ?? new List<MoveTokenAbility>();
-    foreach (var moveAbility in moveAbilities)
+    foreach (var tokenAbility in tokenAbilities)
     {
       // TODO convert abilities to tokens given
+      // 1. get targets
+
+      // 2. get value
+      // 3. get duration
+      // 4. create tokens
     }
     return tokensGiven;
   }
