@@ -6,16 +6,18 @@
       "BaseMove": "2",
       "Tier": 1,
       "Abilities": {
-        "TokenAbilities": [
+        "MoveTokenAbilities": [
           {
             "Name": "ability1",
-            "Type": "move",
+            "Type": "Additive",
             "Phase": "Premove",
             "Value": "{B}",
             "Duration": "1",
             "Target": {
               "Type": "others",
-              "Amount": "all",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
               "Range": {
                 "Min": "0",
                 "Max": "{A}"

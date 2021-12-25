@@ -45,6 +45,7 @@ public static class EngineTesting
     var p = 0;
     foreach (var turnResult in turnResults)
     {
+      // TODO handle negative movement :)
       var position = turnResult.Player.Position;
       // |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
       // 0123456789

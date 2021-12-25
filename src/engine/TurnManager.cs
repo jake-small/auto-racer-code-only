@@ -23,7 +23,7 @@ public class TurnManager
 
   public void ApplyTokensGiven()
   {
-    var allTokensGiven = new Dictionary<int, List<int>>();
+    var allTokensGiven = new Dictionary<int, List<Token>>();
     foreach (var playerTurn in PlayerTurns)
     {
       var tokensGiven = playerTurn.TokensGiven;
@@ -43,7 +43,12 @@ public class TurnManager
       var playerTurn = PlayerTurns.FirstOrDefault(p => p.Player.Id == playerTokens.Key);
       foreach (var token in playerTokens.Value)
       {
-        playerTurn.Movement = playerTurn.Movement + token;
+        if (token is MoveToken moveToken)
+        {
+          // TODO handle all move token affects (duration, type)
+          playerTurn.Movement = moveToken.Calculate(playerTurn.Movement);
+        }
+        // TODO deal with all tokens
       }
     }
   }

@@ -134,7 +134,7 @@ public class AutoRaceEngine
     {
       result.Movement = CalculateBaseMovement(card);
     }
-    result.TokensGiven = CalculateTokensGiven(card);
+    result.TokensGiven = CalculateTokensGiven(card, player);
     return result;
   }
 
@@ -147,27 +147,161 @@ public class AutoRaceEngine
     return baseMove;
   }
 
-  private Dictionary<int, List<int>> CalculateTokensGiven(Card card)
+  private Dictionary<int, List<Token>> CalculateTokensGiven(Card card, Player player)
   {
     var leveledCard = CalculationLayer.ApplyLevelValues(card);
     var calculatedCard = CalculationLayer.ApplyFunctionValues(leveledCard);
-    var tokenAbilities = calculatedCard.Abilities?.TokenAbilities ?? new List<TokenAbility>();
-    var tokensGiven = CalculateTokens(tokenAbilities);
+    var tokenAbilities = calculatedCard.Abilities?.MoveTokenAbilities ?? new List<MoveTokenAbility>();
+    var tokensGiven = CalculateTokens(tokenAbilities, player);
     return tokensGiven;
   }
 
-  private Dictionary<int, List<int>> CalculateTokens(List<TokenAbility> tokenAbilities)
+  private Dictionary<int, List<Token>> CalculateTokens(List<MoveTokenAbility> tokenAbilities, Player player)
   {
-    var tokensGiven = new Dictionary<int, List<int>>();
+    var tokensGiven = new Dictionary<int, List<Token>>();
     foreach (var tokenAbility in tokenAbilities)
     {
-      // TODO convert abilities to tokens given
-      // 1. get targets
-
-      // 2. get value
-      // 3. get duration
-      // 4. create tokens
+      if (tokenAbility is MoveTokenAbility)
+      {
+        var moveTokensGiven = GetMoveToken(tokenAbility, player);
+        tokensGiven.MergeDictionaries(moveTokensGiven);
+      }
+      // TODO implement ShieldTokenAbility
+      // else if (tokenAbility is ShieldTokenAbility)
+      // {
+      //   var shieldTokensGiven = GetShieldToken(tokenAbility, player);
+      //   tokensGiven.MergeDictionaries(shieldTokensGiven);
+      // }
     }
     return tokensGiven;
+  }
+
+  private Dictionary<int, List<Token>> GetMoveToken(TokenAbility tokenAbility, Player player)
+  {
+    if (!(tokenAbility is MoveTokenAbility moveTokenAbililty))
+    {
+      GD.Print("Error: Can't get Move Token from tokenAbility as it's not a MoveTokenAbility");
+      return new Dictionary<int, List<Token>>();
+    }
+
+
+    // 1. get targets
+    var targets = GetTargets(moveTokenAbililty, player);
+    // 2. get value
+    // 3. get duration
+    // 4. create tokens
+
+    var tokensGiven = new Dictionary<int, List<Token>>();
+    foreach (var target in targets)
+    {
+      MoveTokenType moveTokenType;
+      if (!(Enum.TryParse<MoveTokenType>(moveTokenAbililty.Type, out moveTokenType)))
+      {
+        moveTokenType = MoveTokenType.Additive;
+      }
+      var token = new MoveToken
+      {
+        Duration = moveTokenAbililty.Duration.ToInt(),
+        Type = moveTokenType,
+        Target = target,
+        Value = moveTokenAbililty.Value.ToInt()
+      };
+
+      if (tokensGiven.ContainsKey(target))
+      {
+        tokensGiven[target].Add(token);
+      }
+      else
+      {
+        tokensGiven.Add(target, new List<Token> { token });
+      }
+    }
+    return tokensGiven;
+  }
+
+  private Dictionary<int, List<Token>> GetShieldToken(TokenAbility tokenAbility, Player player)
+  {
+    var tokensGiven = new Dictionary<int, List<Token>>();
+    return tokensGiven;
+  }
+
+  private IEnumerable<int> GetTargets(TokenAbility tokenAbility, Player player)
+  {
+    var tokenTarget = tokenAbility.Target;
+    if (tokenTarget.GetTargetType() == TargetType.Self)
+    {
+      return new List<int> { player.Id };
+    }
+    if (tokenTarget.Amount.ToInt() == 0)
+    {
+      return new List<int>();
+    }
+
+    var checkForward = false;
+    var checkBack = false;
+    switch (tokenTarget.GetDirection())
+    {
+      case Direction.Forward:
+        checkForward = true;
+        break;
+      case Direction.Backward:
+        checkBack = true;
+        break;
+      case Direction.Any:
+        checkForward = true;
+        checkBack = true;
+        break;
+    }
+
+    // TODO handle type: self, others, all
+    // TODO don't add player more than once to list of targets
+    var targets = new List<Player>();
+    if (checkForward)
+    {
+      var minRangeForward = player.Position + tokenTarget.Range.Min.ToInt();
+      var maxRangeForward = player.Position + tokenTarget.Range.Max.ToInt();
+      foreach (var otherPlayer in _players)
+      {
+        if (otherPlayer.Position >= minRangeForward && otherPlayer.Position <= maxRangeForward)
+        {
+          targets.Add(otherPlayer);
+        }
+      }
+    }
+    if (checkBack)
+    {
+      var minRangeBack = player.Position - tokenTarget.Range.Min.ToInt();
+      var maxRangeBack = player.Position - tokenTarget.Range.Max.ToInt();
+      foreach (var otherPlayer in _players)
+      {
+        if (otherPlayer.Position >= maxRangeBack && otherPlayer.Position <= minRangeBack)
+        {
+          targets.Add(otherPlayer);
+        }
+      }
+    }
+
+    if (targets == null)
+    {
+      return new List<int>();
+    }
+
+    switch (tokenTarget.GetPriority())
+    {
+      case Priority.Closest:
+        targets.Sort((x, y) => Math.Abs(x.Position - player.Position).CompareTo(Math.Abs(y.Position - player.Position)));
+        break;
+      case Priority.Furthest:
+        targets.Sort((x, y) => Math.Abs(y.Position - player.Position).CompareTo(Math.Abs(x.Position - player.Position)));
+        break;
+      case Priority.PositionAscending:
+        targets = targets.OrderBy(p => p.Position).ToList();
+        break;
+      case Priority.PositionDescending:
+        targets = targets.OrderByDescending(p => p.Position).ToList();
+        break;
+    }
+
+    return targets.Select(p => p.Position).Take(tokenTarget.Amount.ToInt());
   }
 }
