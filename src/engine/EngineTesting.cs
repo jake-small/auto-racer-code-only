@@ -37,22 +37,33 @@ public static class EngineTesting
   public static string GetPositionTextView(IEnumerable<PlayerTurnResult> turnResults)
   {
     var positionView = new List<string>{
-    "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ",
-    "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ",
-    "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ",
-    "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| "
+    "_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ",
+    "_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ",
+    "_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| ",
+    "_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| "
   };
-    var p = 0;
+    var playerNum = 0;
     foreach (var turnResult in turnResults)
     {
-      // TODO handle negative movement :)
       var position = turnResult.Player.Position;
-      // |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
-      // 0123456789
-      //  0 1 2 3 4 5 6 7 8 9
-      var positionOffset = position + position + 1;
-      positionView[p] = positionView[p].Remove(positionOffset, 1).Insert(positionOffset, "X");
-      p = p + 1;
+      if (position < 0)
+      {
+        positionView[playerNum] = positionView[playerNum].Remove(0, 1).Insert(0, position.ToString());
+      }
+      else if (position > ((positionView.FirstOrDefault().Length + 1) / 2))
+      {
+        var trackLength = positionView[playerNum].Length;
+        positionView[playerNum] = positionView[playerNum].Remove(trackLength - 1, 1).Insert(trackLength - 1, position.ToString());
+      }
+      else
+      {
+        // _|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+        // 0123456789
+        // 0 1 2 3 4 5 6 7 8 9
+        var positionOffset = position * 2;
+        positionView[playerNum] = positionView[playerNum].Remove(positionOffset, 1).Insert(positionOffset, position.ToString());
+      }
+      playerNum = playerNum + 1;
     }
     var positionViewString = string.Join("\n", positionView);
     GD.Print(positionViewString);
