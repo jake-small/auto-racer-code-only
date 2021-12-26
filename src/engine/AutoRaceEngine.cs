@@ -184,13 +184,7 @@ public class AutoRaceEngine
       return new Dictionary<int, List<Token>>();
     }
 
-
-    // 1. get targets
     var targets = GetTargets(moveTokenAbililty, player);
-    // 2. get value
-    // 3. get duration
-    // 4. create tokens
-
     var tokensGiven = new Dictionary<int, List<Token>>();
     foreach (var target in targets)
     {
@@ -253,18 +247,20 @@ public class AutoRaceEngine
         break;
     }
 
-    // TODO handle type: self, others, all
-    // TODO don't add player more than once to list of targets
-    var targets = new List<Player>();
+    var targets = new HashSet<Player>();
     if (checkForward)
     {
       var minRangeForward = player.Position + tokenTarget.Range.Min.ToInt();
       var maxRangeForward = player.Position + tokenTarget.Range.Max.ToInt();
-      foreach (var otherPlayer in _players)
+      foreach (var eachPlayer in _players)
       {
-        if (otherPlayer.Position >= minRangeForward && otherPlayer.Position <= maxRangeForward)
+        if (tokenTarget.GetTargetType() == TargetType.Others && eachPlayer.Id == player.Id)
         {
-          targets.Add(otherPlayer);
+          continue;
+        }
+        if (eachPlayer.Position >= minRangeForward && eachPlayer.Position <= maxRangeForward)
+        {
+          targets.Add(eachPlayer);
         }
       }
     }
@@ -272,36 +268,41 @@ public class AutoRaceEngine
     {
       var minRangeBack = player.Position - tokenTarget.Range.Min.ToInt();
       var maxRangeBack = player.Position - tokenTarget.Range.Max.ToInt();
-      foreach (var otherPlayer in _players)
+      foreach (var eachPlayer in _players)
       {
-        if (otherPlayer.Position >= maxRangeBack && otherPlayer.Position <= minRangeBack)
+        if (tokenTarget.GetTargetType() == TargetType.Others && eachPlayer.Id == player.Id)
         {
-          targets.Add(otherPlayer);
+          continue;
+        }
+        if (eachPlayer.Position >= maxRangeBack && eachPlayer.Position <= minRangeBack)
+        {
+          targets.Add(eachPlayer);
         }
       }
     }
 
-    if (targets == null)
+    if (targets == null || targets.Count == 0)
     {
       return new List<int>();
     }
 
+    var sortedTargets = targets.ToList();
     switch (tokenTarget.GetPriority())
     {
       case Priority.Closest:
-        targets.Sort((x, y) => Math.Abs(x.Position - player.Position).CompareTo(Math.Abs(y.Position - player.Position)));
+        sortedTargets.Sort((x, y) => Math.Abs(x.Position - player.Position).CompareTo(Math.Abs(y.Position - player.Position)));
         break;
       case Priority.Furthest:
-        targets.Sort((x, y) => Math.Abs(y.Position - player.Position).CompareTo(Math.Abs(x.Position - player.Position)));
+        sortedTargets.Sort((x, y) => Math.Abs(y.Position - player.Position).CompareTo(Math.Abs(x.Position - player.Position)));
         break;
       case Priority.PositionAscending:
-        targets = targets.OrderBy(p => p.Position).ToList();
+        sortedTargets = sortedTargets.OrderBy(p => p.Position).ToList();
         break;
       case Priority.PositionDescending:
-        targets = targets.OrderByDescending(p => p.Position).ToList();
+        sortedTargets = sortedTargets.OrderByDescending(p => p.Position).ToList();
         break;
     }
 
-    return targets.Select(p => p.Position).Take(tokenTarget.Amount.ToInt());
+    return targets.Select(p => p.Id).Take(tokenTarget.Amount.ToInt());
   }
 }
