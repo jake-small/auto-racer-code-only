@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
-public class LevelValue
+public class Functions
 {
-  public int Id { get; set; }
   public List<OutKey> OutKeys { get; set; }
 }

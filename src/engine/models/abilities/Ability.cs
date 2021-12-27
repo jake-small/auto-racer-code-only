@@ -6,5 +6,5 @@ public interface Ability
   // string Type { get; set; }
   string Phase { get; set; }
   List<object> BuiltInFunctions { get; set; }
-  List<object> Functions { get; set; }
+  Functions Functions { get; set; }
 }

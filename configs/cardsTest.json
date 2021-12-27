@@ -1,7 +1,7 @@
 {
   "Cards": [
     {
-      "Name": "quick curse",
+      "Name": "psychic scream",
       "Description": "All opponents within {A} gain {B} move",
       "BaseMove": "2",
       "Tier": 1,
@@ -32,7 +32,7 @@
       "LevelValues": [
         {
           "Id": 1,
-          "Params": [
+          "OutKeys": [
             {
               "Key": "A",
               "Value": "1"
@@ -45,7 +45,7 @@
         },
         {
           "Id": 2,
-          "Params": [
+          "OutKeys": [
             {
               "Key": "A",
               "Value": "1"
@@ -58,7 +58,7 @@
         },
         {
           "Id": 3,
-          "Params": [
+          "OutKeys": [
             {
               "Key": "A",
               "Value": "1"
@@ -66,6 +66,72 @@
             {
               "Key": "B",
               "Value": "-3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "quick under pressure",
+      "Description": "For each opponent on your current space, gain {A} move",
+      "BaseMove": "2",
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "0"
+              }
+            },
+            "BuiltInFunctions": [],
+            "Functions": {
+              "OutKeys": [
+                {
+                  "Key": "F",
+                  "Value": "return 3*{A}"
+                }
+              ]
+            }
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
             }
           ]
         }

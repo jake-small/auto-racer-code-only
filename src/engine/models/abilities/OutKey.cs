@@ -1,4 +1,4 @@
-public class Param
+public class OutKey
 {
   public string Key { get; set; }
   public string Value { get; set; }

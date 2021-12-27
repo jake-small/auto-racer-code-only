@@ -25,7 +25,7 @@ public static class EngineTesting
   public static Card GetSampleCard()
   {
     var rnd = new Random();
-    int number = rnd.Next(1, 5);
+    int number = rnd.Next(1, 4);
     return new Card
     {
       Name = $"Card {number}",

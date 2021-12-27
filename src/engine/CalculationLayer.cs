@@ -15,7 +15,7 @@ public static class CalculationLayer
     }
     // Update all string properties with LevelValues
     // Recursively go through all other classes and do the same
-    return UpdateAllNestedStrings(card, levelValue);
+    return UpdateAllNestedStrings(card, levelValue.OutKeys);
   }
 
   public static string ApplyLevelValues(Card card, string text, int levelId)
@@ -25,7 +25,7 @@ public static class CalculationLayer
     {
       return text;
     }
-    foreach (var param in levelValue.Params)
+    foreach (var param in levelValue.OutKeys)
     {
       var key = "{" + param.Key + "}";
       text = text.Replace(key, param.Value);
@@ -36,32 +36,51 @@ public static class CalculationLayer
   public static Card ApplyFunctionValues(Card card)
   {
     // TODO implement
-    GD.Print("Not implemented: ApplyFunctionValues(Card card)");
+    if (card.Abilities == null)
+    {
+      return card;
+    }
+    var abilities = card.Abilities;
+    if (abilities.MoveTokenAbilities == null || !abilities.MoveTokenAbilities.Any())
+    {
+      return card;
+    }
+    foreach (var moveAbility in abilities.MoveTokenAbilities)
+    {
+      var functions = moveAbility.Functions;
+      if (functions == null || functions.OutKeys == null || !functions.OutKeys.Any())
+      {
+        continue;
+      }
+
+      var calculatedOutKeys = new List<OutKey>();
+      foreach (var function in functions.OutKeys)
+      {
+        // Calculate Lua function
+
+        calculatedOutKeys.Add(new OutKey { Key = function.Key, Value = function.Value });
+      }
+      UpdateAllNestedStrings(card, calculatedOutKeys);
+    }
+
     return card;
   }
 
-  private static T UpdateAllNestedStrings<T>(T obj, LevelValue levelValue)
+  private static T UpdateAllNestedStrings<T>(T obj, List<OutKey> outKeys)
   {
-    var stringProperties = obj.GetType().GetProperties().Where(p => p.PropertyType == typeof(string) && p.CanWrite); // TODO double check, instead of typeof(T)
+    var stringProperties = obj.GetType().GetProperties().Where(p => p.PropertyType == typeof(string) && p.CanWrite);
     foreach (var stringProp in stringProperties)
     {
-      foreach (var param in levelValue.Params)
+      foreach (var outKey in outKeys)
       {
-        var key = "{" + param.Key + "}";
+        var key = "{" + outKey.Key + "}";
         var propValue = stringProp.GetValue(obj) as string;
-        propValue = propValue.Replace(key, param.Value);
+        propValue = propValue.Replace(key, outKey.Value);
         stringProp.SetValue(obj, propValue);
       }
     }
-    var customProperties = obj.GetType().GetProperties().Where(p => p.PropertyType.IsClass && p.PropertyType != typeof(string)); // TODO double check, instead of typeof(T)
-    // foreach (var customProp in customProperties)
-    // {
-    //   var propValue = customProp.GetValue(obj);
-    //   customProp.SetValue(obj, UpdateAllNestedStrings(propValue, levelValue));
-    // }
-    // var listProperties = typeof(T).GetProperties().Where(p => p.PropertyType && p.PropertyType != typeof(List));
-    // var listProperties = typeof(T).GetProperties().Where(p => p.PropertyType is IList);
-    var otherProperties = obj.GetType().GetProperties().Where(p => p.PropertyType.IsClass && p.PropertyType != typeof(string)); // TODO double check
+
+    var otherProperties = obj.GetType().GetProperties().Where(p => p.PropertyType.IsClass && p.PropertyType != typeof(string));
     foreach (var otherProp in otherProperties)
     {
       var propValue = otherProp.GetValue(obj);
@@ -78,35 +97,18 @@ public static class CalculationLayer
         var updatedElems = (IList)Activator.CreateInstance(constructedListType);
         foreach (var elem in elems)
         {
-          updatedElems.Add(UpdateAllNestedStrings(elem, levelValue));
+          updatedElems.Add(UpdateAllNestedStrings(elem, outKeys));
         }
         otherProp.SetValue(obj, updatedElems);
       }
       else
       {
-        otherProp.SetValue(obj, UpdateAllNestedStrings(propValue, levelValue));
+        otherProp.SetValue(obj, UpdateAllNestedStrings(propValue, outKeys));
       }
     }
     // TODO test HEAVILY
     return obj;
   }
-
-
-  // private static Ability ApplyLevelValues(Ability ability, LevelValue levelValue)
-  // {
-  //   var properties = typeof(Ability).GetProperties().Where(p => p.PropertyType == typeof(string));
-  //   foreach (var prop in properties)
-  //   {
-  //     foreach (var param in levelValue.Params)
-  //     {
-  //       var key = "{" + param.Key + "}";
-  //       var propValue = prop.GetValue(ability) as string;
-  //       propValue = propValue.Replace(key, param.Value);
-  //       prop.SetValue(ability, propValue);
-  //     }
-  //   }
-  //   return ability;
-  // }
 
   private static bool TryGetLevelValue(Card card, out LevelValue levelValue)
   {
