@@ -3,10 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using MoonSharp.Interpreter;
+using LuaScript = MoonSharp.Interpreter.Script;
 
-public static class CalculationLayer
+public class CalculationLayer
 {
-  public static Card ApplyLevelValues(Card card)
+  private LuaScript _luaScript;
+
+  public CalculationLayer()
+  {
+    // https://www.moonsharp.org/sandbox.html
+    _luaScript = new LuaScript(CoreModules.Preset_HardSandbox);
+  }
+  private MoonSharp.Interpreter.Script _script = new MoonSharp.Interpreter.Script();
+  public Card ApplyLevelValues(Card card)
   {
     var result = TryGetLevelValue(card, out var levelValue);
     if (!result)
@@ -18,7 +28,7 @@ public static class CalculationLayer
     return UpdateAllNestedStrings(card, levelValue.OutKeys);
   }
 
-  public static string ApplyLevelValues(Card card, string text, int levelId)
+  public string ApplyLevelValues(Card card, string text, int levelId)
   {
     var result = TryGetLevelValue(card, out var levelValue);
     if (!result)
@@ -33,7 +43,7 @@ public static class CalculationLayer
     return text;
   }
 
-  public static Card ApplyFunctionValues(Card card)
+  public Card ApplyFunctionValues(Card card)
   {
     // TODO implement
     if (card.Abilities == null)
@@ -57,8 +67,8 @@ public static class CalculationLayer
       foreach (var function in functions.OutKeys)
       {
         // Calculate Lua function
-
-        calculatedOutKeys.Add(new OutKey { Key = function.Key, Value = function.Value });
+        var calculatedFunctionValue = RunLuaScript(function.Value);
+        calculatedOutKeys.Add(new OutKey { Key = function.Key, Value = calculatedFunctionValue });
       }
       UpdateAllNestedStrings(card, calculatedOutKeys);
     }
@@ -66,7 +76,7 @@ public static class CalculationLayer
     return card;
   }
 
-  private static T UpdateAllNestedStrings<T>(T obj, List<OutKey> outKeys)
+  private T UpdateAllNestedStrings<T>(T obj, List<OutKey> outKeys)
   {
     var stringProperties = obj.GetType().GetProperties().Where(p => p.PropertyType == typeof(string) && p.CanWrite);
     foreach (var stringProp in stringProperties)
@@ -84,6 +94,10 @@ public static class CalculationLayer
     foreach (var otherProp in otherProperties)
     {
       var propValue = otherProp.GetValue(obj);
+      if (propValue == null)
+      {
+        continue;
+      }
       var elems = propValue as IList;
       if (elems != null)
       {
@@ -110,7 +124,7 @@ public static class CalculationLayer
     return obj;
   }
 
-  private static bool TryGetLevelValue(Card card, out LevelValue levelValue)
+  private bool TryGetLevelValue(Card card, out LevelValue levelValue)
   {
     var levelValues = card.LevelValues;
     if (levelValues == null || !levelValues.Any())
@@ -126,5 +140,32 @@ public static class CalculationLayer
       throw new Exception($"Error: level does not exist: {level}");
     }
     return true;
+  }
+
+
+  private string RunLuaScript(string scriptBody) // , LuaPlayerData playerData)
+  {
+    string script = $@"
+        function script (n)
+          {scriptBody}
+        end
+        return script(5)";
+
+    DynValue res = MoonSharp.Interpreter.Script.RunString(script);
+    switch (res.Type)
+    {
+      case DataType.Number:
+        return res.Number.ToString();
+      case DataType.Boolean:
+        return res.Boolean.ToString();
+      case DataType.String:
+        return res.String;
+      case DataType.Nil:
+        GD.Print($"Lua script returned Nil: '{scriptBody}'");
+        throw new Exception($"Lua script returned Nil: '{scriptBody}'");
+      default:
+        GD.Print($"Lua script needs to, but did not, return type Number, Boolean, or String: '{scriptBody}'");
+        throw new Exception($"Lua script needs to, but did not, return type Number, Boolean, or String: '{scriptBody}'");
+    }
   }
 }

@@ -4,6 +4,7 @@
     <RootNamespace>AutoRacer</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="MoonSharp" Version="2.0.0" />
     <PackageReference Include="System.Text.Json" Version="6.0.1" />
   </ItemGroup>
 </Project>

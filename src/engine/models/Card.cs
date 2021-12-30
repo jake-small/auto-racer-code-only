@@ -14,14 +14,16 @@ public class Card
   public int Level { get; set; } = 1;
   public int Exp { get; set; } = 0;
 
+  private CalculationLayer _calcLayer = new CalculationLayer();
+
   public Card GetLeveledCard()
   {
-    return CalculationLayer.ApplyLevelValues(this);
+    return _calcLayer.ApplyLevelValues(this);
   }
 
   public string GetName()
   {
-    return CalculationLayer.ApplyLevelValues(this, Name, Level);
+    return _calcLayer.ApplyLevelValues(this, Name, Level);
   }
 
   public string GetRawName()
@@ -30,7 +32,7 @@ public class Card
   }
   public string GetDescription()
   {
-    return CalculationLayer.ApplyLevelValues(this, Description, Level);
+    return _calcLayer.ApplyLevelValues(this, Description, Level);
   }
 
   public string GetRawDescription()
@@ -40,7 +42,7 @@ public class Card
 
   public string GetBaseMove()
   {
-    return CalculationLayer.ApplyLevelValues(this, BaseMove, Level);
+    return _calcLayer.ApplyLevelValues(this, BaseMove, Level);
   }
 
   public string GetRawBaseMove()
