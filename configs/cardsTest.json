@@ -23,7 +23,6 @@
                 "Max": "{A}"
               }
             },
-            "BuiltInFunctions": [],
             "Functions": []
           }
         ],
@@ -94,7 +93,6 @@
                 "Max": "0"
               }
             },
-            "BuiltInFunctions": [],
             "Functions": [
               {
                 "Key": "F",
@@ -131,6 +129,54 @@
             {
               "Key": "A",
               "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Aged Wine",
+      "Description": "On Sell, gain {A} base move",
+      "BaseMove": "1",
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "sellAbility1",
+            "Phase": "Sell",
+            "Type": "BaseMove",
+            "Value": "{A}",
+            "Target": "self",
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
             }
           ]
         },
