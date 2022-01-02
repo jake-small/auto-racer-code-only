@@ -151,7 +151,7 @@ public class AutoRaceEngine
   private Dictionary<int, List<Token>> CalculateTokensGiven(Card card, Player player)
   {
     var leveledCard = _calcLayer.ApplyLevelValues(card);
-    var calculatedCard = _calcLayer.ApplyFunctionValues(leveledCard);
+    var calculatedCard = _calcLayer.ApplyFunctionValues(leveledCard, player, _players);
     var tokenAbilities = calculatedCard.Abilities?.MoveTokenAbilities ?? new List<MoveTokenAbility>();
     var tokensGiven = CalculateTokens(tokenAbilities, player);
     return tokensGiven;

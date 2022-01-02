@@ -12,6 +12,8 @@ public class CalculationLayer
 
   public CalculationLayer()
   {
+    // Automatically register all MoonSharpUserData types
+    UserData.RegisterAssembly();
     // https://www.moonsharp.org/sandbox.html
     _luaScript = new LuaScript(CoreModules.Preset_HardSandbox);
   }
@@ -43,9 +45,8 @@ public class CalculationLayer
     return text;
   }
 
-  public Card ApplyFunctionValues(Card card)
+  public Card ApplyFunctionValues(Card card, Player player, IEnumerable<Player> players)
   {
-    // TODO implement
     if (card.Abilities == null)
     {
       return card;
@@ -58,16 +59,17 @@ public class CalculationLayer
     foreach (var moveAbility in abilities.MoveTokenAbilities)
     {
       var functions = moveAbility.Functions;
-      if (functions == null || functions.OutKeys == null || !functions.OutKeys.Any())
+      if (functions == null || !functions.Any())
       {
         continue;
       }
 
       var calculatedOutKeys = new List<OutKey>();
-      foreach (var function in functions.OutKeys)
+      foreach (var function in functions)
       {
         // Calculate Lua function
-        var calculatedFunctionValue = RunLuaScript(function.Value);
+        var scriptPlayers = players.Select(p => new MoonSharpPlayer(p));
+        var calculatedFunctionValue = RunLuaScript(function.Body, new MoonSharpScriptData(new MoonSharpPlayer(player), scriptPlayers));
         calculatedOutKeys.Add(new OutKey { Key = function.Key, Value = calculatedFunctionValue });
       }
       UpdateAllNestedStrings(card, calculatedOutKeys);
@@ -143,15 +145,16 @@ public class CalculationLayer
   }
 
 
-  private string RunLuaScript(string scriptBody) // , LuaPlayerData playerData)
+  private string RunLuaScript(string scriptBody, MoonSharpScriptData scriptData)
   {
-    string script = $@"
-        function script (n)
+    var script = $@"
+        function script ()
           {scriptBody}
         end
-        return script(5)";
+        return script()";
 
-    DynValue res = MoonSharp.Interpreter.Script.RunString(script);
+    _luaScript.Globals["scriptData"] = scriptData;
+    DynValue res = _luaScript.DoString(script);
     switch (res.Type)
     {
       case DataType.Number:
