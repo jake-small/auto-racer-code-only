@@ -5,17 +5,17 @@ using Godot;
 
 public static class EngineTesting
 {
-  public static AutoRaceEngine RaceEngine()
+  public static AutoRaceEngine RaceEngine(Player player1)
   {
     var players = new List<Player>();
     // Add player 1
-    var p1 = new Player
-    {
-      Id = 0,
-      Cards = Inventory.GetCards(),
-      Position = 0
-    };
-    players.Add(p1);
+    // var p1 = new Player
+    // {
+    //   Id = 0,
+    //   Cards = Inventory.GetCards(),
+    //   Position = 0
+    // };
+    players.Add(player1);
     // Add other players
     players.AddRange(GetOpponents(3));
 
@@ -81,9 +81,10 @@ public static class EngineTesting
         Cards = new Dictionary<int, Card>(),
         Position = 0
       };
-      for (var c = 0; c < 5; c++)
+      for (var c = 0; c < GameData.InventorySize; c++)
       {
-        player.Cards.Add(c, GetSampleCard());
+        var sampleCard = GetSampleCard();
+        player.Cards.Add(c, sampleCard);
       }
       players.Add(player);
     }

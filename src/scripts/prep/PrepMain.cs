@@ -2,13 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
-using System.IO;
 
 public class PrepMain : Node2D
 {
   private readonly Vector2 shopSlotOffset = new Vector2(6, 4);
-  private static Bank _bank;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
   private Node2D _selectedCardPanel;
@@ -16,21 +13,16 @@ public class PrepMain : Node2D
   private Label _selectedCardDescriptionLabel;
   private Label _selectedCardBaseMoveLabel;
   private List<Sprite> _cardSlots = new List<Sprite>();
-  private CardViewModel _selectedCard = null;
+  private CardScript _selectedCard = null;
   private Button _freezeButton;
   private Button _sellButton;
   private Label _debugInventoryLabel;
-  private Dictionary<int, CardViewModel> _cachedDebugCards = new Dictionary<int, CardViewModel>();
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
 
   public override void _Ready()
   {
-    var bankData = LoadBankDataJson();
-    GD.Print($"json bank data Starting Coins: {bankData.StartingCoins}");
-    _bank = new Bank(bankData);
-
     CardShopFill();
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
     foreach (Sprite sprite in cardSlotNodes)
@@ -51,6 +43,7 @@ public class PrepMain : Node2D
     AddChild(_dropCardTimer);
 
     var rerollButton = GetNode(PrepSceneData.ButtonRerollPath) as Button;
+    GD.Print("rerollbutton connected");
     rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
     _freezeButton = GetNode(PrepSceneData.ButtonFreezePath) as Button;
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
@@ -59,7 +52,7 @@ public class PrepMain : Node2D
     var goButton = GetNode(PrepSceneData.ButtonGoPath) as Button;
     goButton.Connect("pressed", this, nameof(Button_go_pressed));
 
-    _newCoinTotal = _bank.SetStartingCoins();
+    _newCoinTotal = GameLoopManager.PrepEngine.Bank.SetStartingCoins();
   }
 
   public override void _Process(float delta)
@@ -69,53 +62,33 @@ public class PrepMain : Node2D
       _coinTotalLabel.Text = _newCoinTotal.ToString();
       _newCoinTotal = null;
     }
-
-    // var cards = Inventory.GetCardVMs();
-    // if (cards.OrderBy(kv => kv.Key).ToList() == _cachedDebugCards.OrderBy(kv => kv.Key).ToList())
-    // {
-    //   return;
-    // }
-    // _cachedDebugCards = cards;
-    // var cardsText = "";
-    // for (int i = 0; i < GameData.InventorySize; i++)
-    // {
-    //   var cardVM = Inventory.GetCardInSlot(i);
-    //   if (cardVM == null)
-    //   {
-    //     cardsText += $"empty slot\n";
-    //     continue;
-    //   }
-    //   cardsText += $"{cardVM.Card.GetName()} in slot {cardVM.Slot} at level {cardVM.Card.Level}\n";
-    // }
-    // GD.Print("updated debug inventory cards");
-    // _debugInventoryLabel.Text = cardsText;
   }
 
-  public void _on_Card_selected(CardViewModel cardVM)
+  public void _on_Card_selected(CardScript cardVM)
   {
     _selectedCard = cardVM;
     DisplaySelectedCardData(cardVM.Card);
     EnableCardActionButtons(cardVM.Slot == -1);
   }
 
-  public void _on_Card_deselected(CardViewModel cardVM)
+  public void _on_Card_deselected(CardScript cardVM)
   {
     _selectedCard = null;
     HideSelectedCardData();
     DisableCardActionButtons();
   }
 
-  public void _on_Card_droppedOnFreezeButton(CardViewModel cardVM)
+  public void _on_Card_droppedOnFreezeButton(CardScript cardVM)
   {
     FreezeCard();
   }
 
-  public void _on_Card_droppedOnSellButton(CardViewModel cardVM)
+  public void _on_Card_droppedOnSellButton(CardScript cardVM)
   {
     SellCard();
   }
 
-  public void _on_Card_droppedInSlot(CardViewModel cardVM, int slot, Vector2 droppedPosition, Vector2 originalPosition)
+  public void _on_Card_droppedInSlot(CardScript cardScript, int slot, Vector2 droppedPosition, Vector2 originalPosition)
   {
     if (_canDropCard && _dropCardTimer.IsStopped())
     {
@@ -125,74 +98,82 @@ public class PrepMain : Node2D
     }
     else if (!_canDropCard)
     {
-      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {cardVM.Card.GetName()} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
-      DropCard(cardVM, originalPosition);
+      GD.Print($"Can't drop card. Too quick... Despite drop signal RECEIVED for {cardScript.Card.GetName()} at slot {cardScript.Slot} to {slot} at position {droppedPosition}");
+      DropCard(cardScript, originalPosition);
       DeselectAllCards();
       return;
     }
 
-    GD.Print($"Drop signal RECEIVED for {cardVM.Card.GetName()} at slot {cardVM.Slot} to {slot} at position {droppedPosition}");
-    if (Inventory.IsCardInSlot(slot) && cardVM.Slot != -1) // Card in inventory but card exists in targetted slot
+    GD.Print($"Drop signal RECEIVED for {cardScript.Card.GetName()} at slot {cardScript.Slot} to {slot} at position {droppedPosition}");
+    if (GameLoopManager.PrepEngine.PlayerInventory.IsCardInSlot(slot) && cardScript.Slot != -1) // Card in inventory but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCardVM = Inventory.GetCardInSlot(slot);
-      if (cardVM.Card.GetName() == targetCardVM.Card.GetName()) // Combine cards of same type
+      var targetCardScript = GameLoopManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
+      if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
-        targetCardVM.AddLevels(cardVM.Card.Level);
-        Inventory.RemoveCard(cardVM.Slot); // Remove dropped card
+        var addExpSuccess = targetCardScript.Card.AddExp(cardScript.Card.Exp);
+        if (addExpSuccess)
+        {
+          var levelLabel = cardScript.GetNode<Label>(PrepSceneData.LabelCardLevel);
+          levelLabel.Text = "exp" + cardScript.Card.Level.ToString();
+        }
+        GameLoopManager.PrepEngine.PlayerInventory.RemoveCard(cardScript.Slot); // Remove dropped card
         return;
       }
 
-      var result = Inventory.SwapCards(slot, cardVM.Slot);
+      var result = GameLoopManager.PrepEngine.PlayerInventory.SwapCards(slot, cardScript.Slot);
       if (result) // Swap cards in player inventory
       {
-        DropCard(targetCardVM, originalPosition);
-        DropCard(cardVM, droppedPosition);
+        DropCard(targetCardScript, originalPosition);
+        DropCard(cardScript, droppedPosition);
         return;
       }
     }
-    else if (Inventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
+    else if (GameLoopManager.PrepEngine.PlayerInventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCardVM = Inventory.GetCardInSlot(slot);
-      if (cardVM.Card.GetName() == targetCardVM.Card.GetName()) // Combine cards of same type
+      var targetCardScript = GameLoopManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
+      if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
-        var bankResult = _bank.Buy();
+        var bankResult = GameLoopManager.PrepEngine.Bank.Buy();
         if (bankResult.Success)
         {
           _newCoinTotal = bankResult.CoinTotal;
-          targetCardVM.AddLevels(cardVM.Card.Level);
-          cardVM.CardNode.QueueFree(); // Remove dropped card node
+          targetCardScript.Card.AddExp(cardScript.Card.Exp);
+          cardScript.QueueFree(); // Remove dropped card node
           return;
         }
       }
     }
-    else if (cardVM.Slot != -1) // Card in inventory
+    else if (cardScript.Slot != -1) // Card in inventory
     {
-      var result = Inventory.MoveCard(cardVM, slot);
+      var result = GameLoopManager.PrepEngine.PlayerInventory.MoveCard(cardScript, slot);
       if (result)
       {
-        DropCard(cardVM, droppedPosition);
+        cardScript.Slot = slot;
+        DropCard(cardScript, droppedPosition);
         return;
       }
     }
     else // Card in shop
     {
-      var bankResult = _bank.Buy();
+      var bankResult = GameLoopManager.PrepEngine.Bank.Buy();
       if (bankResult.Success)
       {
         _newCoinTotal = bankResult.CoinTotal;
-        var result = Inventory.AddCard(cardVM, slot);
+        var result = GameLoopManager.PrepEngine.PlayerInventory.AddCard(cardScript, slot);
         if (result)
         {
-          DropCard(cardVM, droppedPosition);
+          cardScript.Frozen = false;
+          cardScript.Slot = slot;
+          DropCard(cardScript, droppedPosition);
           return;
         }
       }
     }
 
     // Card couldn't be dropped in slot
-    DropCard(cardVM, originalPosition);
+    DropCard(cardScript, originalPosition);
   }
 
   public void _on_dropCardTimer_timeout()
@@ -224,32 +205,30 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_entered()
   {
     GD.Print($"Mouse entered sell button");
-    var cards = Inventory.GetCardVMsFlattened();
-    foreach (var card in cards)
+    foreach (var cardScript in GameLoopManager.PrepEngine.PlayerInventory.GetCardsAsList())
     {
-      card.CardNode.MouseInCardActionButton = true;
+      cardScript.MouseInCardActionButton = true;
     }
   }
 
   public void _on_Button_Sell_mouse_exited()
   {
     GD.Print($"Mouse exited sell button");
-    var cards = Inventory.GetCardVMsFlattened();
-    foreach (var card in cards)
+    foreach (var cardScript in GameLoopManager.PrepEngine.PlayerInventory.GetCardsAsList())
     {
-      card.CardNode.MouseInCardActionButton = false;
+      cardScript.MouseInCardActionButton = false;
     }
   }
 
   private void Button_reroll_pressed()
   {
     Console.WriteLine("Reroll button pressed");
-    var bankResult = _bank.Reroll();
+    var bankResult = GameLoopManager.PrepEngine.Bank.Reroll();
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
-      CardShopClear();
       var frozenCards = GetFrozenCardNodesInShop().ToList();
+      CardShopClear();
       CardShopFill(frozenCards);
     }
   }
@@ -269,26 +248,31 @@ public class PrepMain : Node2D
   private void Button_go_pressed()
   {
     Console.WriteLine("Go button pressed");
+    GameLoopManager.RaceNumber = GameLoopManager.RaceNumber + 1;
+    GameLoopManager.Player1 = new Player
+    {
+      Id = 0,
+      Cards = GameLoopManager.PrepEngine.PlayerInventory.GetCards(),
+      Position = 0
+    };
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
-  private void DropCard(CardViewModel card, Vector2 droppedPosition)
+  private void DropCard(CardScript cardScript, Vector2 droppedPosition)
   {
     DisableCardActionButtons();
-    card.CardNode.Selected = false;
-    card.CardNode.Dropped = true;
-    card.CardNode.DroppedPosition = droppedPosition;
-    card.CardNode.StartingPosition = droppedPosition;
-    card.CardNode.CurrentCardSlot = card.Slot;
+    cardScript.Selected = false;
+    cardScript.Dropped = true;
+    cardScript.DroppedPosition = droppedPosition;
+    cardScript.StartingPosition = droppedPosition;
   }
 
   private void DeselectAllCards()
   {
     DisableCardActionButtons();
-    var cards = Inventory.GetCardVMsFlattened();
-    foreach (var card in cards)
+    foreach (var cardScript in GameLoopManager.PrepEngine.PlayerInventory.GetCardsAsList())
     {
-      card.CardNode.Selected = false;
+      cardScript.Selected = false;
     }
   }
 
@@ -304,9 +288,9 @@ public class PrepMain : Node2D
     _sellButton.Disabled = true;
   }
 
-  private void CardShopFill(List<CardViewModel> frozenCards = null)
+  private void CardShopFill(List<CardScript> frozenCards = null)
   {
-    frozenCards = frozenCards ?? new List<CardViewModel>();
+    frozenCards = frozenCards ?? new List<CardScript>();
     if (frozenCards.Count > GameData.ShopSize)
     {
       GD.Print("Error: more frozen cards than there are shop slots");
@@ -326,19 +310,21 @@ public class PrepMain : Node2D
     for (int i = frozenCards.Count; i < GameData.ShopSize; i++)
     {
       var card = cards[i];
-      CreateShopCard(card, i);
+      var cardScript = new CardScript(card);
+      CreateShopCard(cardScript, i);
     }
   }
 
-  private void CreateShopCard(CardViewModel card, int slot)
+  private void CreateShopCard(CardScript cardScript, int slot)
   {
+    // GameLoopManager.PrepEngine.ShopInventory.AddCard(cardScript, slot);
     var cardScene = ResourceLoader.Load(PrepSceneData.CardScenePath) as PackedScene;
     var cardInstance = (CardScript)cardScene.Instance();
     var containerPosition = GetNode<Sprite>($"shop_slot_{slot}").Position;
     var position = containerPosition + shopSlotOffset;
+    cardInstance.Card = cardScript.Card;
     cardInstance.Position = position;
-    cardInstance.CardVM = card;
-    cardInstance.Frozen = card.CardNode?.Frozen ?? false;
+    cardInstance.Frozen = cardScript.Frozen;
     cardInstance.Connect(nameof(CardScript.droppedInSlot), this, nameof(_on_Card_droppedInSlot));
     cardInstance.Connect(nameof(CardScript.droppedOnSellButton), this, nameof(_on_Card_droppedOnSellButton));
     cardInstance.Connect(nameof(CardScript.droppedOnFreezeButton), this, nameof(_on_Card_droppedOnFreezeButton));
@@ -349,6 +335,7 @@ public class PrepMain : Node2D
 
   private void CardShopClear()
   {
+    GameLoopManager.PrepEngine.ShopInventory.Clear();
     var shopCardNodes = GetCardNodesInShop();
     foreach (var shopCardNode in shopCardNodes)
     {
@@ -369,8 +356,7 @@ public class PrepMain : Node2D
       GD.Print("Can't freeze card that's in player inventory");
       return;
     }
-    var selectedCardNode = (_selectedCard.CardNode as CardScript);
-    selectedCardNode.Frozen = !selectedCardNode.Frozen;
+    _selectedCard.Frozen = !_selectedCard.Frozen;
   }
 
   private void SellCard()
@@ -386,13 +372,35 @@ public class PrepMain : Node2D
       GD.Print("Can't sell card that's in the shop");
       return;
     }
-    var bankResult = _bank.Sell();
+    var bankResult = GameLoopManager.PrepEngine.Bank.Sell();
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
-      Inventory.RemoveCard(_selectedCard.Slot);
+      var result = GameLoopManager.PrepEngine.PlayerInventory.RemoveCard(_selectedCard.Slot);
+      if (result)
+      {
+        // Remove card node
+        _selectedCard.QueueFree();
+      }
     }
   }
+
+  // private IEnumerable<CardScript> GetCardNodesInInventory()
+  // {
+  //   var playerCards = new List<CardScript>();
+  //   var cardNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCard);
+  //   foreach (var cardNode in cardNodes)
+  //   {
+  //     if (cardNode is CardScript cardScript)
+  //     {
+  //       if (cardScript.Card.Bought)
+  //       {
+  //         playerCards.Add(cardScript);
+  //       }
+  //     }
+  //   }
+  //   return playerCards;
+  // }
 
   private IEnumerable<CardScript> GetCardNodesInShop()
   {
@@ -402,7 +410,7 @@ public class PrepMain : Node2D
     {
       if (cardNode is CardScript cardScript)
       {
-        if (cardScript.CardVM.Slot == -1)
+        if (cardScript.Slot == -1)
         {
           shopCards.Add(cardScript);
         }
@@ -411,10 +419,10 @@ public class PrepMain : Node2D
     return shopCards;
   }
 
-  private IEnumerable<CardViewModel> GetFrozenCardNodesInShop()
+  private IEnumerable<CardScript> GetFrozenCardNodesInShop()
   {
     var cardsInShop = GetCardNodesInShop();
-    return cardsInShop.Where(c => c.Frozen).Select(cs => cs.CardVM).ToList();
+    return cardsInShop.Where(c => c.Frozen).ToList();
   }
 
   private void DisplaySelectedCardData(Card card)
@@ -431,20 +439,5 @@ public class PrepMain : Node2D
     _selectedCardNameLabel.Text = "";
     _selectedCardDescriptionLabel.Text = "";
     _selectedCardBaseMoveLabel.Text = "";
-  }
-
-  private BankData LoadBankDataJson()
-  {
-    var bankConfigFile = PrepSceneData.BankDataConfigRelativePath;
-    if (!System.IO.File.Exists(bankConfigFile))
-    {
-      GD.Print($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
-      throw new Exception($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
-    }
-    var bankDataConfigArr = System.IO.File.ReadAllLines(bankConfigFile);
-    var bankDataConfig = String.Join("\n", bankDataConfigArr);
-    GD.Print($"Bank Data:\n{bankDataConfig}");
-    // TODO: error handling
-    return JsonSerializer.Deserialize<BankData>(bankDataConfig);
   }
 }

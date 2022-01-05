@@ -16,6 +16,21 @@ public class Card
 
   private CalculationLayer _calcLayer = new CalculationLayer();
 
+  public Card() { }
+  public Card(Card anotherCard)
+  {
+    Name = anotherCard.Name;
+    Description = anotherCard.Description;
+    BaseMove = anotherCard.BaseMove;
+    Tier = anotherCard.Tier;
+    Abilities = anotherCard.Abilities;
+    LevelValues = anotherCard.LevelValues;
+    Level = anotherCard.Level;
+    Exp = anotherCard.Exp;
+  }
+
+  public Card Clone() { return new Card(this); }
+
   public Card GetLeveledCard()
   {
     return _calcLayer.ApplyLevelValues(this);
@@ -48,5 +63,11 @@ public class Card
   public string GetRawBaseMove()
   {
     return BaseMove;
+  }
+
+  public bool AddExp(int exp)
+  {
+    Exp += exp;
+    return true;
   }
 }

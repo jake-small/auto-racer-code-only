@@ -144,7 +144,7 @@
       ]
     },
     {
-      "Name": "Aged Wine",
+      "Name": "Vendor's Pouch",
       "Description": "On Sell, gain {A} base move",
       "BaseMove": "1",
       "Tier": 1,
