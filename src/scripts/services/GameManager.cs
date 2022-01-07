@@ -1,4 +1,4 @@
-public static class GameLoopManager
+public static class GameManager
 {
   public static Player Player1 { get; set; }
   public static int RaceNumber { get; set; } = 0;

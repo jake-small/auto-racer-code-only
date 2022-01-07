@@ -3,7 +3,7 @@
     {
       "Name": "psychic scream",
       "Description": "All opponents within {A} gain {B} move",
-      "BaseMove": "2",
+      "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -73,7 +73,7 @@
     {
       "Name": "quick under pressure",
       "Description": "For each opponent on your current space, gain {A} move",
-      "BaseMove": "1",
+      "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -146,15 +146,15 @@
     {
       "Name": "Vendor's Pouch",
       "Description": "On Sell, gain {A} base move",
-      "BaseMove": "1",
+      "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
           {
             "Name": "sellAbility1",
-            "Phase": "Sell",
-            "Type": "BaseMove",
+            "Trigger": "Sell",
+            "Effect": "BaseMove",
             "Value": "{A}",
             "Target": "self",
             "Functions": []

@@ -30,7 +30,7 @@ public static class EngineTesting
     {
       Name = $"Card {number}",
       Description = $"sample card with base move of {number}",
-      BaseMove = number.ToString()
+      BaseMove = number
     };
   }
 

@@ -52,7 +52,7 @@ public class PrepMain : Node2D
     var goButton = GetNode(PrepSceneData.ButtonGoPath) as Button;
     goButton.Connect("pressed", this, nameof(Button_go_pressed));
 
-    _newCoinTotal = GameLoopManager.PrepEngine.Bank.SetStartingCoins();
+    _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
   }
 
   public override void _Process(float delta)
@@ -105,10 +105,10 @@ public class PrepMain : Node2D
     }
 
     GD.Print($"Drop signal RECEIVED for {cardScript.Card.GetName()} at slot {cardScript.Slot} to {slot} at position {droppedPosition}");
-    if (GameLoopManager.PrepEngine.PlayerInventory.IsCardInSlot(slot) && cardScript.Slot != -1) // Card in inventory but card exists in targetted slot
+    if (GameManager.PrepEngine.PlayerInventory.IsCardInSlot(slot) && cardScript.Slot != -1) // Card in inventory but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCardScript = GameLoopManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
+      var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
         var addExpSuccess = targetCardScript.Card.AddExp(cardScript.Card.Exp);
@@ -117,11 +117,11 @@ public class PrepMain : Node2D
           var levelLabel = cardScript.GetNode<Label>(PrepSceneData.LabelCardLevel);
           levelLabel.Text = "exp" + cardScript.Card.Level.ToString();
         }
-        GameLoopManager.PrepEngine.PlayerInventory.RemoveCard(cardScript.Slot); // Remove dropped card
+        GameManager.PrepEngine.PlayerInventory.RemoveCard(cardScript.Slot); // Remove dropped card
         return;
       }
 
-      var result = GameLoopManager.PrepEngine.PlayerInventory.SwapCards(slot, cardScript.Slot);
+      var result = GameManager.PrepEngine.PlayerInventory.SwapCards(slot, cardScript.Slot);
       if (result) // Swap cards in player inventory
       {
         DropCard(targetCardScript, originalPosition);
@@ -129,13 +129,13 @@ public class PrepMain : Node2D
         return;
       }
     }
-    else if (GameLoopManager.PrepEngine.PlayerInventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
+    else if (GameManager.PrepEngine.PlayerInventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
     {
       DeselectAllCards();
-      var targetCardScript = GameLoopManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
+      var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
-        var bankResult = GameLoopManager.PrepEngine.Bank.Buy();
+        var bankResult = GameManager.PrepEngine.Bank.Buy();
         if (bankResult.Success)
         {
           _newCoinTotal = bankResult.CoinTotal;
@@ -147,7 +147,7 @@ public class PrepMain : Node2D
     }
     else if (cardScript.Slot != -1) // Card in inventory
     {
-      var result = GameLoopManager.PrepEngine.PlayerInventory.MoveCard(cardScript, slot);
+      var result = GameManager.PrepEngine.PlayerInventory.MoveCard(cardScript, slot);
       if (result)
       {
         cardScript.Slot = slot;
@@ -157,11 +157,11 @@ public class PrepMain : Node2D
     }
     else // Card in shop
     {
-      var bankResult = GameLoopManager.PrepEngine.Bank.Buy();
+      var bankResult = GameManager.PrepEngine.Bank.Buy();
       if (bankResult.Success)
       {
         _newCoinTotal = bankResult.CoinTotal;
-        var result = GameLoopManager.PrepEngine.PlayerInventory.AddCard(cardScript, slot);
+        var result = GameManager.PrepEngine.PlayerInventory.AddCard(cardScript, slot);
         if (result)
         {
           cardScript.Frozen = false;
@@ -205,7 +205,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_entered()
   {
     GD.Print($"Mouse entered sell button");
-    foreach (var cardScript in GameLoopManager.PrepEngine.PlayerInventory.GetCardsAsList())
+    foreach (var cardScript in GameManager.PrepEngine.PlayerInventory.GetCardsAsList())
     {
       cardScript.MouseInCardActionButton = true;
     }
@@ -214,7 +214,7 @@ public class PrepMain : Node2D
   public void _on_Button_Sell_mouse_exited()
   {
     GD.Print($"Mouse exited sell button");
-    foreach (var cardScript in GameLoopManager.PrepEngine.PlayerInventory.GetCardsAsList())
+    foreach (var cardScript in GameManager.PrepEngine.PlayerInventory.GetCardsAsList())
     {
       cardScript.MouseInCardActionButton = false;
     }
@@ -223,7 +223,7 @@ public class PrepMain : Node2D
   private void Button_reroll_pressed()
   {
     Console.WriteLine("Reroll button pressed");
-    var bankResult = GameLoopManager.PrepEngine.Bank.Reroll();
+    var bankResult = GameManager.PrepEngine.Bank.Reroll();
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
@@ -248,11 +248,11 @@ public class PrepMain : Node2D
   private void Button_go_pressed()
   {
     Console.WriteLine("Go button pressed");
-    GameLoopManager.RaceNumber = GameLoopManager.RaceNumber + 1;
-    GameLoopManager.Player1 = new Player
+    GameManager.RaceNumber = GameManager.RaceNumber + 1;
+    GameManager.Player1 = new Player
     {
       Id = 0,
-      Cards = GameLoopManager.PrepEngine.PlayerInventory.GetCards(),
+      Cards = GameManager.PrepEngine.PlayerInventory.GetCards(),
       Position = 0
     };
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
@@ -270,7 +270,7 @@ public class PrepMain : Node2D
   private void DeselectAllCards()
   {
     DisableCardActionButtons();
-    foreach (var cardScript in GameLoopManager.PrepEngine.PlayerInventory.GetCardsAsList())
+    foreach (var cardScript in GameManager.PrepEngine.PlayerInventory.GetCardsAsList())
     {
       cardScript.Selected = false;
     }
@@ -335,7 +335,7 @@ public class PrepMain : Node2D
 
   private void CardShopClear()
   {
-    GameLoopManager.PrepEngine.ShopInventory.Clear();
+    GameManager.PrepEngine.ShopInventory.Clear();
     var shopCardNodes = GetCardNodesInShop();
     foreach (var shopCardNode in shopCardNodes)
     {
@@ -372,11 +372,11 @@ public class PrepMain : Node2D
       GD.Print("Can't sell card that's in the shop");
       return;
     }
-    var bankResult = GameLoopManager.PrepEngine.Bank.Sell();
+    var bankResult = GameManager.PrepEngine.Bank.Sell();
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
-      var result = GameLoopManager.PrepEngine.PlayerInventory.RemoveCard(_selectedCard.Slot);
+      var result = GameManager.PrepEngine.PlayerInventory.RemoveCard(_selectedCard.Slot);
       if (result)
       {
         // Remove card node
@@ -430,7 +430,7 @@ public class PrepMain : Node2D
     _selectedCardPanel.Visible = true;
     _selectedCardNameLabel.Text = card.GetName();
     _selectedCardDescriptionLabel.Text = card.GetDescription();
-    _selectedCardBaseMoveLabel.Text = card.GetBaseMove();
+    _selectedCardBaseMoveLabel.Text = card.BaseMove.ToString();
   }
 
   private void HideSelectedCardData()

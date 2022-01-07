@@ -51,7 +51,7 @@ public class CardScript : KinematicBody2D
     headerLabel.Text = Card.GetName();
     bodyLabel.Text = Card.GetDescription();
     levelLabel.Text = "lvl" + Card.Level.ToString();
-    baseMoveLabel.Text = Card.GetBaseMove() + "m";
+    baseMoveLabel.Text = Card.BaseMove + "m";
 
     StartingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);

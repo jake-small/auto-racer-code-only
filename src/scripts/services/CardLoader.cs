@@ -43,7 +43,7 @@ public class CardLoader
     {
       var card = EngineTesting.GetSampleCard();
       card.Name = $"card #{i}";
-      card.Description = $"base move: {card.GetBaseMove()}";
+      card.Description = $"base move: {card.BaseMove}";
       cards.Add(card);
     }
     return cards;

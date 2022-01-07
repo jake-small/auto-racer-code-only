@@ -39,6 +39,7 @@ public class Bank
   {
     GD.Print("Sold card");
     CoinTotal = CoinTotal + _sellValue;
+    GameManager.PrepEngine.CalculateOnSellAbilities();
     return new BankActionResult(true, CoinTotal);
   }
 
@@ -52,5 +53,11 @@ public class Bank
     }
     GD.Print("Can't afford to reroll");
     return new BankActionResult(false);
+  }
+
+  public int AddCoins(int amount)
+  {
+    GD.Print($"{amount} coins added to bank. New total is {CoinTotal}");
+    return CoinTotal += amount;
   }
 }

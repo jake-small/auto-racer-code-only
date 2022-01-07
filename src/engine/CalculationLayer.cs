@@ -45,7 +45,34 @@ public class CalculationLayer
     return text;
   }
 
-  public Card ApplyFunctionValues(Card card, Player player, IEnumerable<Player> players)
+  public Card ApplyPrepFunctionValues(Card card)
+  {
+    if (card.Abilities == null)
+    {
+      return card;
+    }
+    var abilities = card.Abilities;
+    if (abilities.PrepAbilities == null || !abilities.PrepAbilities.Any())
+    {
+      return card;
+    }
+    foreach (var prepAbility in abilities.PrepAbilities)
+    {
+      var functions = prepAbility.Functions;
+      if (functions == null || !functions.Any())
+      {
+        continue;
+      }
+
+      var scriptData = new MoonSharpScriptData(); // TODO
+      var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
+      UpdateAllNestedStrings(card, calculatedOutKeys);
+    }
+
+    return card;
+  }
+
+  public Card ApplyTokenFunctionValues(Card card, Player player, IEnumerable<Player> players)
   {
     if (card.Abilities == null)
     {
@@ -64,18 +91,25 @@ public class CalculationLayer
         continue;
       }
 
-      var calculatedOutKeys = new List<OutKey>();
-      foreach (var function in functions)
-      {
-        // Calculate Lua function
-        var scriptPlayers = players.Select(p => new MoonSharpPlayer(p));
-        var calculatedFunctionValue = RunLuaScript(function.Body, new MoonSharpScriptData(new MoonSharpPlayer(player), scriptPlayers));
-        calculatedOutKeys.Add(new OutKey { Key = function.Key, Value = calculatedFunctionValue });
-      }
+      var scriptPlayers = players.Select(p => new MoonSharpPlayer(p));
+      var scriptData = new MoonSharpScriptData(new MoonSharpPlayer(player), scriptPlayers);
+      var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
       UpdateAllNestedStrings(card, calculatedOutKeys);
     }
 
     return card;
+  }
+
+  private IEnumerable<OutKey> CalculateFunctions(IEnumerable<Function> functions, MoonSharpScriptData scriptData)
+  {
+    var calculatedOutKeys = new List<OutKey>();
+    foreach (var function in functions)
+    {
+      // Calculate Lua function
+      var calculatedFunctionValue = RunLuaScript(function.Body, scriptData);
+      calculatedOutKeys.Add(new OutKey { Key = function.Key, Value = calculatedFunctionValue });
+    }
+    return calculatedOutKeys;
   }
 
   private T UpdateAllNestedStrings<T>(T obj, List<OutKey> outKeys)

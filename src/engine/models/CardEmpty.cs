@@ -6,7 +6,7 @@ public class CardEmpty : Card
   {
     Name = "Empty Slot";
     Description = "";
-    BaseMove = "1";
+    BaseMove = 1;
     Abilities = Abilities;
     LevelValues = new List<LevelValue>();
   }

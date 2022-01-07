@@ -133,25 +133,16 @@ public class AutoRaceEngine
     var result = new PlayerTurnResult(player);
     if (player.Cards.TryGetValue(_currentSlot, out var card))
     {
-      result.Movement = CalculateBaseMovement(card);
+      result.Movement = card.BaseMove;
     }
     result.TokensGiven = CalculateTokensGiven(card, player);
     return result;
   }
 
-  private int CalculateBaseMovement(Card card)
-  {
-    if (!Int32.TryParse(card.GetBaseMove(), out var baseMove))
-    {
-      return 0;
-    }
-    return baseMove;
-  }
-
   private Dictionary<int, List<Token>> CalculateTokensGiven(Card card, Player player)
   {
     var leveledCard = _calcLayer.ApplyLevelValues(card);
-    var calculatedCard = _calcLayer.ApplyFunctionValues(leveledCard, player, _players);
+    var calculatedCard = _calcLayer.ApplyTokenFunctionValues(leveledCard, player, _players);
     var tokenAbilities = calculatedCard.Abilities?.MoveTokenAbilities ?? new List<MoveTokenAbility>();
     var tokensGiven = CalculateTokens(tokenAbilities, player);
     return tokensGiven;
