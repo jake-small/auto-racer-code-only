@@ -16,6 +16,11 @@ public class CardScript : KinematicBody2D
   private Sprite _selectedSprite = new Sprite();
   private List<Sprite> _frozenSprites = new List<Sprite>();
 
+  Label _headerLabel;
+  Label _bodyLabel;
+  Label _levelLabel;
+  Label _baseMoveLabel;
+
   // public CardViewModel CardVM { get; set; }
   public bool Selected = false;
   public bool Frozen = false;
@@ -35,14 +40,14 @@ public class CardScript : KinematicBody2D
 
   public override void _Ready()
   {
-    var headerLabel = GetNode<Label>(PrepSceneData.LabelCardHeader);
-    var bodyLabel = GetNode<Label>(PrepSceneData.LabelCardBody);
-    var levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
-    var baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
-    headerLabel.Text = Card.GetName();
-    bodyLabel.Text = Card.GetDescription();
-    levelLabel.Text = "lvl" + Card.Level.ToString();
-    baseMoveLabel.Text = Card.BaseMove + "m";
+    _headerLabel = GetNode<Label>(PrepSceneData.LabelCardHeader);
+    _bodyLabel = GetNode<Label>(PrepSceneData.LabelCardBody);
+    _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
+    _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
+    _headerLabel.Text = Card.GetName();
+    _bodyLabel.Text = Card.GetDescription();
+    _levelLabel.Text = "lvl" + Card.Level.ToString();
+    _baseMoveLabel.Text = Card.BaseMove + "m";
 
     StartingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
@@ -186,6 +191,15 @@ public class CardScript : KinematicBody2D
   public void _on_mouse_exited()
   {
     _mouseIn = false;
+  }
+
+
+  public void UpdateUi()
+  {
+    _headerLabel.Text = Card.GetName();
+    _bodyLabel.Text = Card.GetDescription();
+    _levelLabel.Text = "lvl" + Card.Level.ToString();
+    _baseMoveLabel.Text = Card.BaseMove + "m";
   }
 
   private void StartDraggingCard()
