@@ -373,7 +373,7 @@ public class PrepMain : Node2D
       GD.Print("Can't sell card that's in the shop");
       return;
     }
-    var bankResult = GameManager.PrepEngine.Bank.Sell();
+    var bankResult = GameManager.PrepEngine.Bank.Sell(_selectedCard);
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;

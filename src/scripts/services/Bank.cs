@@ -35,11 +35,12 @@ public class Bank
     return new BankActionResult(false);
   }
 
-  public BankActionResult Sell()
+  public BankActionResult Sell(CardScript cardScript)
   {
     GD.Print("Sold card");
     CoinTotal = CoinTotal + _sellValue;
     GameManager.PrepEngine.CalculateOnSellAbilities();
+    GameManager.PrepEngine.CalculateOnSoldAbilities(cardScript);
     return new BankActionResult(true, CoinTotal);
   }
 

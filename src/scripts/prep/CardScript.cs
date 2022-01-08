@@ -27,16 +27,6 @@ public class CardScript : KinematicBody2D
   public bool MouseInCardActionButton = false;
   public Card Card { get; set; }
 
-  // public CardScript() { }
-  // public CardScript(CardScript anotherCard)
-  // {
-  //   // Card = anotherCard.Card;
-  //   Slot = anotherCard.Slot;
-  //   Bought = anotherCard.Bought;
-  // }
-
-  // public CardScript Clone() { return new CardScript(this); }
-
   public CardScript() { }
   public CardScript(Card card)
   {

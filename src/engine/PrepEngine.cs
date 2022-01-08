@@ -22,20 +22,34 @@ public class PrepEngine
     ShopInventory = new ShopInventory();
   }
 
+  public void CalculateOnSoldAbilities(CardScript cardScript)
+  {
+    if (cardScript.Card.Abilities != null && cardScript.Card.Abilities.PrepAbilities != null
+      && cardScript.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sold))
+    {
+      CalculateAbilities(new List<CardScript> { cardScript }, Trigger.Sold);
+    }
+
+  }
+
   public void CalculateOnSellAbilities()
   {
     var onSellAbilityCards = PlayerInventory.GetCardsAsList()
-    .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
-    c.Card.Abilities.PrepAbilities.Any(a => a.Trigger.Equals("Sell", StringComparison.InvariantCultureIgnoreCase)));
+      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
+        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell));
+    CalculateAbilities(onSellAbilityCards, Trigger.Sell);
+  }
 
-    foreach (var cardScript in onSellAbilityCards)
+  private void CalculateAbilities(IEnumerable<CardScript> cardScripts, Trigger trigger)
+  {
+    foreach (var cardScript in cardScripts)
     {
       var leveledCard = _calcLayer.ApplyLevelValues(cardScript.Card);
       var calculatedCard = _calcLayer.ApplyPrepFunctionValues(leveledCard);
-      var onSellAbilities = calculatedCard.Abilities.PrepAbilities
-      .Where(a => a.Trigger.Equals("Sell", StringComparison.InvariantCultureIgnoreCase));
+      var onTriggerAbilities = calculatedCard.Abilities.PrepAbilities
+        .Where(a => a.GetTrigger() == trigger);
 
-      foreach (var ability in onSellAbilities)
+      foreach (var ability in onTriggerAbilities)
       {
         ExecuteAbility(ability, cardScript);
       }
@@ -44,15 +58,15 @@ public class PrepEngine
 
   private void ExecuteAbility(PrepAbility ability, CardScript cardScript)
   {
-    switch (ability.Effect)
+    switch (ability.GetEffect())
     {
-      case "BaseMove":
+      case Effect.Basemove:
         BaseMoveEffect(ability, cardScript);
         break;
-      case "Exp":
+      case Effect.Exp:
         ExperienceEffect(ability, cardScript);
         break;
-      case "Gold":
+      case Effect.Gold:
         GoldEffect(ability);
         break;
     }
