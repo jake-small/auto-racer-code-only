@@ -145,7 +145,7 @@
     },
     {
       "Name": "Vendor's Pouch",
-      "Description": "On Sell, gain {A} base move",
+      "Description": "On any Sell, gain {A} base move",
       "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
@@ -156,7 +156,65 @@
             "Trigger": "Sell",
             "Effect": "BaseMove",
             "Value": "{A}",
-            "Target": "self",
+            "Target": {
+              "Type": "self",
+              "Inventory": "player"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Robin's Hood",
+      "Description": "When Sold, give other player cards {A} base move",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "0",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "5"
+            },
             "Functions": []
           }
         ]

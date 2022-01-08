@@ -121,8 +121,11 @@ public class CalculationLayer
       {
         var key = "{" + outKey.Key + "}";
         var propValue = stringProp.GetValue(obj) as string;
-        propValue = propValue.Replace(key, outKey.Value);
-        stringProp.SetValue(obj, propValue);
+        if (propValue != null)
+        {
+          propValue = propValue.Replace(key, outKey.Value);
+          stringProp.SetValue(obj, propValue);
+        }
       }
     }
 

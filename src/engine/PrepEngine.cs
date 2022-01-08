@@ -22,12 +22,6 @@ public class PrepEngine
     ShopInventory = new ShopInventory();
   }
 
-
-  // Events: start turn, end turn, sell, sold, buy, bought, reroll, and freeze
-  public void CalculatePrepAbilities(string phase, IEnumerable<Card> inventoryCards, IEnumerable<Card> shopCards, int gold)
-  {
-  }
-
   public void CalculateOnSellAbilities()
   {
     var onSellAbilityCards = PlayerInventory.GetCardsAsList()
@@ -43,80 +37,95 @@ public class PrepEngine
 
       foreach (var ability in onSellAbilities)
       {
-        ExecuteAbility(ability, cardScript.Slot);
+        ExecuteAbility(ability, cardScript);
       }
     }
   }
 
-  public void ExecuteAbility(PrepAbility ability, int abilitySlot)
+  private void ExecuteAbility(PrepAbility ability, CardScript cardScript)
   {
     switch (ability.Effect)
     {
       case "BaseMove":
-        BaseMoveEffect(ability, abilitySlot);
-        break;
-      case "Gold":
-        GoldEffect(ability, abilitySlot);
+        BaseMoveEffect(ability, cardScript);
         break;
       case "Exp":
-        ExperienceEffect(ability, abilitySlot);
+        ExperienceEffect(ability, cardScript);
+        break;
+      case "Gold":
+        GoldEffect(ability);
         break;
     }
   }
 
-  private void BaseMoveEffect(PrepAbility ability, int abilitySlot)
+  private void BaseMoveEffect(PrepAbility ability, CardScript cardScript)
   {
-    CardScript affectedCard;
-    if (ability.Target.Equals("Self", StringComparison.InvariantCultureIgnoreCase))
+    var targets = GetTargets(ability, cardScript);
+    foreach (var target in targets)
     {
-      affectedCard = PlayerInventory.GetCardInSlot(abilitySlot);
+      target.Card.BaseMove += ability.Value.ToInt();
     }
-    else if (ability.Target.Equals("ShopCards", StringComparison.InvariantCultureIgnoreCase))
-    {
-      // TODO
-      throw new NotImplementedException();
-    }
-    else
-    {
-      var slotTarget = ability.Target.ToInt();
-      affectedCard = PlayerInventory.GetCardInSlot(slotTarget);
-    }
-    if (affectedCard == null)
-    {
-      // TODO
-    }
-    affectedCard.Card.BaseMove += ability.Value.ToInt();
   }
 
-  private void ExperienceEffect(PrepAbility ability, int abilitySlot)
+  private void ExperienceEffect(PrepAbility ability, CardScript cardScript)
   {
-    CardScript affectedCard;
-    if (ability.Target.Equals("Self", StringComparison.InvariantCulture))
+    var targets = GetTargets(ability, cardScript);
+    foreach (var target in targets)
     {
-      affectedCard = PlayerInventory.GetCardInSlot(abilitySlot);
+      target.Card.AddExp(ability.Value.ToInt());
     }
-    else if (ability.Target.Equals("ShopCards", StringComparison.InvariantCultureIgnoreCase))
-    {
-      // TODO
-      throw new NotImplementedException();
-    }
-    else
-    {
-      var slotTarget = ability.Target.ToInt();
-      affectedCard = PlayerInventory.GetCardInSlot(slotTarget);
-    }
-    if (affectedCard == null)
-    {
-      // TODO
-    }
-    affectedCard.Card.AddExp(ability.Value.ToInt());
   }
 
-  private void GoldEffect(PrepAbility ability, int abilitySlot)
+  private void GoldEffect(PrepAbility ability)
   {
     Bank.AddCoins(ability.Value.ToInt());
   }
 
+  private IEnumerable<CardScript> GetTargets(PrepAbility ability, CardScript card)
+  {
+    var targets = new List<CardScript>();
+    var target = ability.Target;
+    switch (target.GetTargetType())
+    {
+      case TargetType.Self:
+        if (target.GetInventoryType() == InventoryType.Any || target.GetInventoryType() == card.InventoryLocation)
+        {
+          targets.Add(card);
+        }
+        break;
+      case TargetType.Others:
+        if (target.GetInventoryType() == InventoryType.Any)
+        {
+          targets.AddRange(PlayerInventory.GetCardsAsList().Where(c => c != card));
+          targets.AddRange(ShopInventory.GetCardsAsList().Where(c => c != card));
+        }
+        else if (target.GetInventoryType() == InventoryType.Player)
+        {
+          targets.AddRange(PlayerInventory.GetCardsAsList().Where(c => c != card));
+        }
+        else if (target.GetInventoryType() == InventoryType.Shop)
+        {
+          targets.AddRange(ShopInventory.GetCardsAsList().Where(c => c != card));
+        }
+        break;
+      case TargetType.All:
+        if (target.GetInventoryType() == InventoryType.Any)
+        {
+          targets.AddRange(PlayerInventory.GetCardsAsList());
+          targets.AddRange(ShopInventory.GetCardsAsList());
+        }
+        else if (target.GetInventoryType() == InventoryType.Player)
+        {
+          targets.AddRange(PlayerInventory.GetCardsAsList());
+        }
+        else if (target.GetInventoryType() == InventoryType.Shop)
+        {
+          targets.AddRange(ShopInventory.GetCardsAsList());
+        }
+        break;
+    }
+    return targets;
+  }
 
   private BankData LoadBankDataJson()
   {

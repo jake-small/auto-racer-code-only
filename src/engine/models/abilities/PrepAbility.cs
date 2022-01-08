@@ -15,8 +15,5 @@ public class PrepAbility : Ability
   /// </summary>
   public string Effect { get; set; }
   public string Value { get; set; }
-  /// <summary>
-  ///  Targets include: self, an inventory position as an int, and shopCards
-  /// </summary>
-  public string Target { get; set; }
+  public PrepTarget Target { get; set; }
 }
