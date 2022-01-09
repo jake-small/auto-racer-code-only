@@ -10,7 +10,7 @@ config_version=4
 
 [application]
 
-config/name="Auto Racer"
+config/name="AutoRacer"
 run/main_scene="res://src/scenes/menus/MainMenu.tscn"
 config/icon="res://icon.png"
 

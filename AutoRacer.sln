@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auto Racer", "Auto Racer.csproj", "{00A10CDD-883C-47D8-9428-7F1F09C1BE96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRacer", "AutoRacer.csproj", "{00A10CDD-883C-47D8-9428-7F1F09C1BE96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
