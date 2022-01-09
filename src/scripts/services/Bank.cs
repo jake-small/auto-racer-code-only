@@ -23,12 +23,14 @@ public class Bank
     return CoinTotal;
   }
 
-  public BankActionResult Buy()
+  public BankActionResult Buy(CardScript cardScript)
   {
     if (CoinTotal >= _buyCost)
     {
       GD.Print("Paid for card");
       CoinTotal = CoinTotal - _buyCost;
+      GameManager.PrepEngine.CalculateOnBuyAbilities();
+      GameManager.PrepEngine.CalculateOnBoughtAbilities(cardScript);
       return new BankActionResult(true, CoinTotal);
     }
     GD.Print("Can't afford to buy card");
@@ -50,6 +52,7 @@ public class Bank
     {
       GD.Print("Paid for reroll");
       CoinTotal = CoinTotal - _rerollCost;
+      GameManager.PrepEngine.CalculateOnRerollAbilities();
       return new BankActionResult(true, CoinTotal);
     }
     GD.Print("Can't afford to reroll");

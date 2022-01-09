@@ -22,6 +22,22 @@ public class PrepEngine
     ShopInventory = new ShopInventory();
   }
 
+  public void CalculateStartTurnAbilities()
+  {
+    var startTurnAbilityCards = PlayerInventory.GetCardsAsList()
+      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
+        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn));
+    CalculateAbilities(startTurnAbilityCards, Trigger.Startturn);
+  }
+
+  public void CalculateEndTurnAbilities()
+  {
+    var endTurnAbilityCards = PlayerInventory.GetCardsAsList()
+      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
+        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn));
+    CalculateAbilities(endTurnAbilityCards, Trigger.Endturn);
+  }
+
   public void CalculateOnSoldAbilities(CardScript cardScript)
   {
     if (cardScript.Card.Abilities != null && cardScript.Card.Abilities.PrepAbilities != null
@@ -29,7 +45,15 @@ public class PrepEngine
     {
       CalculateAbilities(new List<CardScript> { cardScript }, Trigger.Sold);
     }
+  }
 
+  public void CalculateOnBoughtAbilities(CardScript cardScript)
+  {
+    if (cardScript.Card.Abilities != null && cardScript.Card.Abilities.PrepAbilities != null
+      && cardScript.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Bought))
+    {
+      CalculateAbilities(new List<CardScript> { cardScript }, Trigger.Bought);
+    }
   }
 
   public void CalculateOnSellAbilities()
@@ -38,6 +62,22 @@ public class PrepEngine
       .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
         c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell));
     CalculateAbilities(onSellAbilityCards, Trigger.Sell);
+  }
+
+  public void CalculateOnBuyAbilities()
+  {
+    var onBuyAbilityCards = PlayerInventory.GetCardsAsList()
+      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
+        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Buy));
+    CalculateAbilities(onBuyAbilityCards, Trigger.Buy);
+  }
+
+  public void CalculateOnRerollAbilities()
+  {
+    var onRerollAbilityCards = PlayerInventory.GetCardsAsList()
+      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
+        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Reroll));
+    CalculateAbilities(onRerollAbilityCards, Trigger.Reroll);
   }
 
   private void CalculateAbilities(IEnumerable<CardScript> cardScripts, Trigger trigger)

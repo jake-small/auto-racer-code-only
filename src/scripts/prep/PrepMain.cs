@@ -53,6 +53,7 @@ public class PrepMain : Node2D
     goButton.Connect("pressed", this, nameof(Button_go_pressed));
 
     _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
+    GameManager.PrepEngine.CalculateStartTurnAbilities();
   }
 
   public override void _Process(float delta)
@@ -135,7 +136,7 @@ public class PrepMain : Node2D
       var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
-        var bankResult = GameManager.PrepEngine.Bank.Buy();
+        var bankResult = GameManager.PrepEngine.Bank.Buy(cardScript);
         if (bankResult.Success)
         {
           _newCoinTotal = bankResult.CoinTotal;
@@ -157,7 +158,7 @@ public class PrepMain : Node2D
     }
     else // Card in shop
     {
-      var bankResult = GameManager.PrepEngine.Bank.Buy();
+      var bankResult = GameManager.PrepEngine.Bank.Buy(cardScript);
       if (bankResult.Success)
       {
         _newCoinTotal = bankResult.CoinTotal;
@@ -249,6 +250,7 @@ public class PrepMain : Node2D
   private void Button_go_pressed()
   {
     Console.WriteLine("Go button pressed");
+    GameManager.PrepEngine.CalculateEndTurnAbilities();
     GameManager.RaceNumber = GameManager.RaceNumber + 1;
     GameManager.Player1 = new Player
     {
