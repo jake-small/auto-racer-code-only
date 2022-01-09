@@ -64,7 +64,12 @@ public class CalculationLayer
         continue;
       }
 
-      var scriptData = new MoonSharpScriptData(); // TODO
+      var playerInventory = GameManager.PrepEngine.PlayerInventory.GetCardsAsList();
+      var shopInventory = GameManager.PrepEngine.ShopInventory.GetCardsAsList();
+      var coinTotal = GameManager.PrepEngine.Bank.CoinTotal;
+      var lifeTotal = GameManager.LifeTotal;
+      var raceNumber = GameManager.RaceNumber;
+      var scriptData = new PrepScriptData(playerInventory, shopInventory, coinTotal, lifeTotal, raceNumber);
       var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
       UpdateAllNestedStrings(card, calculatedOutKeys);
     }
@@ -92,7 +97,7 @@ public class CalculationLayer
       }
 
       var scriptPlayers = players.Select(p => new MoonSharpPlayer(p));
-      var scriptData = new MoonSharpScriptData(new MoonSharpPlayer(player), scriptPlayers);
+      var scriptData = new RaceScriptData(new MoonSharpPlayer(player), scriptPlayers);
       var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
       UpdateAllNestedStrings(card, calculatedOutKeys);
     }

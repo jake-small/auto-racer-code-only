@@ -167,7 +167,7 @@ public class PrepMain : Node2D
         {
           cardScript.Frozen = false;
           cardScript.Slot = slot;
-          cardScript.InventoryLocation = InventoryType.Player;
+          cardScript.Inventory = InventoryTarget.Player;
           DropCard(cardScript, droppedPosition);
           return;
         }

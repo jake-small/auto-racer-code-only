@@ -39,9 +39,9 @@ public class PrepTarget
     return type;
   }
 
-  public InventoryType GetInventoryType()
+  public InventoryTarget GetInventoryType()
   {
-    var result = Enum.TryParse(Inventory.ToLowerInvariant().Capitalize(), out InventoryType type);
+    var result = Enum.TryParse(Inventory.ToLowerInvariant().Capitalize(), out InventoryTarget type);
     if (!result)
     {
       GD.Print($"Error: unable to parse Inventory {Inventory} to enum InventoryType");
@@ -73,7 +73,7 @@ public class PrepTarget
   }
 }
 
-public enum InventoryType
+public enum InventoryTarget
 {
   Player,
   Shop,

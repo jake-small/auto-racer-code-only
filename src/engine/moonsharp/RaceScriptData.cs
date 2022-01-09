@@ -4,17 +4,12 @@ using System.Linq;
 using MoonSharp.Interpreter;
 
 [MoonSharpUserData]
-public class MoonSharpScriptData
+public class RaceScriptData : MoonSharpScriptData
 {
   public MoonSharpPlayer Player { get; set; }
   public IEnumerable<MoonSharpPlayer> AllPlayers { get; private set; }
 
-  public MoonSharpScriptData()
-  {
-    // TODO
-  }
-
-  public MoonSharpScriptData(MoonSharpPlayer player, IEnumerable<MoonSharpPlayer> allPlayers)
+  public RaceScriptData(MoonSharpPlayer player, IEnumerable<MoonSharpPlayer> allPlayers)
   {
     Player = player;
     AllPlayers = allPlayers;

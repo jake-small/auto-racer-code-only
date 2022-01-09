@@ -144,37 +144,37 @@ public class PrepEngine
     switch (target.GetTargetType())
     {
       case TargetType.Self:
-        if (target.GetInventoryType() == InventoryType.Any || target.GetInventoryType() == card.InventoryLocation)
+        if (target.GetInventoryType() == InventoryTarget.Any || target.GetInventoryType() == card.Inventory)
         {
           targets.Add(card);
         }
         break;
       case TargetType.Others:
-        if (target.GetInventoryType() == InventoryType.Any)
+        if (target.GetInventoryType() == InventoryTarget.Any)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList().Where(c => c != card));
           targets.AddRange(ShopInventory.GetCardsAsList().Where(c => c != card));
         }
-        else if (target.GetInventoryType() == InventoryType.Player)
+        else if (target.GetInventoryType() == InventoryTarget.Player)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList().Where(c => c != card));
         }
-        else if (target.GetInventoryType() == InventoryType.Shop)
+        else if (target.GetInventoryType() == InventoryTarget.Shop)
         {
           targets.AddRange(ShopInventory.GetCardsAsList().Where(c => c != card));
         }
         break;
       case TargetType.All:
-        if (target.GetInventoryType() == InventoryType.Any)
+        if (target.GetInventoryType() == InventoryTarget.Any)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList());
           targets.AddRange(ShopInventory.GetCardsAsList());
         }
-        else if (target.GetInventoryType() == InventoryType.Player)
+        else if (target.GetInventoryType() == InventoryTarget.Player)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList());
         }
-        else if (target.GetInventoryType() == InventoryType.Shop)
+        else if (target.GetInventoryType() == InventoryTarget.Shop)
         {
           targets.AddRange(ShopInventory.GetCardsAsList());
         }

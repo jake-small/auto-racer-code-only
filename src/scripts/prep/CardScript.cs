@@ -27,7 +27,7 @@ public class CardScript : KinematicBody2D
   public bool Dropped = false;
   public Vector2 DroppedPosition = new Vector2();
   public Vector2 StartingPosition = new Vector2();
-  public InventoryType InventoryLocation { get; set; } = InventoryType.Shop; // TODO
+  public InventoryTarget Inventory { get; set; } = InventoryTarget.Shop; // TODO
   public int Slot = -1;
   public bool MouseInCardActionButton = false;
   public Card Card { get; set; }
