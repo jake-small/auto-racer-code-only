@@ -50,7 +50,7 @@ public static class EngineTesting
       {
         positionView[playerNum] = positionView[playerNum].Remove(0, 1).Insert(0, position.ToString());
       }
-      else if (position > ((positionView.FirstOrDefault().Length + 1) / 2))
+      else if (position * 2 > positionView.FirstOrDefault().Length)
       {
         var trackLength = positionView[playerNum].Length;
         positionView[playerNum] = positionView[playerNum].Remove(trackLength - 1, 1).Insert(trackLength - 1, position.ToString());

@@ -54,7 +54,10 @@ public class PlayerInventory
       GD.Print($"Can't ADD '{cardScript.Card.GetName()}' to {slot}. There's already a card there.");
       return false;
     }
+    GameManager.PrepEngine.ShopInventory.RemoveCard(cardScript.Slot);
     cardScript.Slot = slot;
+    cardScript.Frozen = false;
+    cardScript.Inventory = InventoryTarget.Player;
     _cardScripts[slot] = cardScript;
     GD.Print($"ADDED '{cardScript.Card.GetName()}' to {slot}");
     return true;

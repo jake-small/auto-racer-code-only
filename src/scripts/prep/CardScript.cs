@@ -28,7 +28,7 @@ public class CardScript : KinematicBody2D
   public Vector2 DroppedPosition = new Vector2();
   public Vector2 StartingPosition = new Vector2();
   public InventoryTarget Inventory { get; set; } = InventoryTarget.Shop; // TODO
-  public int Slot = -1;
+  public int Slot;
   public bool MouseInCardActionButton = false;
   public Card Card { get; set; }
 
@@ -145,7 +145,7 @@ public class CardScript : KinematicBody2D
     }
     else if (MouseInCardActionButton) // Card is dragged over either Freeze or Sell button
     {
-      if (Slot == -1)
+      if (IsInShop())
       {
         GD.Print($"Card {Card.GetName()} dropped on freeze button");
         DroppedPosition = StartingPosition;
@@ -200,6 +200,11 @@ public class CardScript : KinematicBody2D
     _bodyLabel.Text = Card.GetDescription();
     _levelLabel.Text = "lvl" + Card.Level.ToString();
     _baseMoveLabel.Text = Card.BaseMove + "m";
+  }
+
+  public bool IsInShop()
+  {
+    return Inventory == InventoryTarget.Shop;
   }
 
   private void StartDraggingCard()

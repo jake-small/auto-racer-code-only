@@ -65,11 +65,11 @@ public class PrepMain : Node2D
     }
   }
 
-  public void _on_Card_selected(CardScript cardVM)
+  public void _on_Card_selected(CardScript cardScript)
   {
-    _selectedCard = cardVM;
-    DisplaySelectedCardData(cardVM.Card);
-    EnableCardActionButtons(cardVM.Slot == -1);
+    _selectedCard = cardScript;
+    DisplaySelectedCardData(cardScript.Card);
+    EnableCardActionButtons(cardScript.IsInShop());
   }
 
   public void _on_Card_deselected(CardScript cardVM)
@@ -106,7 +106,7 @@ public class PrepMain : Node2D
     }
 
     GD.Print($"Drop signal RECEIVED for {cardScript.Card.GetName()} at slot {cardScript.Slot} to {slot} at position {droppedPosition}");
-    if (GameManager.PrepEngine.PlayerInventory.IsCardInSlot(slot) && cardScript.Slot != -1) // Card in inventory but card exists in targetted slot
+    if (GameManager.PrepEngine.PlayerInventory.IsCardInSlot(slot) && !cardScript.IsInShop()) // Card in player inventory but card exists in targetted slot
     {
       DeselectAllCards();
       var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
@@ -141,12 +141,13 @@ public class PrepMain : Node2D
         {
           _newCoinTotal = bankResult.CoinTotal;
           targetCardScript.Card.AddExp(cardScript.Card.Exp);
+          GameManager.PrepEngine.ShopInventory.RemoveCard(cardScript.Slot);
           cardScript.QueueFree(); // Remove dropped card node
           return;
         }
       }
     }
-    else if (cardScript.Slot != -1) // Card in inventory
+    else if (!cardScript.IsInShop()) // Card in player inventory
     {
       var result = GameManager.PrepEngine.PlayerInventory.MoveCard(cardScript, slot);
       if (result)
@@ -165,9 +166,6 @@ public class PrepMain : Node2D
         var result = GameManager.PrepEngine.PlayerInventory.AddCard(cardScript, slot);
         if (result)
         {
-          cardScript.Frozen = false;
-          cardScript.Slot = slot;
-          cardScript.Inventory = InventoryTarget.Player;
           DropCard(cardScript, droppedPosition);
           return;
         }
@@ -326,6 +324,7 @@ public class PrepMain : Node2D
     var containerPosition = GetNode<Sprite>($"shop_slot_{slot}").Position;
     var position = containerPosition + shopSlotOffset;
     cardInstance.Card = cardScript.Card;
+    cardInstance.Slot = slot;
     cardInstance.Position = position;
     cardInstance.Frozen = cardScript.Frozen;
     cardInstance.Connect(nameof(CardScript.droppedInSlot), this, nameof(_on_Card_droppedInSlot));
@@ -334,6 +333,11 @@ public class PrepMain : Node2D
     cardInstance.Connect(nameof(CardScript.cardSelected), this, nameof(_on_Card_selected));
     cardInstance.Connect(nameof(CardScript.cardDeselected), this, nameof(_on_Card_deselected));
     AddChild(cardInstance);
+    var result = GameManager.PrepEngine.ShopInventory.AddCard(cardInstance, slot);
+    if (!result)
+    {
+      GD.Print($"Error adding card to shop inventory {cardScript?.Card?.GetRawName()} at slot {slot}");
+    }
   }
 
   private void CardShopClear()
@@ -354,7 +358,7 @@ public class PrepMain : Node2D
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
       return;
     }
-    if (_selectedCard.Slot != -1)
+    if (!_selectedCard.IsInShop())
     {
       GD.Print("Can't freeze card that's in player inventory");
       return;
@@ -370,7 +374,7 @@ public class PrepMain : Node2D
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
       return;
     }
-    if (_selectedCard.Slot == -1)
+    if (_selectedCard.IsInShop())
     {
       GD.Print("Can't sell card that's in the shop");
       return;
@@ -388,23 +392,6 @@ public class PrepMain : Node2D
     }
   }
 
-  // private IEnumerable<CardScript> GetCardNodesInInventory()
-  // {
-  //   var playerCards = new List<CardScript>();
-  //   var cardNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCard);
-  //   foreach (var cardNode in cardNodes)
-  //   {
-  //     if (cardNode is CardScript cardScript)
-  //     {
-  //       if (cardScript.Card.Bought)
-  //       {
-  //         playerCards.Add(cardScript);
-  //       }
-  //     }
-  //   }
-  //   return playerCards;
-  // }
-
   private IEnumerable<CardScript> GetCardNodesInShop()
   {
     var shopCards = new List<CardScript>();
@@ -413,7 +400,7 @@ public class PrepMain : Node2D
     {
       if (cardNode is CardScript cardScript)
       {
-        if (cardScript.Slot == -1)
+        if (cardScript.IsInShop())
         {
           shopCards.Add(cardScript);
         }
