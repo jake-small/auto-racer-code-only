@@ -119,12 +119,4 @@ public class PlayerInventory
     GD.Print($"SWAPPED card '{card1.Card.GetName()}' to {slot2} and '{card2.Card.GetName()}' in {slot1}");
     return true;
   }
-
-  // public void PrintCards()
-  // {
-  //   foreach (var cardVM in _cardVMs.Values)
-  //   {
-  //     GD.Print($"Slot: '{cardVM.Slot}' Name: '{cardVM.Card.GetName()}'");
-  //   }
-  // }
 }

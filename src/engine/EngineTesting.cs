@@ -8,13 +8,6 @@ public static class EngineTesting
   public static AutoRaceEngine RaceEngine(Player player1)
   {
     var players = new List<Player>();
-    // Add player 1
-    // var p1 = new Player
-    // {
-    //   Id = 0,
-    //   Cards = Inventory.GetCards(),
-    //   Position = 0
-    // };
     players.Add(player1);
     // Add other players
     players.AddRange(GetOpponents(3));

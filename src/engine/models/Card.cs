@@ -55,16 +55,6 @@ public class Card
     return Description;
   }
 
-  // public string GetBaseMove()
-  // {
-  //   return _calcLayer.ApplyLevelValues(this, BaseMove, Level);
-  // }
-
-  // public string GetRawBaseMove()
-  // {
-  //   return BaseMove;
-  // }
-
   public bool AddExp(int exp)
   {
     Exp += exp;

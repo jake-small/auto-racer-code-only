@@ -79,25 +79,3 @@ public enum InventoryTarget
   Shop,
   Any
 }
-
-// public enum TargetType
-// {
-//   Others,
-//   Self,
-//   All
-// }
-
-// public enum Direction
-// {
-//   Forward,
-//   Backward,
-//   Any
-// }
-
-// public enum Priority
-// {
-//   Closest,
-//   Furthest,
-//   PositionAscending,
-//   PositionDescending
-// }

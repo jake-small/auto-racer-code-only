@@ -72,19 +72,19 @@ public class PrepMain : Node2D
     EnableCardActionButtons(cardScript.IsInShop());
   }
 
-  public void _on_Card_deselected(CardScript cardVM)
+  public void _on_Card_deselected(CardScript cardScript)
   {
     _selectedCard = null;
     HideSelectedCardData();
     DisableCardActionButtons();
   }
 
-  public void _on_Card_droppedOnFreezeButton(CardScript cardVM)
+  public void _on_Card_droppedOnFreezeButton(CardScript cardScript)
   {
     FreezeCard();
   }
 
-  public void _on_Card_droppedOnSellButton(CardScript cardVM)
+  public void _on_Card_droppedOnSellButton(CardScript cardScript)
   {
     SellCard();
   }

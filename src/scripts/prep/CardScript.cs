@@ -15,13 +15,11 @@ public class CardScript : KinematicBody2D
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Sprite _selectedSprite = new Sprite();
   private List<Sprite> _frozenSprites = new List<Sprite>();
+  private Label _headerLabel;
+  private Label _bodyLabel;
+  private Label _levelLabel;
+  private Label _baseMoveLabel;
 
-  Label _headerLabel;
-  Label _bodyLabel;
-  Label _levelLabel;
-  Label _baseMoveLabel;
-
-  // public CardViewModel CardVM { get; set; }
   public bool Selected = false;
   public bool Frozen = false;
   public bool Dropped = false;
