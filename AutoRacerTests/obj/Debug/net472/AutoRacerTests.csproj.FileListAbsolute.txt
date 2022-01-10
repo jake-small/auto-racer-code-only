@@ -1,7 +1,5 @@
 G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\AutoRacerTests.pdb
 G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.csprojAssemblyReference.cache
-G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.AssemblyInfoInputs.cache
-G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.AssemblyInfo.cs
 G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.csproj.CoreCompileInputs.cache
 G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.pdb
 G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\NUnit3.TestAdapter.dll
