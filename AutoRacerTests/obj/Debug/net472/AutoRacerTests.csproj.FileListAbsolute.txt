@@ -1,0 +1,17 @@
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\AutoRacerTests.pdb
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.csprojAssemblyReference.cache
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.AssemblyInfoInputs.cache
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.AssemblyInfo.cs
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.csproj.CoreCompileInputs.cache
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.pdb
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\NUnit3.TestAdapter.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\NUnit3.TestAdapter.pdb
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\nunit.engine.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\nunit.engine.api.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\nunit.engine.core.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\testcentric.engine.metadata.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\nunit.framework.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.csproj.CopyComplete
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\bin\Debug\net472\AutoRacerTests.dll
+G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\AutoRacerTests\obj\Debug\net472\AutoRacerTests.dll

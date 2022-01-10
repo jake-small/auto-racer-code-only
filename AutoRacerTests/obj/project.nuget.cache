@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "jUt6qs7v5CzRrGsieQlU83eiH7+39Kn5y+PmhYJoAAYF2eNmzPuRLIthIZiGFwviRnwp5KpjaRQuzPqtx8qjFg==",
+  "success": true,
+  "projectFilePath": "G:\\JakeDoc\\Files\\Projects\\Godot\\AutoRacer\\auto-racer\\AutoRacerTests\\AutoRacerTests.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\jakes\\.nuget\\packages\\microsoft.codecoverage\\17.0.0\\microsoft.codecoverage.17.0.0.nupkg.sha512",
+    "C:\\Users\\jakes\\.nuget\\packages\\microsoft.net.test.sdk\\17.0.0\\microsoft.net.test.sdk.17.0.0.nupkg.sha512",
+    "C:\\Users\\jakes\\.nuget\\packages\\nunit\\3.13.2\\nunit.3.13.2.nupkg.sha512",
+    "C:\\Users\\jakes\\.nuget\\packages\\nunit3testadapter\\4.2.0\\nunit3testadapter.4.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}
