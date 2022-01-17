@@ -63,6 +63,26 @@ namespace AutoRacerTests.Tests
       Assert.That(target.Amount, Is.EqualTo($"amount_success_T{level}"));
       Assert.That(target.Range.Min, Is.EqualTo($"min_success_R{level}"));
       Assert.That(target.Range.Max, Is.EqualTo($"max_success_R{level}"));
+
+      var prepAbility = leveledCard.Abilities.PrepAbilities.FirstOrDefault();
+      Assert.AreEqual(prepAbility.Name, $"name_success_A{level}");
+      Assert.AreEqual(prepAbility.GetTrigger(), Trigger.Startturn);
+      Assert.AreEqual(prepAbility.GetEffect(), Effect.Basemove);
+      Assert.AreEqual(prepAbility.Value, $"value_success_A{level}");
+      var prepTarget = prepAbility.Target;
+      Assert.AreEqual(prepTarget.GetTargetType(), TargetType.All);
+      Assert.AreEqual(prepTarget.GetInventoryType(), InventoryTarget.Player);
+      Assert.AreEqual(prepTarget.Slot, $"slot_success_T{level}");
+      Assert.AreEqual(prepTarget.GetDirection(), Direction.Any);
+      Assert.AreEqual(prepTarget.GetPriority(), Priority.Closest);
+      Assert.That(prepTarget.Amount, Is.EqualTo($"amount_success_T{level}"));
+      var prepFunction = prepAbility.Functions.FirstOrDefault();
+      Assert.That(function.Key, Is.EqualTo($"key_success_F{level}"));
+      for (int i = 0; i < function.BodyMultiline.ToArray().Length; i++)
+      {
+        var bodyLine = function.BodyMultiline.ToArray()[i];
+        Assert.That(bodyLine, Is.Not.EqualTo($"line{i}_success_F{level}"));
+      }
     }
 
     private Card GetLevelTestCard(int level)
@@ -93,7 +113,7 @@ namespace AutoRacerTests.Tests
               },
               Duration = "duration_{testAbility}",
               Target = new Target {
-                Type = "{testTargetType}", // TODO!!!!
+                Type = "{testTargetType}",
                 Direction = "{testTargetDirection}",
                 Priority = "{testTargetPriority}",
                 Amount = "amount_{testTarget}",
@@ -106,9 +126,31 @@ namespace AutoRacerTests.Tests
               Type = "type_{testAbility}"
             }
           },
-          PrepAbilities = new List<PrepAbility>()
-          {
-            // TODO
+          PrepAbilities = new List<PrepAbility>() {
+            new PrepAbility {
+              Name = "name_{testAbility}",
+              Trigger = "{testTrigger}",
+              Effect = "{testEffect}",
+              Value = "value_{testAbility}",
+              Target = new PrepTarget {
+                Type = "{testTargetType}",
+                Inventory = "{testInventory}",
+                Slot = "slot_{testTarget}",
+                Direction = "{testTargetDirection}",
+                Priority = "{testTargetPriority}",
+                Amount = "amount_{testTarget}"
+              },
+              Functions = new List<Function>() {
+                new Function {
+                  Key = "key_{testFunction}",
+                  BodyMultiline = new List<string>() {
+                    "line0_{testFunction}",
+                    "line1_{testFunction}",
+                    "line2_{testFunction}"
+                  }
+                }
+              }
+            }
           }
         },
         LevelValues = new List<LevelValue>() {
@@ -146,6 +188,18 @@ namespace AutoRacerTests.Tests
               new OutKey {
                 Key = "testRange",
                 Value = "success_R1"
+              },
+              new OutKey {
+                Key = "testTrigger",
+                Value = "startturn"
+              },
+              new OutKey {
+                Key = "testEffect",
+                Value = "basemove"
+              },
+              new OutKey {
+                Key = "testInventory",
+                Value = "player"
               }
             }
           },
@@ -183,6 +237,18 @@ namespace AutoRacerTests.Tests
               new OutKey {
                 Key = "testRange",
                 Value = "success_R2"
+              },
+              new OutKey {
+                Key = "testTrigger",
+                Value = "startturn"
+              },
+              new OutKey {
+                Key = "testEffect",
+                Value = "basemove"
+              },
+              new OutKey {
+                Key = "testInventory",
+                Value = "player"
               }
             }
           },
@@ -220,6 +286,18 @@ namespace AutoRacerTests.Tests
               new OutKey {
                 Key = "testRange",
                 Value = "success_R3"
+              },
+              new OutKey {
+                Key = "testTrigger",
+                Value = "startturn"
+              },
+              new OutKey {
+                Key = "testEffect",
+                Value = "basemove"
+              },
+              new OutKey {
+                Key = "testInventory",
+                Value = "player"
               }
             }
           }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 
 public class PrepAbility : Ability
 {
@@ -19,10 +18,10 @@ public class PrepAbility : Ability
 
   public Trigger GetTrigger()
   {
-    var result = Enum.TryParse(Trigger.ToLowerInvariant().Capitalize(), out Trigger type);
+    var result = Enum.TryParse(Trigger, true, out Trigger type);
     if (!result)
     {
-      GD.Print($"Error: unable to parse Trigger {Trigger} to enum Trigger");
+      Console.WriteLine($"Error: unable to parse Trigger {Trigger} to enum Trigger");
       throw new Exception($"Error: unable to parse Trigger {Trigger} to enum Trigger");
     }
     return type;
@@ -30,10 +29,10 @@ public class PrepAbility : Ability
 
   public Effect GetEffect()
   {
-    var result = Enum.TryParse(Effect.ToLowerInvariant().Capitalize(), out Effect type);
+    var result = Enum.TryParse(Effect, true, out Effect type);
     if (!result)
     {
-      GD.Print($"Error: unable to parse Effect {Effect} to enum Effect");
+      Console.WriteLine($"Error: unable to parse Effect {Effect} to enum Effect");
       throw new Exception($"Error: unable to parse Effect {Effect} to enum Effect");
     }
     return type;
