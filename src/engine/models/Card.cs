@@ -9,10 +9,10 @@ public class Card
   public string Description { private get; set; }
   public int BaseMove { get; set; }
   public int Tier { get; set; }
-  public Abilities Abilities { get; set; }
-  public List<LevelValue> LevelValues { get; set; }
   public int Level { get; set; } = 1;
   public int Exp { get; set; } = 0;
+  public Abilities Abilities { get; set; }
+  public List<LevelValue> LevelValues { get; set; }
 
   private CalculationLayer _calcLayer = new CalculationLayer();
 

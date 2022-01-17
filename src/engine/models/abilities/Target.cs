@@ -1,5 +1,4 @@
 using System;
-using Godot;
 
 public class Target
 {
@@ -23,10 +22,10 @@ public class Target
 
   public TargetType GetTargetType()
   {
-    var result = Enum.TryParse(Type.ToLowerInvariant().Capitalize(), out TargetType type);
+    var result = Enum.TryParse(Type, true, out TargetType type);
     if (!result)
     {
-      GD.Print($"Error: unable to parse Type {Type} to enum TargetType");
+      Console.WriteLine($"Error: unable to parse Type {Type} to enum TargetType");
       throw new Exception($"Error: unable to parse Type {Type} to enum TargetType");
     }
     return type;
@@ -34,10 +33,10 @@ public class Target
 
   public Direction GetDirection()
   {
-    var result = Enum.TryParse(Direction.ToLowerInvariant().Capitalize(), out Direction direction);
+    var result = Enum.TryParse(Direction, true, out Direction direction);
     if (!result)
     {
-      GD.Print($"Error: unable to parse Direction {Direction} to enum Direction");
+      Console.WriteLine($"Error: unable to parse Direction {Direction} to enum Direction");
       throw new Exception($"Error: unable to parse Direction {Direction} to enum Direction");
     }
     return direction;
@@ -45,10 +44,10 @@ public class Target
 
   public Priority GetPriority()
   {
-    var result = Enum.TryParse(Priority.ToLowerInvariant().Capitalize(), out Priority priority);
+    var result = Enum.TryParse(Priority, true, out Priority priority);
     if (!result)
     {
-      GD.Print($"Error: unable to parse Priority {Priority} to enum Priority");
+      Console.WriteLine($"Error: unable to parse Priority {Priority} to enum Priority");
       throw new Exception($"Error: unable to parse Priority {Priority} to enum Priority");
     }
     return priority;

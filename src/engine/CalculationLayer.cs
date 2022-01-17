@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Godot;
 using MoonSharp.Interpreter;
 using LuaScript = MoonSharp.Interpreter.Script;
 
@@ -180,7 +179,7 @@ public class CalculationLayer
     levelValue = levelValues?.FirstOrDefault(t => t.Id == level);
     if (levelValue == null)
     {
-      GD.Print($"Error: level does not exist: {level}");
+      Console.WriteLine($"Error: level does not exist: {level}");
       throw new Exception($"Error: level does not exist: {level}");
     }
     return true;
@@ -206,10 +205,10 @@ public class CalculationLayer
       case DataType.String:
         return res.String;
       case DataType.Nil:
-        GD.Print($"Lua script returned Nil: '{scriptBody}'");
+        Console.WriteLine($"Lua script returned Nil: '{scriptBody}'");
         throw new Exception($"Lua script returned Nil: '{scriptBody}'");
       default:
-        GD.Print($"Lua script needs to, but did not, return type Number, Boolean, or String: '{scriptBody}'");
+        Console.WriteLine($"Lua script needs to, but did not, return type Number, Boolean, or String: '{scriptBody}'");
         throw new Exception($"Lua script needs to, but did not, return type Number, Boolean, or String: '{scriptBody}'");
     }
   }
