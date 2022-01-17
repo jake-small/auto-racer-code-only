@@ -20,6 +20,7 @@ public class PrepMain : Node2D
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
+  private ShopService _shopService = new ShopService();
 
   public override void _Ready()
   {
@@ -306,8 +307,7 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var shopService = new ShopService();
-    var cards = shopService.GetRandomCards(GameData.ShopSize);
+    var cards = _shopService.GetRandomCards(GameData.ShopSize);
     for (int i = frozenCards.Count; i < GameData.ShopSize; i++)
     {
       var card = cards[i];

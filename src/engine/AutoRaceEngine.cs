@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Godot;
 
 public class AutoRaceEngine
 {
@@ -45,7 +44,7 @@ public class AutoRaceEngine
   public bool AdvanceRace()
   {
     _phase = NextTurnPhase(_phase);
-    GD.Print($"engine phase: {_phase}");
+    Console.WriteLine($"engine phase: {_phase}");
     switch (_phase)
     {
       case TurnPhases.Start:
@@ -69,40 +68,40 @@ public class AutoRaceEngine
 
   private void StartTurnPhase()
   {
-    GD.Print("StartTurnPhase");
+    Console.WriteLine("StartTurnPhase");
     NextTurn();
-    GD.Print($"engine turn: {_turn}");
+    Console.WriteLine($"engine turn: {_turn}");
   }
 
   private void Abilities1Phase()
   {
-    GD.Print("Abilities1Phase");
-    GD.Print($"number of players: {_players.Count()}");
+    Console.WriteLine("Abilities1Phase");
+    Console.WriteLine($"number of players: {_players.Count()}");
     foreach (var player in _players)
     {
       _turnManager.AddPlayerTurn(CalculatePlayerTurn(player));
     }
-    _turnManager.ApplyTokensGiven();
+    _turnManager.ApplyTokens();
   }
 
   private void MovePhase()
   {
-    GD.Print("MovePhase");
+    Console.WriteLine("MovePhase");
     _turnManager.UpdatePositions();
   }
 
   private void Abilities2Phase()
   {
-    GD.Print("Abilities2Phase");
+    Console.WriteLine("Abilities2Phase");
   }
 
   private bool EndTurnPhase()
   {
-    GD.Print("EndTurnPhase");
+    Console.WriteLine("EndTurnPhase");
     _turnManager.ClearPlayerTurns();
     if (_turn >= _raceLength)
     {
-      GD.Print("Race is over");
+      Console.WriteLine("Race is over");
       return true;
     }
     return false;
@@ -172,7 +171,7 @@ public class AutoRaceEngine
   {
     if (!(tokenAbility is MoveTokenAbility moveTokenAbililty))
     {
-      GD.Print("Error: Can't get Move Token from tokenAbility as it's not a MoveTokenAbility");
+      Console.WriteLine("Error: Can't get Move Token from tokenAbility as it's not a MoveTokenAbility");
       return new Dictionary<int, List<Token>>();
     }
 

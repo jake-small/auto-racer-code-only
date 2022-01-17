@@ -15,9 +15,9 @@ public class CardLoader
 
   public List<Card> GetCards()
   {
-    var cards = _cards;
+    // var cards = _cards;
     // add some extra random cards
-    cards.AddRange(LoadSampleCards(10));
+    // cards.AddRange(LoadSampleCards(10));
     return _cards;
   }
 

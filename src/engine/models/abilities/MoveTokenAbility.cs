@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using Godot;
 
 public class MoveTokenAbility : TokenAbility
 {

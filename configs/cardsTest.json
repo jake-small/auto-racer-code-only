@@ -144,6 +144,76 @@
       ]
     },
     {
+      "Name": "Stamina Elixir",
+      "Description": "Gain {M} move for {D} turns",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "1",
+            "Duration": "3",
+            "Target": {
+              "Type": "self",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "0"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "Name": "Vendor's Pouch",
       "Description": "On any Sell, gain {A} base move",
       "BaseMove": 1,
