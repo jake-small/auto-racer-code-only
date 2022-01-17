@@ -20,6 +20,7 @@ public class AutoRaceEngine
     Move = 2,
     Abilities2 = 3,
     End = 4,
+    HandleRemainingTokens = -2
   }
 
   public AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount)
@@ -35,6 +36,8 @@ public class AutoRaceEngine
 
   public int GetTurn() => _turn;
   public TurnPhases GetTurnPhase() => _phase;
+
+  public IEnumerable<Player> GetStandings() => _players.OrderByDescending(p => p.Position);
 
   public IEnumerable<PlayerTurnResult> GetTurnResults()
   {
@@ -60,7 +63,14 @@ public class AutoRaceEngine
         Abilities2Phase();
         break;
       case TurnPhases.End:
-        var isRaceOver = EndTurnPhase();
+        var noMoreCardSlots = EndTurnPhase();
+        if (noMoreCardSlots)
+        {
+          _phase = TurnPhases.HandleRemainingTokens;
+        }
+        break;
+      case TurnPhases.HandleRemainingTokens:
+        var isRaceOver = CalculateRemainingTokens();
         return isRaceOver;
     }
     return false;
@@ -101,14 +111,32 @@ public class AutoRaceEngine
     _turnManager.ClearPlayerTurns();
     if (_turn >= _raceLength)
     {
-      Console.WriteLine("Race is over");
+      Console.WriteLine("No more card slots");
       return true;
     }
     return false;
   }
 
+  private bool CalculateRemainingTokens()
+  {
+    Console.WriteLine("Calculating Remaining Tokens");
+    _turn = _turn + 1;
+    _turnManager.ClearPlayerTurns();
+    foreach (var player in _players)
+    {
+      _turnManager.AddPlayerTurn(new PlayerTurnResult(player));
+    }
+    var noRemainingTokens = _turnManager.ApplyTokens();
+    _turnManager.UpdatePositions();
+    return noRemainingTokens;
+  }
+
   private TurnPhases NextTurnPhase(TurnPhases phase)
   {
+    if (phase == TurnPhases.HandleRemainingTokens)
+    {
+      return TurnPhases.HandleRemainingTokens;
+    }
     var nextPhaseInt = (int)phase + 1;
     if (nextPhaseInt > 4)
     {

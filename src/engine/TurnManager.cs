@@ -21,7 +21,7 @@ public class TurnManager
     PlayerTurns.Clear();
   }
 
-  public void ApplyTokens()
+  public bool ApplyTokens()
   {
     // TODO combine these loops to reduce iteration
     var allTokensGiven = new Dictionary<int, List<Token>>();
@@ -48,6 +48,7 @@ public class TurnManager
       }
     }
 
+    var noRemainingTokens = true;
     foreach (var playerTurn in PlayerTurns)
     {
       foreach (var token in playerTurn.Player.Tokens)
@@ -55,8 +56,13 @@ public class TurnManager
         ApplyToken(playerTurn, token);
       }
       playerTurn.Player.Tokens.RemoveAll(d => d.Duration <= 0);
+      if (playerTurn.Player.Tokens.Any())
+      {
+        noRemainingTokens = false;
+      }
     }
 
+    return noRemainingTokens;
   }
 
   private void ApplyToken(PlayerTurnResult playerTurn, Token token)

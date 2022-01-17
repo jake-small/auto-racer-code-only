@@ -82,7 +82,10 @@ public class RaceMain : Node2D
       GD.Print($"position states after forward history press: {_positionStates.Count()}");
       _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
       _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
-      _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
+      if (_cardStates.Count > _currentTurnView - 1)
+      {
+        _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
+      }
       _backButton.Disabled = false;
       return;
     }
@@ -113,14 +116,17 @@ public class RaceMain : Node2D
       }
       _cardStates.Add(currentCardStates);
     }
-    if (turnPhase == TurnPhases.Move)
+    if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
-      var positionState = EngineTesting.GetPositionTextView(turnResults);
-      _updatePositionStateLabel = positionState;
-      _positionStates.Add(positionState);
+      if (turnResults != null && turnResults.ToList().Count > 0)
+      {
+        var positionState = EngineTesting.GetPositionTextView(turnResults);
+        _updatePositionStateLabel = positionState;
+        _positionStates.Add(positionState);
+      }
     }
-    if (turnPhase == TurnPhases.End)
+    if (turnPhase == TurnPhases.End || turnPhase == TurnPhases.HandleRemainingTokens)
     {
       _backButton.Disabled = false;
     }
@@ -133,6 +139,8 @@ public class RaceMain : Node2D
     {
       _forwardButton.Disabled = true;
       _raceOver = true;
+      var winner = _autoRaceEngine.GetStandings().FirstOrDefault();
+      GD.Print($"Race Over- Player {winner.Id} is the victor!");
       return;
     }
   }
@@ -151,7 +159,10 @@ public class RaceMain : Node2D
     GD.Print($"current turn after back press: {_currentTurnView}");
     GD.Print($"position states after back press: {_positionStates.Count()}");
     _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
-    _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
+    if (_cardStates.Count > _currentTurnView - 1)
+    {
+      _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
+    }
   }
 
   private void UpdateCardStates(List<string> states)
