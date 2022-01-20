@@ -7,7 +7,7 @@ public class Card
   public int BaseMove { get; set; }
   public int Tier { get; set; }
   public int Level { get; set; } = 1;
-  public int Exp { get; set; } = 0;
+  public int Exp { get; set; } = 1;
   public Abilities Abilities { get; set; }
   public List<LevelValue> LevelValues { get; set; }
 

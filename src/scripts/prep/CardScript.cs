@@ -129,7 +129,7 @@ public class CardScript : KinematicBody2D
     {
       GD.Print("not dropped in slot");
     }
-    else if (Slot != potentialSlot)
+    else if (Inventory == InventoryTarget.Shop || Slot != potentialSlot)
     {
       emitDroppedInSlotSignal(potentialSlot, DroppedPosition, StartingPosition);
       return;

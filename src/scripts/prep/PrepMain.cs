@@ -120,6 +120,7 @@ public class PrepMain : Node2D
           levelLabel.Text = "exp" + cardScript.Card.Level.ToString();
         }
         GameManager.PrepEngine.PlayerInventory.RemoveCard(cardScript.Slot); // Remove dropped card
+        cardScript.QueueFree(); // Remove dropped card node
         return;
       }
 
