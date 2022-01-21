@@ -113,12 +113,8 @@ public class PrepMain : Node2D
       var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
-        var addExpSuccess = targetCardScript.Card.AddExp(cardScript.Card.Exp);
-        if (addExpSuccess)
-        {
-          var levelLabel = cardScript.GetNode<Label>(PrepSceneData.LabelCardLevel);
-          levelLabel.Text = "exp" + cardScript.Card.Level.ToString();
-        }
+        targetCardScript.Card.AddExp(cardScript.Card.Exp);
+        targetCardScript.UpdateUi();
         GameManager.PrepEngine.PlayerInventory.RemoveCard(cardScript.Slot); // Remove dropped card
         cardScript.QueueFree(); // Remove dropped card node
         return;
@@ -143,6 +139,7 @@ public class PrepMain : Node2D
         {
           _newCoinTotal = bankResult.CoinTotal;
           targetCardScript.Card.AddExp(cardScript.Card.Exp);
+          targetCardScript.UpdateUi();
           GameManager.PrepEngine.ShopInventory.RemoveCard(cardScript.Slot);
           cardScript.QueueFree(); // Remove dropped card node
           return;

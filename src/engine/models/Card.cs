@@ -8,10 +8,12 @@ public class Card
   public int Tier { get; set; }
   public int Level { get; set; } = 1;
   public int Exp { get; set; } = 1;
+  public int ExpToLvl { get; private set; } = 3;
   public Abilities Abilities { get; set; }
   public List<LevelValue> LevelValues { get; set; }
 
   private CalculationLayer _calcLayer = new CalculationLayer();
+
 
   public Card() { }
   public Card(Card anotherCard)
@@ -52,9 +54,14 @@ public class Card
     return Description;
   }
 
-  public bool AddExp(int exp)
+  public void AddExp(int exp)
   {
     Exp += exp;
-    return true;
+    if (Exp >= ExpToLvl)
+    {
+      Level = Level + 1;
+      ExpToLvl = ExpToLvl + 1;
+      Exp = 1;
+    }
   }
 }

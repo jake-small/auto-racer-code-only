@@ -42,10 +42,11 @@ public class CardScript : KinematicBody2D
     _bodyLabel = GetNode<Label>(PrepSceneData.LabelCardBody);
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
-    _headerLabel.Text = Card.GetName();
-    _bodyLabel.Text = Card.GetDescription();
-    _levelLabel.Text = "lvl" + Card.Level.ToString();
-    _baseMoveLabel.Text = Card.BaseMove + "m";
+    UpdateUi();
+    // _headerLabel.Text = Card.GetName();
+    // _bodyLabel.Text = Card.GetDescription();
+    // _levelLabel.Text = "exp " + Card.Exp.ToString();
+    // _baseMoveLabel.Text = Card.BaseMove + "m";
 
     StartingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
@@ -196,7 +197,7 @@ public class CardScript : KinematicBody2D
   {
     _headerLabel.Text = Card.GetName();
     _bodyLabel.Text = Card.GetDescription();
-    _levelLabel.Text = "lvl" + Card.Level.ToString();
+    _levelLabel.Text = Card.Level.ToString() + " exp" + Card.Exp.ToString() + "/" + Card.ExpToLvl.ToString();
     _baseMoveLabel.Text = Card.BaseMove + "m";
   }
 
