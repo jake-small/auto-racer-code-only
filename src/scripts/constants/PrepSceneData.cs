@@ -12,8 +12,7 @@ public static class PrepSceneData
   public const string PanelSpriteSelected = "Panel_selected";
   public const string PanelSpriteFrozen1 = "Panel_frozen";
   public const string PanelSpriteFrozen2 = "Panel_frozen2";
-  public const string LabelCardHeader = "Label_header";
-  public const string LabelCardBody = "Label_body";
+  public const string SpriteCardIcon = "Icon";
   public const string LabelCardLevel = "Label_level";
   public const string LabelCardBaseMove = "Label_basemove";
   public const string LabelRaceTotalPath = "Container_info/Label_raceTotal";

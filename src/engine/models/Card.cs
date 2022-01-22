@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public class Card
 {
   public string Name { private get; set; }
+  public string Icon { get; set; }
   public string Description { private get; set; }
   public int BaseMove { get; set; }
   public int Tier { get; set; }
@@ -19,6 +20,7 @@ public class Card
   public Card(Card anotherCard)
   {
     Name = anotherCard.Name;
+    Icon = anotherCard.Icon;
     Description = anotherCard.Description;
     BaseMove = anotherCard.BaseMove;
     Tier = anotherCard.Tier;

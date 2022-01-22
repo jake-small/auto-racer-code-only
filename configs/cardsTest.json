@@ -1,7 +1,8 @@
 {
   "Cards": [
     {
-      "Name": "psychic scream",
+      "Name": "curse",
+      "Icon": "icon132.png",
       "Description": "All opponents within {A} gain {B} move",
       "BaseMove": 2,
       "Tier": 1,
@@ -71,7 +72,8 @@
       ]
     },
     {
-      "Name": "quick under pressure",
+      "Name": "escape rune",
+      "Icon": "icon851.png",
       "Description": "For each opponent on your current space, gain {A} move",
       "BaseMove": 1,
       "Tier": 1,
@@ -145,6 +147,7 @@
     },
     {
       "Name": "Stamina Elixir",
+      "Icon": "icon273.png",
       "Description": "Gain {M} move for {D} turns",
       "BaseMove": 2,
       "Tier": 1,
@@ -215,6 +218,7 @@
     },
     {
       "Name": "Vendor's Pouch",
+      "Icon": "icon259.png",
       "Description": "On any Sell, gain {A} base move",
       "BaseMove": 1,
       "Tier": 1,
@@ -266,6 +270,7 @@
     },
     {
       "Name": "Robin's Hood",
+      "Icon": "icon702.png",
       "Description": "When Sold, give other player cards {A} base move",
       "BaseMove": 3,
       "Tier": 1,

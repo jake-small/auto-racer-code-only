@@ -15,8 +15,6 @@ public class CardScript : KinematicBody2D
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Sprite _selectedSprite = new Sprite();
   private List<Sprite> _frozenSprites = new List<Sprite>();
-  private Label _headerLabel;
-  private Label _bodyLabel;
   private Label _levelLabel;
   private Label _baseMoveLabel;
 
@@ -38,15 +36,17 @@ public class CardScript : KinematicBody2D
 
   public override void _Ready()
   {
-    _headerLabel = GetNode<Label>(PrepSceneData.LabelCardHeader);
-    _bodyLabel = GetNode<Label>(PrepSceneData.LabelCardBody);
+    var iconPath = $"res://assets/card_icons/{Card.Icon ?? "null"}";
+    var directory = new Directory();
+    if (directory.FileExists(iconPath))
+    {
+      var iconSprite = GetNode<Sprite>(PrepSceneData.SpriteCardIcon);
+      iconSprite.Texture = (Texture)GD.Load(iconPath);
+    }
+
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
     UpdateUi();
-    // _headerLabel.Text = Card.GetName();
-    // _bodyLabel.Text = Card.GetDescription();
-    // _levelLabel.Text = "exp " + Card.Exp.ToString();
-    // _baseMoveLabel.Text = Card.BaseMove + "m";
 
     StartingPosition = Position;
     var cardSlotNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCardSlots);
@@ -195,8 +195,6 @@ public class CardScript : KinematicBody2D
 
   public void UpdateUi()
   {
-    _headerLabel.Text = Card.GetName();
-    _bodyLabel.Text = Card.GetDescription();
     _levelLabel.Text = Card.Level.ToString() + " exp" + Card.Exp.ToString() + "/" + Card.ExpToLvl.ToString();
     _baseMoveLabel.Text = Card.BaseMove + "m";
   }

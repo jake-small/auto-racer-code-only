@@ -3,13 +3,15 @@
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
 [ext_resource path="res://assets/panels/blue_panel.png" type="Texture" id=3]
-[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_18.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_24.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/effects/iceBlockAlt.png" type="Texture" id=6]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=7]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
+
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/icon023.png-8a66db349c3824cdfd9434e7f05215eb.stex"
 
 [node name="Card" type="KinematicBody2D" groups=[
 "Card",
@@ -97,36 +99,10 @@ visible = false
 position = Vector2( 68, 68 )
 shape = SubResource( 1 )
 
-[node name="Label_header" type="Label" parent="."]
-margin_left = 6.0
-margin_top = 7.0
-margin_right = 131.0
-margin_bottom = 47.0
-custom_fonts/font = ExtResource( 5 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "Example of Power"
-align = 1
-autowrap = true
-clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_body" type="Label" parent="."]
-margin_left = 6.0
-margin_top = 47.0
-margin_right = 131.0
-margin_bottom = 120.0
-custom_fonts/font = ExtResource( 4 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "Here is the card's text. It goes on and on my friend. One and two and three and four."
-align = 1
-valign = 1
-autowrap = true
-clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Icon" type="Sprite" parent="."]
+position = Vector2( 68, 61.5087 )
+scale = Vector2( 3.5, 3.5 )
+texture = SubResource( 2 )
 
 [node name="Label_level" type="Label" parent="."]
 margin_left = 13.0
