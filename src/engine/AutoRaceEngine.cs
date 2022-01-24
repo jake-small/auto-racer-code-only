@@ -25,6 +25,10 @@ public class AutoRaceEngine
 
   public AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount)
   {
+    foreach (var player in players)
+    {
+      player.Position = 0;
+    }
     _players = players;
     _raceLength = raceLength;
     _slotCount = slotCount;
