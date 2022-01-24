@@ -101,7 +101,7 @@ shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="."]
 position = Vector2( 68, 61.5087 )
-scale = Vector2( 3.5, 3.5 )
+scale = Vector2( 2.5, 2.5 )
 texture = SubResource( 2 )
 
 [node name="Label_level" type="Label" parent="."]
