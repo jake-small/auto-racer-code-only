@@ -9,6 +9,7 @@ public class RaceMain : Node2D
   private AutoRaceEngine _autoRaceEngine;
   private Button _forwardButton;
   private Button _backButton;
+  private Button _endRaceButton;
   private Label _labelTurnPhase;
   private RichTextLabel _labelGameState;
   private Label[] _labelCardArray;
@@ -34,14 +35,15 @@ public class RaceMain : Node2D
     };
 
 
-    var goButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
-    goButton.Connect("pressed", this, nameof(Button_finish_pressed));
+    _endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
+    _endRaceButton.Disabled = true;
+    _endRaceButton.Connect("pressed", this, nameof(Button_finish_pressed));
     _forwardButton = GetNode(RaceSceneData.ButtonForwardPath) as Button;
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
     _backButton = GetNode(RaceSceneData.ButtonBackPath) as Button;
     _backButton.Connect("pressed", this, nameof(Button_back_pressed));
 
-    _autoRaceEngine = EngineTesting.RaceEngine(GameManager.Player1);
+    _autoRaceEngine = EngineTesting.RaceEngine(GameManager.LocalPlayer);
     _currentTurnView = _autoRaceEngine.GetTurn();
   }
 
@@ -63,6 +65,11 @@ public class RaceMain : Node2D
     {
       UpdateCardStates(_updateCardStateLabel);
       _updateCardStateLabel.Clear();
+    }
+
+    if (_raceOver && _endRaceButton.Disabled == true)
+    {
+      _endRaceButton.Disabled = false;
     }
   }
 

@@ -11,7 +11,6 @@ public class CardScript : KinematicBody2D
   private Vector2 _direction = new Vector2();
   private Vector2 _dragPosition = new Vector2();
   private bool _mouseIn = false;
-  private readonly Vector2 _cardSlotOffset = new Vector2(6, 4);
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Sprite _selectedSprite = new Sprite();
   private List<Sprite> _frozenSprites = new List<Sprite>();
@@ -222,7 +221,7 @@ public class CardScript : KinematicBody2D
       if (rect.HasPoint(mousePosition))
       {
         // lock in spell
-        DroppedPosition = rect.Position + _cardSlotOffset;
+        DroppedPosition = rect.Position + PrepSceneData.CardSlotOffset;
         return GetSlotNumberFromName(cardSlot.Name);
       }
     }
