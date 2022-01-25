@@ -11,7 +11,6 @@ public class PrepEngine
   public ShopInventory ShopInventory { get; set; }
   // TODO
   // private string history;
-  private CalculationLayer _calcLayer = new CalculationLayer();
 
   public PrepEngine()
   {
@@ -84,8 +83,8 @@ public class PrepEngine
   {
     foreach (var cardScript in cardScripts)
     {
-      var leveledCard = _calcLayer.ApplyLevelValues(cardScript.Card);
-      var calculatedCard = _calcLayer.ApplyPrepFunctionValues(leveledCard);
+      var leveledCard = cardScript.Card.GetLeveledCard();
+      var calculatedCard = leveledCard.ApplyPrepFunctionValues();
       var onTriggerAbilities = calculatedCard.Abilities.PrepAbilities
         .Where(a => a.GetTrigger() == trigger);
 

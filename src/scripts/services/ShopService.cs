@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 
 public class ShopService
 {
@@ -26,7 +25,7 @@ public class ShopService
     for (int i = 0; i < count; i++)
     {
       var r = _rnd.Next(_availableCards.Count);
-      var card = _availableCards[r].Clone();
+      var card = (Card)_availableCards[r].Clone();
       cards.Add(card);
     }
     return cards;

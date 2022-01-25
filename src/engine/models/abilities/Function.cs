@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Function
+public class Function : ICloneable
 {
   private IEnumerable<string> _bodyMultiline;
   public string Key { get; set; }
@@ -18,4 +19,14 @@ public class Function
     }
   }
   public string Body { get; set; }
+
+  public object Clone()
+  {
+    return new Function
+    {
+      Key = Key,
+      BodyMultiline = BodyMultiline,
+      Body = Body
+    };
+  }
 }

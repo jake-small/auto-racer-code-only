@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 
-public class Card
+public class Card : ICloneable
 {
   public string Name { private get; set; }
   public string Icon { get; set; }
@@ -15,31 +16,41 @@ public class Card
 
   private CalculationLayer _calcLayer = new CalculationLayer();
 
-
-  public Card() { }
-  public Card(Card anotherCard)
+  public object Clone()
   {
-    Name = anotherCard.Name;
-    Icon = anotherCard.Icon;
-    Description = anotherCard.Description;
-    BaseMove = anotherCard.BaseMove;
-    Tier = anotherCard.Tier;
-    Abilities = anotherCard.Abilities;
-    LevelValues = anotherCard.LevelValues;
-    Level = anotherCard.Level;
-    Exp = anotherCard.Exp;
+    return new Card
+    {
+      Name = Name,
+      Icon = Icon,
+      Description = Description,
+      BaseMove = BaseMove,
+      Tier = Tier,
+      Level = Level,
+      Exp = Exp,
+      ExpToLvl = ExpToLvl,
+      Abilities = (Abilities)Abilities?.Clone(),
+      LevelValues = LevelValues
+    };
   }
-
-  public Card Clone() { return new Card(this); }
 
   public Card GetLeveledCard()
   {
-    return _calcLayer.ApplyLevelValues(this);
+    return _calcLayer.ApplyLevelValues((Card)this.Clone());
+  }
+
+  public Card ApplyPrepFunctionValues()
+  {
+    return _calcLayer.ApplyPrepFunctionValues((Card)this.Clone());
+  }
+
+  public Card ApplyTokenFunctionValues(Player player, IEnumerable<Player> players)
+  {
+    return _calcLayer.ApplyTokenFunctionValues((Card)this.Clone(), player, players);
   }
 
   public string GetName()
   {
-    return _calcLayer.ApplyLevelValues(this, Name, Level);
+    return _calcLayer.ApplyLevelValues((Card)this.Clone(), Name, Level);
   }
 
   public string GetRawName()
@@ -48,7 +59,7 @@ public class Card
   }
   public string GetDescription()
   {
-    return _calcLayer.ApplyLevelValues(this, Description, Level);
+    return _calcLayer.ApplyLevelValues((Card)this.Clone(), Description, Level);
   }
 
   public string GetRawDescription()

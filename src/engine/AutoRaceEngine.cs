@@ -4,7 +4,6 @@ using System.Linq;
 
 public class AutoRaceEngine
 {
-  private CalculationLayer _calcLayer = new CalculationLayer();
   private TurnManager _turnManager;
   private IEnumerable<Player> _players;
   private int _raceLength;
@@ -172,8 +171,8 @@ public class AutoRaceEngine
 
   private Dictionary<int, List<Token>> CalculateTokensGiven(Card card, Player player)
   {
-    var leveledCard = _calcLayer.ApplyLevelValues(card);
-    var calculatedCard = _calcLayer.ApplyTokenFunctionValues(leveledCard, player, _players);
+    var leveledCard = card.GetLeveledCard();
+    var calculatedCard = leveledCard.ApplyTokenFunctionValues(player, _players);
     var tokenAbilities = calculatedCard.Abilities?.MoveTokenAbilities ?? new List<MoveTokenAbility>();
     var tokensGiven = CalculateTokens(tokenAbilities, player);
     return tokensGiven;

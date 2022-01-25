@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
-public class PrepAbility : Ability
+public class PrepAbility : Ability, ICloneable
 {
   public string Name { get; set; }
   /// <summary>
@@ -36,6 +37,19 @@ public class PrepAbility : Ability
       throw new Exception($"Error: unable to parse Effect {Effect} to enum Effect");
     }
     return type;
+  }
+
+  public object Clone()
+  {
+    return new PrepAbility
+    {
+      Name = Name,
+      Trigger = Trigger,
+      Functions = Functions.Select(p => p.Clone()).Cast<Function>().ToList(),
+      Effect = Effect,
+      Value = Value,
+      Target = Target
+    };
   }
 }
 

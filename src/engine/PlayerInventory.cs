@@ -28,7 +28,7 @@ public class PlayerInventory
       var cardScript = GetCardInSlot(i);
       var card = (cardScript == null ? new CardEmpty() : cardScript.Card);
       cardDict[i] = card;
-      GD.Print($"card: {card.GetName()} {card.BaseMove}");
+      GD.Print($"card: {card.GetRawName()} {card.BaseMove}");
     }
     return cardDict;
   }

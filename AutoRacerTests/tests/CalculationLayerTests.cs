@@ -8,8 +8,6 @@ namespace AutoRacerTests.Tests
   [TestFixture]
   public class CalculationLayerTests
   {
-    private CalculationLayer _calcLayer = new CalculationLayer();
-
     [SetUp]
     public void SetUp()
     {
@@ -39,7 +37,7 @@ namespace AutoRacerTests.Tests
     public void ApplyLevelValues_All_Success(int level)
     {
       var card = GetLevelTestCard(level);
-      var leveledCard = _calcLayer.ApplyLevelValues(card);
+      var leveledCard = card.GetLeveledCard();
 
       Assert.That(leveledCard.GetRawName(), Is.EqualTo($"name_success_C{level}"));
       Assert.That(leveledCard.GetRawDescription(), Is.EqualTo($"description_success_C{level}"));

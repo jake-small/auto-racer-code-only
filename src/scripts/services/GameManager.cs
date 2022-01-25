@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
 public static class GameManager
 {
   public static Player LocalPlayer { get; set; }

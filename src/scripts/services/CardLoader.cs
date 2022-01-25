@@ -30,7 +30,7 @@ public class CardLoader
     }
     var cardDataArr = System.IO.File.ReadAllLines(cardDataFile);
     var cardDataJson = String.Join("\n", cardDataArr);
-    GD.Print($"Card Data:\n{cardDataJson}");
+    // GD.Print($"Card Data:\n{cardDataJson}");
     // TODO: error handling
     var cardData = JsonSerializer.Deserialize<CardData>(cardDataJson);
     return cardData.Cards;
