@@ -86,6 +86,7 @@ public class Card : ICloneable
       if (Level >= MaxCardLevel)
       {
         Exp = ExpToLvl;
+        return;
       }
       ExpToLvl = ExpToLvl + 1;
       Exp = 1;
