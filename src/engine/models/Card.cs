@@ -15,6 +15,7 @@ public class Card : ICloneable
   public List<LevelValue> LevelValues { get; set; }
 
   private CalculationLayer _calcLayer = new CalculationLayer();
+  private const int MaxCardLevel = 3;
 
   public object Clone()
   {
@@ -67,12 +68,25 @@ public class Card : ICloneable
     return Description;
   }
 
+  public bool IsMaxLevel()
+  {
+    return Level == MaxCardLevel;
+  }
+
   public void AddExp(int exp)
   {
+    if (Level >= MaxCardLevel)
+    {
+      return;
+    }
     Exp += exp;
     if (Exp >= ExpToLvl)
     {
       Level = Level + 1;
+      if (Level >= MaxCardLevel)
+      {
+        Exp = ExpToLvl;
+      }
       ExpToLvl = ExpToLvl + 1;
       Exp = 1;
     }
