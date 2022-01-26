@@ -47,19 +47,22 @@ public class PlayerInventory
     return cards;
   }
 
-  public bool AddCard(CardScript cardScript, int slot)
+  public bool AddCard(CardScript cardScript, int slot, bool fromShopInventory)
   {
     if (IsCardInSlot(slot))
     {
       GD.Print($"Can't ADD '{cardScript.Card.GetName()}' to {slot}. There's already a card there.");
       return false;
     }
-    GameManager.PrepEngine.ShopInventory.RemoveCard(cardScript.Slot);
+    if (fromShopInventory)
+    {
+      GameManager.PrepEngine.ShopInventory.RemoveCard(cardScript.Slot);
+    }
     cardScript.Slot = slot;
     cardScript.Frozen = false;
     cardScript.Inventory = InventoryTarget.Player;
     _cardScripts[slot] = cardScript;
-    GD.Print($"ADDED '{cardScript.Card.GetName()}' to {slot}");
+    GD.Print($"ADDED '{cardScript.Card.GetName()}' to Player inventory slot {slot}");
     return true;
   }
 
@@ -67,13 +70,13 @@ public class PlayerInventory
   {
     if (!IsCardInSlot(slot))
     {
-      GD.Print($"Can't REMOVE card from {slot}. There's no card there.");
+      GD.Print($"Can't REMOVE card from Player inventory slot {slot}. There's no card there.");
       return false;
     }
     var card = GetCardInSlot(slot);
     card.Slot = -1;
     _cardScripts.Remove(slot);
-    GD.Print($"REMOVED card from {slot}");
+    GD.Print($"REMOVED card from Player inventory slot {slot}");
     return true;
   }
 

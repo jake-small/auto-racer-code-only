@@ -56,6 +56,7 @@ public class PrepMain : Node2D
 
 
     PlayerInventoryFill();
+    CardShopClear();
     CardShopFill();
     _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
     GameManager.PrepEngine.CalculateStartTurnAbilities();
@@ -160,7 +161,7 @@ public class PrepMain : Node2D
       if (bankResult.Success)
       {
         _newCoinTotal = bankResult.CoinTotal;
-        var result = GameManager.PrepEngine.PlayerInventory.AddCard(cardScript, slot);
+        var result = GameManager.PrepEngine.PlayerInventory.AddCard(cardScript, slot, true);
         if (result)
         {
           DropCard(cardScript, droppedPosition);
@@ -338,9 +339,13 @@ public class PrepMain : Node2D
     cardInstance.Connect(nameof(CardScript.cardSelected), this, nameof(_on_Card_selected));
     cardInstance.Connect(nameof(CardScript.cardDeselected), this, nameof(_on_Card_deselected));
     AddChild(cardInstance);
+    if (!inShopInventory)
+    {
+      GameManager.PrepEngine.PlayerInventory.RemoveCard(slot);
+    }
     var result = inShopInventory
       ? GameManager.PrepEngine.ShopInventory.AddCard(cardInstance, slot)
-      : GameManager.PrepEngine.PlayerInventory.AddCard(cardInstance, slot);
+      : GameManager.PrepEngine.PlayerInventory.AddCard(cardInstance, slot, false);
     if (!result)
     {
       GD.Print($"Error adding card to shop inventory {card.GetRawName()} at slot {slot}");
@@ -416,7 +421,7 @@ public class PrepMain : Node2D
       var targetSlot = targetCardScript.Slot;
       GameManager.PrepEngine.PlayerInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
       GameManager.PrepEngine.PlayerInventory.RemoveCard(targetSlot); // Remove target card
-      GameManager.PrepEngine.PlayerInventory.AddCard(droppedCardScript, targetSlot);
+      GameManager.PrepEngine.PlayerInventory.AddCard(droppedCardScript, targetSlot, false);
       targetCardScript.QueueFree(); // Remove dropped card node
     }
   }

@@ -42,12 +42,12 @@ public class ShopInventory
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't ADD '{cardScript.Card.GetName()}' to {slot}. There's already a card there.");
+      GD.Print($"Can't ADD '{cardScript.Card.GetName()}' to Shop inventory slot {slot}. There's already a card there.");
       return false;
     }
     cardScript.Slot = slot;
     CardScriptDict[slot] = cardScript;
-    GD.Print($"ADDED '{cardScript.Card.GetName()}' to {slot}");
+    GD.Print($"ADDED '{cardScript.Card.GetName()}' to Shop inventory slot {slot}");
     return true;
   }
 
@@ -55,13 +55,13 @@ public class ShopInventory
   {
     if (!IsCardInSlot(slot))
     {
-      GD.Print($"Can't REMOVE card from {slot}. There's no card there.");
+      GD.Print($"Can't REMOVE card from Shop inventory slot {slot}. There's no card there.");
       return false;
     }
     var card = GetCardInSlot(slot);
     card.Slot = -1;
     CardScriptDict.Remove(slot);
-    GD.Print($"REMOVED card from {slot}");
+    GD.Print($"REMOVED card from Shop inventory slot {slot}");
     return true;
   }
 }
