@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ShopService
 {
@@ -19,13 +20,14 @@ public class ShopService
     }
   }
 
-  public List<Card> GetRandomCards(int count)
+  public List<Card> GetRandomCards(int amount, int maxTier)
   {
+    var availableCardsForTier = _availableCards.Where(c => c.Tier <= maxTier).ToList();
     var cards = new List<Card>();
-    for (int i = 0; i < count; i++)
+    for (int i = 0; i < amount; i++)
     {
-      var r = _rnd.Next(_availableCards.Count);
-      var card = (Card)_availableCards[r].Clone();
+      var r = _rnd.Next(availableCardsForTier.Count);
+      var card = (Card)availableCardsForTier[r].Clone();
       cards.Add(card);
     }
     return cards;

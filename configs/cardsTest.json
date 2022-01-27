@@ -76,7 +76,7 @@
       "Icon": "icon851.png",
       "Description": "For each opponent on your current space, gain {A} move",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -221,7 +221,7 @@
       "Icon": "icon259.png",
       "Description": "On any Sell, gain {A} base move",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -273,7 +273,7 @@
       "Icon": "icon702.png",
       "Description": "When Sold, give other player cards {A} base move",
       "BaseMove": 3,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [

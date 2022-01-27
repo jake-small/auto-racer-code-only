@@ -323,13 +323,39 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var cards = _shopService.GetRandomCards(GameData.ShopInventorySize);
+    var cards = _shopService.GetRandomCards(GameData.ShopInventorySize, GetTier());
     for (int i = frozenCards.Count; i < GameData.ShopInventorySize; i++)
     {
       var card = cards[i];
       // var cardScript = new CardScript(card);
       CreateCardScript(card, i, true);
     }
+  }
+
+  private int GetTier()
+  {
+    /*
+   race: 1 2 3 4 5 6 7 8 9 10 11 12
+   tier: 1 1 1 2 2 2 3 3 3 4  4  4
+   */
+    var raceNumber = GameManager.RaceNumber;
+    if (raceNumber > 9)
+    {
+      return 4;
+    }
+    else if (raceNumber > 6)
+    {
+      return 3;
+    }
+    else if (raceNumber > 3)
+    {
+      return 2;
+    }
+    else if (raceNumber >= 0)
+    {
+      return 1;
+    }
+    return -1;
   }
 
   private void CreateCardScript(Card card, int slot, bool inShopInventory, bool isFrozen = false)
