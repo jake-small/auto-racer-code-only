@@ -146,8 +146,7 @@ public class RaceMain : Node2D
     {
       _forwardButton.Disabled = true;
       _raceOver = true;
-      var winner = _autoRaceEngine.GetStandings().FirstOrDefault();
-      GD.Print($"Race Over- Player {winner.Id} is the victor!");
+      CalculateStandings();
       return;
     }
   }
@@ -180,6 +179,47 @@ public class RaceMain : Node2D
       GD.Print($"Updating Card States: {state}");
       _labelCardArray[p].Text = state;
       p = p + 1;
+    }
+  }
+
+  private void CalculateStandings()
+  {
+    var standings = _autoRaceEngine.GetStandings();
+    var localPlayerPlacement = 0;
+    var i = 1;
+    foreach (var result in standings)
+    {
+      GD.Print($"Player {result.Id} finished {IntToPlace(i)}");
+
+      if (GameManager.LocalPlayer.Id == result.Id)
+      {
+        localPlayerPlacement = i;
+      }
+      i = i + 1;
+    }
+    if (localPlayerPlacement == standings.Count())
+    {
+      var livesLost = 1;
+      GD.Print($"You lost {livesLost} life");
+      GameManager.LifeTotal = GameManager.LifeTotal - livesLost;
+    }
+  }
+
+  private string IntToPlace(int i)
+  {
+    switch (i)
+    {
+      case 1:
+        return "first";
+      case 2:
+        return "second";
+      case 3:
+        return "third";
+      case 4:
+        return "fourth";
+      default:
+        GD.Print($"error in function IntToPlace() with parameter {i}");
+        return "error";
     }
   }
 }

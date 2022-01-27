@@ -32,6 +32,11 @@ public class PrepMain : Node2D
       };
     }
 
+    var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
+    raceLabel.Text = GameManager.RaceNumber.ToString();
+    var heartLabel = GetNode<Label>(PrepSceneData.LabelHeartsPath);
+    heartLabel.Text = GameManager.LifeTotal.ToString();
+
     _selectedCardPanel = GetNode<Node2D>(PrepSceneData.ContainerSelectedCard);
     _selectedCardNameLabel = GetNode<Label>(PrepSceneData.LabelSelectedNamePath);
     _selectedCardDescriptionLabel = GetNode<Label>(PrepSceneData.LabelSelectedDescriptionPath);
