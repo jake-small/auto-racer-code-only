@@ -22,7 +22,7 @@ public class ShopInventory
   public List<CardScript> GetCardsAsList()
   {
     var cardScripts = new List<CardScript>();
-    for (int i = 0; i < GameData.InventorySize; i++)
+    for (int i = 0; i < GameData.ShopInventorySize; i++)
     {
       var card = GetCardInSlot(i);
       if (card != null)

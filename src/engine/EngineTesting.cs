@@ -74,7 +74,7 @@ public static class EngineTesting
         Cards = new Dictionary<int, Card>(),
         Position = 0
       };
-      for (var c = 0; c < GameData.InventorySize; c++)
+      for (var c = 0; c < GameData.PlayerInventorySize; c++)
       {
         var sampleCard = GetSampleCard();
         player.Cards.Add(c, sampleCard);

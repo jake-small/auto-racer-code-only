@@ -56,8 +56,8 @@ public class PrepMain : Node2D
 
 
     PlayerInventoryFill();
-    CardShopClear();
-    CardShopFill();
+    var frozenCards = GetFrozenCardNodesInShop().ToList();
+    CardShopFill(frozenCards);
     _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
     GameManager.PrepEngine.CalculateStartTurnAbilities();
   }
@@ -130,7 +130,7 @@ public class PrepMain : Node2D
         return;
       }
     }
-    else if (GameManager.PrepEngine.PlayerInventory.IsCardInSlot(slot)) // Card in shop but card exists in targetted slot
+    else if (GameManager.PrepEngine.PlayerInventory.IsCardInSlot(slot) && cardScript.IsInShop()) // Card in shop but card exists in targetted slot
     {
       DeselectAllCards();
       var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
@@ -226,7 +226,6 @@ public class PrepMain : Node2D
     {
       _newCoinTotal = bankResult.CoinTotal;
       var frozenCards = GetFrozenCardNodesInShop().ToList();
-      CardShopClear();
       CardShopFill(frozenCards);
     }
   }
@@ -297,8 +296,9 @@ public class PrepMain : Node2D
 
   private void CardShopFill(List<CardScript> frozenCards = null)
   {
+    CardShopClear();
     frozenCards = frozenCards ?? new List<CardScript>();
-    if (frozenCards.Count > GameData.ShopSize)
+    if (frozenCards.Count > GameData.ShopInventorySize)
     {
       GD.Print("Error: more frozen cards than there are shop slots");
       return;
@@ -312,8 +312,8 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var cards = _shopService.GetRandomCards(GameData.ShopSize);
-    for (int i = frozenCards.Count; i < GameData.ShopSize; i++)
+    var cards = _shopService.GetRandomCards(GameData.ShopInventorySize);
+    for (int i = frozenCards.Count; i < GameData.ShopInventorySize; i++)
     {
       var card = cards[i];
       // var cardScript = new CardScript(card);
@@ -354,11 +354,14 @@ public class PrepMain : Node2D
 
   private void CardShopClear()
   {
-    GameManager.PrepEngine.ShopInventory.Clear();
     var shopCardNodes = GetCardNodesInShop();
+    GameManager.PrepEngine.ShopInventory.Clear();
     foreach (var shopCardNode in shopCardNodes)
     {
-      shopCardNode.QueueFree();
+      if (IsInstanceValid(shopCardNode))
+      {
+        shopCardNode.QueueFree();
+      }
     }
   }
 
@@ -410,11 +413,14 @@ public class PrepMain : Node2D
     {
       targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
       targetCardScript.UpdateUi();
-      if (!fromShopInventory)
+      if (fromShopInventory)
+      {
+        GameManager.PrepEngine.ShopInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
+      }
+      else
       {
         GameManager.PrepEngine.PlayerInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
       }
-
       droppedCardScript.QueueFree(); // Remove dropped card node
     }
     else
@@ -432,19 +438,20 @@ public class PrepMain : Node2D
 
   private IEnumerable<CardScript> GetCardNodesInShop()
   {
-    var shopCards = new List<CardScript>();
-    var cardNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCard);
-    foreach (var cardNode in cardNodes)
-    {
-      if (cardNode is CardScript cardScript)
-      {
-        if (cardScript.IsInShop())
-        {
-          shopCards.Add(cardScript);
-        }
-      }
-    }
-    return shopCards;
+    return GameManager.PrepEngine.ShopInventory.GetCardsAsList();
+    // var shopCards = new List<CardScript>();
+    // var cardNodes = GetTree().GetNodesInGroup(PrepSceneData.GroupCard);
+    // foreach (var cardNode in cardNodes)
+    // {
+    //   if (cardNode is CardScript cardScript)
+    //   {
+    //     if (cardScript.IsInShop())
+    //     {
+    //       shopCards.Add(cardScript);
+    //     }
+    //   }
+    // }
+    // return shopCards;
   }
 
   private IEnumerable<CardScript> GetFrozenCardNodesInShop()

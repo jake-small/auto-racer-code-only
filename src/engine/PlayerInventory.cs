@@ -23,7 +23,7 @@ public class PlayerInventory
   public Dictionary<int, Card> GetCards()
   {
     var cardDict = new Dictionary<int, Card>();
-    for (int i = 0; i < GameData.InventorySize; i++)
+    for (int i = 0; i < GameData.PlayerInventorySize; i++)
     {
       var cardScript = GetCardInSlot(i);
       var card = (cardScript == null ? new CardEmpty() : cardScript.Card);
@@ -36,7 +36,7 @@ public class PlayerInventory
   public List<CardScript> GetCardsAsList()
   {
     var cards = new List<CardScript>();
-    for (int i = 0; i < GameData.InventorySize; i++)
+    for (int i = 0; i < GameData.PlayerInventorySize; i++)
     {
       var card = GetCardInSlot(i);
       if (card != null)
