@@ -412,6 +412,7 @@ public class PrepMain : Node2D
     if (targetCardScript.Card.Level >= droppedCardScript.Card.Level || fromShopInventory)
     {
       targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
+      targetCardScript.Card.CombineBaseMove(droppedCardScript.Card.BaseMove);
       targetCardScript.UpdateUi();
       if (fromShopInventory)
       {
@@ -426,6 +427,7 @@ public class PrepMain : Node2D
     else
     {
       droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
+      droppedCardScript.Card.CombineBaseMove(targetCardScript.Card.BaseMove);
       DropCard(droppedCardScript, targetCardScript.Position);
       droppedCardScript.UpdateUi();
       var targetSlot = targetCardScript.Slot;

@@ -92,4 +92,14 @@ public class Card : ICloneable
       Exp = 1;
     }
   }
+
+  public void CombineBaseMove(int otherBaseMove)
+  {
+    if (BaseMove > otherBaseMove)
+    {
+      BaseMove = BaseMove + 1;
+      return;
+    }
+    BaseMove = otherBaseMove + 1;
+  }
 }
