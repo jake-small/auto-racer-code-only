@@ -123,8 +123,11 @@ public class PrepMain : Node2D
       var targetCardScript = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       if (cardScript.Card.GetName() == targetCardScript.Card.GetName() && !targetCardScript.Card.IsMaxLevel()) // Combine cards of same type
       {
-        CombineCards(cardScript, targetCardScript, false);
-        return;
+        var combineResult = CombineCards(cardScript, targetCardScript, false);
+        if (combineResult)
+        {
+          return;
+        }
       }
 
       var result = GameManager.PrepEngine.PlayerInventory.SwapCards(slot, cardScript.Slot);
@@ -145,8 +148,11 @@ public class PrepMain : Node2D
         if (bankResult.Success)
         {
           _newCoinTotal = bankResult.CoinTotal;
-          CombineCards(cardScript, targetCardScript, true);
-          return;
+          var combineResult = CombineCards(cardScript, targetCardScript, true);
+          if (combineResult)
+          {
+            return;
+          }
         }
       }
     }
@@ -412,8 +418,12 @@ public class PrepMain : Node2D
     }
   }
 
-  private void CombineCards(CardScript droppedCardScript, CardScript targetCardScript, bool fromShopInventory)
+  private bool CombineCards(CardScript droppedCardScript, CardScript targetCardScript, bool fromShopInventory)
   {
+    if (droppedCardScript.Card.IsMaxLevel() || targetCardScript.Card.IsMaxLevel())
+    {
+      return false;
+    }
     if (targetCardScript.Card.Level >= droppedCardScript.Card.Level || fromShopInventory)
     {
       targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
@@ -441,6 +451,7 @@ public class PrepMain : Node2D
       GameManager.PrepEngine.PlayerInventory.AddCard(droppedCardScript, targetSlot, false);
       targetCardScript.QueueFree(); // Remove dropped card node
     }
+    return true;
   }
 
   private IEnumerable<CardScript> GetCardNodesInShop()
