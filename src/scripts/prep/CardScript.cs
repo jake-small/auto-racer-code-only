@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,11 +17,10 @@ public class CardScript : KinematicBody2D
   private Label _baseMoveLabel;
 
   public bool Selected = false;
-  public bool Frozen = false;
   public bool Dropped = false;
   public Vector2 DroppedPosition = new Vector2();
   public Vector2 StartingPosition = new Vector2();
-  public InventoryTarget Inventory { get; set; } = InventoryTarget.Shop; // TODO
+  // public InventoryType Inventory { get; set; } = InventoryType.Shop;
   public int Slot;
   public bool MouseInCardActionButton = false;
   public Card Card { get; set; }
@@ -71,7 +69,7 @@ public class CardScript : KinematicBody2D
       _selectedSprite.Visible = false;
     }
 
-    if (Frozen)
+    if (Card.Frozen)
     {
       foreach (var frozenSprite in _frozenSprites)
       {
@@ -129,7 +127,7 @@ public class CardScript : KinematicBody2D
     {
       GD.Print("not dropped in slot");
     }
-    else if (Inventory == InventoryTarget.Shop || Slot != potentialSlot)
+    else if (Card.InventoryType == InventoryType.Shop || Slot != potentialSlot)
     {
       emitDroppedInSlotSignal(potentialSlot, DroppedPosition, StartingPosition);
       return;
@@ -200,7 +198,7 @@ public class CardScript : KinematicBody2D
 
   public bool IsInShop()
   {
-    return Inventory == InventoryTarget.Shop;
+    return Card.InventoryType == InventoryType.Shop;
   }
 
   private void StartDraggingCard()

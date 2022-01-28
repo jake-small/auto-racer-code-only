@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Godot;
-
 public interface TokenAbility : Ability
 {
   string Phase { get; set; }

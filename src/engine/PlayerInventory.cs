@@ -1,21 +1,20 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 
 public class PlayerInventory
 {
-  private Dictionary<int, CardScript> _cardScripts { get; set; } = new Dictionary<int, CardScript>();
+  private Dictionary<int, Card> _cardDict { get; set; } = new Dictionary<int, Card>();
 
   public bool IsCardInSlot(int slotNum)
   {
-    return _cardScripts.ContainsKey(slotNum);
+    return _cardDict.ContainsKey(slotNum);
   }
 
-  public CardScript GetCardInSlot(int slotNum)
+  public Card GetCardInSlot(int slotNum)
   {
-    if (_cardScripts.ContainsKey(slotNum))
+    if (_cardDict.ContainsKey(slotNum))
     {
-      return _cardScripts[slotNum];
+      return _cardDict[slotNum];
     }
     return null;
   }
@@ -25,17 +24,19 @@ public class PlayerInventory
     var cardDict = new Dictionary<int, Card>();
     for (int i = 0; i < GameData.PlayerInventorySize; i++)
     {
-      var cardScript = GetCardInSlot(i);
-      var card = (cardScript == null ? new CardEmpty() : cardScript.Card);
+      var card = GetCardInSlot(i);
+      if (card is null)
+      {
+        card = new CardEmpty();
+      }
       cardDict[i] = card;
-      GD.Print($"card: {card.GetRawName()} {card.BaseMove}");
     }
     return cardDict;
   }
 
-  public List<CardScript> GetCardsAsList()
+  public List<Card> GetCardsAsList()
   {
-    var cards = new List<CardScript>();
+    var cards = new List<Card>();
     for (int i = 0; i < GameData.PlayerInventorySize; i++)
     {
       var card = GetCardInSlot(i);
@@ -47,22 +48,16 @@ public class PlayerInventory
     return cards;
   }
 
-  public bool AddCard(CardScript cardScript, int slot, bool fromShopInventory)
+  public bool AddCard(Card card, int slot)
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't ADD '{cardScript.Card.GetName()}' to {slot}. There's already a card there.");
+      Console.WriteLine($"Can't ADD '{card.GetName()}' to {slot}. There's already a card there.");
       return false;
     }
-    if (fromShopInventory)
-    {
-      GameManager.PrepEngine.ShopInventory.RemoveCard(cardScript.Slot);
-    }
-    cardScript.Slot = slot;
-    cardScript.Frozen = false;
-    cardScript.Inventory = InventoryTarget.Player;
-    _cardScripts[slot] = cardScript;
-    GD.Print($"ADDED '{cardScript.Card.GetName()}' to Player inventory slot {slot}");
+    card.InventoryType = InventoryType.Player;
+    _cardDict[slot] = card;
+    Console.WriteLine($"ADDED '{card.GetName()}' to Player inventory slot {slot}");
     return true;
   }
 
@@ -70,28 +65,27 @@ public class PlayerInventory
   {
     if (!IsCardInSlot(slot))
     {
-      GD.Print($"Can't REMOVE card from Player inventory slot {slot}. There's no card there.");
+      Console.WriteLine($"Can't REMOVE card from Player inventory slot {slot}. There's no card there.");
       return false;
     }
     var card = GetCardInSlot(slot);
-    card.Slot = -1;
-    _cardScripts.Remove(slot);
-    GD.Print($"REMOVED card from Player inventory slot {slot}");
+    // card.Slot = -1;
+    _cardDict.Remove(slot);
+    Console.WriteLine($"REMOVED card from Player inventory slot {slot}");
     return true;
   }
 
-  public bool MoveCard(CardScript cardScript, int toSlot)
+  public bool MoveCard(Card card, int fromSlot, int toSlot)
   {
-    var fromSlot = cardScript.Slot;
     if (IsCardInSlot(toSlot))
     {
-      GD.Print($"Can't MOVE '{cardScript.Card.GetName()}' from {fromSlot} to {toSlot}. There's already a card there.");
+      Console.WriteLine($"Can't MOVE '{card.GetName()}' from {fromSlot} to {toSlot}. There's already a card there.");
       return false;
     }
-    cardScript.Slot = toSlot;
-    _cardScripts[toSlot] = cardScript;
-    _cardScripts.Remove(fromSlot);
-    GD.Print($"MOVED '{cardScript.Card.GetName()}' from {fromSlot} to {toSlot}");
+    // card.Slot = toSlot;
+    _cardDict[toSlot] = card;
+    _cardDict.Remove(fromSlot);
+    Console.WriteLine($"MOVED '{card.GetName()}' from {fromSlot} to {toSlot}");
     return true;
   }
 
@@ -99,27 +93,27 @@ public class PlayerInventory
   {
     if (!IsCardInSlot(slot1) && !IsCardInSlot(slot2))
     {
-      GD.Print($"Can't SWAP cards. No cards in slots {slot1} and {slot2}");
+      Console.WriteLine($"Can't SWAP cards. No cards in slots {slot1} and {slot2}");
       return false;
     }
     if (!IsCardInSlot(slot1))
     {
-      GD.Print($"Can't SWAP cards. No card in slot {slot1}");
+      Console.WriteLine($"Can't SWAP cards. No card in slot {slot1}");
       return false;
     }
     if (!IsCardInSlot(slot2))
     {
-      GD.Print($"Can't SWAP cards. No card in slot {slot2}");
+      Console.WriteLine($"Can't SWAP cards. No card in slot {slot2}");
       return false;
     }
 
     var card1 = GetCardInSlot(slot1);
     var card2 = GetCardInSlot(slot2);
-    card1.Slot = slot2;
-    card2.Slot = slot1;
-    _cardScripts[slot1] = card2;
-    _cardScripts[slot2] = card1;
-    GD.Print($"SWAPPED card '{card1.Card.GetName()}' to {slot2} and '{card2.Card.GetName()}' in {slot1}");
+    // card1.Slot = slot2;
+    // card2.Slot = slot1;
+    _cardDict[slot1] = card2;
+    _cardDict[slot2] = card1;
+    Console.WriteLine($"SWAPPED card '{card1.GetName()}' to {slot2} and '{card2.GetName()}' in {slot1}");
     return true;
   }
 }

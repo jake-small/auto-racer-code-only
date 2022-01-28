@@ -13,6 +13,8 @@ public class Card : ICloneable
   public int ExpToLvl { get; private set; } = 3;
   public Abilities Abilities { get; set; }
   public List<LevelValue> LevelValues { get; set; }
+  public InventoryType InventoryType { get; set; }
+  public bool Frozen = false;
 
   private CalculationLayer _calcLayer = new CalculationLayer();
   private const int MaxCardLevel = 3;
@@ -30,7 +32,8 @@ public class Card : ICloneable
       Exp = Exp,
       ExpToLvl = ExpToLvl,
       Abilities = (Abilities)Abilities?.Clone(),
-      LevelValues = LevelValues
+      LevelValues = LevelValues,
+      InventoryType = InventoryType
     };
   }
 
@@ -102,4 +105,11 @@ public class Card : ICloneable
     }
     BaseMove = otherBaseMove + 1;
   }
+}
+
+public enum InventoryType
+{
+  Player,
+  Shop,
+  Any
 }

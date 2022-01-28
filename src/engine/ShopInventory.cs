@@ -1,53 +1,57 @@
+using System;
 using System.Collections.Generic;
-using Godot;
 
 public class ShopInventory
 {
-  public Dictionary<int, CardScript> CardScriptDict { get; private set; } = new Dictionary<int, CardScript>();
+  private Dictionary<int, Card> _cardDict { get; set; } = new Dictionary<int, Card>();
 
   public bool IsCardInSlot(int slotNum)
   {
-    return CardScriptDict.ContainsKey(slotNum);
+    return _cardDict.ContainsKey(slotNum);
   }
 
-  public CardScript GetCardInSlot(int slotNum)
+  public Card GetCardInSlot(int slotNum)
   {
-    if (CardScriptDict.ContainsKey(slotNum))
+    if (_cardDict.ContainsKey(slotNum))
     {
-      return CardScriptDict[slotNum];
+      return _cardDict[slotNum];
     }
     return null;
   }
 
-  public List<CardScript> GetCardsAsList()
+  public Dictionary<int, Card> GetCards()
   {
-    var cardScripts = new List<CardScript>();
+    return _cardDict;
+  }
+
+  public List<Card> GetCardsAsList()
+  {
+    var cards = new List<Card>();
     for (int i = 0; i < GameData.ShopInventorySize; i++)
     {
       var card = GetCardInSlot(i);
       if (card != null)
       {
-        cardScripts.Add(card);
+        cards.Add(card);
       }
     }
-    return cardScripts;
+    return cards;
   }
 
   public void Clear()
   {
-    CardScriptDict.Clear();
+    _cardDict.Clear();
   }
 
-  public bool AddCard(CardScript cardScript, int slot)
+  public bool AddCard(Card card, int slot)
   {
     if (IsCardInSlot(slot))
     {
-      GD.Print($"Can't ADD '{cardScript.Card.GetName()}' to Shop inventory slot {slot}. There's already a card there.");
+      Console.WriteLine($"Can't ADD '{card.GetName()}' to Shop inventory slot {slot}. There's already a card there.");
       return false;
     }
-    cardScript.Slot = slot;
-    CardScriptDict[slot] = cardScript;
-    GD.Print($"ADDED '{cardScript.Card.GetName()}' to Shop inventory slot {slot}");
+    _cardDict[slot] = card;
+    Console.WriteLine($"ADDED '{card.GetName()}' to Shop inventory slot {slot}");
     return true;
   }
 
@@ -55,13 +59,12 @@ public class ShopInventory
   {
     if (!IsCardInSlot(slot))
     {
-      GD.Print($"Can't REMOVE card from Shop inventory slot {slot}. There's no card there.");
+      Console.WriteLine($"Can't REMOVE card from Shop inventory slot {slot}. There's no card there.");
       return false;
     }
     var card = GetCardInSlot(slot);
-    card.Slot = -1;
-    CardScriptDict.Remove(slot);
-    GD.Print($"REMOVED card from Shop inventory slot {slot}");
+    _cardDict.Remove(slot);
+    Console.WriteLine($"REMOVED card from Shop inventory slot {slot}");
     return true;
   }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Godot;
 
 public static class ExtensionMethods
 {
@@ -22,7 +21,7 @@ public static class ExtensionMethods
   {
     if (!Int32.TryParse(strValue, out var intValue))
     {
-      GD.Print($"Error: unable to parse string to int: {strValue}");
+      Console.WriteLine($"Error: unable to parse string to int: {strValue}");
       throw new Exception($"Error: unable to parse string to int: {strValue}");
     }
     return intValue;
