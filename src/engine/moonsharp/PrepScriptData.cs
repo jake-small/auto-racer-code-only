@@ -12,7 +12,7 @@ public class PrepScriptData : MoonSharpScriptData
   public int LifeTotal { get; set; }
   public int RaceNumber { get; set; }
 
-  public PrepScriptData(IEnumerable<CardScript> playerInventory, IEnumerable<CardScript> shopInventory, int coinTotal, int lifeTotal, int raceNumber)
+  public PrepScriptData(Dictionary<int, Card> playerInventory, Dictionary<int, Card> shopInventory, int coinTotal, int lifeTotal, int raceNumber)
   {
     PlayerInventory = playerInventory.Select(p => new MoonSharpCard(p));
     ShopInventory = shopInventory.Select(p => new MoonSharpCard(p));
@@ -33,14 +33,17 @@ public class MoonSharpCard
   public int Level { get; set; }
   public int Exp { get; set; }
 
-  public MoonSharpCard(CardScript cardScript)
+  public MoonSharpCard(KeyValuePair<int, Card> slottedCard)
   {
-    Name = cardScript.Card.GetName();
-    BaseMove = cardScript.Card.BaseMove;
-    Slot = cardScript.Slot;
-    Inventory = cardScript.Inventory.ToString();
-    Tier = cardScript.Card.Tier;
-    Level = cardScript.Card.Level;
-    Exp = cardScript.Card.Exp;
+    var slot = slottedCard.Key;
+    var card = slottedCard.Value;
+
+    Name = card.GetName();
+    BaseMove = card.BaseMove;
+    Slot = slot;
+    Inventory = card.InventoryType.ToString();
+    Tier = card.Tier;
+    Level = card.Level;
+    Exp = card.Exp;
   }
 }

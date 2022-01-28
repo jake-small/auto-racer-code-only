@@ -38,9 +38,9 @@ public class PrepTarget
     return type;
   }
 
-  public InventoryTarget GetInventoryType()
+  public InventoryType GetInventoryType()
   {
-    var result = Enum.TryParse(Inventory, true, out InventoryTarget type);
+    var result = Enum.TryParse(Inventory, true, out InventoryType type);
     if (!result)
     {
       Console.WriteLine($"Error: unable to parse Inventory {Inventory} to enum InventoryType");
@@ -70,11 +70,4 @@ public class PrepTarget
     }
     return priority;
   }
-}
-
-public enum InventoryTarget
-{
-  Player,
-  Shop,
-  Any
 }

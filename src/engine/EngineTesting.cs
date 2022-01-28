@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Godot;
 
 public static class EngineTesting
 {
@@ -59,7 +58,7 @@ public static class EngineTesting
       playerNum = playerNum + 1;
     }
     var positionViewString = string.Join("\n", positionView);
-    GD.Print(positionViewString);
+    Console.WriteLine(positionViewString);
     return positionViewString;
   }
 

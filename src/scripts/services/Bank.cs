@@ -1,4 +1,4 @@
-using Godot;
+using System;
 
 public class Bank
 {
@@ -23,26 +23,26 @@ public class Bank
     return CoinTotal;
   }
 
-  public BankActionResult Buy(CardScript cardScript)
+  public BankActionResult Buy(Card card)
   {
     if (CoinTotal >= _buyCost)
     {
-      GD.Print("Paid for card");
+      Console.WriteLine("Paid for card");
       CoinTotal = CoinTotal - _buyCost;
       GameManager.PrepEngine.CalculateOnBuyAbilities();
-      GameManager.PrepEngine.CalculateOnBoughtAbilities(cardScript);
+      GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
       return new BankActionResult(true, CoinTotal);
     }
-    GD.Print("Can't afford to buy card");
+    Console.WriteLine("Can't afford to buy card");
     return new BankActionResult(false);
   }
 
-  public BankActionResult Sell(CardScript cardScript)
+  public BankActionResult Sell(Card card)
   {
-    GD.Print("Sold card");
+    Console.WriteLine("Sold card");
     CoinTotal = CoinTotal + _sellValue;
     GameManager.PrepEngine.CalculateOnSellAbilities();
-    GameManager.PrepEngine.CalculateOnSoldAbilities(cardScript);
+    GameManager.PrepEngine.CalculateOnSoldAbilities(card);
     return new BankActionResult(true, CoinTotal);
   }
 
@@ -50,18 +50,18 @@ public class Bank
   {
     if (CoinTotal >= _rerollCost)
     {
-      // GD.Print("Paid for reroll");
+      Console.WriteLine("Paid for reroll");
       CoinTotal = CoinTotal - _rerollCost;
       GameManager.PrepEngine.CalculateOnRerollAbilities();
       return new BankActionResult(true, CoinTotal);
     }
-    GD.Print("Can't afford to reroll");
+    Console.WriteLine("Can't afford to reroll");
     return new BankActionResult(false);
   }
 
   public int AddCoins(int amount)
   {
-    GD.Print($"{amount} coins added to bank. New total is {CoinTotal}");
+    Console.WriteLine($"{amount} coins added to bank. New total is {CoinTotal}");
     return CoinTotal += amount;
   }
 }

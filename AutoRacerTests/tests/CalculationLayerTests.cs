@@ -69,7 +69,7 @@ namespace AutoRacerTests.Tests
       Assert.AreEqual(prepAbility.Value, $"value_success_A{level}");
       var prepTarget = prepAbility.Target;
       Assert.AreEqual(prepTarget.GetTargetType(), TargetType.All);
-      Assert.AreEqual(prepTarget.GetInventoryType(), InventoryTarget.Player);
+      Assert.AreEqual(prepTarget.GetInventoryType(), InventoryType.Player);
       Assert.AreEqual(prepTarget.Slot, $"slot_success_T{level}");
       Assert.AreEqual(prepTarget.GetDirection(), Direction.Any);
       Assert.AreEqual(prepTarget.GetPriority(), Priority.Closest);

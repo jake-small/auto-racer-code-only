@@ -63,8 +63,8 @@ public class CalculationLayer
         continue;
       }
 
-      var playerInventory = GameManager.PrepEngine.PlayerInventory.GetCardsAsList();
-      var shopInventory = GameManager.PrepEngine.ShopInventory.GetCardsAsList();
+      var playerInventory = GameManager.PrepEngine.PlayerInventory.GetCards();
+      var shopInventory = GameManager.PrepEngine.ShopInventory.GetCards();
       var coinTotal = GameManager.PrepEngine.Bank.CoinTotal;
       var lifeTotal = GameManager.LifeTotal;
       var raceNumber = GameManager.RaceNumber;

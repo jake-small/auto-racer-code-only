@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using Godot;
 
 public class PrepEngine
 {
@@ -15,7 +14,6 @@ public class PrepEngine
   public PrepEngine()
   {
     var bankData = LoadBankDataJson();
-    GD.Print($"json bank data Starting Coins: {bankData.StartingCoins}");
     Bank = new Bank(bankData);
     PlayerInventory = new PlayerInventory();
     ShopInventory = new ShopInventory();
@@ -24,78 +22,78 @@ public class PrepEngine
   public void CalculateStartTurnAbilities()
   {
     var startTurnAbilityCards = PlayerInventory.GetCardsAsList()
-      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
-        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn));
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn));
     CalculateAbilities(startTurnAbilityCards, Trigger.Startturn);
   }
 
   public void CalculateEndTurnAbilities()
   {
     var endTurnAbilityCards = PlayerInventory.GetCardsAsList()
-      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
-        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn));
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn));
     CalculateAbilities(endTurnAbilityCards, Trigger.Endturn);
   }
 
-  public void CalculateOnSoldAbilities(CardScript cardScript)
+  public void CalculateOnSoldAbilities(Card card)
   {
-    if (cardScript.Card.Abilities != null && cardScript.Card.Abilities.PrepAbilities != null
-      && cardScript.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sold))
+    if (card.Abilities != null && card.Abilities.PrepAbilities != null
+      && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sold))
     {
-      CalculateAbilities(new List<CardScript> { cardScript }, Trigger.Sold);
+      CalculateAbilities(new List<Card> { card }, Trigger.Sold);
     }
   }
 
-  public void CalculateOnBoughtAbilities(CardScript cardScript)
+  public void CalculateOnBoughtAbilities(Card card)
   {
-    if (cardScript.Card.Abilities != null && cardScript.Card.Abilities.PrepAbilities != null
-      && cardScript.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Bought))
+    if (card.Abilities != null && card.Abilities.PrepAbilities != null
+      && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Bought))
     {
-      CalculateAbilities(new List<CardScript> { cardScript }, Trigger.Bought);
+      CalculateAbilities(new List<Card> { card }, Trigger.Bought);
     }
   }
 
   public void CalculateOnSellAbilities()
   {
     var onSellAbilityCards = PlayerInventory.GetCardsAsList()
-      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
-        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell));
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell));
     CalculateAbilities(onSellAbilityCards, Trigger.Sell);
   }
 
   public void CalculateOnBuyAbilities()
   {
     var onBuyAbilityCards = PlayerInventory.GetCardsAsList()
-      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
-        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Buy));
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Buy));
     CalculateAbilities(onBuyAbilityCards, Trigger.Buy);
   }
 
   public void CalculateOnRerollAbilities()
   {
     var onRerollAbilityCards = PlayerInventory.GetCardsAsList()
-      .Where(c => c.Card.Abilities != null && c.Card.Abilities.PrepAbilities != null &&
-        c.Card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Reroll));
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Reroll));
     CalculateAbilities(onRerollAbilityCards, Trigger.Reroll);
   }
 
-  private void CalculateAbilities(IEnumerable<CardScript> cardScripts, Trigger trigger)
+  private void CalculateAbilities(IEnumerable<Card> cards, Trigger trigger)
   {
-    foreach (var cardScript in cardScripts)
+    foreach (var card in cards)
     {
-      var leveledCard = cardScript.Card.GetLeveledCard();
+      var leveledCard = card.GetLeveledCard();
       var calculatedCard = leveledCard.ApplyPrepFunctionValues();
       var onTriggerAbilities = calculatedCard.Abilities.PrepAbilities
         .Where(a => a.GetTrigger() == trigger);
 
       foreach (var ability in onTriggerAbilities)
       {
-        ExecuteAbility(ability, cardScript);
+        ExecuteAbility(ability, card);
       }
     }
   }
 
-  private void ExecuteAbility(PrepAbility ability, CardScript cardScript)
+  private void ExecuteAbility(PrepAbility ability, Card cardScript)
   {
     switch (ability.GetEffect())
     {
@@ -111,23 +109,21 @@ public class PrepEngine
     }
   }
 
-  private void BaseMoveEffect(PrepAbility ability, CardScript cardScript)
+  private void BaseMoveEffect(PrepAbility ability, Card card)
   {
-    var targets = GetTargets(ability, cardScript);
+    var targets = GetTargets(ability, card);
     foreach (var target in targets)
     {
-      target.Card.BaseMove += ability.Value.ToInt();
-      target.UpdateUi();
+      target.BaseMove += ability.Value.ToInt();
     }
   }
 
-  private void ExperienceEffect(PrepAbility ability, CardScript cardScript)
+  private void ExperienceEffect(PrepAbility ability, Card card)
   {
-    var targets = GetTargets(ability, cardScript);
+    var targets = GetTargets(ability, card);
     foreach (var target in targets)
     {
-      target.Card.AddExp(ability.Value.ToInt());
-      target.UpdateUi();
+      target.AddExp(ability.Value.ToInt());
     }
   }
 
@@ -136,44 +132,44 @@ public class PrepEngine
     Bank.AddCoins(ability.Value.ToInt());
   }
 
-  private IEnumerable<CardScript> GetTargets(PrepAbility ability, CardScript card)
+  private IEnumerable<Card> GetTargets(PrepAbility ability, Card card)
   {
-    var targets = new List<CardScript>();
+    var targets = new List<Card>();
     var target = ability.Target;
     switch (target.GetTargetType())
     {
       case TargetType.Self:
-        if (target.GetInventoryType() == InventoryTarget.Any || target.GetInventoryType() == card.Inventory)
+        if (target.GetInventoryType() == InventoryType.Any || target.GetInventoryType() == card.InventoryType)
         {
           targets.Add(card);
         }
         break;
       case TargetType.Others:
-        if (target.GetInventoryType() == InventoryTarget.Any)
+        if (target.GetInventoryType() == InventoryType.Any)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList().Where(c => c != card));
           targets.AddRange(ShopInventory.GetCardsAsList().Where(c => c != card));
         }
-        else if (target.GetInventoryType() == InventoryTarget.Player)
+        else if (target.GetInventoryType() == InventoryType.Player)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList().Where(c => c != card));
         }
-        else if (target.GetInventoryType() == InventoryTarget.Shop)
+        else if (target.GetInventoryType() == InventoryType.Shop)
         {
           targets.AddRange(ShopInventory.GetCardsAsList().Where(c => c != card));
         }
         break;
       case TargetType.All:
-        if (target.GetInventoryType() == InventoryTarget.Any)
+        if (target.GetInventoryType() == InventoryType.Any)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList());
           targets.AddRange(ShopInventory.GetCardsAsList());
         }
-        else if (target.GetInventoryType() == InventoryTarget.Player)
+        else if (target.GetInventoryType() == InventoryType.Player)
         {
           targets.AddRange(PlayerInventory.GetCardsAsList());
         }
-        else if (target.GetInventoryType() == InventoryTarget.Shop)
+        else if (target.GetInventoryType() == InventoryType.Shop)
         {
           targets.AddRange(ShopInventory.GetCardsAsList());
         }
@@ -187,12 +183,11 @@ public class PrepEngine
     var bankConfigFile = PrepSceneData.BankDataConfigRelativePath;
     if (!System.IO.File.Exists(bankConfigFile))
     {
-      GD.Print($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
+      Console.WriteLine($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
       throw new Exception($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
     }
     var bankDataConfigArr = System.IO.File.ReadAllLines(bankConfigFile);
     var bankDataConfig = String.Join("\n", bankDataConfigArr);
-    GD.Print($"Bank Data:\n{bankDataConfig}");
     // TODO: error handling
     return JsonSerializer.Deserialize<BankData>(bankDataConfig);
   }
