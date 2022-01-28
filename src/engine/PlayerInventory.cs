@@ -69,7 +69,6 @@ public class PlayerInventory
       return false;
     }
     var card = GetCardInSlot(slot);
-    // card.Slot = -1;
     _cardDict.Remove(slot);
     Console.WriteLine($"REMOVED card from Player inventory slot {slot}");
     return true;
@@ -82,7 +81,6 @@ public class PlayerInventory
       Console.WriteLine($"Can't MOVE '{card.GetName()}' from {fromSlot} to {toSlot}. There's already a card there.");
       return false;
     }
-    // card.Slot = toSlot;
     _cardDict[toSlot] = card;
     _cardDict.Remove(fromSlot);
     Console.WriteLine($"MOVED '{card.GetName()}' from {fromSlot} to {toSlot}");
@@ -109,8 +107,6 @@ public class PlayerInventory
 
     var card1 = GetCardInSlot(slot1);
     var card2 = GetCardInSlot(slot2);
-    // card1.Slot = slot2;
-    // card2.Slot = slot1;
     _cardDict[slot1] = card2;
     _cardDict[slot2] = card1;
     Console.WriteLine($"SWAPPED card '{card1.GetName()}' to {slot2} and '{card2.GetName()}' in {slot1}");

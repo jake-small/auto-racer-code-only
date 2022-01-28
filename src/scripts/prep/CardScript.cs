@@ -20,7 +20,6 @@ public class CardScript : KinematicBody2D
   public bool Dropped = false;
   public Vector2 DroppedPosition = new Vector2();
   public Vector2 StartingPosition = new Vector2();
-  // public InventoryType Inventory { get; set; } = InventoryType.Shop;
   public int Slot;
   public bool MouseInCardActionButton = false;
   public Card Card { get; set; }

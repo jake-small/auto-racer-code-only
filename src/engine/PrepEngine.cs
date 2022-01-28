@@ -115,7 +115,6 @@ public class PrepEngine
     foreach (var target in targets)
     {
       target.BaseMove += ability.Value.ToInt();
-      // target.UpdateUi();
     }
   }
 
@@ -125,7 +124,6 @@ public class PrepEngine
     foreach (var target in targets)
     {
       target.AddExp(ability.Value.ToInt());
-      // target.UpdateUi();
     }
   }
 

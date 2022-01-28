@@ -50,7 +50,7 @@ public class Bank
   {
     if (CoinTotal >= _rerollCost)
     {
-      // Console.WriteLine("Paid for reroll");
+      Console.WriteLine("Paid for reroll");
       CoinTotal = CoinTotal - _rerollCost;
       GameManager.PrepEngine.CalculateOnRerollAbilities();
       return new BankActionResult(true, CoinTotal);

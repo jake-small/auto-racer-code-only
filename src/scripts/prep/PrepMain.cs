@@ -350,7 +350,6 @@ public class PrepMain : Node2D
     for (int slot = frozenCards.Count; slot < GameData.ShopInventorySize; slot++)
     {
       var card = cards[slot];
-      // var cardScript = new CardScript(card);
       CreateCardScript(card, slot, true);
       GameManager.PrepEngine.ShopInventory.AddCard(card, slot);
     }
