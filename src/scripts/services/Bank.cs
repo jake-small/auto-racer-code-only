@@ -6,15 +6,17 @@ public class Bank
   private int _rerollCost;
   private int _sellValue;
   private int _startingCoins;
+  private bool _shouldLog;
 
   public int CoinTotal { get; private set; }
 
-  public Bank(BankData bankData)
+  public Bank(BankData bankData, bool shouldLog = true)
   {
     _buyCost = bankData.BuyCost;
     _rerollCost = bankData.RerollCost;
     _sellValue = bankData.SellValue;
     _startingCoins = bankData.StartingCoins;
+    _shouldLog = shouldLog;
   }
 
   public int SetStartingCoins()
@@ -27,19 +29,19 @@ public class Bank
   {
     if (CoinTotal >= _buyCost)
     {
-      Console.WriteLine("Paid for card");
+      EngineTesting.Log("Paid for card", _shouldLog);
       CoinTotal = CoinTotal - _buyCost;
       GameManager.PrepEngine.CalculateOnBuyAbilities();
       GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
       return new BankActionResult(true, CoinTotal);
     }
-    Console.WriteLine("Can't afford to buy card");
+    EngineTesting.Log("Can't afford to buy card", _shouldLog);
     return new BankActionResult(false);
   }
 
   public BankActionResult Sell(Card card)
   {
-    Console.WriteLine("Sold card");
+    EngineTesting.Log("Sold card", _shouldLog);
     CoinTotal = CoinTotal + _sellValue;
     GameManager.PrepEngine.CalculateOnSellAbilities();
     GameManager.PrepEngine.CalculateOnSoldAbilities(card);
@@ -50,18 +52,18 @@ public class Bank
   {
     if (CoinTotal >= _rerollCost)
     {
-      Console.WriteLine("Paid for reroll");
+      EngineTesting.Log("Paid for reroll", _shouldLog);
       CoinTotal = CoinTotal - _rerollCost;
       GameManager.PrepEngine.CalculateOnRerollAbilities();
       return new BankActionResult(true, CoinTotal);
     }
-    Console.WriteLine("Can't afford to reroll");
+    EngineTesting.Log("Can't afford to reroll", _shouldLog);
     return new BankActionResult(false);
   }
 
   public int AddCoins(int amount)
   {
-    Console.WriteLine($"{amount} coins added to bank. New total is {CoinTotal}");
+    EngineTesting.Log($"{amount} coins added to bank. New total is {CoinTotal}", _shouldLog);
     return CoinTotal += amount;
   }
 }

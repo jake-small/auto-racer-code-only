@@ -3,7 +3,13 @@ using System.Collections.Generic;
 
 public class ShopInventory
 {
+  private bool _shouldLog;
   private Dictionary<int, Card> _cardDict { get; set; } = new Dictionary<int, Card>();
+
+  public ShopInventory(bool shouldLog = true)
+  {
+    _shouldLog = shouldLog;
+  }
 
   public bool IsCardInSlot(int slotNum)
   {
@@ -47,11 +53,11 @@ public class ShopInventory
   {
     if (IsCardInSlot(slot))
     {
-      Console.WriteLine($"Can't ADD '{card.GetName()}' to Shop inventory slot {slot}. There's already a card there.");
+      EngineTesting.Log($"Can't ADD '{card.GetName()}' to Shop inventory slot {slot}. There's already a card there.", _shouldLog);
       return false;
     }
     _cardDict[slot] = card;
-    Console.WriteLine($"ADDED '{card.GetName()}' to Shop inventory slot {slot}");
+    EngineTesting.Log($"ADDED '{card.GetName()}' to Shop inventory slot {slot}", _shouldLog);
     return true;
   }
 
@@ -59,12 +65,12 @@ public class ShopInventory
   {
     if (!IsCardInSlot(slot))
     {
-      Console.WriteLine($"Can't REMOVE card from Shop inventory slot {slot}. There's no card there.");
+      EngineTesting.Log($"Can't REMOVE card from Shop inventory slot {slot}. There's no card there.", _shouldLog);
       return false;
     }
     var card = GetCardInSlot(slot);
     _cardDict.Remove(slot);
-    Console.WriteLine($"REMOVED card from Shop inventory slot {slot}");
+    EngineTesting.Log($"REMOVED card from Shop inventory slot {slot}", _shouldLog);
     return true;
   }
 }

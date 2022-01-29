@@ -4,6 +4,15 @@ using System.Linq;
 
 public static class EngineTesting
 {
+  public static void Log(string message, bool shouldLog = true)
+  {
+    // TODO implement logging
+    if (shouldLog)
+    {
+      Console.WriteLine(message);
+    }
+  }
+
   public static AutoRaceEngine RaceEngine(Player player1)
   {
     var players = new List<Player>();
@@ -42,7 +51,7 @@ public static class EngineTesting
       {
         positionView[playerNum] = positionView[playerNum].Remove(0, 1).Insert(0, position.ToString());
       }
-      else if (position * 2 > positionView.FirstOrDefault().Length)
+      else if (position * 2 >= positionView.FirstOrDefault().Length)
       {
         var trackLength = positionView[playerNum].Length;
         positionView[playerNum] = positionView[playerNum].Remove(trackLength - 1, 1).Insert(trackLength - 1, position.ToString());
@@ -76,25 +85,4 @@ public static class EngineTesting
   {
     return new BotBasic(id, GameManager.RaceNumber + 1);
   }
-
-  // private static List<Player> GetOpponents(int numOpponents)
-  // {
-  //   var players = new List<Player>();
-  //   for (var i = 1; i < numOpponents + 1; i++)
-  //   {
-  //     var player = new Player
-  //     {
-  //       Id = i,
-  //       Cards = new Dictionary<int, Card>(),
-  //       Position = 0
-  //     };
-  //     for (var c = 0; c < GameData.PlayerInventorySize; c++)
-  //     {
-  //       var sampleCard = GetSampleCard();
-  //       player.Cards.Add(c, sampleCard);
-  //     }
-  //     players.Add(player);
-  //   }
-  //   return players;
-  // }
 }

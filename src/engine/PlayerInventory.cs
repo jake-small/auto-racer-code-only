@@ -3,7 +3,13 @@ using System.Collections.Generic;
 
 public class PlayerInventory
 {
+  private bool _shouldLog;
   private Dictionary<int, Card> _cardDict { get; set; } = new Dictionary<int, Card>();
+
+  public PlayerInventory(bool shouldLog = true)
+  {
+    _shouldLog = shouldLog;
+  }
 
   public bool IsCardInSlot(int slotNum)
   {
@@ -52,12 +58,12 @@ public class PlayerInventory
   {
     if (IsCardInSlot(slot))
     {
-      Console.WriteLine($"Can't ADD '{card.GetName()}' to {slot}. There's already a card there.");
+      EngineTesting.Log($"Can't ADD '{card.GetName()}' to {slot}. There's already a card there.", _shouldLog);
       return false;
     }
     card.InventoryType = InventoryType.Player;
     _cardDict[slot] = card;
-    Console.WriteLine($"ADDED '{card.GetName()}' to Player inventory slot {slot}");
+    EngineTesting.Log($"ADDED '{card.GetName()}' to Player inventory slot {slot}", _shouldLog);
     return true;
   }
 
@@ -65,12 +71,12 @@ public class PlayerInventory
   {
     if (!IsCardInSlot(slot))
     {
-      Console.WriteLine($"Can't REMOVE card from Player inventory slot {slot}. There's no card there.");
+      EngineTesting.Log($"Can't REMOVE card from Player inventory slot {slot}. There's no card there.", _shouldLog);
       return false;
     }
     var card = GetCardInSlot(slot);
     _cardDict.Remove(slot);
-    Console.WriteLine($"REMOVED card from Player inventory slot {slot}");
+    EngineTesting.Log($"REMOVED card from Player inventory slot {slot}", _shouldLog);
     return true;
   }
 
@@ -78,12 +84,12 @@ public class PlayerInventory
   {
     if (IsCardInSlot(toSlot))
     {
-      Console.WriteLine($"Can't MOVE '{card.GetName()}' from {fromSlot} to {toSlot}. There's already a card there.");
+      EngineTesting.Log($"Can't MOVE '{card.GetName()}' from {fromSlot} to {toSlot}. There's already a card there.", _shouldLog);
       return false;
     }
     _cardDict[toSlot] = card;
     _cardDict.Remove(fromSlot);
-    Console.WriteLine($"MOVED '{card.GetName()}' from {fromSlot} to {toSlot}");
+    EngineTesting.Log($"MOVED '{card.GetName()}' from {fromSlot} to {toSlot}", _shouldLog);
     return true;
   }
 
@@ -91,17 +97,17 @@ public class PlayerInventory
   {
     if (!IsCardInSlot(slot1) && !IsCardInSlot(slot2))
     {
-      Console.WriteLine($"Can't SWAP cards. No cards in slots {slot1} and {slot2}");
+      EngineTesting.Log($"Can't SWAP cards. No cards in slots {slot1} and {slot2}", _shouldLog);
       return false;
     }
     if (!IsCardInSlot(slot1))
     {
-      Console.WriteLine($"Can't SWAP cards. No card in slot {slot1}");
+      EngineTesting.Log($"Can't SWAP cards. No card in slot {slot1}", _shouldLog);
       return false;
     }
     if (!IsCardInSlot(slot2))
     {
-      Console.WriteLine($"Can't SWAP cards. No card in slot {slot2}");
+      EngineTesting.Log($"Can't SWAP cards. No card in slot {slot2}", _shouldLog);
       return false;
     }
 
@@ -109,7 +115,7 @@ public class PlayerInventory
     var card2 = GetCardInSlot(slot2);
     _cardDict[slot1] = card2;
     _cardDict[slot2] = card1;
-    Console.WriteLine($"SWAPPED card '{card1.GetName()}' to {slot2} and '{card2.GetName()}' in {slot1}");
+    EngineTesting.Log($"SWAPPED card '{card1.GetName()}' to {slot2} and '{card2.GetName()}' in {slot1}", _shouldLog);
     return true;
   }
 }
