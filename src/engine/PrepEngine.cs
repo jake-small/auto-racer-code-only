@@ -5,16 +5,18 @@ using System.Text.Json;
 
 public class PrepEngine
 {
+  public BankData BankData { get; private set; }
   public Bank Bank { get; private set; }
   public PlayerInventory PlayerInventory { get; set; }
   public ShopInventory ShopInventory { get; set; }
+  public ShopService ShopService { get; set; } = new ShopService();
   // TODO
   // private string history;
 
   public PrepEngine()
   {
-    var bankData = LoadBankDataJson();
-    Bank = new Bank(bankData);
+    BankData = LoadBankDataJson();
+    Bank = new Bank(BankData);
     PlayerInventory = new PlayerInventory();
     ShopInventory = new ShopInventory();
   }

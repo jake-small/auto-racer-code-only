@@ -18,11 +18,10 @@ public class PrepMain : Node2D
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
-  private ShopService _shopService = new ShopService();
 
   public override void _Ready()
   {
-    if (GameManager.LocalPlayer == null)
+    if (GameManager.LocalPlayer is null)
     {
       GameManager.LocalPlayer = new Player
       {
@@ -346,39 +345,13 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var cards = _shopService.GetRandomCards(GameData.ShopInventorySize, GetTier());
+    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameData.ShopInventorySize);
     for (int slot = frozenCards.Count; slot < GameData.ShopInventorySize; slot++)
     {
       var card = cards[slot];
       CreateCardScript(card, slot, true);
       GameManager.PrepEngine.ShopInventory.AddCard(card, slot);
     }
-  }
-
-  private int GetTier()
-  {
-    /*
-   race: 1 2 3 4 5 6 7 8 9 10 11 12
-   tier: 1 1 1 2 2 2 3 3 3 4  4  4
-   */
-    var raceNumber = GameManager.RaceNumber;
-    if (raceNumber > 9)
-    {
-      return 4;
-    }
-    else if (raceNumber > 6)
-    {
-      return 3;
-    }
-    else if (raceNumber > 3)
-    {
-      return 2;
-    }
-    else if (raceNumber >= 0)
-    {
-      return 1;
-    }
-    return -1;
   }
 
   private void CreateCardScript(Card card, int slot, bool inShopInventory, bool isFrozen = false)

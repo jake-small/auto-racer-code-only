@@ -20,8 +20,19 @@ public class ShopService
     }
   }
 
-  public List<Card> GetRandomCards(int amount, int maxTier)
+  public ShopService(List<Card> cards)
   {
+    _availableCards = cards;
+  }
+
+  public List<Card> GetAvailableCards()
+  {
+    return _availableCards;
+  }
+
+  public List<Card> GetRandomCards(int amount)
+  {
+    var maxTier = GetTier();
     var availableCardsForTier = _availableCards.Where(c => c.Tier <= maxTier).ToList();
     var cards = new List<Card>();
     for (int i = 0; i < amount; i++)
@@ -31,5 +42,31 @@ public class ShopService
       cards.Add(card);
     }
     return cards;
+  }
+
+  private int GetTier()
+  {
+    /*
+   race: 1 2 3 4 5 6 7 8 9 10 11 12
+   tier: 1 1 1 2 2 2 3 3 3 4  4  4
+   */
+    var raceNumber = GameManager.RaceNumber;
+    if (raceNumber > 9)
+    {
+      return 4;
+    }
+    else if (raceNumber > 6)
+    {
+      return 3;
+    }
+    else if (raceNumber > 3)
+    {
+      return 2;
+    }
+    else if (raceNumber >= 0)
+    {
+      return 1;
+    }
+    return -1;
   }
 }

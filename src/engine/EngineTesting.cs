@@ -9,7 +9,7 @@ public static class EngineTesting
     var players = new List<Player>();
     players.Add(player1);
     // Add other players
-    players.AddRange(GetOpponents(3));
+    players.AddRange(GetBots(3));
 
     return new AutoRaceEngine(players, 5, 5);
   }
@@ -62,24 +62,39 @@ public static class EngineTesting
     return positionViewString;
   }
 
-  private static List<Player> GetOpponents(int numOpponents)
+  private static List<Player> GetBots(int numOpponents)
   {
     var players = new List<Player>();
     for (var i = 1; i < numOpponents + 1; i++)
     {
-      var player = new Player
-      {
-        Id = i,
-        Cards = new Dictionary<int, Card>(),
-        Position = 0
-      };
-      for (var c = 0; c < GameData.PlayerInventorySize; c++)
-      {
-        var sampleCard = GetSampleCard();
-        player.Cards.Add(c, sampleCard);
-      }
-      players.Add(player);
+      players.Add(GetBot(i));
     }
     return players;
   }
+
+  private static Player GetBot(int id)
+  {
+    return new BotBasic(id, GameManager.RaceNumber + 1);
+  }
+
+  // private static List<Player> GetOpponents(int numOpponents)
+  // {
+  //   var players = new List<Player>();
+  //   for (var i = 1; i < numOpponents + 1; i++)
+  //   {
+  //     var player = new Player
+  //     {
+  //       Id = i,
+  //       Cards = new Dictionary<int, Card>(),
+  //       Position = 0
+  //     };
+  //     for (var c = 0; c < GameData.PlayerInventorySize; c++)
+  //     {
+  //       var sampleCard = GetSampleCard();
+  //       player.Cards.Add(c, sampleCard);
+  //     }
+  //     players.Add(player);
+  //   }
+  //   return players;
+  // }
 }
