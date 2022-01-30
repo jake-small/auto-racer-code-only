@@ -56,25 +56,28 @@ public class BotBasic : Player
       if (availableSlot == -1)
       {
         // no open slots
-        var combineResult = CombinePair();
+        var combineResult = CombinePairFromInventory();
         if (!combineResult)
         {
-          // TODO try to combine straight from shop
-          // search for a match to availableCard in botInventory
-          //   if no match found, change availableShopCard to next card and try again
+          var combineFromShopResult = BuyAndCombineFromShop();
+          if (!combineFromShopResult)
+          {
+            break;
+          }
 
-          break;
+          continue;
         }
-        continue;
+        else
+        {
+          continue;
+        }
       }
 
-      var buyResult = _bank.Buy(availableShopCard);
-      if (!buyResult.Success)
+      var buyResult = BuyCard(availableSlot, availableShopCard, availableShopCardSlot);
+      if (!buyResult)
       {
         break;
       }
-      _botInventory.AddCard(availableShopCard, availableSlot);
-      _botShopInventory.RemoveCard(availableShopCardSlot);
     }
   }
 
@@ -100,7 +103,19 @@ public class BotBasic : Player
     return true;
   }
 
-  private bool CombinePair()
+  private bool BuyCard(int playerSlot, Card shopCard, int shopCardSlot)
+  {
+    var buyResult = _bank.Buy(shopCard);
+    if (!buyResult.Success)
+    {
+      return false;
+    }
+    _botInventory.AddCard(shopCard, playerSlot);
+    _botShopInventory.RemoveCard(shopCardSlot);
+    return true;
+  }
+
+  private bool CombinePairFromInventory()
   {
     var cardDict = _botInventory.GetCards();
     foreach (var (slotA, cardA) in cardDict.Select(d => (d.Key, d.Value)))
@@ -117,7 +132,8 @@ public class BotBasic : Player
           // TODO: this logic is partially duplicated here and in PrepMain.cs
           if (cardA.IsMaxLevel() || cardB.IsMaxLevel())
           {
-            return false;
+            // return false;
+            continue;
           }
 
           if (cardA.Level >= cardB.Level)
@@ -138,10 +154,35 @@ public class BotBasic : Player
       }
     }
     return false;
-    // if (targetCardScript.Card.Level >= droppedCardScript.Card.Level || fromShopInventory)
-    // {
-    //   targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
-    //   targetCardScript.Card.CombineBaseMove(droppedCardScript.Card.BaseMove);
+  }
+
+  private bool BuyAndCombineFromShop()
+  {
+    var shopCardDict = _botShopInventory.GetCards();
+    var botCardDict = _botInventory.GetCards();
+    foreach (var (shopSlot, shopCard) in shopCardDict.Select(d => (d.Key, d.Value)))
+    {
+      foreach (var (botSlot, botCard) in botCardDict.Select(d => (d.Key, d.Value)))
+      {
+        if (shopCard.GetRawName() == botCard.GetRawName())
+        {
+          if (botCard.IsMaxLevel())
+          {
+            continue;
+          }
+          var buyResult = BuyCard(botSlot, shopCard, shopSlot);
+          if (!buyResult)
+          {
+            continue;
+          }
+          botCard.AddExp(shopCard.Exp);
+          botCard.CombineBaseMove(shopCard.BaseMove);
+          _botShopInventory.RemoveCard(botSlot);
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private (int, Card) GetFirstShopCard()
