@@ -31,6 +31,15 @@ public class PrepMain : Node2D
       };
     }
 
+    var firstPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumFirstPlaces);
+    var secondPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumSecondPlaces);
+    var thirdPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumThirdPlaces);
+    var fourthPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumFourthPlaces);
+    firstPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
+    secondPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
+    thirdPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
+    fourthPlacesLabel.Text = GameManager.Score.GetResult(4).ToString();
+
     var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
     raceLabel.Text = GameManager.RaceNumber.ToString();
     var heartLabel = GetNode<Label>(PrepSceneData.LabelHeartsPath);

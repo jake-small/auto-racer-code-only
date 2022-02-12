@@ -300,25 +300,53 @@ position = Vector2( 399.36, 577.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 17 )
 
-[node name="first_place_count" type="Sprite" parent="Container_win_record"]
-position = Vector2( 240.64, 617.382 )
-scale = Vector2( 0.31, 0.295139 )
-texture = ExtResource( 12 )
+[node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 222.296
+margin_top = 597.332
+margin_right = 262.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 19 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="second_place_count" type="Sprite" parent="Container_win_record"]
-position = Vector2( 295.2, 615.611 )
-scale = Vector2( 0.31, 0.295139 )
-texture = ExtResource( 12 )
+[node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 278.296
+margin_top = 597.332
+margin_right = 318.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 19 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="third_place_count3" type="Sprite" parent="Container_win_record"]
-position = Vector2( 349.76, 615.611 )
-scale = Vector2( 0.31, 0.295139 )
-texture = ExtResource( 12 )
+[node name="Label_thirdPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 333.296
+margin_top = 597.332
+margin_right = 373.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 19 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="fourth_place_count4" type="Sprite" parent="Container_win_record"]
-position = Vector2( 399.36, 615.611 )
-scale = Vector2( 0.31, 0.295139 )
-texture = ExtResource( 12 )
+[node name="Label_fourthPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 382.296
+margin_top = 597.332
+margin_right = 422.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 19 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Container_info" type="Node2D" parent="."]
 

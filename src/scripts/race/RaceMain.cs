@@ -194,6 +194,7 @@ public class RaceMain : Node2D
       if (GameManager.LocalPlayer.Id == result.Id)
       {
         localPlayerPlacement = i;
+        GameManager.Score.AddResult(i);
       }
       i = i + 1;
     }

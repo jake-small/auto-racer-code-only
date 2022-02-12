@@ -19,6 +19,10 @@ public static class PrepSceneData
   public const string SpriteCardIcon = "Icon";
   public const string LabelCardLevel = "Label_level";
   public const string LabelCardBaseMove = "Label_basemove";
+  public const string LabelNumFirstPlaces = "Container_win_record/Label_firstPlaceTotal";
+  public const string LabelNumSecondPlaces = "Container_win_record/Label_secondPlaceTotal";
+  public const string LabelNumThirdPlaces = "Container_win_record/Label_thirdPlaceTotal";
+  public const string LabelNumFourthPlaces = "Container_win_record/Label_fourthPlaceTotal";
   public const string LabelRaceTotalPath = "Container_info/Label_raceTotal";
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";

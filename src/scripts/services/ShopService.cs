@@ -47,19 +47,49 @@ public class ShopService
   private int GetTier()
   {
     /*
-   race: 1 2 3 4 5 6 7 8 9 10 11 12
-   tier: 1 1 1 2 2 2 3 3 3 4  4  4
+    option 1:
+      race: 1 2 3 4 5 6 7 8 9 10 11 12
+      tier: 1 1 1 2 2 2 3 3 3 4  4  4
+    option 2:
+      race: 1 2 3 4 5 6 7 8 9 10 11 12
+      tier: 1 1 2 2 3 3 4 4 5 5  6  6
    */
     var raceNumber = GameManager.RaceNumber;
-    if (raceNumber > 9)
+
+    // if (raceNumber > 9)
+    // {
+    //   return 4;
+    // }
+    // else if (raceNumber > 6)
+    // {
+    //   return 3;
+    // }
+    // else if (raceNumber > 3)
+    // {
+    //   return 2;
+    // }
+    // else if (raceNumber >= 0)
+    // {
+    //   return 1;
+    // }
+
+    if (raceNumber > 10)
     {
-      return 4;
+      return 6;
+    }
+    else if (raceNumber > 8)
+    {
+      return 5;
     }
     else if (raceNumber > 6)
     {
+      return 4;
+    }
+    else if (raceNumber > 4)
+    {
       return 3;
     }
-    else if (raceNumber > 3)
+    else if (raceNumber > 2)
     {
       return 2;
     }
