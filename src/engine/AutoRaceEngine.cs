@@ -40,7 +40,7 @@ public class AutoRaceEngine
   public int GetTurn() => _turn;
   public TurnPhases GetTurnPhase() => _phase;
 
-  public IEnumerable<Player> GetStandings() => _players.OrderByDescending(p => p.Position);
+  public List<Player> GetStandings() => _players.OrderByDescending(p => p.Position).ToList();
 
   public IEnumerable<PlayerTurnResult> GetTurnResults()
   {

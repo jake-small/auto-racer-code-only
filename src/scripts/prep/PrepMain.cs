@@ -58,7 +58,6 @@ public class PrepMain : Node2D
     AddChild(_dropCardTimer);
 
     var rerollButton = GetNode(PrepSceneData.ButtonRerollPath) as Button;
-    GD.Print("rerollbutton connected");
     rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
     _freezeButton = GetNode(PrepSceneData.ButtonFreezePath) as Button;
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));

@@ -76,7 +76,8 @@ public class RaceMain : Node2D
   private void Button_finish_pressed()
   {
     GD.Print("Finish button pressed");
-    GetTree().ChangeScene("res://src/scenes/game/Prep.tscn");
+
+    GetTree().ChangeScene("res://src/scenes/game/RaceEnd.tscn");
   }
 
   private void Button_forward_pressed()
@@ -185,6 +186,9 @@ public class RaceMain : Node2D
   private void CalculateStandings()
   {
     var standings = _autoRaceEngine.GetStandings();
+    GameManager.RaceHistory.AddResult(
+      GameManager.RaceNumber, standings.Select(p => new PlayerResult { Id = p.Id, Position = p.Position }).ToList()
+    );
     var localPlayerPlacement = 0;
     var i = 1;
     foreach (var result in standings)
