@@ -4,5 +4,6 @@ public class BankData
   public int BuyCost { get; set; }
   public int RerollCost { get; set; }
   public int SellValue { get; set; }
-
+  public int? SellLevelMultiplier { get; set; }
+  public int? SellLevelAdditive { get; set; }
 }

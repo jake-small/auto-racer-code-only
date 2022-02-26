@@ -5,6 +5,8 @@ public class Bank
   private int _buyCost;
   private int _rerollCost;
   private int _sellValue;
+  private int _sellLevelMultiplier;
+  private int _sellLevelAdditive;
   private int _startingCoins;
   private bool _shouldLog;
 
@@ -15,6 +17,8 @@ public class Bank
     _buyCost = bankData.BuyCost;
     _rerollCost = bankData.RerollCost;
     _sellValue = bankData.SellValue;
+    _sellLevelMultiplier = bankData.SellLevelMultiplier ?? 1;
+    _sellLevelAdditive = bankData.SellLevelAdditive ?? 0;
     _startingCoins = bankData.StartingCoins;
     _shouldLog = shouldLog;
   }
@@ -42,7 +46,10 @@ public class Bank
   public BankActionResult Sell(Card card)
   {
     EngineTesting.Log("Sold card", _shouldLog);
-    CoinTotal = CoinTotal + _sellValue;
+    var levelUps = card.Level - 1;
+    var multiplier = _sellLevelMultiplier < 2 || levelUps is 0 ? 1 : _sellLevelMultiplier * levelUps;
+    var additive = _sellLevelAdditive * levelUps;
+    CoinTotal = CoinTotal + (_sellValue * multiplier) + additive;
     GameManager.PrepEngine.CalculateOnSellAbilities();
     GameManager.PrepEngine.CalculateOnSoldAbilities(card);
     return new BankActionResult(true, CoinTotal);
