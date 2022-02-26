@@ -83,6 +83,6 @@ public static class EngineTesting
 
   private static Player GetBot(int id)
   {
-    return new BotBasic(id, GameManager.RaceNumber + 1);
+    return new BotBasic(id, GameManager.RaceNumber);
   }
 }
