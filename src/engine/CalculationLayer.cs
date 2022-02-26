@@ -67,7 +67,7 @@ public class CalculationLayer
       var shopInventory = GameManager.PrepEngine.ShopInventory.GetCards();
       var coinTotal = GameManager.PrepEngine.Bank.CoinTotal;
       var lifeTotal = GameManager.LifeTotal;
-      var raceNumber = GameManager.RaceNumber;
+      var raceNumber = GameManager.CurrentRace;
       var scriptData = new PrepScriptData(playerInventory, shopInventory, coinTotal, lifeTotal, raceNumber);
       var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
       UpdateAllNestedStrings(card, calculatedOutKeys);

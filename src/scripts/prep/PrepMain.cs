@@ -42,7 +42,7 @@ public class PrepMain : Node2D
     fourthPlacesLabel.Text = GameManager.Score.GetResult(4).ToString();
 
     var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
-    raceLabel.Text = GameManager.RaceNumber.ToString();
+    raceLabel.Text = GameManager.CurrentRace.ToString();
     var heartLabel = GetNode<Label>(PrepSceneData.LabelHeartsPath);
     heartLabel.Text = GameManager.LifeTotal.ToString();
 
@@ -274,7 +274,7 @@ public class PrepMain : Node2D
   {
     Console.WriteLine("Go button pressed");
     GameManager.PrepEngine.CalculateEndTurnAbilities();
-    GameManager.RaceNumber = GameManager.RaceNumber + 1;
+    GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }

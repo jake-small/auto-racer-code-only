@@ -4,7 +4,7 @@ public class RaceEndMain : Node2D
 {
   public override void _Ready()
   {
-    var results = GameManager.RaceHistory.GetResult(GameManager.RaceNumber);
+    var results = GameManager.RaceHistory.GetResult(GameManager.CurrentRace);
 
     var labelFirstPlayer = GetNode(RaceEndSceneData.Label_first_player) as Label;
     labelFirstPlayer.Text = results[0].Id + "\nDistance: " + results[0].Position;
@@ -22,6 +22,14 @@ public class RaceEndMain : Node2D
   private void Button_finish_pressed()
   {
     GD.Print("Finish button pressed");
-    GetTree().ChangeScene("res://src/scenes/game/Prep.tscn");
+    if (GameManager.CurrentRace >= GameManager.TotalRaces)
+    {
+      GD.Print("Race over!");
+      GetTree().ChangeScene("res://src/scenes/game/GameEnd.tscn");
+    }
+    else
+    {
+      GetTree().ChangeScene("res://src/scenes/game/Prep.tscn");
+    }
   }
 }

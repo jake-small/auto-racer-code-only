@@ -187,7 +187,7 @@ public class RaceMain : Node2D
   {
     var standings = _autoRaceEngine.GetStandings();
     GameManager.RaceHistory.AddResult(
-      GameManager.RaceNumber, standings.Select(p => new PlayerResult { Id = p.Id, Position = p.Position }).ToList()
+      GameManager.CurrentRace, standings.Select(p => new PlayerResult { Id = p.Id, Position = p.Position }).ToList()
     );
     var localPlayerPlacement = 0;
     var i = 1;

@@ -1,0 +1,210 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=1]
+[ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=2]
+[ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=3]
+[ext_resource path="res://src/scripts/results/GameEndMain.cs" type="Script" id=4]
+[ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://assets/misc/ui_num4.png" type="Texture" id=6]
+[ext_resource path="res://assets/misc/ui_num5.png" type="Texture" id=7]
+[ext_resource path="res://assets/misc/ui_num1.png" type="Texture" id=8]
+[ext_resource path="res://assets/misc/ui_num3.png" type="Texture" id=9]
+[ext_resource path="res://assets/misc/ui_num2.png" type="Texture" id=10]
+[ext_resource path="res://assets/panels/runeBlue_tileOutline_035.png" type="Texture" id=11]
+[ext_resource path="res://assets/stats/trophy.png" type="Texture" id=12]
+[ext_resource path="res://assets/stats/medal1.png" type="Texture" id=13]
+[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_48.tres" type="DynamicFont" id=14]
+[ext_resource path="res://assets/stats/medal2.png" type="Texture" id=15]
+[ext_resource path="res://assets/stats/star.png" type="Texture" id=16]
+
+[sub_resource type="DynamicFont" id=1]
+size = 124
+font_data = ExtResource( 5 )
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="backgroundEmpty" type="Sprite" parent="."]
+position = Vector2( 960, 540 )
+scale = Vector2( 1.875, 1.05469 )
+z_index = -2
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label_TurnPhase" type="Label" parent="."]
+margin_left = 770.198
+margin_top = 26.5953
+margin_right = 1177.2
+margin_bottom = 120.595
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Game Over"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="."]
+margin_top = 960.0
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 1
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
+margin_left = 1520.0
+margin_right = 402.0
+margin_bottom = 55.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button_Finish" type="Button" parent="Control/HBoxContainerRight"]
+margin_right = 202.0
+margin_bottom = 55.0
+icon = ExtResource( 3 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="slot_0" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 511.796, 337.895 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="slot_1" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 703.796, 337.895 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="slot_2" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 895.796, 337.895 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="slot_3" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 1087.8, 337.895 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="slot_4" type="Sprite" parent="." groups=[
+"CardSlots",
+]]
+position = Vector2( 1279.8, 337.895 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 2 )
+centered = false
+
+[node name="ui_num1" type="Sprite" parent="."]
+position = Vector2( 588.796, 289.895 )
+texture = ExtResource( 8 )
+
+[node name="ui_num2" type="Sprite" parent="."]
+position = Vector2( 780.796, 289.895 )
+texture = ExtResource( 10 )
+
+[node name="ui_num3" type="Sprite" parent="."]
+position = Vector2( 972.796, 289.895 )
+texture = ExtResource( 9 )
+
+[node name="ui_num4" type="Sprite" parent="."]
+position = Vector2( 1164.8, 289.895 )
+texture = ExtResource( 6 )
+
+[node name="ui_num5" type="Sprite" parent="."]
+position = Vector2( 1356.8, 289.895 )
+texture = ExtResource( 7 )
+
+[node name="Container_win_record" type="Node2D" parent="."]
+position = Vector2( 652.796, 26.5953 )
+
+[node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
+position = Vector2( 316, 596 )
+scale = Vector2( 4.2963, 1.46667 )
+texture = ExtResource( 11 )
+
+[node name="trophy" type="Sprite" parent="Container_win_record"]
+position = Vector2( 240.64, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
+texture = ExtResource( 12 )
+
+[node name="medal2" type="Sprite" parent="Container_win_record"]
+position = Vector2( 295.2, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
+texture = ExtResource( 15 )
+
+[node name="medal1" type="Sprite" parent="Container_win_record"]
+position = Vector2( 349.76, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
+texture = ExtResource( 13 )
+
+[node name="star" type="Sprite" parent="Container_win_record"]
+position = Vector2( 399.36, 577.833 )
+scale = Vector2( 0.62, 0.590278 )
+texture = ExtResource( 16 )
+
+[node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 222.296
+margin_top = 597.332
+margin_right = 262.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 14 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 278.296
+margin_top = 597.332
+margin_right = 318.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 14 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_thirdPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 333.296
+margin_top = 597.332
+margin_right = 373.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 14 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label_fourthPlaceTotal" type="Label" parent="Container_win_record"]
+margin_left = 382.296
+margin_top = 597.332
+margin_right = 422.296
+margin_bottom = 633.332
+custom_fonts/font = ExtResource( 14 )
+text = "-1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
