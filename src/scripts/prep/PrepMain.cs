@@ -94,9 +94,7 @@ public class PrepMain : Node2D
 
   public void _on_Card_deselected(CardScript cardScript)
   {
-    _selectedCard = null;
-    HideSelectedCardData();
-    DisableCardActionButtons();
+    DeselectCard();
   }
 
   public void _on_Card_droppedOnFreezeButton(CardScript cardScript)
@@ -157,6 +155,7 @@ public class PrepMain : Node2D
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
       if (cardScript.Card.GetName() == targetCardScript.Card.GetName() && !targetCardScript.Card.IsMaxLevel()) // Combine cards of same type
       {
+        DeselectAllCards();
         var bankResult = GameManager.PrepEngine.Bank.Buy(cardScript.Card);
         if (bankResult.Success)
         {
@@ -181,6 +180,7 @@ public class PrepMain : Node2D
     }
     else // Card in shop
     {
+      DeselectAllCards();
       var bankResult = GameManager.PrepEngine.Bank.Buy(cardScript.Card);
       if (bankResult.Success)
       {
@@ -297,13 +297,21 @@ public class PrepMain : Node2D
     }
   }
 
+  private void DeselectCard()
+  {
+    _selectedCard = null;
+    HideSelectedCardData();
+    DisableCardActionButtons();
+  }
+
   private void DeselectAllCards()
   {
-    DisableCardActionButtons();
+    DeselectCard();
     foreach (var cardScript in GetPlayerCardNodes())
     {
       cardScript.Selected = false;
     }
+
   }
 
   private void EnableCardActionButtons(bool isInShop)
@@ -411,6 +419,7 @@ public class PrepMain : Node2D
       return;
     }
     _selectedCard.Card.Frozen = !_selectedCard.Card.Frozen;
+
     UpdateUiForAllCards();
   }
 
@@ -529,6 +538,7 @@ public class PrepMain : Node2D
     _selectedCardPanel.Visible = false;
     _selectedCardNameLabel.Text = "";
     _selectedCardDescriptionLabel.Text = "";
+    _selectedCardSellsForLabel.Text = "";
     _selectedCardBaseMoveLabel.Text = "";
   }
 }
