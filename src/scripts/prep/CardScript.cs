@@ -145,7 +145,6 @@ public class CardScript : KinematicBody2D
         GD.Print($"Card {Card.GetName()} dropped on freeze button");
         DroppedPosition = StartingPosition;
         Dropped = true;
-        DeselectCard();
         emitDroppedOnFreezeButtonSignal();
       }
       else
@@ -153,6 +152,7 @@ public class CardScript : KinematicBody2D
         GD.Print($"Card {Card.GetName()} dropped on sell button");
         emitDroppedOnSellButtonSignal();
       }
+      DeselectCard();
     }
     else
     {
@@ -160,7 +160,6 @@ public class CardScript : KinematicBody2D
       DroppedPosition = StartingPosition;
       Dropped = true;
       DeselectCard();
-      emitCardDeselectedSignal();
     }
   }
 
