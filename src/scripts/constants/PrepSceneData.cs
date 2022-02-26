@@ -27,8 +27,9 @@ public static class PrepSceneData
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";
   public const string ContainerSelectedCard = "Container_selected_card";
-  public const string LabelSelectedNamePath = "Container_selected_card/Label_selected_name";
-  public const string LabelSelectedDescriptionPath = "Container_selected_card/Label_selected_description";
-  public const string LabelSelectedBaseMovePath = "Container_selected_card/Label_selected_basemove";
+  public const string LabelSelectedNamePath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_name";
+  public const string LabelSelectedDescriptionPath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_description";
+  public const string LabelSelectedSellsForPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
+  public const string LabelSelectedBaseMovePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }

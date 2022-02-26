@@ -46,10 +46,7 @@ public class Bank
   public BankActionResult Sell(Card card)
   {
     EngineTesting.Log("Sold card", _shouldLog);
-    var levelUps = card.Level - 1;
-    var multiplier = _sellLevelMultiplier < 2 || levelUps is 0 ? 1 : _sellLevelMultiplier * levelUps;
-    var additive = _sellLevelAdditive * levelUps;
-    CoinTotal = CoinTotal + (_sellValue * multiplier) + additive;
+    CoinTotal = CoinTotal + GetSellValue(card);
     GameManager.PrepEngine.CalculateOnSellAbilities();
     GameManager.PrepEngine.CalculateOnSoldAbilities(card);
     return new BankActionResult(true, CoinTotal);
@@ -72,5 +69,13 @@ public class Bank
   {
     EngineTesting.Log($"{amount} coins added to bank. New total is {CoinTotal}", _shouldLog);
     return CoinTotal += amount;
+  }
+
+  public int GetSellValue(Card card)
+  {
+    var levelUps = card.Level - 1;
+    var multiplier = _sellLevelMultiplier < 2 || levelUps is 0 ? 1 : _sellLevelMultiplier * levelUps;
+    var additive = _sellLevelAdditive * levelUps;
+    return (_sellValue * multiplier) + additive;
   }
 }
