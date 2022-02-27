@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 public class CardEmpty : Card
 {
-  public CardEmpty()
+  public CardEmpty(int basemove = 1)
   {
     Name = "Empty Slot";
     Description = "";
-    BaseMove = 1;
+    BaseMove = basemove;
     Abilities = Abilities;
     LevelValues = new List<LevelValue>();
   }

@@ -157,17 +157,10 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Premove",
-            "Value": "1",
-            "Duration": "3",
+            "Value": "{M}",
+            "Duration": "{D}",
             "Target": {
-              "Type": "self",
-              "Direction": "any",
-              "Priority": "closest",
-              "Amount": "4",
-              "Range": {
-                "Min": "0",
-                "Max": "0"
-              }
+              "Type": "self"
             },
             "Functions": []
           }

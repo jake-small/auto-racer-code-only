@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
-using Godot;
 
 public class CardLoader
 {
@@ -15,9 +13,6 @@ public class CardLoader
 
   public List<Card> GetCards()
   {
-    // var cards = _cards;
-    // add some extra random cards
-    // cards.AddRange(LoadSampleCards(10));
     return _cards;
   }
 
@@ -25,7 +20,7 @@ public class CardLoader
   {
     if (!System.IO.File.Exists(cardDataFile))
     {
-      GD.Print($"Error: provided cardDataFile '{cardDataFile}' does not exist");
+      Console.WriteLine($"Error: provided cardDataFile '{cardDataFile}' does not exist");
       throw new Exception($"Error: provided cardDataFile '{cardDataFile}' does not exist");
     }
     var cardDataArr = System.IO.File.ReadAllLines(cardDataFile);

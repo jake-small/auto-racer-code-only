@@ -23,10 +23,10 @@ public static class EngineTesting
     return new AutoRaceEngine(players, 5, 5);
   }
 
-  public static Card GetSampleCard()
+  public static Card GetSampleCard(int? basemove = null)
   {
     var rnd = new Random();
-    int number = rnd.Next(1, 4);
+    int number = (int)(basemove is null ? rnd.Next(1, 4) : basemove);
     return new Card
     {
       Name = $"Card {number}",
