@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=3]
 [ext_resource path="res://src/scripts/race/RaceMain.cs" type="Script" id=4]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://src/scripts/race/TileMap.cs" type="Script" id=6]
+[ext_resource path="res://src/scripts/race/BackgroundTileMap.cs" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=2]
 size = 124

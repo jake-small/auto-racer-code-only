@@ -8,6 +8,7 @@ using static CharacterScript;
 public class RaceMain : Node2D
 {
   private AutoRaceEngine _autoRaceEngine;
+  private TileMapManager _tileMapManager;
   private Button _forwardButton;
   private Button _backButton;
   private Button _endRaceButton;
@@ -24,6 +25,14 @@ public class RaceMain : Node2D
 
   public override void _Ready()
   {
+    _tileMapManager = new TileMapManager(
+      new[] {
+        (GetNode(RaceSceneData.BackgroundTileMap1Path) as BackgroundTileMap),
+        (GetNode(RaceSceneData.BackgroundTileMap2Path) as BackgroundTileMap),
+        (GetNode(RaceSceneData.BackgroundTileMap3Path) as BackgroundTileMap)
+      }
+    );
+
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
     _labelGameState = GetNode(RaceSceneData.RichTextLabel_GameState) as RichTextLabel;
 
@@ -102,6 +111,9 @@ public class RaceMain : Node2D
   private void Button_forward_pressed()
   {
     GD.Print("Forward button pressed");
+
+    _tileMapManager.ScrollRight(10);
+
     if (_autoRaceEngine.GetTurn() != _currentTurnView)
     {
       _currentTurnView = _currentTurnView + 1;

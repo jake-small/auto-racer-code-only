@@ -1,5 +1,8 @@
 public static class RaceSceneData
 {
+  public const string BackgroundTileMap1Path = "TileMap1";
+  public const string BackgroundTileMap2Path = "TileMap2";
+  public const string BackgroundTileMap3Path = "TileMap3";
   public const string ButtonFinishPath = "Control/HBoxContainerRight/Button_Finish";
   public const string ButtonForwardPath = "Control/HBoxContainerLeft/Button_Forward";
   public const string ButtonBackPath = "Control/HBoxContainerLeft/Button_Back";
