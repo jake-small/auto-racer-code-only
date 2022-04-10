@@ -52,19 +52,20 @@ public class CharacterScript : Node2D
       Sprite.Frames = (SpriteFrames)GD.Load(CharacterSkin);
     }
     Sprite.Animation = AnimationState.ToString();
-  }
-
-  public void StartRunAnimation()
-  {
-    Sprite.Animation = AnimationStates.running.ToString();
     Sprite.Playing = true;
   }
 
-  public void StopRunAnimation()
-  {
-    Sprite.Animation = AnimationStates.standing.ToString();
-    Sprite.Playing = false;
-  }
+  // public void StartRunAnimation()
+  // {
+  //   Sprite.Animation = AnimationStates.running.ToString();
+  //   Sprite.Playing = true;
+  // }
+
+  // public void StopRunAnimation()
+  // {
+  //   Sprite.Animation = AnimationStates.standing.ToString();
+  //   Sprite.Playing = false;
+  // }
 
   private string GetRandomSkin()
   {

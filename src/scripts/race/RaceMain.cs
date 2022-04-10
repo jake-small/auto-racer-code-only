@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static AutoRaceEngine;
+using static CharacterScript;
 
 public class RaceMain : Node2D
 {
@@ -86,6 +87,7 @@ public class RaceMain : Node2D
         characterInstance.CharacterSkin = GameManager.PlayerCharacterSkin;
       }
       characterInstance.Position = new Vector2(spawnPositionMarker.x, spawnPositionMarker.y + (RaceSceneData.CharacterSpawnYOffset * i));
+      characterInstance.AnimationState = AnimationStates.running;
       AddChild(characterInstance);
     }
   }
