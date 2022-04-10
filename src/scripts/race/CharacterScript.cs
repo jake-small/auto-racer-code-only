@@ -3,6 +3,8 @@ using System;
 
 public class CharacterScript : Node2D
 {
+  public int Id { get; set; }
+
   private string _characterSkin;
   public string CharacterSkin
   {
@@ -38,34 +40,81 @@ public class CharacterScript : Node2D
     facing_front
   }
 
-  private AnimatedSprite Sprite;
+  private AnimatedSprite _sprite;
+
+  private bool _moving = false;
+  private float _moveToX = 0;
+  private float _velocity = 200.0f;
+
 
   public override void _Ready()
   {
-    Sprite = GetNode<AnimatedSprite>(RaceSceneData.CharacterSpritePath);
+    _sprite = GetNode<AnimatedSprite>(RaceSceneData.CharacterSpritePath);
     if (CharacterSkin == null)
     {
       CharacterSkin = GetRandomSkin();
     }
     else
     {
-      Sprite.Frames = (SpriteFrames)GD.Load(CharacterSkin);
+      _sprite.Frames = (SpriteFrames)GD.Load(CharacterSkin);
     }
-    Sprite.Animation = AnimationState.ToString();
-    Sprite.Playing = true;
+    _sprite.Animation = AnimationState.ToString();
+    if (AnimationState == AnimationStates.running)
+    {
+      _sprite.Playing = true;
+    }
+    else
+    {
+      _sprite.Playing = false;
+    }
   }
 
-  // public void StartRunAnimation()
-  // {
-  //   Sprite.Animation = AnimationStates.running.ToString();
-  //   Sprite.Playing = true;
-  // }
+  public override void _PhysicsProcess(float delta)
+  {
+    if (_moving)
+    {
+      float newX;
+      if (_moveToX > Position.x)
+      {
+        newX = Position.x + (_velocity * delta);
+        if (newX >= _moveToX)
+        {
+          newX = _moveToX;
+          _moving = false;
+        }
 
-  // public void StopRunAnimation()
-  // {
-  //   Sprite.Animation = AnimationStates.standing.ToString();
-  //   Sprite.Playing = false;
-  // }
+      }
+      else
+      {
+        newX = Position.x - (_velocity * delta);
+        if (newX <= _moveToX)
+        {
+          newX = _moveToX;
+          _moving = false;
+        }
+      }
+      Position = (new Vector2(newX, Position.y));
+    }
+  }
+
+  public void Move(int numSpaces)
+  {
+    if (numSpaces == 0)
+    {
+      return;
+    }
+    _moveToX = Position.x + (128 * numSpaces);
+    _sprite.Animation = AnimationStates.running.ToString();
+    _sprite.Playing = true;
+    _moving = true;
+  }
+
+  private void StopMoving()
+  {
+    _moving = false;
+    _sprite.Animation = AnimationStates.standing.ToString();
+    _sprite.Playing = false;
+  }
 
   private string GetRandomSkin()
   {
@@ -76,17 +125,17 @@ public class CharacterScript : Node2D
 
   private void SetSkin(string skinPath)
   {
-    if (Sprite != null)
+    if (_sprite != null)
     {
-      Sprite.Frames = (SpriteFrames)GD.Load(skinPath);
+      _sprite.Frames = (SpriteFrames)GD.Load(skinPath);
     }
   }
 
   private void SetAnimationState(AnimationStates animationState)
   {
-    if (Sprite != null)
+    if (_sprite != null)
     {
-      Sprite.Animation = AnimationState.ToString();
+      _sprite.Animation = AnimationState.ToString();
     }
   }
 }

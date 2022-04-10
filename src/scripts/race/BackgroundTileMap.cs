@@ -4,8 +4,7 @@ using System;
 public class BackgroundTileMap : Godot.TileMap
 {
   private bool _scrollRight = false;
-  private float _startingX = 0;
-  private float _endAtX = 0;
+  private float _moveToX = 0;
   private float _velocity = -400.0f;
 
 
@@ -14,9 +13,9 @@ public class BackgroundTileMap : Godot.TileMap
     if (_scrollRight)
     {
       var newX = Position.x + (_velocity * delta);
-      if (newX <= _endAtX)
+      if (newX <= _moveToX)
       {
-        newX = _endAtX;
+        newX = _moveToX;
         _scrollRight = false;
       }
       Position = (new Vector2(newX, Position.y));
@@ -26,8 +25,7 @@ public class BackgroundTileMap : Godot.TileMap
 
   public void ScrollRight(int numSpaces)
   {
-    _startingX = Position.x;
-    _endAtX = _startingX - (128 * numSpaces);
+    _moveToX = Position.x - (128 * numSpaces);
     _scrollRight = true;
   }
 
@@ -35,9 +33,9 @@ public class BackgroundTileMap : Godot.TileMap
   {
     if (Position.x < -GetViewport().Size.x)
     {
-      var m = _endAtX - Position.x;
+      var m = _moveToX - Position.x;
       Position = new Vector2(Position.x + (3 * GetViewport().Size.x), Position.y);
-      _endAtX = Position.x + m;
+      _moveToX = Position.x + m;
     }
   }
 }

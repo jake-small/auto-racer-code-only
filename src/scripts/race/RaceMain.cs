@@ -9,6 +9,7 @@ public class RaceMain : Node2D
 {
   private AutoRaceEngine _autoRaceEngine;
   private TileMapManager _tileMapManager;
+  private List<CharacterScript> _characters = new List<CharacterScript>();
   private Button _forwardButton;
   private Button _backButton;
   private Button _endRaceButton;
@@ -97,6 +98,8 @@ public class RaceMain : Node2D
       }
       characterInstance.Position = new Vector2(spawnPositionMarker.x, spawnPositionMarker.y + (RaceSceneData.CharacterSpawnYOffset * i));
       characterInstance.AnimationState = AnimationStates.running;
+      characterInstance.Id = i;
+      _characters.Add(characterInstance);
       AddChild(characterInstance);
     }
   }
@@ -111,8 +114,6 @@ public class RaceMain : Node2D
   private void Button_forward_pressed()
   {
     GD.Print("Forward button pressed");
-
-    _tileMapManager.ScrollRight(10);
 
     if (_autoRaceEngine.GetTurn() != _currentTurnView)
     {
@@ -160,6 +161,7 @@ public class RaceMain : Node2D
       var turnResults = _autoRaceEngine.GetTurnResults();
       if (turnResults != null && turnResults.ToList().Count > 0)
       {
+        MovePlayers(turnResults);
         var positionState = EngineTesting.GetPositionTextView(turnResults);
         _updatePositionStateLabel = positionState;
         _positionStates.Add(positionState);
@@ -212,6 +214,22 @@ public class RaceMain : Node2D
       _labelCardArray[p].Text = state;
       p = p + 1;
     }
+  }
+
+  private void MovePlayers(IEnumerable<PlayerTurnResult> turnResults)
+  {
+    foreach (var turnResult in turnResults)
+    {
+      MovePlayer(turnResult);
+    }
+  }
+
+  private void MovePlayer(PlayerTurnResult turnResult)
+  {
+    var localPlayerId = GameManager.LocalPlayer.Id; // TODO keep camera focused on this player
+
+    var playerSprite = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
+    playerSprite.Move(turnResult.Movement);
   }
 
   private void CalculateStandings()
