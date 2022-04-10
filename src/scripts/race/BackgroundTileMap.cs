@@ -23,9 +23,10 @@ public class BackgroundTileMap : Godot.TileMap
     }
   }
 
-  public void ScrollRight(int numSpaces)
+  public void ScrollRight(float amount)
   {
-    _moveToX = Position.x - (128 * numSpaces);
+    // _moveToX = Position.x - (RaceSceneData.SpaceWidth * numSpaces); TODO remove
+    _moveToX = Position.x - amount;
     _scrollRight = true;
   }
 

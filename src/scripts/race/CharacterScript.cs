@@ -97,13 +97,14 @@ public class CharacterScript : Node2D
     }
   }
 
-  public void Move(int numSpaces)
+  public void Move(float toXPosition)
   {
-    if (numSpaces == 0)
+    if (toXPosition == Position.x)
     {
       return;
     }
-    _moveToX = Position.x + (128 * numSpaces);
+    // _moveToX = Position.x + (RaceSceneData.SpaceWidth * numSpaces);
+    _moveToX = toXPosition;
     _sprite.Animation = AnimationStates.running.ToString();
     _sprite.Playing = true;
     _moving = true;

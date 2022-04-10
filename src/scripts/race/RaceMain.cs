@@ -8,8 +8,7 @@ using static CharacterScript;
 public class RaceMain : Node2D
 {
   private AutoRaceEngine _autoRaceEngine;
-  private TileMapManager _tileMapManager;
-  private List<CharacterScript> _characters = new List<CharacterScript>();
+  private RaceViewManager _raceViewManager;
   private Button _forwardButton;
   private Button _backButton;
   private Button _endRaceButton;
@@ -26,13 +25,17 @@ public class RaceMain : Node2D
 
   public override void _Ready()
   {
-    _tileMapManager = new TileMapManager(
+    var tileMapManager = new TileMapManager(
       new[] {
         (GetNode(RaceSceneData.BackgroundTileMap1Path) as BackgroundTileMap),
         (GetNode(RaceSceneData.BackgroundTileMap2Path) as BackgroundTileMap),
         (GetNode(RaceSceneData.BackgroundTileMap3Path) as BackgroundTileMap)
       }
     );
+    var characterLeftBound = GetNode<Position2D>(RaceSceneData.CharacterLeftBoundPath).Position;
+    var characterRightBound = GetNode<Position2D>(RaceSceneData.CharacterRightBoundPath).Position;
+    var characters = LoadCharacterSprites(characterLeftBound);
+    _raceViewManager = new RaceViewManager(tileMapManager, characters, characterLeftBound, characterRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
     _labelGameState = GetNode(RaceSceneData.RichTextLabel_GameState) as RichTextLabel;
@@ -45,7 +48,7 @@ public class RaceMain : Node2D
       labelCardP1, labelCardP2, labelCardP3, labelCardP4
     };
 
-    LoadCharacterSprites();
+
 
     _endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
     _endRaceButton.Disabled = true;
@@ -85,9 +88,9 @@ public class RaceMain : Node2D
     }
   }
 
-  private void LoadCharacterSprites()
+  private IEnumerable<CharacterScript> LoadCharacterSprites(Vector2 topSpawnPosition)
   {
-    var spawnPositionMarker = GetNode<Position2D>(RaceSceneData.CharacterSpawnPath).Position;
+    var characters = new List<CharacterScript>();
     for (int i = 0; i < GameData.NumPlayers; i++)
     {
       var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
@@ -96,12 +99,13 @@ public class RaceMain : Node2D
       {
         characterInstance.CharacterSkin = GameManager.PlayerCharacterSkin;
       }
-      characterInstance.Position = new Vector2(spawnPositionMarker.x, spawnPositionMarker.y + (RaceSceneData.CharacterSpawnYOffset * i));
+      characterInstance.Position = new Vector2(topSpawnPosition.x, topSpawnPosition.y + (RaceSceneData.CharacterSpawnYOffset * i));
       characterInstance.AnimationState = AnimationStates.running;
       characterInstance.Id = i;
-      _characters.Add(characterInstance);
+      characters.Add(characterInstance);
       AddChild(characterInstance);
     }
+    return characters;
   }
 
   private void Button_finish_pressed()
@@ -161,7 +165,7 @@ public class RaceMain : Node2D
       var turnResults = _autoRaceEngine.GetTurnResults();
       if (turnResults != null && turnResults.ToList().Count > 0)
       {
-        MovePlayers(turnResults);
+        _raceViewManager.MovePlayers(turnResults);
         var positionState = EngineTesting.GetPositionTextView(turnResults);
         _updatePositionStateLabel = positionState;
         _positionStates.Add(positionState);
@@ -214,22 +218,6 @@ public class RaceMain : Node2D
       _labelCardArray[p].Text = state;
       p = p + 1;
     }
-  }
-
-  private void MovePlayers(IEnumerable<PlayerTurnResult> turnResults)
-  {
-    foreach (var turnResult in turnResults)
-    {
-      MovePlayer(turnResult);
-    }
-  }
-
-  private void MovePlayer(PlayerTurnResult turnResult)
-  {
-    var localPlayerId = GameManager.LocalPlayer.Id; // TODO keep camera focused on this player
-
-    var playerSprite = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
-    playerSprite.Move(turnResult.Movement);
   }
 
   private void CalculateStandings()
