@@ -34,6 +34,7 @@ public class RaceMain : Node2D
       labelCardP1, labelCardP2, labelCardP3, labelCardP4
     };
 
+    LoadCharacterSprites();
 
     _endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
     _endRaceButton.Disabled = true;
@@ -70,6 +71,22 @@ public class RaceMain : Node2D
     if (_raceOver && _endRaceButton.Disabled == true)
     {
       _endRaceButton.Disabled = false;
+    }
+  }
+
+  private void LoadCharacterSprites()
+  {
+    var spawnPositionMarker = GetNode<Position2D>(RaceSceneData.CharacterSpawnPath).Position;
+    for (int i = 0; i < GameData.NumPlayers; i++)
+    {
+      var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
+      var characterInstance = (CharacterScript)characterScene.Instance();
+      if (i == 0)
+      {
+        characterInstance.CharacterSkin = GameManager.PlayerCharacterSkin;
+      }
+      characterInstance.Position = new Vector2(spawnPositionMarker.x, spawnPositionMarker.y + (RaceSceneData.CharacterSpawnYOffset * i));
+      AddChild(characterInstance);
     }
   }
 

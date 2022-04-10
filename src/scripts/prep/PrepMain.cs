@@ -22,6 +22,9 @@ public class PrepMain : Node2D
 
   public override void _Ready()
   {
+    var playerCharacter = GetNode<CharacterScript>(PrepSceneData.CharacterPath);
+    playerCharacter.CharacterSkin = GameManager.PlayerCharacterSkin;
+
     if (GameManager.LocalPlayer is null)
     {
       GameManager.LocalPlayer = new Player

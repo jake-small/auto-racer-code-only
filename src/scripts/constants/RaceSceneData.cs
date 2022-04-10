@@ -9,4 +9,8 @@ public static class RaceSceneData
   public const string Label_CardP2 = "Control_cards/HBoxContainer/Label_p2/Label_p2_card";
   public const string Label_CardP3 = "Control_cards/HBoxContainer/Label_p3/Label_p3_card";
   public const string Label_CardP4 = "Control_cards/HBoxContainer/Label_p4/Label_p4_card";
+  public const string CharacterScenePath = "res://src/scenes/objects/characters/character.tscn";
+  public const string CharacterSpritePath = "AnimatedSprite";
+  public const string CharacterSpawnPath = "Positions/p3";
+  public const int CharacterSpawnYOffset = 100;
 }

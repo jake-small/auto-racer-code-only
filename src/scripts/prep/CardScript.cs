@@ -39,6 +39,10 @@ public class CardScript : KinematicBody2D
       var iconSprite = GetNode<Sprite>(PrepSceneData.SpriteCardIcon);
       iconSprite.Texture = (Texture)GD.Load(iconPath);
     }
+    else
+    {
+      GD.Print($"Unable to load card sprite with path {iconPath}");
+    }
 
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);

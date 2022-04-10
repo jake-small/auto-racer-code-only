@@ -270,3 +270,50 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Positions" type="Node2D" parent="."]
+
+[node name="p0" type="Position2D" parent="Positions"]
+position = Vector2( 80, 120 )
+
+[node name="p1" type="Position2D" parent="Positions"]
+position = Vector2( 208, 120 )
+
+[node name="p2" type="Position2D" parent="Positions"]
+position = Vector2( 336, 120 )
+
+[node name="p3" type="Position2D" parent="Positions"]
+position = Vector2( 464, 120 )
+
+[node name="p4" type="Position2D" parent="Positions"]
+position = Vector2( 592, 120 )
+
+[node name="p5" type="Position2D" parent="Positions"]
+position = Vector2( 720, 120 )
+
+[node name="p6" type="Position2D" parent="Positions"]
+position = Vector2( 848, 120 )
+
+[node name="p7" type="Position2D" parent="Positions"]
+position = Vector2( 976, 120 )
+
+[node name="p8" type="Position2D" parent="Positions"]
+position = Vector2( 1104, 120 )
+
+[node name="p9" type="Position2D" parent="Positions"]
+position = Vector2( 1232, 120 )
+
+[node name="p10" type="Position2D" parent="Positions"]
+position = Vector2( 1360, 120 )
+
+[node name="p11" type="Position2D" parent="Positions"]
+position = Vector2( 1488, 120 )
+
+[node name="p12" type="Position2D" parent="Positions"]
+position = Vector2( 1616, 120 )
+
+[node name="p13" type="Position2D" parent="Positions"]
+position = Vector2( 1744, 120 )
+
+[node name="p14" type="Position2D" parent="Positions"]
+position = Vector2( 1872, 120 )
