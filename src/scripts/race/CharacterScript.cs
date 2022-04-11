@@ -75,7 +75,7 @@ public class CharacterScript : Node2D
       float newX;
       if (_moveToX > Position.x)
       {
-        newX = Position.x + (RaceSceneData.ScrollVelocity * delta);
+        newX = Position.x + (RaceSceneData.GameSpeed * delta);
         if (newX >= _moveToX)
         {
           newX = _moveToX;
@@ -85,7 +85,7 @@ public class CharacterScript : Node2D
       }
       else
       {
-        newX = Position.x - (RaceSceneData.ScrollVelocity * delta);
+        newX = Position.x - (RaceSceneData.GameSpeed * delta);
         if (newX <= _moveToX)
         {
           newX = _moveToX;
@@ -129,8 +129,6 @@ public class CharacterScript : Node2D
   private void StopMoving()
   {
     _moving = false;
-    // _sprite.Animation = AnimationStates.standing.ToString();
-    // _sprite.Playing = false;
   }
 
   private string GetRandomSkin()

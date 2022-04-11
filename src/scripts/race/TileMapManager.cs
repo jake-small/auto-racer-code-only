@@ -16,4 +16,12 @@ public class TileMapManager
       tileMap.ScrollRight(amount);
     }
   }
+
+  public void ScrollLeft(float amount)
+  {
+    foreach (var tileMap in _tileMaps)
+    {
+      tileMap.ScrollLeft(amount);
+    }
+  }
 }

@@ -38,6 +38,16 @@ public class RaceViewManager
           otherCharacter.Move(-extraMove);
         }
       }
+      else if (playerId == GameManager.LocalPlayer.Id && newXPosition < _characterLeftBound.x)
+      {
+        playerSprite.Move(playerSprite.Position.x - _characterLeftBound.x);
+        var extraMove = _characterLeftBound.x - newXPosition;
+        _tileMapManager.ScrollLeft(extraMove);
+        foreach (var otherCharacter in _characters.Where(c => c.Id != GameManager.LocalPlayer.Id))
+        {
+          otherCharacter.Move(extraMove);
+        }
+      }
       else
       {
         playerSprite.Move(moveXAmount);
