@@ -14,9 +14,11 @@ public static class RaceSceneData
   public const string Label_CardP4 = "Control_cards/HBoxContainer/Label_p4/Label_p4_card";
   public const string CharacterScenePath = "res://src/scenes/objects/characters/character.tscn";
   public const string CharacterSpritePath = "AnimatedSprite";
-  public const string CharacterLeftBoundPath = "Positions/p3";
-  public const string CharacterRightBoundPath = "Positions/p11";
+  public const string CharacterSoftLeftBoundPath = "Positions/p3";
+  public const string CharacterSoftRightBoundPath = "Positions/p11";
+  public const string CharacterHardLeftBoundPath = "Positions/p0";
+  public const string CharacterHardRightBoundPath = "Positions/p14";
   public const int CharacterSpawnYOffset = 100;
   public const int SpaceWidth = 128;
-  public const float GameSpeed = 200;
+  public const float GameSpeed = 400;
 }

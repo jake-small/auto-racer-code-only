@@ -12,7 +12,7 @@ public class BackgroundTileMap : Godot.TileMap
   {
     if (_scrollRight)
     {
-      var newX = Position.x + (-RaceSceneData.GameSpeed * delta);
+      var newX = Position.x + ((-RaceSceneData.GameSpeed / 2) * delta);
       if (newX <= _moveToX)
       {
         newX = _moveToX;
@@ -21,10 +21,9 @@ public class BackgroundTileMap : Godot.TileMap
       Position = (new Vector2(newX, Position.y));
       AttemptToRepositionRight();
     }
-
-    if (_scrollLeft)
+    else if (_scrollLeft)
     {
-      var newX = Position.x + (RaceSceneData.GameSpeed * delta);
+      var newX = Position.x + ((RaceSceneData.GameSpeed / 2) * delta);
       if (newX >= _moveToX)
       {
         newX = _moveToX;

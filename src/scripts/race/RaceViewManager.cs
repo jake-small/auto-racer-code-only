@@ -8,16 +8,20 @@ public class RaceViewManager
 {
   private TileMapManager _tileMapManager;
   private List<CharacterScript> _characters;
-  private Vector2 _characterLeftBound;
-  private Vector2 _characterRightBound;
+  private Vector2 _characterSoftLeftBound;
+  private Vector2 _characterSoftRightBound;
+  private Vector2 _characterHardLeftBound;
+  private Vector2 _characterHardRightBound;
 
 
-  public RaceViewManager(TileMapManager tileMapManager, IEnumerable<CharacterScript> characterScripts, Vector2 characterLeftBound, Vector2 characterRightBound)
+  public RaceViewManager(TileMapManager tileMapManager, IEnumerable<CharacterScript> characterScripts, Vector2 characterSoftLeftBound, Vector2 characterSoftRightBound, Vector2 characterHardLeftBound, Vector2 characterHardRightBound)
   {
     _tileMapManager = tileMapManager;
     _characters = characterScripts.ToList();
-    _characterLeftBound = characterLeftBound;
-    _characterRightBound = characterRightBound;
+    _characterSoftLeftBound = characterSoftLeftBound;
+    _characterSoftRightBound = characterSoftRightBound;
+    _characterHardLeftBound = characterHardLeftBound;
+    _characterHardRightBound = characterHardRightBound;
   }
 
   public void MovePlayers(IEnumerable<PlayerTurnResult> turnResults)
@@ -28,25 +32,18 @@ public class RaceViewManager
       var playerSprite = _characters.FirstOrDefault(c => c.Id == playerId);
       var moveXAmount = (RaceSceneData.SpaceWidth * turnResult.Movement);
       var newXPosition = moveXAmount + playerSprite.Position.x;
-      if (playerId == GameManager.LocalPlayer.Id && newXPosition > _characterRightBound.x)
+      if (playerId == GameManager.LocalPlayer.Id
+        && _characters.Any(c => c.Id != GameManager.LocalPlayer.Id && c.Position.x > playerSprite.Position.x))
       {
-        playerSprite.Move(_characterRightBound.x - playerSprite.Position.x);
-        var extraMove = newXPosition - _characterRightBound.x;
-        _tileMapManager.ScrollRight(extraMove);
-        foreach (var otherCharacter in _characters.Where(c => c.Id != GameManager.LocalPlayer.Id))
-        {
-          otherCharacter.Move(-extraMove);
-        }
+        TryScrollRight(playerSprite, newXPosition, _characterSoftLeftBound.x);
       }
-      else if (playerId == GameManager.LocalPlayer.Id && newXPosition < _characterLeftBound.x)
+      else if (playerId == GameManager.LocalPlayer.Id && newXPosition >= _characterSoftRightBound.x)
       {
-        playerSprite.Move(playerSprite.Position.x - _characterLeftBound.x);
-        var extraMove = _characterLeftBound.x - newXPosition;
-        _tileMapManager.ScrollLeft(extraMove);
-        foreach (var otherCharacter in _characters.Where(c => c.Id != GameManager.LocalPlayer.Id))
-        {
-          otherCharacter.Move(extraMove);
-        }
+        TryScrollRight(playerSprite, newXPosition, _characterSoftRightBound.x);
+      }
+      else if (playerId == GameManager.LocalPlayer.Id && newXPosition <= _characterSoftLeftBound.x)
+      {
+        TryScrollLeft(playerSprite, newXPosition, _characterSoftLeftBound.x);
       }
       else
       {
@@ -61,5 +58,41 @@ public class RaceViewManager
     {
       character.RaceOverAnimation();
     }
+  }
+
+  private bool TryScrollRight(CharacterScript playerSprite, float newXPosition, float boundPosition)
+  {
+    var extraMove = newXPosition - boundPosition;
+
+    // only move if main character stays within soft bounds
+    if (playerSprite.Id != GameManager.LocalPlayer.Id)
+    {
+      var localCharacter = _characters.FirstOrDefault(c => c.Id == GameManager.LocalPlayer.Id);
+      if (localCharacter.Position.x - extraMove < _characterSoftLeftBound.x)
+      {
+        return false;
+      }
+    }
+
+    _tileMapManager.ScrollRight(extraMove);
+    foreach (var otherCharacter in _characters.Where(c => c.Id != playerSprite.Id))
+    {
+      otherCharacter.Move(-extraMove);
+    }
+    playerSprite.Move(boundPosition - playerSprite.Position.x);
+    return true;
+  }
+
+  // TODO
+  private bool TryScrollLeft(CharacterScript playerSprite, float newXPosition, float boundPosition)
+  {
+    var extraMove = boundPosition - newXPosition;
+    _tileMapManager.ScrollLeft(extraMove);
+    foreach (var otherCharacter in _characters.Where(c => c.Id != playerSprite.Id))
+    {
+      otherCharacter.Move(extraMove);
+    }
+    playerSprite.Move(playerSprite.Position.x - boundPosition);
+    return true;
   }
 }

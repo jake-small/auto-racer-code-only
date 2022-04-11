@@ -32,10 +32,12 @@ public class RaceMain : Node2D
         (GetNode(RaceSceneData.BackgroundTileMap3Path) as BackgroundTileMap)
       }
     );
-    var characterLeftBound = GetNode<Position2D>(RaceSceneData.CharacterLeftBoundPath).Position;
-    var characterRightBound = GetNode<Position2D>(RaceSceneData.CharacterRightBoundPath).Position;
-    var characters = LoadCharacterSprites(characterLeftBound);
-    _raceViewManager = new RaceViewManager(tileMapManager, characters, characterLeftBound, characterRightBound);
+    var characterSoftLeftBound = GetNode<Position2D>(RaceSceneData.CharacterSoftLeftBoundPath).Position;
+    var characterSoftRightBound = GetNode<Position2D>(RaceSceneData.CharacterSoftRightBoundPath).Position;
+    var characterHardLeftBound = GetNode<Position2D>(RaceSceneData.CharacterHardLeftBoundPath).Position;
+    var characterHardRightBound = GetNode<Position2D>(RaceSceneData.CharacterHardRightBoundPath).Position;
+    var characters = LoadCharacterSprites(characterSoftLeftBound);
+    _raceViewManager = new RaceViewManager(tileMapManager, characters, characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
     _labelGameState = GetNode(RaceSceneData.RichTextLabel_GameState) as RichTextLabel;
