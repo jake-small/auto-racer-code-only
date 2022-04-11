@@ -44,8 +44,7 @@ public class CharacterScript : Node2D
 
   private bool _moving = false;
   private float _moveToX = 0;
-  private float _velocity = 200.0f;
-
+  private bool raceOver = false;
 
   public override void _Ready()
   {
@@ -76,45 +75,62 @@ public class CharacterScript : Node2D
       float newX;
       if (_moveToX > Position.x)
       {
-        newX = Position.x + (_velocity * delta);
+        newX = Position.x + (RaceSceneData.ScrollVelocity * delta);
         if (newX >= _moveToX)
         {
           newX = _moveToX;
-          _moving = false;
+          StopMoving();
         }
 
       }
       else
       {
-        newX = Position.x - (_velocity * delta);
+        newX = Position.x - (RaceSceneData.ScrollVelocity * delta);
         if (newX <= _moveToX)
         {
           newX = _moveToX;
-          _moving = false;
+          StopMoving();
         }
       }
       Position = (new Vector2(newX, Position.y));
     }
   }
 
-  public void Move(float toXPosition)
+  public override void _Process(float delta)
   {
-    if (toXPosition == Position.x)
+    if (raceOver && !_moving)
+    {
+      AnimationState = AnimationStates.facing_front;
+    }
+  }
+
+  public void Move(float xAmount)
+  {
+    if (xAmount == 0)
     {
       return;
     }
-    // _moveToX = Position.x + (RaceSceneData.SpaceWidth * numSpaces);
-    _moveToX = toXPosition;
+    if (_moving)
+    {
+      _moveToX = _moveToX + xAmount;
+      return;
+    }
+    _moveToX = Position.x + xAmount;
     _sprite.Animation = AnimationStates.running.ToString();
     _sprite.Playing = true;
     _moving = true;
   }
 
+  public void RaceOverAnimation()
+  {
+    raceOver = true;
+  }
+
   private void StopMoving()
   {
     _moving = false;
-    _sprite.Animation = AnimationStates.standing.ToString();
-    _sprite.Playing = false;
+    // _sprite.Animation = AnimationStates.standing.ToString();
+    // _sprite.Playing = false;
   }
 
   private string GetRandomSkin()
@@ -137,6 +153,7 @@ public class CharacterScript : Node2D
     if (_sprite != null)
     {
       _sprite.Animation = AnimationState.ToString();
+      _sprite.Playing = animationState == AnimationStates.running;
     }
   }
 }

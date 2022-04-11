@@ -182,6 +182,7 @@ public class RaceMain : Node2D
 
     if (didWin)
     {
+      _raceViewManager.RaceEndAnimation();
       _forwardButton.Disabled = true;
       _raceOver = true;
       CalculateStandings();

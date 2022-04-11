@@ -18,4 +18,5 @@ public static class RaceSceneData
   public const string CharacterRightBoundPath = "Positions/p11";
   public const int CharacterSpawnYOffset = 100;
   public const int SpaceWidth = 128;
+  public const float ScrollVelocity = 200;
 }

@@ -5,14 +5,13 @@ public class BackgroundTileMap : Godot.TileMap
 {
   private bool _scrollRight = false;
   private float _moveToX = 0;
-  private float _velocity = -400.0f;
 
 
   public override void _PhysicsProcess(float delta)
   {
     if (_scrollRight)
     {
-      var newX = Position.x + (_velocity * delta);
+      var newX = Position.x + (-RaceSceneData.ScrollVelocity * delta);
       if (newX <= _moveToX)
       {
         newX = _moveToX;
@@ -25,7 +24,6 @@ public class BackgroundTileMap : Godot.TileMap
 
   public void ScrollRight(float amount)
   {
-    // _moveToX = Position.x - (RaceSceneData.SpaceWidth * numSpaces); TODO remove
     _moveToX = Position.x - amount;
     _scrollRight = true;
   }

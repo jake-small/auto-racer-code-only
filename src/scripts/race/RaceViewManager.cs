@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using static CharacterScript;
 
 public class RaceViewManager
 {
@@ -24,25 +24,32 @@ public class RaceViewManager
   {
     foreach (var turnResult in turnResults)
     {
-      MovePlayer(turnResult);
+      var playerId = turnResult.Player.Id;
+      var playerSprite = _characters.FirstOrDefault(c => c.Id == playerId);
+      var moveXAmount = (RaceSceneData.SpaceWidth * turnResult.Movement);
+      var newXPosition = moveXAmount + playerSprite.Position.x;
+      if (playerId == GameManager.LocalPlayer.Id && newXPosition > _characterRightBound.x)
+      {
+        playerSprite.Move(_characterRightBound.x - playerSprite.Position.x);
+        var extraMove = newXPosition - _characterRightBound.x;
+        _tileMapManager.ScrollRight(extraMove);
+        foreach (var otherCharacter in _characters.Where(c => c.Id != GameManager.LocalPlayer.Id))
+        {
+          otherCharacter.Move(-extraMove);
+        }
+      }
+      else
+      {
+        playerSprite.Move(moveXAmount);
+      }
     }
   }
 
-  private void MovePlayer(PlayerTurnResult turnResult)
+  public void RaceEndAnimation()
   {
-    var playerId = turnResult.Player.Id;
-    var playerSprite = _characters.FirstOrDefault(c => c.Id == playerId);
-    var newXPosition = playerSprite.Position.x + (RaceSceneData.SpaceWidth * turnResult.Movement);
-
-    if (playerId == GameManager.LocalPlayer.Id && newXPosition > _characterRightBound.x)
+    foreach (var character in _characters)
     {
-      playerSprite.Move(_characterRightBound.x);
-      var extraMove = newXPosition - _characterRightBound.x;
-      _tileMapManager.ScrollRight(extraMove);
-    }
-    else
-    {
-      playerSprite.Move(newXPosition);
+      character.RaceOverAnimation();
     }
   }
 }
