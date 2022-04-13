@@ -6,7 +6,6 @@ using static CharacterScript;
 
 public class RaceViewManager
 {
-  private Vector2 _viewPortSize; // TODO remove this dependency
   private TileMapManager _tileMapManager;
   private List<CharacterScript> _characters;
   private List<(OffscreenIndicatorScript, OffscreenIndicatorScript)> _offscreenIndicatorPairs;
@@ -16,10 +15,9 @@ public class RaceViewManager
   private Vector2 _characterHardRightBound;
 
 
-  public RaceViewManager(Vector2 viewPortSize, TileMapManager tileMapManager, IEnumerable<CharacterScript> characterScripts, IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> offscreenIndicatorPairs,
+  public RaceViewManager(TileMapManager tileMapManager, IEnumerable<CharacterScript> characterScripts, IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> offscreenIndicatorPairs,
     Vector2 characterSoftLeftBound, Vector2 characterSoftRightBound, Vector2 characterHardLeftBound, Vector2 characterHardRightBound)
   {
-    _viewPortSize = viewPortSize;
     _tileMapManager = tileMapManager;
     _characters = characterScripts.ToList();
     _offscreenIndicatorPairs = offscreenIndicatorPairs.ToList();
@@ -109,13 +107,6 @@ public class RaceViewManager
       var indicatorPair = _offscreenIndicatorPairs.FirstOrDefault(i => i.Item1.Id == turnResult.Player.Id);
       indicatorPair.Item1.Distance = turnResult.Player.Position - localPlayer.Position;
       indicatorPair.Item2.Distance = turnResult.Player.Position - localPlayer.Position;
-
-      var playerSprite = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
-      // TODO find a way to update on same turn
-      indicatorPair.Item1.Visible = playerSprite.Position.x < 0;
-      indicatorPair.Item2.Visible = playerSprite.Position.x > _viewPortSize.x;
-      // indicatorPair.Item1.Visible = (playerSprite.MoveToX < 0 && playerSprite.Moving) || playerSprite.Position.x < 0;
-      // indicatorPair.Item2.Visible = (playerSprite.MoveToX > _viewPortSize.x && playerSprite.Moving) || playerSprite.Position.x > _viewPortSize.x;
     }
   }
 }

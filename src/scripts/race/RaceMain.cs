@@ -18,7 +18,7 @@ public class RaceMain : Node2D
   private string _updateTurnPhaseLabel;
   private string _updatePositionStateLabel;
   private List<string> _updateCardStateLabel = new List<string>();
-  private List<string> _positionStates = new List<string>();
+  // private List<string> _positionStates = new List<string>();
   private List<List<string>> _cardStates = new List<List<string>>();
   private int _currentTurnView;
   private bool _raceOver = false;
@@ -38,7 +38,7 @@ public class RaceMain : Node2D
     var characterHardRightBound = GetNode<Position2D>(RaceSceneData.CharacterHardRightBoundPath).Position;
     var characters = LoadCharacterSprites(characterSoftLeftBound);
     var offscreenIndicatorPairs = LoadOffscreenIndicators(characters);
-    _raceViewManager = new RaceViewManager(GetViewport().Size, tileMapManager, characters, offscreenIndicatorPairs,
+    _raceViewManager = new RaceViewManager(tileMapManager, characters, offscreenIndicatorPairs,
       characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
@@ -125,8 +125,8 @@ public class RaceMain : Node2D
     {
       indicatorPair.Item1.Id = i;
       indicatorPair.Item2.Id = i;
-      indicatorPair.Item1.CharacterSkin = characters.FirstOrDefault(c => c.Id == i).CharacterSkin;
-      indicatorPair.Item2.CharacterSkin = characters.FirstOrDefault(c => c.Id == i).CharacterSkin;
+      indicatorPair.Item1.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
+      indicatorPair.Item2.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
       i = i + 1;
     }
 
@@ -148,9 +148,9 @@ public class RaceMain : Node2D
     {
       _currentTurnView = _currentTurnView + 1;
       GD.Print($"history turn view: {_currentTurnView}");
-      GD.Print($"position states after forward history press: {_positionStates.Count()}");
+      // GD.Print($"position states after forward history press: {_positionStates.Count()}");
       _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
-      _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
+      // _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
       if (_cardStates.Count > _currentTurnView - 1)
       {
         _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
@@ -191,9 +191,9 @@ public class RaceMain : Node2D
       if (turnResults != null && turnResults.ToList().Count > 0)
       {
         _raceViewManager.MovePlayers(turnResults);
-        var positionState = EngineTesting.GetPositionTextView(turnResults);
-        _updatePositionStateLabel = positionState;
-        _positionStates.Add(positionState);
+        // var positionState = EngineTesting.GetPositionTextView(turnResults);
+        // _updatePositionStateLabel = positionState;
+        // _positionStates.Add(positionState);
       }
     }
     if (turnPhase == TurnPhases.End || turnPhase == TurnPhases.HandleRemainingTokens)
@@ -227,8 +227,8 @@ public class RaceMain : Node2D
     _forwardButton.Disabled = false;
     _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
     GD.Print($"current turn after back press: {_currentTurnView}");
-    GD.Print($"position states after back press: {_positionStates.Count()}");
-    _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
+    // GD.Print($"position states after back press: {_positionStates.Count()}");
+    // _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
     if (_cardStates.Count > _currentTurnView - 1)
     {
       _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
