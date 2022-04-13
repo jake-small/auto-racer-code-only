@@ -52,6 +52,10 @@ public class OffscreenIndicatorScript : Node2D
       {
         Visible = CharacterRef.Position.x > GetViewport().Size.x;
       }
+      if (_characterIcon.AnimationState != CharacterRef.AnimationState)
+      {
+        _characterIcon.AnimationState = CharacterRef.AnimationState;
+      }
     }
   }
 
