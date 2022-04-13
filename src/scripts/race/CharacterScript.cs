@@ -40,10 +40,10 @@ public class CharacterScript : Node2D
     facing_front
   }
 
-  private AnimatedSprite _sprite;
+  public float MoveToX { get; private set; } = 0;
+  public bool Moving { get; private set; } = false;
 
-  private bool _moving = false;
-  private float _moveToX = 0;
+  private AnimatedSprite _sprite;
   private bool raceOver = false;
 
   public override void _Ready()
@@ -70,15 +70,15 @@ public class CharacterScript : Node2D
 
   public override void _PhysicsProcess(float delta)
   {
-    if (_moving)
+    if (Moving)
     {
       float newX;
-      if (_moveToX > Position.x)
+      if (MoveToX > Position.x)
       {
         newX = Position.x + (RaceSceneData.GameSpeed * delta);
-        if (newX >= _moveToX)
+        if (newX >= MoveToX)
         {
-          newX = _moveToX;
+          newX = MoveToX;
           StopMoving();
         }
 
@@ -86,9 +86,9 @@ public class CharacterScript : Node2D
       else
       {
         newX = Position.x - (RaceSceneData.GameSpeed * delta);
-        if (newX <= _moveToX)
+        if (newX <= MoveToX)
         {
-          newX = _moveToX;
+          newX = MoveToX;
           StopMoving();
         }
       }
@@ -98,7 +98,7 @@ public class CharacterScript : Node2D
 
   public override void _Process(float delta)
   {
-    if (raceOver && !_moving)
+    if (raceOver && !Moving)
     {
       AnimationState = AnimationStates.facing_front;
     }
@@ -110,15 +110,15 @@ public class CharacterScript : Node2D
     {
       return;
     }
-    if (_moving)
+    if (Moving)
     {
-      _moveToX = _moveToX + xAmount;
+      MoveToX = MoveToX + xAmount;
       return;
     }
-    _moveToX = Position.x + xAmount;
+    MoveToX = Position.x + xAmount;
     _sprite.Animation = AnimationStates.running.ToString();
     _sprite.Playing = true;
-    _moving = true;
+    Moving = true;
   }
 
   public void RaceOverAnimation()
@@ -128,7 +128,7 @@ public class CharacterScript : Node2D
 
   private void StopMoving()
   {
-    _moving = false;
+    Moving = false;
   }
 
   private string GetRandomSkin()

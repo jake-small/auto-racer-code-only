@@ -37,7 +37,9 @@ public class RaceMain : Node2D
     var characterHardLeftBound = GetNode<Position2D>(RaceSceneData.CharacterHardLeftBoundPath).Position;
     var characterHardRightBound = GetNode<Position2D>(RaceSceneData.CharacterHardRightBoundPath).Position;
     var characters = LoadCharacterSprites(characterSoftLeftBound);
-    _raceViewManager = new RaceViewManager(tileMapManager, characters, characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
+    var offscreenIndicatorPairs = LoadOffscreenIndicators(characters);
+    _raceViewManager = new RaceViewManager(GetViewport().Size, tileMapManager, characters, offscreenIndicatorPairs,
+      characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
     _labelGameState = GetNode(RaceSceneData.RichTextLabel_GameState) as RichTextLabel;
@@ -108,6 +110,27 @@ public class RaceMain : Node2D
       AddChild(characterInstance);
     }
     return characters;
+  }
+
+  private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> LoadOffscreenIndicators(IEnumerable<CharacterScript> characters)
+  {
+    var offscreenIndicatorPairs = new List<(OffscreenIndicatorScript, OffscreenIndicatorScript)> {
+      (GetNode<OffscreenIndicatorScript>(RaceSceneData.OffscreenIndicatorL1),GetNode<OffscreenIndicatorScript>(RaceSceneData.OffscreenIndicatorR1)),
+      (GetNode<OffscreenIndicatorScript>(RaceSceneData.OffscreenIndicatorL2),GetNode<OffscreenIndicatorScript>(RaceSceneData.OffscreenIndicatorR2)),
+      (GetNode<OffscreenIndicatorScript>(RaceSceneData.OffscreenIndicatorL3),GetNode<OffscreenIndicatorScript>(RaceSceneData.OffscreenIndicatorR3))
+    };
+
+    var i = 1;
+    foreach (var indicatorPair in offscreenIndicatorPairs)
+    {
+      indicatorPair.Item1.Id = i;
+      indicatorPair.Item2.Id = i;
+      indicatorPair.Item1.CharacterSkin = characters.FirstOrDefault(c => c.Id == i).CharacterSkin;
+      indicatorPair.Item2.CharacterSkin = characters.FirstOrDefault(c => c.Id == i).CharacterSkin;
+      i = i + 1;
+    }
+
+    return offscreenIndicatorPairs;
   }
 
   private void Button_finish_pressed()

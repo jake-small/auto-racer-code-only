@@ -21,4 +21,14 @@ public static class RaceSceneData
   public const int CharacterSpawnYOffset = 100;
   public const int SpaceWidth = 128;
   public const float GameSpeed = 400;
+
+  // Offscreen indicator
+  public const string OffscreenIndicatorL1 = "Offscreen_Indicators/Offscreen_IndicatorL1";
+  public const string OffscreenIndicatorL2 = "Offscreen_Indicators/Offscreen_IndicatorL2";
+  public const string OffscreenIndicatorL3 = "Offscreen_Indicators/Offscreen_IndicatorL3";
+  public const string OffscreenIndicatorR1 = "Offscreen_Indicators/Offscreen_IndicatorR1";
+  public const string OffscreenIndicatorR2 = "Offscreen_Indicators/Offscreen_IndicatorR2";
+  public const string OffscreenIndicatorR3 = "Offscreen_Indicators/Offscreen_IndicatorR3";
+  public const string OffscreenIndicatorLabelDistance = "Label_distance";
+  public const string OffscreenIndicatorCharacterPosition = "Position2D_character";
 }
