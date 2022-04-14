@@ -192,10 +192,17 @@ public class RaceMain : Node2D
     }
 
     var didWin = _autoRaceEngine.AdvanceRace();
+    var turnPhase = _autoRaceEngine.GetTurnPhase();
+    if (turnPhase == TurnPhases.Start)
+    {
+      didWin = _autoRaceEngine.AdvanceRace();
+      turnPhase = _autoRaceEngine.GetTurnPhase();
+    }
+
     _currentTurnView = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurnView}");
-    var turnPhase = _autoRaceEngine.GetTurnPhase();
     _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase.ToString()}";
+
     if (turnPhase == TurnPhases.Abilities1)
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
@@ -225,14 +232,20 @@ public class RaceMain : Node2D
         // _positionStates.Add(positionState);
       }
     }
-    if (turnPhase == TurnPhases.End || turnPhase == TurnPhases.HandleRemainingTokens)
+    if (turnPhase == TurnPhases.Move)
     {
-      _backButton.Disabled = false;
+      didWin = _autoRaceEngine.AdvanceRace();
+      didWin = _autoRaceEngine.AdvanceRace();
+      turnPhase = _autoRaceEngine.GetTurnPhase();
     }
-    else
-    {
-      _backButton.Disabled = true;
-    }
+    // if (turnPhase == TurnPhases.End || turnPhase == TurnPhases.HandleRemainingTokens)
+    // {
+    //   _backButton.Disabled = false;
+    // }
+    // else
+    // {
+    //   _backButton.Disabled = true;
+    // }
 
     if (didWin)
     {

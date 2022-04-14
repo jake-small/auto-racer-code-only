@@ -16,7 +16,7 @@ load_path = "res://.import/icon023.png-8a66db349c3824cdfd9434e7f05215eb.stex"
 
 [sub_resource type="DynamicFont" id=3]
 size = 46
-outline_size = 2
+outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
