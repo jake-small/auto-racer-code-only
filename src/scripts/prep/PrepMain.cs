@@ -15,6 +15,7 @@ public class PrepMain : Node2D
   private CardScript _selectedCard = null;
   private Button _freezeButton;
   private Button _sellButton;
+  private Button _goButton;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
@@ -68,9 +69,9 @@ public class PrepMain : Node2D
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
     _sellButton = GetNode(PrepSceneData.ButtonSellPath) as Button;
     _sellButton.Connect("pressed", this, nameof(Button_sell_pressed));
-    var goButton = GetNode(PrepSceneData.ButtonGoPath) as Button;
-    goButton.Connect("pressed", this, nameof(Button_go_pressed));
-
+    _goButton = GetNode(PrepSceneData.ButtonGoPath) as Button;
+    _goButton.Connect("pressed", this, nameof(Button_go_pressed));
+    _goButton.Disabled = false;
 
     PlayerInventoryFill();
     var frozenCards = GetFrozenCards().ToList();
@@ -275,6 +276,7 @@ public class PrepMain : Node2D
 
   private void Button_go_pressed()
   {
+    _goButton.Disabled = true;
     Console.WriteLine("Go button pressed");
     GameManager.PrepEngine.CalculateEndTurnAbilities();
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
