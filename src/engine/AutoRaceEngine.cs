@@ -94,12 +94,13 @@ public class AutoRaceEngine
     {
       _turnManager.AddPlayerTurn(CalculatePlayerTurn(player));
     }
-    _turnManager.ApplyTokens();
+    _turnManager.DistributeTokens();
   }
 
   private void MovePhase()
   {
     Console.WriteLine("MovePhase");
+    _turnManager.ApplyTokens();
     _turnManager.UpdatePositions();
   }
 
@@ -129,6 +130,7 @@ public class AutoRaceEngine
     {
       _turnManager.AddPlayerTurn(new PlayerTurnResult(player));
     }
+    _turnManager.DistributeTokens();
     var noRemainingTokens = _turnManager.ApplyTokens();
     _turnManager.UpdatePositions();
     return noRemainingTokens;

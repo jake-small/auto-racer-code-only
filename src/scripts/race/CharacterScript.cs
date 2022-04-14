@@ -4,6 +4,8 @@ using System;
 public class CharacterScript : Node2D
 {
   public int Id { get; set; }
+  public int PositiveTokenValue { get; set; } = 0;
+  public int NegativeTokenValue { get; set; } = 0;
 
   private string _characterSkin;
   public string CharacterSkin
@@ -44,11 +46,15 @@ public class CharacterScript : Node2D
   public bool Moving { get; private set; } = false;
 
   private AnimatedSprite _sprite;
+  private Label _positiveTokenLabel;
+  private Label _negativeTokenLabel;
   private bool raceOver = false;
 
   public override void _Ready()
   {
     _sprite = GetNode<AnimatedSprite>(RaceSceneData.CharacterSpritePath);
+    _positiveTokenLabel = GetNode<Label>(RaceSceneData.CharacterTokenPositiveLabel);
+    _negativeTokenLabel = GetNode<Label>(RaceSceneData.CharacterTokenNegativeLabel);
     if (CharacterSkin == null)
     {
       CharacterSkin = GetRandomSkin();
@@ -102,6 +108,10 @@ public class CharacterScript : Node2D
     {
       AnimationState = AnimationStates.facing_front;
     }
+    _positiveTokenLabel.Text = PositiveTokenValue > 0 ? $"+{PositiveTokenValue}" : "";
+    _positiveTokenLabel.Visible = PositiveTokenValue > 0;
+    _negativeTokenLabel.Text = NegativeTokenValue < 0 ? $"{NegativeTokenValue}" : "";
+    _negativeTokenLabel.Visible = NegativeTokenValue < 0;
   }
 
   public void Move(float xAmount)

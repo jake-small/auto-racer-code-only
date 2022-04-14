@@ -33,18 +33,16 @@ public class CardScript : KinematicBody2D
 
   public override void _Ready()
   {
-    var iconPath = $"res://assets/card_icons/{Card.Icon ?? "null"}";
-    var directory = new Directory();
-    if (directory.FileExists(iconPath))
+    var iconPath = $"res://assets/card_icons/{Card.Icon}"; // ?? "icon023"
+    if (ResourceLoader.Exists(iconPath))
     {
       var iconSprite = GetNode<Sprite>(PrepSceneData.SpriteCardIcon);
       iconSprite.Texture = (Texture)GD.Load(iconPath);
     }
     else
     {
-      GD.Print($"Unable to load card sprite with path {iconPath}");
+      GD.Print($"Unable to load iconSprite with path '{iconPath}'. Using default sprite instead");
     }
-
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
     UpdateUi();

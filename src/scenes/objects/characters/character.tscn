@@ -1,7 +1,22 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/characters/animation_frames/chara2_1_animations.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/scripts/race/CharacterScript.cs" type="Script" id=2]
+[ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/card_icons/icon102.png" type="Texture" id=4]
+[ext_resource path="res://assets/card_icons/icon105.png" type="Texture" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 52
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 52
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
 
 [node name="Character" type="Node2D"]
 script = ExtResource( 2 )
@@ -10,3 +25,45 @@ script = ExtResource( 2 )
 scale = Vector2( 4, 4 )
 frames = ExtResource( 1 )
 animation = "facing_front"
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Label_token_positive" type="Label" parent="."]
+visible = false
+margin_left = 94.0
+margin_top = -22.0
+margin_right = 494.0
+margin_bottom = 18.0
+custom_fonts/font = SubResource( 1 )
+text = "+0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite_positive_icon" type="Sprite" parent="Label_token_positive"]
+position = Vector2( -29, 22 )
+rotation = 1.57079
+scale = Vector2( 1.2, 2 )
+texture = ExtResource( 4 )
+
+[node name="Label_token_negative" type="Label" parent="."]
+visible = false
+anchor_right = 1.0
+margin_left = -495.0
+margin_top = -22.0
+margin_right = -95.0
+margin_bottom = 18.0
+rect_pivot_offset = Vector2( 80, 0 )
+custom_fonts/font = SubResource( 2 )
+text = "-0"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite_negative_icon" type="Sprite" parent="Label_token_negative"]
+position = Vector2( 426, 22 )
+rotation = 1.57079
+scale = Vector2( 1.2, 2 )
+texture = ExtResource( 5 )

@@ -56,6 +56,20 @@ public class RaceViewManager
     UpdateOffscreenIndicator(turnResults);
   }
 
+  public void UpdateTokenCounts(IEnumerable<PlayerTurnResult> turnResults)
+  {
+    foreach (var turnResult in turnResults)
+    {
+      var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
+      var positiveMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value > 0);
+      var positiveTokenValue = positiveMoveTokens.Any() ? positiveMoveTokens.Sum(t => t.Value) : 0;
+      character.PositiveTokenValue = positiveTokenValue;
+      var negativeMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value < 0);
+      var negativeTokenValue = negativeMoveTokens.Any() ? negativeMoveTokens.Sum(t => t.Value) : 0;
+      character.NegativeTokenValue = negativeTokenValue;
+    }
+  }
+
   public void RaceEndAnimation()
   {
     foreach (var character in _characters)

@@ -211,10 +211,12 @@ public class RaceMain : Node2D
         p = p + 1;
       }
       _cardStates.Add(currentCardStates);
+      _raceViewManager.UpdateTokenCounts(turnResults);
     }
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
+      _raceViewManager.UpdateTokenCounts(turnResults);
       if (turnResults != null && turnResults.ToList().Count > 0)
       {
         _raceViewManager.MovePlayers(turnResults);
