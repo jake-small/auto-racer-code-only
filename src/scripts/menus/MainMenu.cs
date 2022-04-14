@@ -9,6 +9,7 @@ public class MainMenu : Control
   public override void _EnterTree()
   {
     base._EnterTree();
+    GameManager.Reset();
     LoadCharacterSkins();
   }
   public override void _Ready()

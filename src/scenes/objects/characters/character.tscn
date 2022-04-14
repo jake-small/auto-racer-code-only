@@ -7,13 +7,13 @@
 [ext_resource path="res://assets/card_icons/icon105.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
-size = 52
+size = 44
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=2]
-size = 52
+size = 44
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
@@ -30,11 +30,10 @@ __meta__ = {
 }
 
 [node name="Label_token_positive" type="Label" parent="."]
-visible = false
 margin_left = 94.0
-margin_top = -22.0
+margin_top = -18.0
 margin_right = 494.0
-margin_bottom = 18.0
+margin_bottom = 22.0
 custom_fonts/font = SubResource( 1 )
 text = "+0"
 __meta__ = {
@@ -42,18 +41,17 @@ __meta__ = {
 }
 
 [node name="Sprite_positive_icon" type="Sprite" parent="Label_token_positive"]
-position = Vector2( -29, 22 )
+position = Vector2( -29, 18 )
 rotation = 1.57079
-scale = Vector2( 1.2, 2 )
+scale = Vector2( 1, 1.6 )
 texture = ExtResource( 4 )
 
 [node name="Label_token_negative" type="Label" parent="."]
-visible = false
 anchor_right = 1.0
 margin_left = -495.0
-margin_top = -22.0
+margin_top = -18.0
 margin_right = -95.0
-margin_bottom = 18.0
+margin_bottom = 22.0
 rect_pivot_offset = Vector2( 80, 0 )
 custom_fonts/font = SubResource( 2 )
 text = "-0"
@@ -63,7 +61,7 @@ __meta__ = {
 }
 
 [node name="Sprite_negative_icon" type="Sprite" parent="Label_token_negative"]
-position = Vector2( 426, 22 )
+position = Vector2( 426, 18 )
 rotation = 1.57079
-scale = Vector2( 1.2, 2 )
+scale = Vector2( 1, 1.6 )
 texture = ExtResource( 5 )
