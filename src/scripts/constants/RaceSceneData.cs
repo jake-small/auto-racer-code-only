@@ -20,7 +20,7 @@ public static class RaceSceneData
   public const string CharacterHardRightBoundPath = "Positions/p14";
   public const int CharacterSpawnYOffset = 100;
   public const int SpaceWidth = 128;
-  public const float GameSpeed = 400;
+  public const float GameSpeed = 600;
 
   // Offscreen indicator
   public const string OffscreenIndicatorL1 = "Offscreen_Indicators/Offscreen_IndicatorL1";
@@ -31,4 +31,11 @@ public static class RaceSceneData
   public const string OffscreenIndicatorR3 = "Offscreen_Indicators/Offscreen_IndicatorR3";
   public const string OffscreenIndicatorLabelDistance = "Label_distance";
   public const string OffscreenIndicatorCharacterPosition = "Position2D_character";
+
+  // Selected cards
+  public const string ContainerSelectedCard = "CardSlots/Container_selected_card_";
+  public const string LabelSelectedNameRelPath = "/MarginContainer/VBoxContainer/Label_selected_name";
+  public const string LabelSelectedDescriptionRelPath = "/MarginContainer/VBoxContainer/Label_selected_description";
+  public const string LabelSelectedSellsForRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
+  public const string LabelSelectedBaseMoveRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
 }

@@ -20,6 +20,7 @@ public class RaceMain : Node2D
   private List<string> _updateCardStateLabel = new List<string>();
   // private List<string> _positionStates = new List<string>();
   private List<List<string>> _cardStates = new List<List<string>>();
+  private List<CardScript> _displayCards = new List<CardScript>();
   private int _currentTurnView;
   private bool _raceOver = false;
 
@@ -51,8 +52,6 @@ public class RaceMain : Node2D
     _labelCardArray = new Label[] {
       labelCardP1, labelCardP2, labelCardP3, labelCardP4
     };
-
-
 
     _endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
     _endRaceButton.Disabled = true;
@@ -133,6 +132,33 @@ public class RaceMain : Node2D
     return offscreenIndicatorPairs;
   }
 
+  private void LoadCardScript(Card card, int playerId)
+  {
+    var existingDisplayCard = _displayCards.FirstOrDefault(c => c.Slot == playerId);
+    if (existingDisplayCard != null)
+    {
+      existingDisplayCard.QueueFree();
+      _displayCards.Remove(existingDisplayCard);
+    }
+    HideSelectedCardData(playerId);
+    var cardScene = ResourceLoader.Load(PrepSceneData.CardScenePath) as PackedScene;
+    var cardInstance = (CardScript)cardScene.Instance();
+    var containerPosition = GetNode<Sprite>($"CardSlots/slot_{playerId}").Position;
+    var position = containerPosition + PrepSceneData.CardSlotOffset;
+    cardInstance.Card = card;
+    cardInstance.Slot = playerId;
+    cardInstance.Position = position;
+    cardInstance.DisplayOnly = true;
+    cardInstance.Connect(nameof(CardScript.cardDisplaySelected), this, nameof(_on_Card_display_selected));
+    _displayCards.Add(cardInstance);
+    AddChild(cardInstance);
+  }
+
+  private void _on_Card_display_selected(CardScript cardScript)
+  {
+    ToggleDisplaySelectedCardData(cardScript.Card, cardScript.Slot);
+  }
+
   private void Button_finish_pressed()
   {
     GD.Print("Finish button pressed");
@@ -178,6 +204,7 @@ public class RaceMain : Node2D
       foreach (var turnResult in turnResults)
       {
         var card = turnResult.Player.Cards[_currentTurnView - 1];
+        LoadCardScript(card, p);
         var cardState = $"{card.GetName()}\n{card.BaseMove}\n{card.GetDescription()}";
         _labelCardArray[p].Text = cardState;
         currentCardStates.Add(cardState);
@@ -271,6 +298,50 @@ public class RaceMain : Node2D
       GD.Print($"You lost {livesLost} life");
       GameManager.LifeTotal = GameManager.LifeTotal - livesLost;
     }
+  }
+
+  private void ToggleDisplaySelectedCardData(Card card, int playerId)
+  {
+    var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
+    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
+    if (selectedCardPanel.Visible)
+    {
+      HideSelectedCardData(playerId);
+    }
+    else
+    {
+      DisplaySelectedCardData(card, playerId);
+    }
+  }
+
+  private void DisplaySelectedCardData(Card card, int playerId)
+  {
+    var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
+    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
+    var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
+    var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
+    var selectedCardSellsForLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedSellsForRelPath);
+    var selectedCardBaseMoveLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedBaseMoveRelPath);
+    selectedCardPanel.Visible = true;
+    selectedCardNameLabel.Text = card.GetName();
+    selectedCardDescriptionLabel.Text = card.GetDescription();
+    selectedCardSellsForLabel.Text = GameManager.PrepEngine.Bank.GetSellValue(card).ToString();
+    selectedCardBaseMoveLabel.Text = card.BaseMove.ToString();
+  }
+
+  private void HideSelectedCardData(int playerId)
+  {
+    var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
+    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
+    var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
+    var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
+    var selectedCardSellsForLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedSellsForRelPath);
+    var selectedCardBaseMoveLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedBaseMoveRelPath);
+    selectedCardPanel.Visible = false;
+    selectedCardNameLabel.Text = "";
+    selectedCardDescriptionLabel.Text = "";
+    selectedCardSellsForLabel.Text = "";
+    selectedCardBaseMoveLabel.Text = "";
   }
 
   private string IntToPlace(int i)

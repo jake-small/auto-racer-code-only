@@ -16,6 +16,7 @@ public class CardScript : KinematicBody2D
   private Label _levelLabel;
   private Label _baseMoveLabel;
 
+  public bool DisplayOnly { get; set; } = false;
   public bool Selected = false;
   public bool Dropped = false;
   public Vector2 DroppedPosition = new Vector2();
@@ -103,6 +104,11 @@ public class CardScript : KinematicBody2D
 
   public override void _Input(InputEvent @event)
   {
+    if (DisplayOnly)
+    {
+      return;
+    }
+
     if (!Selected || Dropped)
     {
       return;
@@ -173,6 +179,11 @@ public class CardScript : KinematicBody2D
     {
       if (inputEvent.IsPressed())
       {
+        if (DisplayOnly)
+        {
+          emitCardDisplaySelectedSignal();
+          return;
+        }
         GD.Print("Selected card at: ", eventMouseButton.Position);
         Selected = true; // TODO
         emitCardSelectedSignal();
@@ -285,5 +296,13 @@ public class CardScript : KinematicBody2D
   {
     GD.Print($"CardDeselected signal EMITTED for {Card.GetName()} at slot {Slot}");
     EmitSignal(nameof(cardDeselected), this);
+  }
+
+  [Signal]
+  public delegate void cardDisplaySelected(CardScript card);
+  public void emitCardDisplaySelectedSignal()
+  {
+    GD.Print($"CardDisplaySelected signal EMITTED for {Card.GetName()} at slot {Slot}");
+    EmitSignal(nameof(cardDisplaySelected), this);
   }
 }
