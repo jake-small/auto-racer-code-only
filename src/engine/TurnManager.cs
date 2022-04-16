@@ -21,7 +21,7 @@ public class TurnManager
     PlayerTurns.Clear();
   }
 
-  public bool ApplyTokens()
+  public void DistributeTokens()
   {
     // TODO combine these loops to reduce iteration
     var allTokensGiven = new Dictionary<int, List<Token>>();
@@ -47,7 +47,10 @@ public class TurnManager
         playerTurn.Player.Tokens.Add(token);
       }
     }
+  }
 
+  public bool ApplyTokens()
+  {
     var noRemainingTokens = true;
     foreach (var playerTurn in PlayerTurns)
     {

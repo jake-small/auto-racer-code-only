@@ -4,6 +4,7 @@ public static class PrepSceneData
 {
   public static readonly Vector2 CardSlotOffset = new Vector2(6, 4);
 
+  public const string CharacterPath = "Character";
   public const string CardDataRelativePath = @"configs\cardsTest.json";
   public const string BankDataConfigRelativePath = @"configs\bank.config.json";
   public const string ButtonRerollPath = "Control/HBoxContainerLeft/Button_Reroll";

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Godot;
 
 public class RaceEndMain : Node2D
@@ -15,6 +16,15 @@ public class RaceEndMain : Node2D
     var labelFourthPlayer = GetNode(RaceEndSceneData.Label_fourth_player) as Label;
     labelFourthPlayer.Text = results[3].Id + "\nDistance: " + results[3].Position;
 
+    // var characterFirst = GetNode<CharacterScript>(RaceEndSceneData.Character_first);
+    // characterFirst.CharacterSkin = GameManager.PlayerCharacterSkin;
+    // var characterSecond = GetNode<CharacterScript>(RaceEndSceneData.Character_second);
+    // characterFirst.CharacterSkin = GameManager.OpposingCharacterSkins[0];
+    // var characterThird = GetNode<CharacterScript>(RaceEndSceneData.Character_third);
+    // characterFirst.CharacterSkin = GameManager.OpposingCharacterSkins[1];
+    // var characterFourth = GetNode<CharacterScript>(RaceEndSceneData.Character_fourth);
+    // characterFirst.CharacterSkin = GameManager.OpposingCharacterSkins[2];
+
     var endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
     endRaceButton.Connect("pressed", this, nameof(Button_finish_pressed));
   }
@@ -22,6 +32,7 @@ public class RaceEndMain : Node2D
   private void Button_finish_pressed()
   {
     GD.Print("Finish button pressed");
+    // GameManager.OpposingCharacterSkins = new List<string>();
     if (GameManager.CurrentRace >= GameManager.TotalRaces)
     {
       GD.Print("Race over!");

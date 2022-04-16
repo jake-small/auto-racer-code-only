@@ -45,6 +45,7 @@ public class GameEndMain : Node2D
     var spriteName = "slot_";
     var containerPosition = GetNode<Sprite>($"{spriteName}{slot}").Position;
     var position = containerPosition + PrepSceneData.CardSlotOffset;
+    cardInstance.DisplayOnly = true;
     cardInstance.Card = card;
     cardInstance.Slot = slot;
     cardInstance.Position = position;

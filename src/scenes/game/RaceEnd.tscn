@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/stats/trophy.png" type="Texture" id=8]
 [ext_resource path="res://assets/stats/medal1.png" type="Texture" id=9]
 [ext_resource path="res://assets/panels/panel_blue.png" type="Texture" id=10]
+[ext_resource path="res://src/scenes/objects/characters/character.tscn" type="PackedScene" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 124
@@ -52,6 +53,7 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+margin_top = -0.00128174
 margin_right = 1920.0
 margin_bottom = 1080.0
 rect_pivot_offset = Vector2( 1572.19, 83.4513 )
@@ -170,6 +172,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Character_first" parent="Control_placements/Label_first" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 62.4065, -77.3225 )
+
 [node name="Label_second" type="Label" parent="Control_placements"]
 margin_left = 569.0
 margin_top = 80.0
@@ -193,6 +199,10 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Character_second" parent="Control_placements/Label_second" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 62.4065, -77.3225 )
 
 [node name="Label_third" type="Label" parent="Control_placements"]
 margin_left = 915.0
@@ -218,6 +228,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Character_third" parent="Control_placements/Label_third" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 62.4065, -77.3225 )
+
 [node name="Label_fourth" type="Label" parent="Control_placements"]
 margin_left = 1261.0
 margin_top = 160.0
@@ -241,3 +255,7 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Character_fourth" parent="Control_placements/Label_fourth" instance=ExtResource( 11 )]
+visible = false
+position = Vector2( 62.4065, -77.3225 )

@@ -16,6 +16,7 @@ public class CardScript : KinematicBody2D
   private Label _levelLabel;
   private Label _baseMoveLabel;
 
+  public bool DisplayOnly { get; set; } = false;
   public bool Selected = false;
   public bool Dropped = false;
   public Vector2 DroppedPosition = new Vector2();
@@ -32,14 +33,16 @@ public class CardScript : KinematicBody2D
 
   public override void _Ready()
   {
-    var iconPath = $"res://assets/card_icons/{Card.Icon ?? "null"}";
-    var directory = new Directory();
-    if (directory.FileExists(iconPath))
+    var iconPath = $"res://assets/card_icons/{Card.Icon}"; // ?? "icon023"
+    if (ResourceLoader.Exists(iconPath))
     {
       var iconSprite = GetNode<Sprite>(PrepSceneData.SpriteCardIcon);
       iconSprite.Texture = (Texture)GD.Load(iconPath);
     }
-
+    else
+    {
+      GD.Print($"Unable to load iconSprite with path '{iconPath}'. Using default sprite instead");
+    }
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
     UpdateUi();
@@ -99,6 +102,11 @@ public class CardScript : KinematicBody2D
 
   public override void _Input(InputEvent @event)
   {
+    if (DisplayOnly)
+    {
+      return;
+    }
+
     if (!Selected || Dropped)
     {
       return;
@@ -169,6 +177,11 @@ public class CardScript : KinematicBody2D
     {
       if (inputEvent.IsPressed())
       {
+        if (DisplayOnly)
+        {
+          emitCardDisplaySelectedSignal();
+          return;
+        }
         GD.Print("Selected card at: ", eventMouseButton.Position);
         Selected = true; // TODO
         emitCardSelectedSignal();
@@ -281,5 +294,13 @@ public class CardScript : KinematicBody2D
   {
     GD.Print($"CardDeselected signal EMITTED for {Card.GetName()} at slot {Slot}");
     EmitSignal(nameof(cardDeselected), this);
+  }
+
+  [Signal]
+  public delegate void cardDisplaySelected(CardScript card);
+  public void emitCardDisplaySelectedSignal()
+  {
+    GD.Print($"CardDisplaySelected signal EMITTED for {Card.GetName()} at slot {Slot}");
+    EmitSignal(nameof(cardDisplaySelected), this);
   }
 }

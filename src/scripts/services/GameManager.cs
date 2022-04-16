@@ -10,4 +10,20 @@ public static class GameManager
   public static int TotalRaces { get; set; } = 10;
   public static int LifeTotal { get; set; } = 10;
   public static PrepEngine PrepEngine { get; set; } = new PrepEngine();
+  public static List<string> CharacterSkins { get; set; } = new List<string>();
+  public static string PlayerCharacterSkin { get; set; }
+  // public static List<string> OpposingCharacterSkins { get; set; } = new List<string>();
+
+  public static void Reset()
+  {
+    LocalPlayer = null;
+    Score = new Score();
+    RaceHistory = new RaceHistory();
+    CurrentRace = 0;
+    TotalRaces = 10;
+    LifeTotal = 10;
+    PrepEngine = new PrepEngine();
+    CharacterSkins = new List<string>();
+    PlayerCharacterSkin = null;
+  }
 }

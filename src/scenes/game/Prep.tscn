@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=2]
 [ext_resource path="res://assets/buttons/blue_button02_reroll.png" type="Texture" id=3]
 [ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=4]
-[ext_resource path="res://assets/characters/male_wizard.png" type="Texture" id=5]
+[ext_resource path="res://src/scenes/objects/characters/character.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/scripts/prep/PrepMain.cs" type="Script" id=6]
 [ext_resource path="res://assets/misc/grey_sliderHorizontal.png" type="Texture" id=7]
 [ext_resource path="res://assets/buttons/blue_button02_sell.png" type="Texture" id=8]
@@ -26,19 +26,19 @@
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=24]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=25]
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=1]
 size = 46
 font_data = ExtResource( 25 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=2]
 size = 34
 font_data = ExtResource( 25 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=3]
 size = 30
 font_data = ExtResource( 25 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 56
 font_data = ExtResource( 25 )
 
@@ -155,7 +155,7 @@ __meta__ = {
 [node name="Label_selected_name" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer"]
 margin_right = 269.0
 margin_bottom = 73.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Name
 second line"
@@ -168,7 +168,7 @@ __meta__ = {
 margin_top = 77.0
 margin_right = 269.0
 margin_bottom = 254.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Description Card Description Card Description Card Description Card Description Card Description"
 autowrap = true
@@ -199,7 +199,7 @@ margin_bottom = 42.0
 margin_top = 9.0
 margin_right = 91.0
 margin_bottom = 32.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Sells for"
 __meta__ = {
@@ -211,7 +211,7 @@ margin_left = 103.0
 margin_top = 9.0
 margin_right = 122.0
 margin_bottom = 32.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-1"
 __meta__ = {
@@ -222,7 +222,7 @@ __meta__ = {
 margin_left = 134.0
 margin_right = 269.0
 margin_bottom = 42.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
 align = 2
@@ -230,10 +230,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerCharacter" type="Sprite" parent="."]
-position = Vector2( 312, 312 )
-scale = Vector2( 0.75, 0.75 )
-texture = ExtResource( 5 )
+[node name="Character" parent="." instance=ExtResource( 5 )]
+position = Vector2( 318, 318 )
+scale = Vector2( 2, 2 )
 
 [node name="slot_0" type="Sprite" parent="." groups=[
 "CardSlots",
@@ -479,6 +478,50 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="Shop_cost_panel" type="Sprite" parent="."]
+position = Vector2( 601.971, 728.207 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel"]
+margin_left = -41.4011
+margin_top = -21.583
+margin_right = -1.40112
+margin_bottom = 14.417
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel"]
+position = Vector2( 9.86694, -2.34741 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Reroll_cost_panel" type="Sprite" parent="."]
+position = Vector2( 164.979, 987.715 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Reroll_cost_label" type="Label" parent="Reroll_cost_panel"]
+margin_left = -41.4011
+margin_top = -21.583
+margin_right = -1.40112
+margin_bottom = 14.417
+custom_fonts/font = ExtResource( 19 )
+text = "1"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Reroll_cost_panel"]
+position = Vector2( 9.86694, -2.34741 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
 
 [connection signal="mouse_entered" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_exited"]

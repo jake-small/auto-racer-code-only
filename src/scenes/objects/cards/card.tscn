@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
 [ext_resource path="res://assets/panels/blue_panel.png" type="Texture" id=3]
+[ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_24.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/effects/iceBlockAlt.png" type="Texture" id=6]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=7]
@@ -12,6 +13,12 @@ extents = Vector2( 80, 80 )
 
 [sub_resource type="StreamTexture" id=2]
 load_path = "res://.import/icon023.png-8a66db349c3824cdfd9434e7f05215eb.stex"
+
+[sub_resource type="DynamicFont" id=3]
+size = 46
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
 
 [node name="Card" type="KinematicBody2D" groups=[
 "Card",
@@ -101,29 +108,29 @@ shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="."]
 position = Vector2( 68, 61.5087 )
-scale = Vector2( 2.5, 2.5 )
+scale = Vector2( 3.5, 3.5 )
 texture = SubResource( 2 )
 
 [node name="Label_level" type="Label" parent="."]
-margin_left = 13.0
+margin_left = 8.0
 margin_top = 116.0
-margin_right = 60.0
+margin_right = 55.0
 margin_bottom = 138.0
 rect_pivot_offset = Vector2( -253.727, -52.4615 )
 custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "-1"
+text = "0 exp0/0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_basemove" type="Label" parent="."]
-margin_left = 79.0
-margin_top = 116.0
-margin_right = 126.0
-margin_bottom = 138.0
+margin_left = 33.2475
+margin_top = 103.498
+margin_right = 132.247
+margin_bottom = 138.498
 rect_pivot_offset = Vector2( -253.727, -52.4615 )
-custom_fonts/font = ExtResource( 5 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "-1"
 align = 2
