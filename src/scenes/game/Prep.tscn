@@ -479,6 +479,50 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Shop_cost_panel" type="Sprite" parent="."]
+position = Vector2( 601.971, 728.207 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel"]
+margin_left = -41.4011
+margin_top = -21.583
+margin_right = -1.40112
+margin_bottom = 14.417
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel"]
+position = Vector2( 9.86694, -2.34741 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Reroll_cost_panel" type="Sprite" parent="."]
+position = Vector2( 164.979, 987.715 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Reroll_cost_label" type="Label" parent="Reroll_cost_panel"]
+margin_left = -41.4011
+margin_top = -21.583
+margin_right = -1.40112
+margin_bottom = 14.417
+custom_fonts/font = ExtResource( 19 )
+text = "1"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Reroll_cost_panel"]
+position = Vector2( 9.86694, -2.34741 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
 [connection signal="mouse_entered" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_exited"]
 [connection signal="mouse_entered" from="Control/HBoxContainerLeft/Button_Sell" to="." method="_on_Button_Sell_mouse_entered"]

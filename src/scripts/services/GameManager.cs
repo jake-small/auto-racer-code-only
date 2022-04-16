@@ -12,6 +12,7 @@ public static class GameManager
   public static PrepEngine PrepEngine { get; set; } = new PrepEngine();
   public static List<string> CharacterSkins { get; set; } = new List<string>();
   public static string PlayerCharacterSkin { get; set; }
+  // public static List<string> OpposingCharacterSkins { get; set; } = new List<string>();
 
   public static void Reset()
   {

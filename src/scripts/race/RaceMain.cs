@@ -162,7 +162,6 @@ public class RaceMain : Node2D
   private void Button_finish_pressed()
   {
     GD.Print("Finish button pressed");
-
     GetTree().ChangeScene("res://src/scenes/game/RaceEnd.tscn");
   }
 

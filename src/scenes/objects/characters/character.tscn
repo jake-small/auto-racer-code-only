@@ -30,6 +30,7 @@ __meta__ = {
 }
 
 [node name="Label_token_positive" type="Label" parent="."]
+visible = false
 margin_left = 94.0
 margin_top = -18.0
 margin_right = 494.0
@@ -47,6 +48,7 @@ scale = Vector2( 1, 1.6 )
 texture = ExtResource( 4 )
 
 [node name="Label_token_negative" type="Label" parent="."]
+visible = false
 anchor_right = 1.0
 margin_left = -495.0
 margin_top = -18.0
