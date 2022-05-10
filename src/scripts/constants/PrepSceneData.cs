@@ -7,6 +7,7 @@ public static class PrepSceneData
   public const string CharacterPath = "Character";
   public const string CardDataRelativePath = @"configs\cardsTest.json";
   public const string BankDataConfigRelativePath = @"configs\bank.config.json";
+  public const string NameDataRelativePath = @"configs\nameData.json";
   public const string ButtonRerollPath = "Control/HBoxContainerLeft/Button_Reroll";
   public const string ButtonFreezePath = "Control/HBoxContainerLeft/Button_Freeze";
   public const string ButtonSellPath = "Control/HBoxContainerLeft/Button_Sell";

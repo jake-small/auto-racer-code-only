@@ -61,7 +61,8 @@ public class RaceMain : Node2D
     _backButton = GetNode(RaceSceneData.ButtonBackPath) as Button;
     _backButton.Connect("pressed", this, nameof(Button_back_pressed));
 
-    _autoRaceEngine = EngineTesting.RaceEngine(GameManager.LocalPlayer);
+    _autoRaceEngine = EngineTesting.RaceEngine(GameManager.LocalPlayer, GameManager.NameGenerator);
+    LoadPlayerNames(_autoRaceEngine.GetPlayers());
     _currentTurnView = _autoRaceEngine.GetTurn();
   }
 
@@ -88,6 +89,28 @@ public class RaceMain : Node2D
     if (_raceOver && _endRaceButton.Disabled == true)
     {
       _endRaceButton.Disabled = false;
+    }
+  }
+
+  private void LoadPlayerNames(IEnumerable<Player> players)
+  {
+    var playerLabels = new List<string>{
+      RaceSceneData.LabelPlayerName0,
+      RaceSceneData.LabelPlayerName1,
+      RaceSceneData.LabelPlayerName2,
+      RaceSceneData.LabelPlayerName3
+    };
+    var i = 0;
+    foreach (Player player in players)
+    {
+      if (i >= playerLabels.Count)
+      {
+        GD.PrintErr($"This race does not support more than {playerLabels.Count} players");
+        return;
+      }
+      var playerNameLabel = GetNode<Label>(playerLabels[i]);
+      playerNameLabel.Text = player.Name ?? "";
+      i = i + 1;
     }
   }
 

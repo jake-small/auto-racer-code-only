@@ -111,6 +111,7 @@ __meta__ = {
 }
 
 [node name="Container_selected_card" type="Node2D" parent="."]
+visible = false
 position = Vector2( 440, 150 )
 
 [node name="Panel_selected" type="Sprite" parent="Container_selected_card"]
