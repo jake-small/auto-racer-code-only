@@ -36,6 +36,10 @@ public static class RaceSceneData
 
   // Selected cards
   public const string ContainerSelectedCard = "CardSlots/Container_selected_card_";
+  public const string LabelPlayerName0 = "CardSlots/slot_0/Label_PlayerName";
+  public const string LabelPlayerName1 = "CardSlots/slot_1/Label_PlayerName";
+  public const string LabelPlayerName2 = "CardSlots/slot_2/Label_PlayerName";
+  public const string LabelPlayerName3 = "CardSlots/slot_3/Label_PlayerName";
   public const string LabelSelectedNameRelPath = "/MarginContainer/VBoxContainer/Label_selected_name";
   public const string LabelSelectedDescriptionRelPath = "/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedSellsForRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";

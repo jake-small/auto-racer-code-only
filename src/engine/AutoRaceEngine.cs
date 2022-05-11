@@ -37,6 +37,7 @@ public class AutoRaceEngine
     _turnManager = new TurnManager();
   }
 
+  public IEnumerable<Player> GetPlayers() => _players;
   public int GetTurn() => _turn;
   public TurnPhases GetTurnPhase() => _phase;
 

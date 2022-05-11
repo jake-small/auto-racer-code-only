@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,11 +9,20 @@ public class BotBasic : Player
   private PlayerInventory _botInventory = new PlayerInventory(false);
   private ShopInventory _botShopInventory = new ShopInventory(false);
 
-  public BotBasic(int id, int turn)
+  public BotBasic(int id, int turn, string name = null)
   {
     Id = id;
+    Name = name ?? $"Player {id}";
     Position = 0;
     Cards = GetBotInventory(turn);
+    Skin = GetRandomSkin();
+  }
+
+  private string GetRandomSkin()
+  {
+    var random = new Random();
+    var index = random.Next(GameManager.CharacterSkins.Count);
+    return GameManager.CharacterSkins[index];
   }
 
   /*

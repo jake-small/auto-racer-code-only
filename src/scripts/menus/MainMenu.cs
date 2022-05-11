@@ -5,6 +5,8 @@ public class MainMenu : Control
 {
   private CharacterScript _playerCharacter;
   private int _characterSelectIndex;
+  private Label _firstNameLabel;
+  private Label _adjectiveLabel;
 
   public override void _EnterTree()
   {
@@ -14,16 +16,31 @@ public class MainMenu : Control
   }
   public override void _Ready()
   {
-    _playerCharacter = GetNode<CharacterScript>("Character");
+    _playerCharacter = GetNode<CharacterScript>(MainMenuData.PlayerCharacter);
     _characterSelectIndex = GameManager.CharacterSkins.FindIndex(s => s.Equals(_playerCharacter.CharacterSkin, StringComparison.InvariantCultureIgnoreCase));
-    var startButton = GetNode("MarginContainer/VBoxContainer/HBoxContainer/Button_Start") as Button;
+    var firstNameRandomButton = GetNode<Button>(MainMenuData.ButtonRandomFirstName);
+    firstNameRandomButton.Connect("pressed", this, nameof(Button_first_name_random_pressed));
+    var adjectiveRandomButton = GetNode<Button>(MainMenuData.ButtonRandomAdjective);
+    adjectiveRandomButton.Connect("pressed", this, nameof(Button_adjective_random_pressed));
+    var nameRandomButton = GetNode<Button>(MainMenuData.ButtonRandomName);
+    nameRandomButton.Connect("pressed", this, nameof(Button_name_random_pressed));
+    var startButton = GetNode<Button>(MainMenuData.ButtonStart);
     startButton.Connect("pressed", this, nameof(Button_start_pressed));
-    var quitButton = GetNode("MarginContainer/VBoxContainer/HBoxContainer/Button_Quit") as Button;
+    var quitButton = GetNode<Button>(MainMenuData.ButtonQuit);
     quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
-    var prevSkinButton = GetNode("MarginContainer/VBoxContainer/HBoxContainerCharSelect/Button_Prev_Skin") as Button;
+    var prevSkinButton = GetNode<Button>(MainMenuData.ButtonSkinPrevious);
     prevSkinButton.Connect("pressed", this, nameof(Button_previous_skin_pressed));
-    var nextSkinButton = GetNode("MarginContainer/VBoxContainer/HBoxContainerCharSelect/Button_Next_Skin") as Button;
+    var nextSkinButton = GetNode<Button>(MainMenuData.ButtonSkinNext);
     nextSkinButton.Connect("pressed", this, nameof(Button_next_skin_pressed));
+
+    if (GameManager.NameGenerator is null)
+    {
+      GameManager.NameGenerator = new NameGenerator(PrepSceneData.NameDataRelativePath);
+    }
+    _firstNameLabel = GetNode<Label>(MainMenuData.LabelFirstName);
+    _adjectiveLabel = GetNode<Label>(MainMenuData.LabelAdjective);
+    _firstNameLabel.Text = GameManager.NameGenerator.GetRandomFirstName();
+    _adjectiveLabel.Text = GameManager.NameGenerator.GetRandomAdjective();
   }
 
   private void Button_previous_skin_pressed()
@@ -50,11 +67,38 @@ public class MainMenu : Control
     _playerCharacter.CharacterSkin = nextSkin;
   }
 
+  private void Button_name_random_pressed()
+  {
+    Console.WriteLine("Random Name button pressed");
+    _firstNameLabel.Text = GameManager.NameGenerator.GetRandomFirstName();
+    _adjectiveLabel.Text = GameManager.NameGenerator.GetRandomAdjective();
+  }
+
+  private void Button_first_name_random_pressed()
+  {
+    Console.WriteLine("Random FirstName button pressed");
+    _firstNameLabel.Text = GameManager.NameGenerator.GetRandomFirstName();
+  }
+
+  private void Button_adjective_random_pressed()
+  {
+    Console.WriteLine("Random Adjective button pressed");
+    _adjectiveLabel.Text = GameManager.NameGenerator.GetRandomAdjective();
+  }
+
   private void Button_start_pressed()
   {
     Console.WriteLine("Start Game button pressed");
-    GameManager.PlayerCharacterSkin = _playerCharacter.CharacterSkin;
-    GetTree().ChangeScene("res://src/scenes/game/Prep.tscn");
+    var playerName = $"{_firstNameLabel.Text} the {_adjectiveLabel.Text}";
+    GameManager.LocalPlayer = new Player
+    {
+      Id = 0,
+      Name = playerName,
+      Cards = GameManager.PrepEngine.PlayerInventory.GetCards(),
+      Position = 0
+    };
+    GameManager.LocalPlayer.Skin = _playerCharacter.CharacterSkin;
+    GetTree().ChangeScene(MainMenuData.PrepScenePath);
   }
 
   private void Button_quit_pressed()
@@ -65,7 +109,7 @@ public class MainMenu : Control
 
   private void LoadCharacterSkins()
   {
-    var skinDirectory = "res://assets/characters/animation_frames/";
+    var skinDirectory = MainMenuData.SkinDirectory;
     var directory = new Directory();
     if (directory.Open(skinDirectory) == Error.Ok)
     {

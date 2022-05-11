@@ -13,12 +13,12 @@ public static class EngineTesting
     }
   }
 
-  public static AutoRaceEngine RaceEngine(Player player1)
+  public static AutoRaceEngine RaceEngine(Player player1, NameGenerator nameGenerator)
   {
     var players = new List<Player>();
     players.Add(player1);
     // Add other players
-    players.AddRange(GetBots(3));
+    players.AddRange(GetBots(3, nameGenerator));
 
     return new AutoRaceEngine(players, 5, 5);
   }
@@ -71,18 +71,18 @@ public static class EngineTesting
     return positionViewString;
   }
 
-  private static List<Player> GetBots(int numOpponents)
+  private static List<Player> GetBots(int numOpponents, NameGenerator nameGenerator)
   {
     var players = new List<Player>();
     for (var i = 1; i < numOpponents + 1; i++)
     {
-      players.Add(GetBot(i));
+      players.Add(GetBot(i, nameGenerator.GetRandomName()));
     }
     return players;
   }
 
-  private static Player GetBot(int id)
+  private static Player GetBot(int id, string name)
   {
-    return new BotBasic(id, GameManager.CurrentRace);
+    return new BotBasic(id, GameManager.CurrentRace, name);
   }
 }

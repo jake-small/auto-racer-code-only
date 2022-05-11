@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -10,10 +10,12 @@
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator_Right.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=9]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=10]
-
-[sub_resource type="DynamicFont" id=1]
-size = 124
-font_data = ExtResource( 5 )
+[ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_BaseMove.tres" type="DynamicFont" id=13]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=14]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=15]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsBase3.tres" type="DynamicFont" id=16]
 
 [sub_resource type="DynamicFont" id=2]
 size = 64
@@ -29,22 +31,6 @@ font_data = ExtResource( 5 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 64
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=6]
-size = 46
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=7]
-size = 34
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=8]
-size = 30
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=9]
-size = 56
 font_data = ExtResource( 5 )
 
 [node name="Node2D" type="Node2D"]
@@ -104,10 +90,10 @@ position = Vector2( 1840, 465 )
 
 [node name="Label_TurnPhase" type="Label" parent="."]
 margin_left = 744.613
-margin_top = 26.5953
+margin_top = 14.0
 margin_right = 1183.61
 margin_bottom = 120.595
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = ExtResource( 11 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Turn Phase"
 __meta__ = {
@@ -408,6 +394,19 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 9 )
 centered = false
 
+[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_0"]
+margin_top = 100.0
+margin_right = 100.0
+margin_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 16 )
+text = "Player Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="slot_1" type="Sprite" parent="CardSlots" groups=[
 "CardSlots",
 ]]
@@ -415,6 +414,19 @@ position = Vector2( 720, 625 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 9 )
 centered = false
+
+[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_1"]
+margin_top = 100.0
+margin_right = 100.0
+margin_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 16 )
+text = "Player Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="slot_2" type="Sprite" parent="CardSlots" groups=[
 "CardSlots",
@@ -424,6 +436,19 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 9 )
 centered = false
 
+[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_2"]
+margin_top = 100.0
+margin_right = 100.0
+margin_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 16 )
+text = "Player Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="slot_3" type="Sprite" parent="CardSlots" groups=[
 "CardSlots",
 ]]
@@ -431,6 +456,19 @@ position = Vector2( 1380, 625 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 9 )
 centered = false
+
+[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_3"]
+margin_top = 100.0
+margin_right = 100.0
+margin_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_fonts/font = ExtResource( 16 )
+text = "Player Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Container_selected_card_0" type="Node2D" parent="CardSlots"]
 visible = false
@@ -466,7 +504,7 @@ __meta__ = {
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer"]
 margin_right = 269.0
 margin_bottom = 73.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = ExtResource( 15 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Name
 second line"
@@ -478,8 +516,8 @@ __meta__ = {
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer"]
 margin_top = 77.0
 margin_right = 269.0
-margin_bottom = 254.0
-custom_fonts/font = SubResource( 7 )
+margin_bottom = 190.0
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Description Card Description Card Description Card Description Card Description Card Description"
 autowrap = true
@@ -495,7 +533,7 @@ margin_bottom = 323.0
 alignment = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2"]
-margin_top = 271.0
+margin_top = 278.0
 margin_right = 269.0
 margin_bottom = 313.0
 __meta__ = {
@@ -503,14 +541,14 @@ __meta__ = {
 }
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 122.0
-margin_bottom = 42.0
+margin_right = 83.0
+margin_bottom = 35.0
 
 [node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 9.0
-margin_right = 91.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_top = 6.0
+margin_right = 59.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Sells for"
 __meta__ = {
@@ -518,11 +556,11 @@ __meta__ = {
 }
 
 [node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 103.0
-margin_top = 9.0
-margin_right = 122.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_left = 71.0
+margin_top = 6.0
+margin_right = 83.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-1"
 __meta__ = {
@@ -530,10 +568,10 @@ __meta__ = {
 }
 
 [node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 134.0
+margin_left = 95.0
 margin_right = 269.0
-margin_bottom = 42.0
-custom_fonts/font = SubResource( 9 )
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
 align = 2
@@ -575,7 +613,7 @@ __meta__ = {
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer"]
 margin_right = 269.0
 margin_bottom = 73.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = ExtResource( 15 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Name
 second line"
@@ -587,8 +625,8 @@ __meta__ = {
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer"]
 margin_top = 77.0
 margin_right = 269.0
-margin_bottom = 254.0
-custom_fonts/font = SubResource( 7 )
+margin_bottom = 190.0
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Description Card Description Card Description Card Description Card Description Card Description"
 autowrap = true
@@ -604,7 +642,7 @@ margin_bottom = 323.0
 alignment = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2"]
-margin_top = 271.0
+margin_top = 278.0
 margin_right = 269.0
 margin_bottom = 313.0
 __meta__ = {
@@ -612,14 +650,14 @@ __meta__ = {
 }
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 122.0
-margin_bottom = 42.0
+margin_right = 83.0
+margin_bottom = 35.0
 
 [node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 9.0
-margin_right = 91.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_top = 6.0
+margin_right = 59.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Sells for"
 __meta__ = {
@@ -627,11 +665,11 @@ __meta__ = {
 }
 
 [node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 103.0
-margin_top = 9.0
-margin_right = 122.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_left = 71.0
+margin_top = 6.0
+margin_right = 83.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-1"
 __meta__ = {
@@ -639,10 +677,10 @@ __meta__ = {
 }
 
 [node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 134.0
+margin_left = 95.0
 margin_right = 269.0
-margin_bottom = 42.0
-custom_fonts/font = SubResource( 9 )
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
 align = 2
@@ -684,7 +722,7 @@ __meta__ = {
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer"]
 margin_right = 269.0
 margin_bottom = 73.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = ExtResource( 15 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Name
 second line"
@@ -696,8 +734,8 @@ __meta__ = {
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer"]
 margin_top = 77.0
 margin_right = 269.0
-margin_bottom = 254.0
-custom_fonts/font = SubResource( 7 )
+margin_bottom = 190.0
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Description Card Description Card Description Card Description Card Description Card Description"
 autowrap = true
@@ -713,7 +751,7 @@ margin_bottom = 323.0
 alignment = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2"]
-margin_top = 271.0
+margin_top = 278.0
 margin_right = 269.0
 margin_bottom = 313.0
 __meta__ = {
@@ -721,14 +759,14 @@ __meta__ = {
 }
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 122.0
-margin_bottom = 42.0
+margin_right = 83.0
+margin_bottom = 35.0
 
 [node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 9.0
-margin_right = 91.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_top = 6.0
+margin_right = 59.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Sells for"
 __meta__ = {
@@ -736,11 +774,11 @@ __meta__ = {
 }
 
 [node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 103.0
-margin_top = 9.0
-margin_right = 122.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_left = 71.0
+margin_top = 6.0
+margin_right = 83.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-1"
 __meta__ = {
@@ -748,10 +786,10 @@ __meta__ = {
 }
 
 [node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 134.0
+margin_left = 95.0
 margin_right = 269.0
-margin_bottom = 42.0
-custom_fonts/font = SubResource( 9 )
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
 align = 2
@@ -793,7 +831,7 @@ __meta__ = {
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer"]
 margin_right = 269.0
 margin_bottom = 73.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = ExtResource( 15 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Name
 second line"
@@ -805,8 +843,8 @@ __meta__ = {
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer"]
 margin_top = 77.0
 margin_right = 269.0
-margin_bottom = 254.0
-custom_fonts/font = SubResource( 7 )
+margin_bottom = 190.0
+custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card Description Card Description Card Description Card Description Card Description Card Description"
 autowrap = true
@@ -822,7 +860,7 @@ margin_bottom = 323.0
 alignment = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2"]
-margin_top = 271.0
+margin_top = 278.0
 margin_right = 269.0
 margin_bottom = 313.0
 __meta__ = {
@@ -830,14 +868,14 @@ __meta__ = {
 }
 
 [node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 122.0
-margin_bottom = 42.0
+margin_right = 83.0
+margin_bottom = 35.0
 
 [node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 9.0
-margin_right = 91.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_top = 6.0
+margin_right = 59.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Sells for"
 __meta__ = {
@@ -845,11 +883,11 @@ __meta__ = {
 }
 
 [node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 103.0
-margin_top = 9.0
-margin_right = 122.0
-margin_bottom = 32.0
-custom_fonts/font = SubResource( 8 )
+margin_left = 71.0
+margin_top = 6.0
+margin_right = 83.0
+margin_bottom = 29.0
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "-1"
 __meta__ = {
@@ -857,10 +895,10 @@ __meta__ = {
 }
 
 [node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 134.0
+margin_left = 95.0
 margin_right = 269.0
-margin_bottom = 42.0
-custom_fonts/font = SubResource( 9 )
+margin_bottom = 35.0
+custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "99"
 align = 2
