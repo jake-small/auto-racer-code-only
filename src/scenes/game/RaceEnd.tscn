@@ -163,7 +163,6 @@ __meta__ = {
 }
 
 [node name="Character_first" parent="Control_placements/Label_first" instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 62.4065, -77.3225 )
 
 [node name="Label_second" type="Label" parent="Control_placements"]
@@ -191,7 +190,6 @@ __meta__ = {
 }
 
 [node name="Character_second" parent="Control_placements/Label_second" instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 62.4065, -77.3225 )
 
 [node name="Label_third" type="Label" parent="Control_placements"]
@@ -219,7 +217,6 @@ __meta__ = {
 }
 
 [node name="Character_third" parent="Control_placements/Label_third" instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 62.4065, -77.3225 )
 
 [node name="Label_fourth" type="Label" parent="Control_placements"]
@@ -247,5 +244,4 @@ __meta__ = {
 }
 
 [node name="Character_fourth" parent="Control_placements/Label_fourth" instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 62.4065, -77.3225 )

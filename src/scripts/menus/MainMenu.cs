@@ -97,7 +97,7 @@ public class MainMenu : Control
       Cards = GameManager.PrepEngine.PlayerInventory.GetCards(),
       Position = 0
     };
-    GameManager.PlayerCharacterSkin = _playerCharacter.CharacterSkin;
+    GameManager.LocalPlayer.Skin = _playerCharacter.CharacterSkin;
     GetTree().ChangeScene(MainMenuData.PrepScenePath);
   }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,14 @@ public class BotBasic : Player
     Name = name ?? $"Player {id}";
     Position = 0;
     Cards = GetBotInventory(turn);
+    Skin = GetRandomSkin();
+  }
+
+  private string GetRandomSkin()
+  {
+    var random = new Random();
+    var index = random.Next(GameManager.CharacterSkins.Count);
+    return GameManager.CharacterSkins[index];
   }
 
   /*

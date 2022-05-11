@@ -26,6 +26,10 @@ public class RaceMain : Node2D
 
   public override void _Ready()
   {
+    _autoRaceEngine = EngineTesting.RaceEngine(GameManager.LocalPlayer, GameManager.NameGenerator);
+    LoadPlayerNames(_autoRaceEngine.GetPlayers());
+    _currentTurnView = _autoRaceEngine.GetTurn();
+
     var tileMapManager = new TileMapManager(
       new[] {
         (GetNode(RaceSceneData.BackgroundTileMap1Path) as BackgroundTileMap),
@@ -60,10 +64,6 @@ public class RaceMain : Node2D
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
     _backButton = GetNode(RaceSceneData.ButtonBackPath) as Button;
     _backButton.Connect("pressed", this, nameof(Button_back_pressed));
-
-    _autoRaceEngine = EngineTesting.RaceEngine(GameManager.LocalPlayer, GameManager.NameGenerator);
-    LoadPlayerNames(_autoRaceEngine.GetPlayers());
-    _currentTurnView = _autoRaceEngine.GetTurn();
   }
 
   public override void _Process(float delta)
@@ -117,17 +117,15 @@ public class RaceMain : Node2D
   private IEnumerable<CharacterScript> LoadCharacterSprites(Vector2 topSpawnPosition)
   {
     var characters = new List<CharacterScript>();
-    for (int i = 0; i < GameData.NumPlayers; i++)
+    var players = _autoRaceEngine.GetPlayers().ToList();
+    foreach (var player in players.OrderBy(p => p.Id))
     {
       var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
       var characterInstance = (CharacterScript)characterScene.Instance();
-      if (i == 0)
-      {
-        characterInstance.CharacterSkin = GameManager.PlayerCharacterSkin;
-      }
-      characterInstance.Position = new Vector2(topSpawnPosition.x, topSpawnPosition.y + (RaceSceneData.CharacterSpawnYOffset * i));
+      characterInstance.CharacterSkin = player.Skin;
+      characterInstance.Position = new Vector2(topSpawnPosition.x, topSpawnPosition.y + (RaceSceneData.CharacterSpawnYOffset * player.Id));
       characterInstance.AnimationState = AnimationStates.running;
-      characterInstance.Id = i;
+      characterInstance.Id = player.Id;
       characters.Add(characterInstance);
       AddChild(characterInstance);
     }
@@ -314,7 +312,7 @@ public class RaceMain : Node2D
   {
     var standings = _autoRaceEngine.GetStandings();
     GameManager.RaceHistory.AddResult(
-      GameManager.CurrentRace, standings.Select(p => new PlayerResult { Id = p.Id, Position = p.Position }).ToList()
+      GameManager.CurrentRace, standings.Select(p => new PlayerResult { Player = p, Position = p.Position }).ToList()
     );
     var localPlayerPlacement = 0;
     var i = 1;

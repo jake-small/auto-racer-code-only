@@ -57,6 +57,7 @@ public class CharacterScript : Node2D
     _negativeTokenLabel = GetNode<Label>(RaceSceneData.CharacterTokenNegativeLabel);
     if (CharacterSkin == null)
     {
+      GD.Print("Getting random skin for player");
       CharacterSkin = GetRandomSkin();
     }
     else

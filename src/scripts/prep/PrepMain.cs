@@ -24,7 +24,7 @@ public class PrepMain : Node2D
   public override void _Ready()
   {
     var playerCharacter = GetNode<CharacterScript>(PrepSceneData.CharacterPath);
-    playerCharacter.CharacterSkin = GameManager.PlayerCharacterSkin;
+    playerCharacter.CharacterSkin = GameManager.LocalPlayer.Skin;
 
     var firstPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumFirstPlaces);
     var secondPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumSecondPlaces);
