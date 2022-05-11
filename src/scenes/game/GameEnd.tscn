@@ -13,7 +13,7 @@
 [ext_resource path="res://assets/panels/runeBlue_tileOutline_035.png" type="Texture" id=11]
 [ext_resource path="res://assets/stats/trophy.png" type="Texture" id=12]
 [ext_resource path="res://assets/stats/medal1.png" type="Texture" id=13]
-[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_48.tres" type="DynamicFont" id=14]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsUIStat3.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/stats/medal2.png" type="Texture" id=15]
 [ext_resource path="res://assets/stats/star.png" type="Texture" id=16]
 
@@ -158,10 +158,10 @@ scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 16 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 222.296
-margin_top = 597.332
-margin_right = 262.296
-margin_bottom = 633.332
+margin_left = 222.0
+margin_top = 597.0
+margin_right = 262.0
+margin_bottom = 640.0
 custom_fonts/font = ExtResource( 14 )
 text = "-1"
 align = 1

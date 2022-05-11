@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
 [ext_resource path="res://assets/panels/blue_panel.png" type="Texture" id=3]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardBM.tres" type="DynamicFont" id=4]
-[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_24.tres" type="DynamicFont" id=5]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardExp.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/effects/iceBlockAlt.png" type="Texture" id=6]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=7]
 
