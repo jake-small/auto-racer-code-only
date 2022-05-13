@@ -1,13 +1,11 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=27 format=2]
 
-[ext_resource path="res://assets/buttons/blue_button02_freeze.png" type="Texture" id=1]
-[ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=2]
-[ext_resource path="res://assets/buttons/blue_button02_reroll.png" type="Texture" id=3]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=4]
 [ext_resource path="res://src/scenes/objects/characters/character.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/scripts/prep/PrepMain.cs" type="Script" id=6]
 [ext_resource path="res://assets/misc/grey_sliderHorizontal.png" type="Texture" id=7]
-[ext_resource path="res://assets/buttons/blue_button02_sell.png" type="Texture" id=8]
 [ext_resource path="res://assets/misc/ui_num5.png" type="Texture" id=9]
 [ext_resource path="res://assets/misc/ui_num3.png" type="Texture" id=10]
 [ext_resource path="res://assets/misc/ui_num4.png" type="Texture" id=11]
@@ -18,7 +16,7 @@
 [ext_resource path="res://assets/stats/medal1.png" type="Texture" id=16]
 [ext_resource path="res://assets/stats/star.png" type="Texture" id=17]
 [ext_resource path="res://assets/panels/runeBlue_tileOutline_035.png" type="Texture" id=18]
-[ext_resource path="res://assets/fonts/dynamic/Kenney_Pixel_dynamicfont_48.tres" type="DynamicFont" id=19]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsUIStat3.tres" type="DynamicFont" id=19]
 [ext_resource path="res://assets/stats/heart.png" type="Texture" id=20]
 [ext_resource path="res://assets/stats/coin.png" type="Texture" id=21]
 [ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
@@ -29,7 +27,7 @@
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=27]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=28]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
 "_edit_vertical_guides_": [  ]
@@ -61,36 +59,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button_Reroll" type="Button" parent="Control/HBoxContainerLeft"]
-margin_right = 202.0
+[node name="Button_Reroll" parent="Control/HBoxContainerLeft" instance=ExtResource( 1 )]
+margin_right = 190.0
 margin_bottom = 55.0
-icon = ExtResource( 3 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Button_Freeze" type="Button" parent="Control/HBoxContainerLeft"]
-margin_left = 206.0
-margin_right = 408.0
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Reroll" index="0"]
+text = "reroll"
+
+[node name="Button_Freeze" parent="Control/HBoxContainerLeft" instance=ExtResource( 1 )]
+margin_left = 194.0
+margin_right = 384.0
 margin_bottom = 55.0
 disabled = true
-icon = ExtResource( 1 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Button_Sell" type="Button" parent="Control/HBoxContainerLeft"]
-margin_left = 412.0
-margin_right = 614.0
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Freeze" index="0"]
+text = "freeze"
+
+[node name="Button_Sell" parent="Control/HBoxContainerLeft" instance=ExtResource( 1 )]
+margin_left = 388.0
+margin_right = 578.0
 margin_bottom = 55.0
 disabled = true
-icon = ExtResource( 8 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Sell" index="0"]
+text = "sell"
 
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
 margin_left = 1520.0
@@ -101,14 +93,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button_Go" type="Button" parent="Control/HBoxContainerRight"]
-margin_right = 202.0
+[node name="Button_Go" parent="Control/HBoxContainerRight" instance=ExtResource( 2 )]
+margin_right = 190.0
 margin_bottom = 55.0
-icon = ExtResource( 2 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Label" parent="Control/HBoxContainerRight/Button_Go" index="0"]
+text = "race!"
 
 [node name="Container_selected_card" type="Node2D" parent="."]
 visible = false
@@ -494,19 +484,20 @@ scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
 
 [node name="Reroll_cost_label" type="Label" parent="Reroll_cost_panel"]
-margin_left = -41.4011
-margin_top = -21.583
-margin_right = -1.40112
-margin_bottom = 14.417
+margin_left = -42.6406
+margin_top = -27.0
+margin_right = -4.64058
+margin_bottom = 24.0
 custom_fonts/font = ExtResource( 19 )
 text = "1"
 align = 2
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="coin" type="Sprite" parent="Reroll_cost_panel"]
-position = Vector2( 9.86694, -2.34741 )
+position = Vector2( 5.7655, -2.34741 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
 
@@ -514,3 +505,8 @@ texture = ExtResource( 21 )
 [connection signal="mouse_exited" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_exited"]
 [connection signal="mouse_entered" from="Control/HBoxContainerLeft/Button_Sell" to="." method="_on_Button_Sell_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainerLeft/Button_Sell" to="." method="_on_Button_Sell_mouse_exited"]
+
+[editable path="Control/HBoxContainerLeft/Button_Reroll"]
+[editable path="Control/HBoxContainerLeft/Button_Freeze"]
+[editable path="Control/HBoxContainerLeft/Button_Sell"]
+[editable path="Control/HBoxContainerRight/Button_Go"]

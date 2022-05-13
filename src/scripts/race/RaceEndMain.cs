@@ -25,7 +25,7 @@ public class RaceEndMain : Node2D
     var characterFourth = GetNode<CharacterScript>(RaceEndSceneData.Character_fourth);
     characterFourth.CharacterSkin = results[3].Player.Skin;
 
-    var endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
+    var endRaceButton = GetNode<TextureButton>(RaceSceneData.ButtonFinishPath);
     endRaceButton.Connect("pressed", this, nameof(Button_finish_pressed));
   }
 

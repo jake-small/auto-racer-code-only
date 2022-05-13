@@ -13,9 +13,9 @@ public class PrepMain : Node2D
   private Label _selectedCardSellsForLabel;
   private Label _selectedCardBaseMoveLabel;
   private CardScript _selectedCard = null;
-  private Button _freezeButton;
-  private Button _sellButton;
-  private Button _goButton;
+  private TextureButton _freezeButton;
+  private TextureButton _sellButton;
+  private TextureButton _goButton;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
@@ -53,13 +53,13 @@ public class PrepMain : Node2D
     _dropCardTimer.Connect("timeout", this, nameof(_on_dropCardTimer_timeout));
     AddChild(_dropCardTimer);
 
-    var rerollButton = GetNode(PrepSceneData.ButtonRerollPath) as Button;
+    var rerollButton = GetNode<TextureButton>(PrepSceneData.ButtonRerollPath);
     rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
-    _freezeButton = GetNode(PrepSceneData.ButtonFreezePath) as Button;
+    _freezeButton = GetNode<TextureButton>(PrepSceneData.ButtonFreezePath);
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
-    _sellButton = GetNode(PrepSceneData.ButtonSellPath) as Button;
+    _sellButton = GetNode<TextureButton>(PrepSceneData.ButtonSellPath);
     _sellButton.Connect("pressed", this, nameof(Button_sell_pressed));
-    _goButton = GetNode(PrepSceneData.ButtonGoPath) as Button;
+    _goButton = GetNode<TextureButton>(PrepSceneData.ButtonGoPath);
     _goButton.Connect("pressed", this, nameof(Button_go_pressed));
     _goButton.Disabled = false;
 

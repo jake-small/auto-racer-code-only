@@ -22,15 +22,15 @@ public class MainMenu : Control
     firstNameRandomButton.Connect("pressed", this, nameof(Button_first_name_random_pressed));
     var adjectiveRandomButton = GetNode<Button>(MainMenuData.ButtonRandomAdjective);
     adjectiveRandomButton.Connect("pressed", this, nameof(Button_adjective_random_pressed));
-    var nameRandomButton = GetNode<Button>(MainMenuData.ButtonRandomName);
+    var nameRandomButton = GetNode<TextureButton>(MainMenuData.ButtonRandomName);
     nameRandomButton.Connect("pressed", this, nameof(Button_name_random_pressed));
-    var startButton = GetNode<Button>(MainMenuData.ButtonStart);
+    var startButton = GetNode<TextureButton>(MainMenuData.ButtonStart);
     startButton.Connect("pressed", this, nameof(Button_start_pressed));
-    var quitButton = GetNode<Button>(MainMenuData.ButtonQuit);
+    var quitButton = GetNode<TextureButton>(MainMenuData.ButtonQuit);
     quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
-    var prevSkinButton = GetNode<Button>(MainMenuData.ButtonSkinPrevious);
+    var prevSkinButton = GetNode<TextureButton>(MainMenuData.ButtonSkinPrevious);
     prevSkinButton.Connect("pressed", this, nameof(Button_previous_skin_pressed));
-    var nextSkinButton = GetNode<Button>(MainMenuData.ButtonSkinNext);
+    var nextSkinButton = GetNode<TextureButton>(MainMenuData.ButtonSkinNext);
     nextSkinButton.Connect("pressed", this, nameof(Button_next_skin_pressed));
 
     if (GameManager.NameGenerator is null)

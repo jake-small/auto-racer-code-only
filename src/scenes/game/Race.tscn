@@ -1,8 +1,7 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=3]
 [ext_resource path="res://src/scripts/race/RaceMain.cs" type="Script" id=4]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://src/scripts/race/BackgroundTileMap.cs" type="Script" id=6]
@@ -16,24 +15,21 @@
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=15]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase3.tres" type="DynamicFont" id=16]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=17]
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=1]
 size = 64
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 48
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=4]
 size = 84
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 64
 font_data = ExtResource( 5 )
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 script = ExtResource( 4 )
 
 [node name="TileMap1" type="TileMap" parent="."]
@@ -119,7 +115,7 @@ margin_left = 180.0
 margin_top = 140.0
 margin_right = 1740.0
 margin_bottom = 840.0
-custom_fonts/normal_font = SubResource( 2 )
+custom_fonts/normal_font = SubResource( 1 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 text = "0|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
 0|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
@@ -147,43 +143,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_left" type="Label" parent="Control/HBoxContainerLeft"]
+[node name="Button_Back" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 visible = false
-margin_right = 30.0
-margin_bottom = 72.0
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "<"
+margin_right = 190.0
+margin_bottom = 55.0
 
-[node name="Button_Back" type="Button" parent="Control/HBoxContainerLeft"]
-visible = false
-margin_left = 34.0
-margin_right = 236.0
-margin_bottom = 72.0
-icon = ExtResource( 3 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Back" index="0"]
+text = "back"
 
-[node name="Button_Forward" type="Button" parent="Control/HBoxContainerLeft"]
-margin_right = 202.0
-margin_bottom = 72.0
-icon = ExtResource( 3 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Button_Forward" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
+margin_right = 190.0
+margin_bottom = 55.0
 
-[node name="Label_right" type="Label" parent="Control/HBoxContainerLeft"]
-margin_left = 206.0
-margin_right = 236.0
-margin_bottom = 72.0
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = ">"
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Forward" index="0"]
+text = "next"
 
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
 margin_left = 1520.0
@@ -194,14 +167,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button_Finish" type="Button" parent="Control/HBoxContainerRight"]
-margin_right = 202.0
+[node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 17 )]
+margin_left = 206.0
+margin_right = 396.0
 margin_bottom = 55.0
-icon = ExtResource( 3 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
+text = "finish"
 
 [node name="Control_cards" type="Control" parent="."]
 visible = false
@@ -225,7 +197,7 @@ __meta__ = {
 [node name="Label_p1" type="Label" parent="Control_cards/HBoxContainer"]
 margin_right = 64.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P0"
 __meta__ = {
@@ -236,7 +208,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -251,7 +223,7 @@ __meta__ = {
 margin_left = 484.0
 margin_right = 537.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P1"
 __meta__ = {
@@ -262,7 +234,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -277,7 +249,7 @@ __meta__ = {
 margin_left = 957.0
 margin_right = 1021.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P2"
 __meta__ = {
@@ -288,7 +260,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -303,7 +275,7 @@ __meta__ = {
 margin_left = 1441.0
 margin_right = 1505.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P3"
 __meta__ = {
@@ -314,7 +286,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -905,3 +877,7 @@ align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[editable path="Control/HBoxContainerLeft/Button_Back"]
+[editable path="Control/HBoxContainerLeft/Button_Forward"]
+[editable path="Control/HBoxContainerRight/Button_Finish"]
