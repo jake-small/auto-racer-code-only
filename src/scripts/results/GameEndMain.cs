@@ -5,7 +5,7 @@ public class GameEndMain : Node2D
 {
   public override void _Ready()
   {
-    var endRaceButton = GetNode(GameEndSceneData.ButtonFinishPath) as Button;
+    var endRaceButton = GetNode<TextureButton>(GameEndSceneData.ButtonFinishPath);
     endRaceButton.Connect("pressed", this, nameof(Button_finish_pressed));
 
     var firstPlacesLabel = GetNode<Label>(GameEndSceneData.LabelNumFirstPlaces);

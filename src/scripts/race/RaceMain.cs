@@ -9,9 +9,9 @@ public class RaceMain : Node2D
 {
   private AutoRaceEngine _autoRaceEngine;
   private RaceViewManager _raceViewManager;
-  private Button _forwardButton;
-  private Button _backButton;
-  private Button _endRaceButton;
+  private TextureButton _forwardButton;
+  private TextureButton _backButton;
+  private TextureButton _endRaceButton;
   private Label _labelTurnPhase;
   private RichTextLabel _labelGameState;
   private Label[] _labelCardArray;
@@ -57,12 +57,12 @@ public class RaceMain : Node2D
       labelCardP1, labelCardP2, labelCardP3, labelCardP4
     };
 
-    _endRaceButton = GetNode(RaceSceneData.ButtonFinishPath) as Button;
+    _endRaceButton = GetNode<TextureButton>(RaceSceneData.ButtonFinishPath);
     _endRaceButton.Disabled = true;
     _endRaceButton.Connect("pressed", this, nameof(Button_finish_pressed));
-    _forwardButton = GetNode(RaceSceneData.ButtonForwardPath) as Button;
+    _forwardButton = GetNode<TextureButton>(RaceSceneData.ButtonForwardPath);
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
-    _backButton = GetNode(RaceSceneData.ButtonBackPath) as Button;
+    _backButton = GetNode<TextureButton>(RaceSceneData.ButtonBackPath);
     _backButton.Connect("pressed", this, nameof(Button_back_pressed));
   }
 

@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=1]
 [ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=2]
-[ext_resource path="res://assets/buttons/red_button01_goexcl.png" type="Texture" id=3]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/scripts/results/GameEndMain.cs" type="Script" id=4]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/misc/ui_num4.png" type="Texture" id=6]
@@ -55,19 +55,16 @@ __meta__ = {
 margin_left = 1520.0
 margin_right = 402.0
 margin_bottom = 55.0
-alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button_Finish" type="Button" parent="Control/HBoxContainerRight"]
-margin_right = 202.0
+[node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 3 )]
+margin_right = 190.0
 margin_bottom = 55.0
-icon = ExtResource( 3 )
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+
+[node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
+text = "leave"
 
 [node name="slot_0" type="Sprite" parent="." groups=[
 "CardSlots",
@@ -204,3 +201,5 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[editable path="Control/HBoxContainerRight/Button_Finish"]
