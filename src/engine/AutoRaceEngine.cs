@@ -15,10 +15,13 @@ public class AutoRaceEngine
   {
     PreRace = -1,
     Start = 0,
-    Abilities1 = 1,
-    Move = 2,
-    Abilities2 = 3,
-    End = 4,
+    AbilitiesP0 = 1,
+    AbilitiesP1 = 2,
+    AbilitiesP2 = 3,
+    AbilitiesP3 = 4,
+    Move = 5,
+    Abilities2 = 6,
+    End = 7,
     HandleRemainingTokens = -2
   }
 
@@ -57,7 +60,7 @@ public class AutoRaceEngine
       case TurnPhases.Start:
         StartTurnPhase();
         break;
-      case TurnPhases.Abilities1:
+      case TurnPhases.AbilitiesP0:
         Abilities1Phase();
         break;
       case TurnPhases.Move:
@@ -144,7 +147,7 @@ public class AutoRaceEngine
       return TurnPhases.HandleRemainingTokens;
     }
     var nextPhaseInt = (int)phase + 1;
-    if (nextPhaseInt > 4)
+    if (nextPhaseInt > (int)TurnPhases.End)
     {
       nextPhaseInt = 0;
     }

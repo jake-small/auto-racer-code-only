@@ -56,22 +56,28 @@ public class RaceViewManager
     UpdateOffscreenIndicator(turnResults);
   }
 
-  public void UpdateTokenCounts(IEnumerable<PlayerTurnResult> turnResults)
+  public void UpdateTokenCount(PlayerTurnResult turnResult)
   {
-    foreach (var turnResult in turnResults)
+    var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
+    foreach (var keyValuePair in turnResult.TokensGiven)
     {
-      var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
-      foreach (var keyValuePair in turnResult.TokensGiven)
-      {
-
-        var negativeMoveTokensGiven = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value < 0);
-        var negativeTokenValueGiven = negativeMoveTokensGiven.Any() ? negativeMoveTokensGiven.Sum(t => t.Value) : 0;
-        var targetCharacter = _characters.FirstOrDefault(c => c.Id == keyValuePair.Key);
-        // animate giving x number of tokens (negativeTokenValueGiven) to target character (targetCharacter)
-        character.ProjectileAttackAnimation(targetCharacter.Position, negativeTokenValueGiven * -1);
-      }
+      var negativeMoveTokensGiven = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value < 0);
+      var negativeTokenValueGiven = negativeMoveTokensGiven.Any() ? negativeMoveTokensGiven.Sum(t => t.Value) : 0;
+      var targetCharacter = _characters.FirstOrDefault(c => c.Id == keyValuePair.Key);
+      // animate giving x number of tokens (negativeTokenValueGiven) to target character (targetCharacter)
+      character.ProjectileAttackAnimation(targetCharacter.Position, negativeTokenValueGiven * -1);
     }
 
+    var positiveMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value > 0);
+    var positiveTokenValue = positiveMoveTokens.Any() ? positiveMoveTokens.Sum(t => t.Value) : 0;
+    character.PositiveTokenValue = positiveTokenValue;
+    var negativeMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value < 0);
+    var negativeTokenValue = negativeMoveTokens.Any() ? negativeMoveTokens.Sum(t => t.Value) : 0;
+    character.NegativeTokenValue = negativeTokenValue;
+  }
+
+  public void UpdateTokenCounts(IEnumerable<PlayerTurnResult> turnResults)
+  {
     foreach (var turnResult in turnResults)
     {
       var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
