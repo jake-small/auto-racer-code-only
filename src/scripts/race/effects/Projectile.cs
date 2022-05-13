@@ -3,7 +3,7 @@ using System;
 
 public class Projectile : Area2D
 {
-  public Vector2 Target { get; set; }
+  public CharacterScript Target { get; set; }
   private const float Speed = 260;
   private float _time = 0;
   private const float TowardsStrength = 0.5f;
@@ -21,18 +21,20 @@ public class Projectile : Area2D
 
   public override void _Process(float delta)
   {
-    if (Target != null && Target != Position)
+    if (Target != null && Target.Position != Position)
     {
       _time += delta;
-      var towardsTarget = (Target - Position).Normalized();
+      var towardsTarget = (Target.Position - Position).Normalized();
       var perpendicular = new Vector2(towardsTarget.y, -towardsTarget.x);
       Position += (TowardsStrength * towardsTarget + PerpendicularStrength * perpendicular * (float)Math.Sin(_time)) * Speed * delta;
-      if (Math.Abs(Target.x - Position.x) < 5 && Math.Abs(Target.y - Position.y) < 5)
+      if (Math.Abs(Target.Position.x - Position.x) < 5 && Math.Abs(Target.Position.y - Position.y) < 5)
       {
+        Target.NegativeTokenValue -= 1;
+        // GD.Print($"target id: {Target.Id}, negative tokens {Target.NegativeTokenValue}");
         QueueFree();
       }
     }
-    else if (Target != null && Target == Position)
+    if (Target != null && Target.Position == Position)
     {
       QueueFree();
     }

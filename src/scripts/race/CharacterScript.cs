@@ -132,7 +132,7 @@ public class CharacterScript : Node2D
     Moving = true;
   }
 
-  public void ProjectileAttackAnimation(Vector2 target, int amount)
+  public void ProjectileAttackAnimation(CharacterScript target, int amount)
   {
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/Projectile.tscn") as PackedScene;
     for (int i = 0; i < amount; i++)

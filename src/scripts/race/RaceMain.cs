@@ -238,13 +238,11 @@ public class RaceMain : Node2D
         p = p + 1;
       }
       _cardStates.Add(currentCardStates);
-      // _raceViewManager.UpdateTokenCounts(turnResults);
-      _raceViewManager.UpdateTokenCount(turnResults.FirstOrDefault(r => r.Player.Id == 0));
     }
-    if (turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
+    if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
-      _raceViewManager.UpdateTokenCount(turnResults.FirstOrDefault(r => r.Player.Id == (int)turnPhase - 1));
+      _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == (int)turnPhase - 1));
     }
     if (turnPhase == TurnPhases.Move)
     {
