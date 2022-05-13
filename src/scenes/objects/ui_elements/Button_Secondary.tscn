@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/buttons/blue_button03.png" type="Texture" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Bold.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/buttons/blue_button02.png" type="Texture" id=3]
 [ext_resource path="res://assets/buttons/blue_button02_disabled.png" type="Texture" id=4]
+[ext_resource path="res://src/scripts/ui/ButtonUi.cs" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -17,6 +18,7 @@ keep_pressed_outside = true
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 1 )
 texture_disabled = ExtResource( 4 )
+script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -33,3 +35,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[connection signal="button_down" from="." to="." method="_on_TextureButton_down"]
+[connection signal="button_up" from="." to="." method="_on_TextureButton_up"]
