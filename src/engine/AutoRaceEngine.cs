@@ -220,6 +220,7 @@ public class AutoRaceEngine
       }
       var token = new MoveToken
       {
+        CreatedBy = player.Id,
         Duration = moveTokenAbililty.Duration.ToInt(),
         Type = moveTokenType,
         Target = target,

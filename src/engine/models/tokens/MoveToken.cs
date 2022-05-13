@@ -3,7 +3,7 @@ using System;
 public class MoveToken : Token
 
 {
-  // public string Id { get; set; }
+  public int CreatedBy { get; set; }
   public int Duration { get; set; }
   public MoveTokenType Type { get; set; }
   public int Target { get; set; }

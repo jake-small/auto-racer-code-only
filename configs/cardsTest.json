@@ -35,11 +35,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "1"
+              "Value": "2"
             },
             {
               "Key": "B",
-              "Value": "-1"
+              "Value": "-3"
             }
           ]
         },
@@ -48,11 +48,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "1"
+              "Value": "4"
             },
             {
               "Key": "B",
-              "Value": "-2"
+              "Value": "-6"
             }
           ]
         },
@@ -61,11 +61,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "1"
+              "Value": "8"
             },
             {
               "Key": "B",
-              "Value": "-3"
+              "Value": "-12"
             }
           ]
         }
