@@ -37,17 +37,4 @@ public class Projectile : Area2D
       QueueFree();
     }
   }
-
-  private Vector2 CubicBezier(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t)
-  {
-    Vector2 q0 = p0.LinearInterpolate(p1, t);
-    Vector2 q1 = p1.LinearInterpolate(p2, t);
-    Vector2 q2 = p2.LinearInterpolate(p3, t);
-
-    Vector2 r0 = q0.LinearInterpolate(q1, t);
-    Vector2 r1 = q1.LinearInterpolate(q2, t);
-
-    Vector2 s = r0.LinearInterpolate(r1, t);
-    return s;
-  }
 }

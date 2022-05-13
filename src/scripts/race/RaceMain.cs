@@ -240,7 +240,18 @@ public class RaceMain : Node2D
       _cardStates.Add(currentCardStates);
       _raceViewManager.UpdateTokenCounts(turnResults);
     }
-    if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
+    if (turnPhase == TurnPhases.Move)
+    {
+      var turnResults = _autoRaceEngine.GetTurnResults();
+      if (turnResults != null && turnResults.ToList().Count > 0)
+      {
+        _raceViewManager.MovePlayers(turnResults);
+        // var positionState = EngineTesting.GetPositionTextView(turnResults);
+        // _updatePositionStateLabel = positionState;
+        // _positionStates.Add(positionState);
+      }
+    }
+    if (turnPhase == TurnPhases.HandleRemainingTokens)
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
       _raceViewManager.UpdateTokenCounts(turnResults);
