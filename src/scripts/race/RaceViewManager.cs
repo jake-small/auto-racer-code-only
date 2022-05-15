@@ -59,17 +59,31 @@ public class RaceViewManager
   public void GiveTokens(PlayerTurnResult turnResult)
   {
     var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
-    var positiveMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value > 0);
-    var positiveTokenValue = positiveMoveTokens.Any() ? positiveMoveTokens.Sum(t => t.Value) : 0;
-    character.PositiveTokenValue = positiveTokenValue;
+    // var positiveMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value > 0);
+    // var positiveTokenValue = positiveMoveTokens.Any() ? positiveMoveTokens.Sum(t => t.Value) : 0;
+    // character.PositiveTokenValue = positiveTokenValue;
+
 
     foreach (var keyValuePair in turnResult.TokensGiven)
     {
+      var positiveMoveTokensGiven = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value > 0);
+      var positiveTokenValueGiven = positiveMoveTokensGiven.Any() ? positiveMoveTokensGiven.Sum(t => t.Value) : 0;
       var negativeMoveTokensGiven = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value < 0);
       var negativeTokenValueGiven = negativeMoveTokensGiven.Any() ? negativeMoveTokensGiven.Sum(t => t.Value) : 0;
+
+      if (positiveTokenValueGiven == 0 && negativeTokenValueGiven == 0)
+      {
+        continue;
+      }
       var targetCharacter = _characters.FirstOrDefault(c => c.Id == keyValuePair.Key);
-      // animate giving x number of tokens (negativeTokenValueGiven) to target character (targetCharacter)
-      character.ProjectileAttackAnimation(targetCharacter, negativeTokenValueGiven * -1);
+      if (positiveTokenValueGiven > 0)
+      {
+        character.ProjectileBuffAnimation(targetCharacter, positiveTokenValueGiven);
+      }
+      if (negativeTokenValueGiven < 0)
+      {
+        character.ProjectileAttackAnimation(targetCharacter, negativeTokenValueGiven * -1);
+      }
     }
   }
 

@@ -5,22 +5,18 @@ public class Projectile : Sprite
 {
   public CharacterScript Target { get; set; }
   public float? DelayedTakeoffAmount { get; set; }
+  public bool IsPositive { get; set; }
 
   private float _speed = 260;
   private float _time = 0;
   private const float TowardsStrength = 0.5f;
   private const float PerpendicularStrength = 0.5f;
   private bool _transparent = true;
-  private float _transparentValue = 0.2f;
+  private float _transparentValue = 0.5f;
 
   public override void _Ready()
   {
-    var random = new Random();
-    var offsetX = random.Next(0, 32);
-    var offsetY = random.Next(0, 32);
-    var directionX = random.Next(2) == 0 ? -1 : 1;
-    var directionY = random.Next(2) == 0 ? -1 : 1;
-    Position = new Vector2(Position.x + (offsetX * directionX), Position.y + (offsetY * directionY));
+    SpawnPosition();
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
   }
 
@@ -65,13 +61,33 @@ public class Projectile : Sprite
     }
   }
 
+  private void SpawnPosition()
+  {
+    var random = new Random();
+    var radius = random.Next(32, 64);
+    var min = 0;
+    var max = Math.PI * 2;
+    var angle = random.NextDouble() * (max - min) + min;
+    var offsetX = (float)Math.Sin(angle) * radius;
+    var offsetY = (float)Math.Cos(angle) * radius;
+    Position = new Vector2(Position.x + offsetX, Position.y + offsetY);
+  }
+
   private void Despawn()
   {
     if (Target == null)
     {
       return;
     }
-    Target.NegativeTokenValue -= 1;
+    if (IsPositive)
+    {
+      Target.PositiveTokenValue += 1;
+    }
+    else
+    {
+      Target.NegativeTokenValue -= 1;
+    }
+
     QueueFree();
   }
 }

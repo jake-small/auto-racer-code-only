@@ -135,25 +135,24 @@ public class CharacterScript : Node2D
   public void ProjectileAttackAnimation(CharacterScript target, int amount)
   {
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/Projectile.tscn") as PackedScene;
-    for (int i = 0; i < amount; i++)
-    {
-      var projectileInstance = (Projectile)projectileScene.Instance();
-      projectileInstance.Position = Position;
-      projectileInstance.Target = target;
-      projectileInstance.DelayedTakeoffAmount = i * 0.1f;
-      GetTree().Root.AddChild(projectileInstance);
-    }
+    SpawnProjectiles(target, amount, projectileScene, false);
   }
 
   public void ProjectileBuffAnimation(CharacterScript target, int amount)
   {
-    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/Projectile.tscn") as PackedScene;
+    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/ProjectileBuff.tscn") as PackedScene;
+    SpawnProjectiles(target, amount, projectileScene, true);
+  }
+
+  private void SpawnProjectiles(CharacterScript target, int amount, PackedScene projectileScene, bool isPositive)
+  {
     for (int i = 0; i < amount; i++)
     {
       var projectileInstance = (Projectile)projectileScene.Instance();
       projectileInstance.Position = Position;
       projectileInstance.Target = target;
-      projectileInstance.DelayedTakeoffAmount = i * 0.1f;
+      projectileInstance.IsPositive = isPositive;
+      projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
       GetTree().Root.AddChild(projectileInstance);
     }
   }
