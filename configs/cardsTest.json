@@ -35,7 +35,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "2"
+              "Value": "20"
             },
             {
               "Key": "B",
@@ -48,7 +48,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "40"
             },
             {
               "Key": "B",
@@ -61,7 +61,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "8"
+              "Value": "80"
             },
             {
               "Key": "B",
