@@ -140,6 +140,7 @@ public class CharacterScript : Node2D
       var projectileInstance = (Projectile)projectileScene.Instance();
       projectileInstance.Position = Position;
       projectileInstance.Target = target;
+      projectileInstance.DelayedTakeoffAmount = i * 0.1f;
       GetTree().Root.AddChild(projectileInstance);
     }
   }

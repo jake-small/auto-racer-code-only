@@ -4,6 +4,8 @@ using System;
 public class Projectile : Area2D
 {
   public CharacterScript Target { get; set; }
+  public float? DelayedTakeoffAmount { get; set; }
+
   private float _speed = 260;
   private float _time = 0;
   private const float TowardsStrength = 0.5f;
@@ -21,25 +23,34 @@ public class Projectile : Area2D
 
   public override void _Process(float delta)
   {
-    if (Target != null && Target.Position != Position)
+    if (Target == null || DelayedTakeoffAmount == null)
     {
-      _time += delta;
-      if (_time > 5)
+      return;
+    }
+
+    _time += delta;
+    if (_time <= DelayedTakeoffAmount)
+    {
+      return;
+    }
+
+    if (Target.Position != Position)
+    {
+      if (_time > 5 + DelayedTakeoffAmount)
       {
         Despawn();
       }
-      _speed = _speed + (delta * 100);
+      _speed = _speed + (_speed * delta);
 
       var towardsTarget = (Target.Position - Position).Normalized();
       var perpendicular = new Vector2(towardsTarget.y, -towardsTarget.x);
       Position += (TowardsStrength * towardsTarget + PerpendicularStrength * perpendicular * (float)Math.Sin(_time)) * _speed * delta;
-      if (Math.Abs(Target.Position.x - Position.x) < 5 && Math.Abs(Target.Position.y - Position.y) < 5)
+      if (Math.Abs(Target.Position.x - Position.x) < 20 && Math.Abs(Target.Position.y - Position.y) < 20)
       {
-        Target.NegativeTokenValue -= 1;
         Despawn();
       }
     }
-    if (Target != null && Target.Position == Position)
+    else
     {
       Despawn();
     }
