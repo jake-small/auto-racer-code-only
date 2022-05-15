@@ -145,6 +145,19 @@ public class CharacterScript : Node2D
     }
   }
 
+  public void ProjectileBuffAnimation(CharacterScript target, int amount)
+  {
+    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/Projectile.tscn") as PackedScene;
+    for (int i = 0; i < amount; i++)
+    {
+      var projectileInstance = (Projectile)projectileScene.Instance();
+      projectileInstance.Position = Position;
+      projectileInstance.Target = target;
+      projectileInstance.DelayedTakeoffAmount = i * 0.1f;
+      GetTree().Root.AddChild(projectileInstance);
+    }
+  }
+
   public void RaceOverAnimation()
   {
     raceOver = true;

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Projectile : Area2D
+public class Projectile : Sprite
 {
   public CharacterScript Target { get; set; }
   public float? DelayedTakeoffAmount { get; set; }
@@ -10,15 +10,18 @@ public class Projectile : Area2D
   private float _time = 0;
   private const float TowardsStrength = 0.5f;
   private const float PerpendicularStrength = 0.5f;
+  private bool _transparent = true;
+  private float _transparentValue = 0.2f;
 
   public override void _Ready()
   {
     var random = new Random();
-    var offsetX = random.Next(32, 64);
-    var offsetY = random.Next(32, 64);
+    var offsetX = random.Next(0, 32);
+    var offsetY = random.Next(0, 32);
     var directionX = random.Next(2) == 0 ? -1 : 1;
     var directionY = random.Next(2) == 0 ? -1 : 1;
     Position = new Vector2(Position.x + (offsetX * directionX), Position.y + (offsetY * directionY));
+    Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
   }
 
   public override void _Process(float delta)
@@ -32,6 +35,12 @@ public class Projectile : Area2D
     if (_time <= DelayedTakeoffAmount)
     {
       return;
+    }
+
+    if (_transparent)
+    {
+      Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
+      _transparent = false;
     }
 
     if (Target.Position != Position)
