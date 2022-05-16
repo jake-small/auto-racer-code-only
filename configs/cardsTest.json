@@ -3,7 +3,7 @@
     {
       "Name": "curse",
       "Icon": "icon132.png",
-      "Description": "All opponents within {A} gain {B} move",
+      "Description": "All opponents within {R} gain {V} move",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -12,7 +12,7 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Premove",
-            "Value": "{B}",
+            "Value": "{V}",
             "Duration": "1",
             "Target": {
               "Type": "others",
@@ -21,7 +21,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "{A}"
+                "Max": "{R}"
               }
             },
             "Functions": []
@@ -34,11 +34,11 @@
           "Id": 1,
           "OutKeys": [
             {
-              "Key": "A",
-              "Value": "20"
+              "Key": "R",
+              "Value": "3"
             },
             {
-              "Key": "B",
+              "Key": "V",
               "Value": "-3"
             }
           ]
@@ -47,11 +47,11 @@
           "Id": 2,
           "OutKeys": [
             {
-              "Key": "A",
-              "Value": "40"
+              "Key": "R",
+              "Value": "20"
             },
             {
-              "Key": "B",
+              "Key": "V",
               "Value": "-6"
             }
           ]
@@ -60,11 +60,11 @@
           "Id": 3,
           "OutKeys": [
             {
-              "Key": "A",
-              "Value": "80"
+              "Key": "R",
+              "Value": "3"
             },
             {
-              "Key": "B",
+              "Key": "V",
               "Value": "-12"
             }
           ]
@@ -124,7 +124,7 @@
           "OutKeys": [
             {
               "Key": "R",
-              "Value": "20"
+              "Value": "6"
             },
             {
               "Key": "V",
@@ -141,7 +141,7 @@
           "OutKeys": [
             {
               "Key": "R",
-              "Value": "40"
+              "Value": "6"
             },
             {
               "Key": "V",
@@ -158,7 +158,7 @@
           "OutKeys": [
             {
               "Key": "R",
-              "Value": "80"
+              "Value": "6"
             },
             {
               "Key": "V",
@@ -304,7 +304,7 @@
             },
             {
               "Key": "D",
-              "Value": "9"
+              "Value": "12"
             }
           ]
         }
