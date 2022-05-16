@@ -21,6 +21,7 @@ public class RaceMain : Node2D
   // private List<string> _positionStates = new List<string>();
   private List<List<string>> _cardStates = new List<List<string>>();
   private List<CardScript> _displayCards = new List<CardScript>();
+  private List<Sprite> _slotTurnIndicators = new List<Sprite>();
   private int _currentTurnView;
   private bool _raceOver = false;
   private bool _waitingOnCardEffect = false;
@@ -66,6 +67,13 @@ public class RaceMain : Node2D
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
     _backButton = GetNode<TextureButton>(RaceSceneData.ButtonBackPath);
     _backButton.Connect("pressed", this, nameof(Button_back_pressed));
+
+    _slotTurnIndicators = new List<Sprite>{
+      GetNode<Sprite>(RaceSceneData.SelectedSlot0),
+      GetNode<Sprite>(RaceSceneData.SelectedSlot1),
+      GetNode<Sprite>(RaceSceneData.SelectedSlot2),
+      GetNode<Sprite>(RaceSceneData.SelectedSlot3)
+    };
   }
 
   public override void _Process(float delta)
@@ -262,12 +270,15 @@ public class RaceMain : Node2D
     if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
-      _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == (int)turnPhase - 1));
+      var turnId = (int)turnPhase - 1;
+      _slotTurnIndicators[turnId].Visible = true;
+      _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == turnId));
       _waitingOnCardEffect = true;
       _forwardButton.Disabled = true;
     }
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
+      HideSlotTurnIndicators();
       var turnResults = _autoRaceEngine.GetTurnResults();
       _raceViewManager.UpdateTokenCounts(turnResults);
       if (turnResults != null && turnResults.ToList().Count > 0)
@@ -405,6 +416,14 @@ public class RaceMain : Node2D
     selectedCardDescriptionLabel.Text = "";
     selectedCardSellsForLabel.Text = "";
     selectedCardBaseMoveLabel.Text = "";
+  }
+
+  private void HideSlotTurnIndicators()
+  {
+    foreach (var indicator in _slotTurnIndicators)
+    {
+      indicator.Visible = false;
+    }
   }
 
   private string IntToPlace(int i)

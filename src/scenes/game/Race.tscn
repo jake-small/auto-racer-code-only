@@ -1,20 +1,19 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://src/scenes/objects/ui_elements/RaceSlot.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/scripts/race/RaceMain.cs" type="Script" id=4]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://src/scripts/race/BackgroundTileMap.cs" type="Script" id=6]
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator_Right.tscn" type="PackedScene" id=8]
-[ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=9]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=10]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_BaseMove.tres" type="DynamicFont" id=13]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=15]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsBase3.tres" type="DynamicFont" id=16]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=17]
 
 [sub_resource type="DynamicFont" id=1]
@@ -47,6 +46,7 @@ script = ExtResource( 4 )
 [node name="TileMap1" type="TileMap" parent="."]
 position = Vector2( -1920, 0 )
 scale = Vector2( 4, 4 )
+z_index = -1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -55,6 +55,7 @@ script = ExtResource( 6 )
 
 [node name="TileMap2" type="TileMap" parent="."]
 scale = Vector2( 4, 4 )
+z_index = -1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -64,6 +65,7 @@ script = ExtResource( 6 )
 [node name="TileMap3" type="TileMap" parent="."]
 position = Vector2( 1920, 0 )
 scale = Vector2( 4, 4 )
+z_index = -1
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
 format = 1
@@ -374,93 +376,16 @@ position = Vector2( 1680, 700 )
 
 [node name="CardSlots" type="Node2D" parent="."]
 
-[node name="slot_0" type="Sprite" parent="CardSlots" groups=[
-"CardSlots",
-]]
-position = Vector2( 390, 625 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
-centered = false
+[node name="slot_0" parent="CardSlots" instance=ExtResource( 3 )]
 
-[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_0"]
-margin_left = -0.5
-margin_top = 99.8333
-margin_right = 100.5
-margin_bottom = 122.833
-grow_horizontal = 2
-grow_vertical = 2
-custom_fonts/font = ExtResource( 16 )
-text = "Player Name"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="slot_1" type="Sprite" parent="CardSlots" groups=[
-"CardSlots",
-]]
+[node name="slot_1" parent="CardSlots" instance=ExtResource( 3 )]
 position = Vector2( 720, 625 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
-centered = false
 
-[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_1"]
-margin_left = -0.5
-margin_top = 99.8333
-margin_right = 100.5
-margin_bottom = 122.833
-grow_horizontal = 2
-grow_vertical = 2
-custom_fonts/font = ExtResource( 16 )
-text = "Player Name"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="slot_2" type="Sprite" parent="CardSlots" groups=[
-"CardSlots",
-]]
+[node name="slot_2" parent="CardSlots" instance=ExtResource( 3 )]
 position = Vector2( 1050, 625 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
-centered = false
 
-[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_2"]
-margin_left = -0.5
-margin_top = 99.8333
-margin_right = 100.5
-margin_bottom = 122.833
-grow_horizontal = 2
-grow_vertical = 2
-custom_fonts/font = ExtResource( 16 )
-text = "Player Name"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="slot_3" type="Sprite" parent="CardSlots" groups=[
-"CardSlots",
-]]
+[node name="slot_3" parent="CardSlots" instance=ExtResource( 3 )]
 position = Vector2( 1380, 625 )
-scale = Vector2( 1.5, 1.5 )
-texture = ExtResource( 9 )
-centered = false
-
-[node name="Label_PlayerName" type="Label" parent="CardSlots/slot_3"]
-margin_left = -0.5
-margin_top = 99.8333
-margin_right = 100.5
-margin_bottom = 122.833
-grow_horizontal = 2
-grow_vertical = 2
-custom_fonts/font = ExtResource( 16 )
-text = "Player Name"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Container_selected_card_0" type="Node2D" parent="CardSlots"]
 visible = false
