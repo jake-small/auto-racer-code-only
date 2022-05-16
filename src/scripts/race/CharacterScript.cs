@@ -132,19 +132,20 @@ public class CharacterScript : Node2D
     Moving = true;
   }
 
-  public void ProjectileAttackAnimation(CharacterScript target, int amount)
+  public void ProjectileAttackAnimation(CharacterScript target, int amount, int duration)
   {
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/Projectile.tscn") as PackedScene;
-    SpawnProjectiles(target, amount, projectileScene, false);
+    amount = amount < 0 ? amount * -1 : amount;
+    SpawnProjectiles(target, amount, duration, projectileScene, false);
   }
 
-  public void ProjectileBuffAnimation(CharacterScript target, int amount)
+  public void ProjectileBuffAnimation(CharacterScript target, int amount, int duration)
   {
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/ProjectileBuff.tscn") as PackedScene;
-    SpawnProjectiles(target, amount, projectileScene, true);
+    SpawnProjectiles(target, amount, duration, projectileScene, true);
   }
 
-  private void SpawnProjectiles(CharacterScript target, int amount, PackedScene projectileScene, bool isPositive)
+  private void SpawnProjectiles(CharacterScript target, int amount, int duration, PackedScene projectileScene, bool isPositive)
   {
     for (int i = 0; i < amount; i++)
     {
@@ -152,6 +153,7 @@ public class CharacterScript : Node2D
       projectileInstance.Position = Position;
       projectileInstance.Target = target;
       projectileInstance.IsPositive = isPositive;
+      projectileInstance.Length = (duration - 1) * 10;
       projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
       GetTree().Root.AddChild(projectileInstance);
     }

@@ -59,30 +59,30 @@ public class RaceViewManager
   public void GiveTokens(PlayerTurnResult turnResult)
   {
     var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
-    // var positiveMoveTokens = turnResult.Player.Tokens.OfType<MoveToken>().Where(t => t.Value > 0);
-    // var positiveTokenValue = positiveMoveTokens.Any() ? positiveMoveTokens.Sum(t => t.Value) : 0;
-    // character.PositiveTokenValue = positiveTokenValue;
-
-
     foreach (var keyValuePair in turnResult.TokensGiven)
     {
-      var positiveMoveTokensGiven = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value > 0);
-      var positiveTokenValueGiven = positiveMoveTokensGiven.Any() ? positiveMoveTokensGiven.Sum(t => t.Value) : 0;
-      var negativeMoveTokensGiven = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value < 0);
-      var negativeTokenValueGiven = negativeMoveTokensGiven.Any() ? negativeMoveTokensGiven.Sum(t => t.Value) : 0;
-
-      if (positiveTokenValueGiven == 0 && negativeTokenValueGiven == 0)
-      {
-        continue;
-      }
       var targetCharacter = _characters.FirstOrDefault(c => c.Id == keyValuePair.Key);
-      if (positiveTokenValueGiven > 0)
+      var posTokensByDuration = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value > 0)
+      .GroupBy(t => t.Duration).ToDictionary(g => g.Key, g => g.ToList());
+
+      foreach (var posTokens in posTokensByDuration)
       {
-        character.ProjectileBuffAnimation(targetCharacter, positiveTokenValueGiven);
+        var posTokenValueGiven = posTokens.Value.Any() ? posTokens.Value.Sum(t => t.Value) : 0;
+        if (posTokenValueGiven > 0)
+        {
+          character.ProjectileBuffAnimation(targetCharacter, posTokenValueGiven, posTokens.Key);
+        }
       }
-      if (negativeTokenValueGiven < 0)
+
+      var negTokensByDuration = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value < 0)
+      .GroupBy(t => t.Duration).ToDictionary(g => g.Key, g => g.ToList());
+      foreach (var negTokens in negTokensByDuration)
       {
-        character.ProjectileAttackAnimation(targetCharacter, negativeTokenValueGiven * -1);
+        var negTokenValueGiven = negTokens.Value.Any() ? negTokens.Value.Sum(t => t.Value) : 0;
+        if (negTokenValueGiven < 0)
+        {
+          character.ProjectileAttackAnimation(targetCharacter, negTokenValueGiven, negTokens.Key);
+        }
       }
     }
   }

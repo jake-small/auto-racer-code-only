@@ -1,8 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://assets/effects/projectile_purple.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/race/effects/Projectile.cs" type="Script" id=2]
+[ext_resource path="res://src/scripts/race/effects/ProjectileTrail.cs" type="Script" id=3]
+
+[sub_resource type="Curve" id=2]
+_data = [ Vector2( 0, 0.509091 ), 0.0, 0.0, 0, 0, Vector2( 0.25, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.00859599, 0.234957 )
+colors = PoolColorArray( 0, 0, 0, 0, 0.427451, 0.333333, 0.741176, 0.705882 )
 
 [node name="Projectile" type="Sprite"]
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
+
+[node name="Trail" type="Line2D" parent="."]
+z_index = 1
+width = 8.0
+width_curve = SubResource( 2 )
+default_color = Color( 0.427451, 0.333333, 0.741176, 0.705882 )
+gradient = SubResource( 1 )
+script = ExtResource( 3 )

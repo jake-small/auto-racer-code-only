@@ -6,6 +6,7 @@ public class Projectile : Sprite
   public CharacterScript Target { get; set; }
   public float? DelayedTakeoffAmount { get; set; }
   public bool IsPositive { get; set; }
+  public int Length { get; set; }
 
   private float _speed = 260;
   private float _time = 0;
@@ -13,11 +14,15 @@ public class Projectile : Sprite
   private const float PerpendicularStrength = 0.5f;
   private bool _transparent = true;
   private float _transparentValue = 0.5f;
+  private bool _isDespawning = false;
+  private float _despawnTimer = 0;
 
   public override void _Ready()
   {
     SpawnPosition();
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
+    var trail = GetNode<ProjectileTrail>("Trail");
+    trail.Length = Length;
   }
 
   public override void _Process(float delta)
@@ -39,11 +44,19 @@ public class Projectile : Sprite
       _transparent = false;
     }
 
+    if (_isDespawning)
+    {
+      _despawnTimer += delta;
+      Despawn();
+      return;
+    }
+
     if (Target.Position != Position)
     {
       if (_time > 5 + DelayedTakeoffAmount)
       {
         Despawn();
+        return;
       }
       _speed = _speed + (_speed * delta);
 
@@ -53,18 +66,20 @@ public class Projectile : Sprite
       if (Math.Abs(Target.Position.x - Position.x) < 20 && Math.Abs(Target.Position.y - Position.y) < 20)
       {
         Despawn();
+        return;
       }
     }
     else
     {
       Despawn();
+      return;
     }
   }
 
   private void SpawnPosition()
   {
     var random = new Random();
-    var radius = random.Next(32, 64);
+    var radius = IsPositive ? random.Next(64, 96) : random.Next(32, 64);
     var min = 0;
     var max = Math.PI * 2;
     var angle = random.NextDouble() * (max - min) + min;
@@ -79,13 +94,25 @@ public class Projectile : Sprite
     {
       return;
     }
-    if (IsPositive)
+
+    if (!_isDespawning)
     {
-      Target.PositiveTokenValue += 1;
+      _isDespawning = true;
+      Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 0);
+
+      if (IsPositive)
+      {
+        Target.PositiveTokenValue += 1;
+      }
+      else
+      {
+        Target.NegativeTokenValue -= 1;
+      }
     }
-    else
+
+    if (_despawnTimer * 80 < Length)
     {
-      Target.NegativeTokenValue -= 1;
+      return;
     }
 
     QueueFree();
