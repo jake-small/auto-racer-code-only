@@ -13,7 +13,7 @@
             "Type": "Additive",
             "Phase": "Premove",
             "Value": "{V}",
-            "Duration": "10",
+            "Duration": "1",
             "Target": {
               "Type": "others",
               "Direction": "any",

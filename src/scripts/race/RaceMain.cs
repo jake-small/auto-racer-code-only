@@ -249,7 +249,6 @@ public class RaceMain : Node2D
 
     _currentTurnView = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurnView}");
-    _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase.ToString()}";
 
     if (turnPhase == TurnPhases.AbilitiesP0)
     {
@@ -269,6 +268,7 @@ public class RaceMain : Node2D
     }
     if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
     {
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities";
       var turnResults = _autoRaceEngine.GetTurnResults();
       var turnId = (int)turnPhase - 1;
       _slotTurnIndicators[turnId].Visible = true;
@@ -278,6 +278,8 @@ public class RaceMain : Node2D
     }
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
+      var phase = turnPhase == TurnPhases.Move ? "Move" : "Handle Remaining Tokens";
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: {phase}";
       HideSlotTurnIndicators();
       var turnResults = _autoRaceEngine.GetTurnResults();
       _raceViewManager.UpdateTokenCounts(turnResults);
