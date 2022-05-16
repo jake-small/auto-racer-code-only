@@ -20,6 +20,7 @@ public class Projectile : Sprite
   public override void _Ready()
   {
     SpawnPosition();
+    AddToGroup(RaceSceneData.GroupProjectiles);
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
     var trail = GetNode<ProjectileTrail>("Trail");
     trail.Length = Length;

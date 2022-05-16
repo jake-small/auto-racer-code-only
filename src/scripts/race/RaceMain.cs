@@ -23,6 +23,7 @@ public class RaceMain : Node2D
   private List<CardScript> _displayCards = new List<CardScript>();
   private int _currentTurnView;
   private bool _raceOver = false;
+  private bool _waitingOnCardEffect = false;
 
   public override void _Ready()
   {
@@ -89,6 +90,15 @@ public class RaceMain : Node2D
     if (_raceOver && _endRaceButton.Disabled == true)
     {
       _endRaceButton.Disabled = false;
+    }
+
+    if (_waitingOnCardEffect)
+    {
+      if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
+      {
+        _waitingOnCardEffect = false;
+        _forwardButton.Disabled = false;
+      }
     }
   }
 
@@ -243,6 +253,8 @@ public class RaceMain : Node2D
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
       _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == (int)turnPhase - 1));
+      _forwardButton.Disabled = true;
+      _waitingOnCardEffect = true;
     }
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {

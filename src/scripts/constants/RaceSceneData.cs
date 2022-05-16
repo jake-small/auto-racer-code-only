@@ -12,6 +12,7 @@ public static class RaceSceneData
   public const string Label_CardP2 = "Control_cards/HBoxContainer/Label_p2/Label_p2_card";
   public const string Label_CardP3 = "Control_cards/HBoxContainer/Label_p3/Label_p3_card";
   public const string Label_CardP4 = "Control_cards/HBoxContainer/Label_p4/Label_p4_card";
+  public const string GroupProjectiles = "Projectile";
   public const string CharacterTokenPositiveLabel = "Label_token_positive";
   public const string CharacterTokenNegativeLabel = "Label_token_negative";
   public const string CharacterScenePath = "res://src/scenes/objects/characters/character.tscn";
