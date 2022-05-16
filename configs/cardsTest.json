@@ -13,7 +13,7 @@
             "Type": "Additive",
             "Phase": "Premove",
             "Value": "{V}",
-            "Duration": "1",
+            "Duration": "10",
             "Target": {
               "Type": "others",
               "Direction": "any",
@@ -48,7 +48,7 @@
           "OutKeys": [
             {
               "Key": "R",
-              "Value": "20"
+              "Value": "3"
             },
             {
               "Key": "V",
@@ -249,7 +249,7 @@
     {
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
-      "Description": "Gain {M} move for {D} turns",
+      "Description": "Gain {V} move for {D} turns",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -258,7 +258,7 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Premove",
-            "Value": "{M}",
+            "Value": "{V}",
             "Duration": "{D}",
             "Target": {
               "Type": "self"
@@ -273,7 +273,7 @@
           "Id": 1,
           "OutKeys": [
             {
-              "Key": "M",
+              "Key": "V",
               "Value": "1"
             },
             {
@@ -286,7 +286,7 @@
           "Id": 2,
           "OutKeys": [
             {
-              "Key": "M",
+              "Key": "V",
               "Value": "1"
             },
             {
@@ -299,7 +299,7 @@
           "Id": 3,
           "OutKeys": [
             {
-              "Key": "M",
+              "Key": "V",
               "Value": "1"
             },
             {
