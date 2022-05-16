@@ -1,5 +1,5 @@
 public interface Token
 {
-  // string Id { get; set; }
+  int CreatedBy { get; set; }
   int Duration { get; set; }
 }

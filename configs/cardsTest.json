@@ -3,7 +3,7 @@
     {
       "Name": "curse",
       "Icon": "icon132.png",
-      "Description": "All opponents within {A} gain {B} move",
+      "Description": "All opponents within {R} gain {V} move",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -12,8 +12,8 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Premove",
-            "Value": "{B}",
-            "Duration": "1",
+            "Value": "{V}",
+            "Duration": "10",
             "Target": {
               "Type": "others",
               "Direction": "any",
@@ -21,7 +21,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "{A}"
+                "Max": "{R}"
               }
             },
             "Functions": []
@@ -34,12 +34,12 @@
           "Id": 1,
           "OutKeys": [
             {
-              "Key": "A",
-              "Value": "1"
+              "Key": "R",
+              "Value": "3"
             },
             {
-              "Key": "B",
-              "Value": "-1"
+              "Key": "V",
+              "Value": "-3"
             }
           ]
         },
@@ -47,12 +47,12 @@
           "Id": 2,
           "OutKeys": [
             {
-              "Key": "A",
-              "Value": "1"
+              "Key": "R",
+              "Value": "3"
             },
             {
-              "Key": "B",
-              "Value": "-2"
+              "Key": "V",
+              "Value": "-6"
             }
           ]
         },
@@ -60,12 +60,113 @@
           "Id": 3,
           "OutKeys": [
             {
-              "Key": "A",
-              "Value": "1"
+              "Key": "R",
+              "Value": "3"
             },
             {
-              "Key": "B",
+              "Key": "V",
+              "Value": "-12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "lingering curse",
+      "Icon": "icon133.png",
+      "Description": "First opponent within {R} gains {V} move for 1 turn and -1 for {D} turns",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "curseInitial",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "{V}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "1",
+              "Range": {
+                "Min": "0",
+                "Max": "{R}"
+              }
+            },
+            "Functions": []
+          },
+          {
+            "Name": "curseDot",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "-1",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "1",
+              "Range": {
+                "Min": "0",
+                "Max": "{R}"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "R",
+              "Value": "6"
+            },
+            {
+              "Key": "V",
               "Value": "-3"
+            },
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "R",
+              "Value": "6"
+            },
+            {
+              "Key": "V",
+              "Value": "-3"
+            },
+            {
+              "Key": "D",
+              "Value": "6"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "R",
+              "Value": "6"
+            },
+            {
+              "Key": "V",
+              "Value": "-3"
+            },
+            {
+              "Key": "D",
+              "Value": "9"
             }
           ]
         }
@@ -148,7 +249,7 @@
     {
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
-      "Description": "Gain {M} move for {D} turns",
+      "Description": "Gain {V} move for {D} turns",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -157,7 +258,7 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Premove",
-            "Value": "{M}",
+            "Value": "{V}",
             "Duration": "{D}",
             "Target": {
               "Type": "self"
@@ -172,7 +273,7 @@
           "Id": 1,
           "OutKeys": [
             {
-              "Key": "M",
+              "Key": "V",
               "Value": "1"
             },
             {
@@ -185,12 +286,12 @@
           "Id": 2,
           "OutKeys": [
             {
-              "Key": "M",
+              "Key": "V",
               "Value": "1"
             },
             {
               "Key": "D",
-              "Value": "5"
+              "Value": "6"
             }
           ]
         },
@@ -198,12 +299,12 @@
           "Id": 3,
           "OutKeys": [
             {
-              "Key": "M",
+              "Key": "V",
               "Value": "1"
             },
             {
               "Key": "D",
-              "Value": "8"
+              "Value": "12"
             }
           ]
         }

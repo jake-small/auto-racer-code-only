@@ -56,6 +56,37 @@ public class RaceViewManager
     UpdateOffscreenIndicator(turnResults);
   }
 
+  public void GiveTokens(PlayerTurnResult turnResult)
+  {
+    var character = _characters.FirstOrDefault(c => c.Id == turnResult.Player.Id);
+    foreach (var keyValuePair in turnResult.TokensGiven)
+    {
+      var targetCharacter = _characters.FirstOrDefault(c => c.Id == keyValuePair.Key);
+      var posTokensByDuration = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value > 0)
+      .GroupBy(t => t.Duration).ToDictionary(g => g.Key, g => g.ToList());
+
+      foreach (var posTokens in posTokensByDuration)
+      {
+        var posTokenValueGiven = posTokens.Value.Any() ? posTokens.Value.Sum(t => t.Value) : 0;
+        if (posTokenValueGiven > 0)
+        {
+          character.ProjectileBuffAnimation(targetCharacter, posTokenValueGiven, posTokens.Key);
+        }
+      }
+
+      var negTokensByDuration = keyValuePair.Value.OfType<MoveToken>().Where(t => t.Value < 0)
+      .GroupBy(t => t.Duration).ToDictionary(g => g.Key, g => g.ToList());
+      foreach (var negTokens in negTokensByDuration)
+      {
+        var negTokenValueGiven = negTokens.Value.Any() ? negTokens.Value.Sum(t => t.Value) : 0;
+        if (negTokenValueGiven < 0)
+        {
+          character.ProjectileAttackAnimation(targetCharacter, negTokenValueGiven, negTokens.Key);
+        }
+      }
+    }
+  }
+
   public void UpdateTokenCounts(IEnumerable<PlayerTurnResult> turnResults)
   {
     foreach (var turnResult in turnResults)

@@ -13,11 +13,11 @@
 
 [sub_resource type="Theme" id=1]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 36
 font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 size = 24
 use_filter = true
 font_data = ExtResource( 8 )
@@ -157,7 +157,7 @@ texture_normal = ExtResource( 5 )
 margin_top = 434.0
 margin_right = 1680.0
 margin_bottom = 485.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "    "
 align = 1
@@ -195,7 +195,7 @@ margin_bottom = 49.0
 disabled = true
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Options" index="0"]
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "options"
 
 [node name="Button_Quit" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
@@ -204,7 +204,7 @@ margin_right = 1032.0
 margin_bottom = 49.0
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Quit" index="0"]
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "quit"
 
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Button_Start"]

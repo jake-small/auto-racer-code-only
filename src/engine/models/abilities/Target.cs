@@ -52,6 +52,18 @@ public class Target
     }
     return priority;
   }
+
+  public object Clone()
+  {
+    return new Target
+    {
+      Type = Type,
+      Direction = Direction,
+      Priority = Priority,
+      Amount = Amount,
+      Range = Range?.Clone() as Range,
+    };
+  }
 }
 
 public enum TargetType

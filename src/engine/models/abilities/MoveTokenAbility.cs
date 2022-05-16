@@ -21,7 +21,7 @@ public class MoveTokenAbility : TokenAbility, ICloneable
       Duration = Duration,
       Value = Value,
       Type = Type,
-      Target = Target,
+      Target = Target.Clone() as Target,
       Functions = Functions.Select(m => m.Clone()).Cast<Function>().ToList()
     };
   }

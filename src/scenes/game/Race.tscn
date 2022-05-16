@@ -21,11 +21,11 @@
 size = 64
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 84
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 64
 font_data = ExtResource( 5 )
 
@@ -168,8 +168,7 @@ __meta__ = {
 }
 
 [node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 17 )]
-margin_left = 206.0
-margin_right = 396.0
+margin_right = 190.0
 margin_bottom = 55.0
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
@@ -197,7 +196,7 @@ __meta__ = {
 [node name="Label_p1" type="Label" parent="Control_cards/HBoxContainer"]
 margin_right = 64.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P0"
 __meta__ = {
@@ -208,7 +207,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -223,7 +222,7 @@ __meta__ = {
 margin_left = 484.0
 margin_right = 537.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P1"
 __meta__ = {
@@ -234,7 +233,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -249,7 +248,7 @@ __meta__ = {
 margin_left = 957.0
 margin_right = 1021.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P2"
 __meta__ = {
@@ -260,7 +259,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -275,7 +274,7 @@ __meta__ = {
 margin_left = 1441.0
 margin_right = 1505.0
 margin_bottom = 64.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "P3"
 __meta__ = {
@@ -286,7 +285,7 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 400.0
 margin_bottom = 394.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Card
 Name
@@ -367,9 +366,10 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="Label_PlayerName" type="Label" parent="CardSlots/slot_0"]
-margin_top = 100.0
-margin_right = 100.0
-margin_bottom = 120.0
+margin_left = -0.5
+margin_top = 99.8333
+margin_right = 100.5
+margin_bottom = 122.833
 grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 16 )
@@ -388,9 +388,10 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="Label_PlayerName" type="Label" parent="CardSlots/slot_1"]
-margin_top = 100.0
-margin_right = 100.0
-margin_bottom = 120.0
+margin_left = -0.5
+margin_top = 99.8333
+margin_right = 100.5
+margin_bottom = 122.833
 grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 16 )
@@ -409,9 +410,10 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="Label_PlayerName" type="Label" parent="CardSlots/slot_2"]
-margin_top = 100.0
-margin_right = 100.0
-margin_bottom = 120.0
+margin_left = -0.5
+margin_top = 99.8333
+margin_right = 100.5
+margin_bottom = 122.833
 grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 16 )
@@ -430,9 +432,10 @@ texture = ExtResource( 9 )
 centered = false
 
 [node name="Label_PlayerName" type="Label" parent="CardSlots/slot_3"]
-margin_top = 100.0
-margin_right = 100.0
-margin_bottom = 120.0
+margin_left = -0.5
+margin_top = 99.8333
+margin_right = 100.5
+margin_bottom = 122.833
 grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 16 )
