@@ -80,7 +80,7 @@ public class Projectile : Sprite
   private void SpawnPosition()
   {
     var random = new Random();
-    var radius = IsPositive ? random.Next(64, 96) : random.Next(32, 64);
+    var radius = IsPositive ? random.Next(96, 128) : random.Next(32, 64);
     var min = 0;
     var max = Math.PI * 2;
     var angle = random.NextDouble() * (max - min) + min;

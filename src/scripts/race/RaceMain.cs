@@ -250,8 +250,9 @@ public class RaceMain : Node2D
     _currentTurnView = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurnView}");
 
-    if (turnPhase == TurnPhases.AbilitiesP0)
+    if (turnPhase == TurnPhases.AbilitiesStart)
     {
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities";
       var turnResults = _autoRaceEngine.GetTurnResults();
       var currentCardStates = new List<string>();
       var p = 0;
@@ -268,9 +269,8 @@ public class RaceMain : Node2D
     }
     if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
     {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities";
       var turnResults = _autoRaceEngine.GetTurnResults();
-      var turnId = (int)turnPhase - 1;
+      var turnId = int.Parse(turnPhase.ToString().Last().ToString());
       _slotTurnIndicators[turnId].Visible = true;
       _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == turnId));
       _waitingOnCardEffect = true;
