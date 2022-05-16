@@ -6,6 +6,8 @@ using static CharacterScript;
 
 public class RaceViewManager
 {
+  public bool AreCharactersMoving => _characters.Any(c => c.Moving);
+
   private TileMapManager _tileMapManager;
   private List<CharacterScript> _characters;
   private List<(OffscreenIndicatorScript, OffscreenIndicatorScript)> _offscreenIndicatorPairs;

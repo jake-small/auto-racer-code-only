@@ -24,6 +24,7 @@ public class RaceMain : Node2D
   private int _currentTurnView;
   private bool _raceOver = false;
   private bool _waitingOnCardEffect = false;
+  private bool _waitingOnMovement = false;
 
   public override void _Ready()
   {
@@ -97,6 +98,15 @@ public class RaceMain : Node2D
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
+        _forwardButton.Disabled = false;
+      }
+    }
+
+    if (_waitingOnMovement)
+    {
+      if (!_raceViewManager.AreCharactersMoving)
+      {
+        _waitingOnMovement = false;
         _forwardButton.Disabled = false;
       }
     }
@@ -253,8 +263,8 @@ public class RaceMain : Node2D
     {
       var turnResults = _autoRaceEngine.GetTurnResults();
       _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == (int)turnPhase - 1));
-      _forwardButton.Disabled = true;
       _waitingOnCardEffect = true;
+      _forwardButton.Disabled = true;
     }
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
@@ -263,6 +273,8 @@ public class RaceMain : Node2D
       if (turnResults != null && turnResults.ToList().Count > 0)
       {
         _raceViewManager.MovePlayers(turnResults);
+        _waitingOnMovement = true;
+        _forwardButton.Disabled = true;
         // var positionState = EngineTesting.GetPositionTextView(turnResults);
         // _updatePositionStateLabel = positionState;
         // _positionStates.Add(positionState);
