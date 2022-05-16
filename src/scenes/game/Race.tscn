@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -20,6 +20,18 @@
 [sub_resource type="DynamicFont" id=1]
 size = 64
 font_data = ExtResource( 2 )
+
+[sub_resource type="InputEventAction" id=6]
+action = "next"
+
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
+
+[sub_resource type="InputEventAction" id=4]
+action = "go"
+
+[sub_resource type="ShortCut" id=5]
+shortcut = SubResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 84
@@ -147,6 +159,7 @@ __meta__ = {
 visible = false
 margin_right = 190.0
 margin_bottom = 55.0
+shortcut_in_tooltip = false
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Back" index="0"]
 text = "back"
@@ -154,6 +167,8 @@ text = "back"
 [node name="Button_Forward" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 margin_right = 190.0
 margin_bottom = 55.0
+shortcut_in_tooltip = false
+shortcut = SubResource( 7 )
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Forward" index="0"]
 text = "next"
@@ -170,6 +185,8 @@ __meta__ = {
 [node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 17 )]
 margin_right = 190.0
 margin_bottom = 55.0
+shortcut_in_tooltip = false
+shortcut = SubResource( 5 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
 text = "finish"

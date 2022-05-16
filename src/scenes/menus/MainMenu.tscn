@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://src/scripts/menus/MainMenu.cs" type="Script" id=2]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsTitle1.tres" type="DynamicFont" id=3]
@@ -17,10 +17,22 @@
 size = 36
 font_data = ExtResource( 8 )
 
+[sub_resource type="InputEventAction" id=4]
+action = "go"
+
+[sub_resource type="ShortCut" id=5]
+shortcut = SubResource( 4 )
+
 [sub_resource type="DynamicFont" id=3]
 size = 24
 use_filter = true
 font_data = ExtResource( 8 )
+
+[sub_resource type="InputEventAction" id=6]
+action = "quit"
+
+[sub_resource type="ShortCut" id=7]
+shortcut = SubResource( 6 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -183,6 +195,8 @@ alignment = 1
 margin_left = 648.0
 margin_right = 838.0
 margin_bottom = 49.0
+shortcut_in_tooltip = false
+shortcut = SubResource( 5 )
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Start" index="0"]
 text = "start"
@@ -193,6 +207,7 @@ margin_left = 745.0
 margin_right = 935.0
 margin_bottom = 49.0
 disabled = true
+shortcut_in_tooltip = false
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Options" index="0"]
 custom_fonts/font = SubResource( 3 )
@@ -202,6 +217,8 @@ text = "options"
 margin_left = 842.0
 margin_right = 1032.0
 margin_bottom = 49.0
+shortcut_in_tooltip = false
+shortcut = SubResource( 7 )
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Quit" index="0"]
 custom_fonts/font = SubResource( 3 )
