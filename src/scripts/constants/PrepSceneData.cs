@@ -4,6 +4,7 @@ public static class PrepSceneData
 {
   public static readonly Vector2 CardSlotOffset = new Vector2(6, 4);
 
+  public const string LabelPlayerName = "Label_player_name";
   public const string CharacterPath = "Character";
   public const string CardDataRelativePath = @"configs\cardsTest.json";
   public const string BankDataConfigRelativePath = @"configs\bank.config.json";
