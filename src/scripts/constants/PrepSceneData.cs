@@ -33,5 +33,6 @@ public static class PrepSceneData
   public const string LabelSelectedDescriptionPath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedSellsForPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
   public const string LabelSelectedBaseMovePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
+  public const string ContainerCardCostPrefix = "Shop_cost_panel_";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }

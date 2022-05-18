@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://src/scenes/objects/characters/character.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/scripts/prep/PrepMain.cs" type="Script" id=6]
 [ext_resource path="res://assets/misc/grey_sliderHorizontal.png" type="Texture" id=7]
+[ext_resource path="res://assets/card_icons/icon066.png" type="Texture" id=8]
 [ext_resource path="res://assets/misc/ui_num5.png" type="Texture" id=9]
 [ext_resource path="res://assets/misc/ui_num3.png" type="Texture" id=10]
 [ext_resource path="res://assets/misc/ui_num4.png" type="Texture" id=11]
@@ -278,23 +279,48 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="arrow_next_item" type="Sprite" parent="."]
+position = Vector2( 928, 330 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 8 )
+
+[node name="arrow_next_item2" type="Sprite" parent="."]
+position = Vector2( 1120, 330 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 8 )
+
+[node name="arrow_next_item3" type="Sprite" parent="."]
+position = Vector2( 1312, 330 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 8 )
+
+[node name="arrow_next_item4" type="Sprite" parent="."]
+position = Vector2( 1504, 330 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 8 )
+
 [node name="ui_num1" type="Sprite" parent="."]
+visible = false
 position = Vector2( 837, 208 )
 texture = ExtResource( 12 )
 
 [node name="ui_num2" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1029, 208 )
 texture = ExtResource( 13 )
 
 [node name="ui_num3" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1221, 208 )
 texture = ExtResource( 10 )
 
 [node name="ui_num4" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1413, 208 )
 texture = ExtResource( 11 )
 
 [node name="ui_num5" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1605, 208 )
 texture = ExtResource( 9 )
 
@@ -333,6 +359,144 @@ position = Vector2( 1632, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Shop_cost_panel_0" type="Sprite" parent="."]
+visible = false
+position = Vector2( 748, 840 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_0"]
+margin_left = -41.0
+margin_top = -22.0
+margin_right = -1.00002
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel_0"]
+position = Vector2( 9.867, -2 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Shop_cost_panel_1" type="Sprite" parent="."]
+visible = false
+position = Vector2( 940, 840 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_1"]
+margin_left = -41.0
+margin_top = -22.0
+margin_right = -1.00002
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel_1"]
+position = Vector2( 9.867, -2 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Shop_cost_panel_2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1132, 840 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_2"]
+margin_left = -41.0
+margin_top = -22.0
+margin_right = -1.00002
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel_2"]
+position = Vector2( 9.867, -2 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Shop_cost_panel_3" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1324, 840 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_3"]
+margin_left = -41.0
+margin_top = -22.0
+margin_right = -1.00002
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel_3"]
+position = Vector2( 9.867, -2 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Shop_cost_panel_4" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1516, 840 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_4"]
+margin_left = -41.0
+margin_top = -22.0
+margin_right = -1.00002
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel_4"]
+position = Vector2( 9.867, -2 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
+
+[node name="Shop_cost_panel_5" type="Sprite" parent="."]
+visible = false
+position = Vector2( 1708, 840 )
+scale = Vector2( 1.21908, 0.798643 )
+texture = ExtResource( 18 )
+
+[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_5"]
+margin_left = -41.0
+margin_top = -22.0
+margin_right = -1.00002
+margin_bottom = 21.0
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="coin" type="Sprite" parent="Shop_cost_panel_5"]
+position = Vector2( 9.867, -2 )
+scale = Vector2( 0.3, 0.4 )
+texture = ExtResource( 21 )
 
 [node name="grey_divider" type="Sprite" parent="."]
 position = Vector2( 1230, 536 )
@@ -427,6 +591,7 @@ scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 22 )
 
 [node name="heart" type="Sprite" parent="Container_info"]
+visible = false
 position = Vector2( 320, 704 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 20 )
@@ -449,6 +614,7 @@ __meta__ = {
 }
 
 [node name="Label_hearts" type="Label" parent="Container_info"]
+visible = false
 margin_left = 300.923
 margin_top = 727.332
 margin_right = 340.923
@@ -482,28 +648,6 @@ __meta__ = {
 "_edit_lock_": true,
 "_edit_use_anchors_": false
 }
-
-[node name="Shop_cost_panel" type="Sprite" parent="."]
-position = Vector2( 601.971, 728.207 )
-scale = Vector2( 1.21908, 0.798643 )
-texture = ExtResource( 18 )
-
-[node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel"]
-margin_left = -41.4011
-margin_top = -21.583
-margin_right = -1.40112
-margin_bottom = 14.417
-custom_fonts/font = ExtResource( 19 )
-text = "3"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="coin" type="Sprite" parent="Shop_cost_panel"]
-position = Vector2( 9.86694, -2.34741 )
-scale = Vector2( 0.3, 0.4 )
-texture = ExtResource( 21 )
 
 [connection signal="mouse_entered" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_entered"]
 [connection signal="mouse_exited" from="Control/HBoxContainerLeft/Button_Freeze" to="." method="_on_Button_Freeze_mouse_exited"]

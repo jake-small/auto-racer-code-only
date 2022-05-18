@@ -16,6 +16,7 @@ public class PrepMain : Node2D
   private TextureButton _freezeButton;
   private CostButtonUi _sellButton;
   private TextureButton _goButton;
+  private List<Sprite> _cardCostContainers;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
@@ -47,6 +48,12 @@ public class PrepMain : Node2D
     _selectedCardBaseMoveLabel = GetNode<Label>(PrepSceneData.LabelSelectedBaseMovePath);
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
+
+    _cardCostContainers = new List<Sprite>();
+    for (var i = 0; i < GameData.ShopInventorySize; i++)
+    {
+      _cardCostContainers.Add(GetNode<Sprite>(PrepSceneData.ContainerCardCostPrefix + $"{i}"));
+    }
 
     _dropCardTimer = new Timer();
     _dropCardTimer.WaitTime = _dropCardTimerLength;
@@ -86,7 +93,7 @@ public class PrepMain : Node2D
   public void _on_Card_selected(CardScript cardScript)
   {
     _selectedCard = cardScript;
-    DisplaySelectedCardData(cardScript.Card);
+    DisplaySelectedCardData(cardScript);
     EnableCardActionButtons(cardScript.IsInShop());
   }
 
@@ -523,8 +530,13 @@ public class PrepMain : Node2D
     return GameManager.PrepEngine.ShopInventory.GetCardsAsList().Where(c => c.Frozen);
   }
 
-  private void DisplaySelectedCardData(Card card)
+  private void DisplaySelectedCardData(CardScript cardScript)
   {
+    if (cardScript.IsInShop())
+    {
+      _cardCostContainers[cardScript.Slot].Visible = true;
+    }
+    var card = cardScript.Card;
     _selectedCardPanel.Visible = true;
     _selectedCardNameLabel.Text = card.GetName();
     _selectedCardDescriptionLabel.Text = card.GetDescription();
@@ -536,6 +548,10 @@ public class PrepMain : Node2D
 
   private void HideSelectedCardData()
   {
+    foreach (var container in _cardCostContainers)
+    {
+      container.Visible = false;
+    }
     _selectedCardPanel.Visible = false;
     _selectedCardNameLabel.Text = "";
     _selectedCardDescriptionLabel.Text = "";
