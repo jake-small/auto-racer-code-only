@@ -434,6 +434,7 @@ public class PrepMain : Node2D
   private void SellCard()
   {
     DisableCardActionButtons();
+    HideSelectedCardData();
     if (_selectedCard == null)
     {
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
