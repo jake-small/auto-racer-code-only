@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 public class CardEmpty : Card
 {
-  public CardEmpty(int basemove = -5)
+  public CardEmpty(int basemove = 1)
   {
     Name = "Empty Slot";
     Description = "";
