@@ -4,6 +4,7 @@ public static class PrepSceneData
 {
   public static readonly Vector2 CardSlotOffset = new Vector2(6, 4);
 
+  public const string LabelPlayerName = "Label_player_name";
   public const string CharacterPath = "Character";
   public const string CardDataRelativePath = @"configs\cardsTest.json";
   public const string BankDataConfigRelativePath = @"configs\bank.config.json";
@@ -25,7 +26,7 @@ public static class PrepSceneData
   public const string LabelNumSecondPlaces = "Container_win_record/Label_secondPlaceTotal";
   public const string LabelNumThirdPlaces = "Container_win_record/Label_thirdPlaceTotal";
   public const string LabelNumFourthPlaces = "Container_win_record/Label_fourthPlaceTotal";
-  public const string LabelRaceTotalPath = "Container_info/Label_raceTotal";
+  public const string LabelRaceTotalPath = "Container_win_record/Label_raceTotal";
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";
   public const string ContainerSelectedCard = "Container_selected_card";
@@ -33,5 +34,6 @@ public static class PrepSceneData
   public const string LabelSelectedDescriptionPath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedSellsForPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
   public const string LabelSelectedBaseMovePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
+  public const string ContainerCardCostPrefix = "Shop_cost_panel_";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }

@@ -15,13 +15,14 @@ public class AutoRaceEngine
   {
     PreRace = -1,
     Start = 0,
-    AbilitiesP0 = 1,
-    AbilitiesP1 = 2,
-    AbilitiesP2 = 3,
-    AbilitiesP3 = 4,
-    Move = 5,
-    Abilities2 = 6,
-    End = 7,
+    AbilitiesStart = 1,
+    AbilitiesP0 = 2,
+    AbilitiesP1 = 3,
+    AbilitiesP2 = 4,
+    AbilitiesP3 = 5,
+    Move = 6,
+    Abilities2 = 7,
+    End = 8,
     HandleRemainingTokens = -2
   }
 
@@ -60,7 +61,7 @@ public class AutoRaceEngine
       case TurnPhases.Start:
         StartTurnPhase();
         break;
-      case TurnPhases.AbilitiesP0:
+      case TurnPhases.AbilitiesStart:
         Abilities1Phase();
         break;
       case TurnPhases.Move:

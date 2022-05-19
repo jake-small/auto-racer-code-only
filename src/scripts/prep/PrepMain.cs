@@ -14,8 +14,9 @@ public class PrepMain : Node2D
   private Label _selectedCardBaseMoveLabel;
   private CardScript _selectedCard = null;
   private TextureButton _freezeButton;
-  private TextureButton _sellButton;
+  private CostButtonUi _sellButton;
   private TextureButton _goButton;
+  private List<Sprite> _cardCostContainers;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
@@ -23,6 +24,8 @@ public class PrepMain : Node2D
 
   public override void _Ready()
   {
+    var playerNameLabel = GetNode<Label>(PrepSceneData.LabelPlayerName);
+    playerNameLabel.Text = GameManager.LocalPlayer.Name;
     var playerCharacter = GetNode<CharacterScript>(PrepSceneData.CharacterPath);
     playerCharacter.CharacterSkin = GameManager.LocalPlayer.Skin;
 
@@ -48,17 +51,27 @@ public class PrepMain : Node2D
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
+    _cardCostContainers = new List<Sprite>();
+    for (var i = 0; i < GameData.ShopInventorySize; i++)
+    {
+      _cardCostContainers.Add(GetNode<Sprite>(PrepSceneData.ContainerCardCostPrefix + $"{i}"));
+    }
+
     _dropCardTimer = new Timer();
     _dropCardTimer.WaitTime = _dropCardTimerLength;
     _dropCardTimer.Connect("timeout", this, nameof(_on_dropCardTimer_timeout));
     AddChild(_dropCardTimer);
 
-    var rerollButton = GetNode<TextureButton>(PrepSceneData.ButtonRerollPath);
+    var rerollButton = GetNode<CostButtonUi>(PrepSceneData.ButtonRerollPath);
     rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
+    rerollButton.Cost = GameManager.PrepEngine.BankData.RerollCost;
     _freezeButton = GetNode<TextureButton>(PrepSceneData.ButtonFreezePath);
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
-    _sellButton = GetNode<TextureButton>(PrepSceneData.ButtonSellPath);
+    _freezeButton.Disabled = true;
+    _sellButton = GetNode<CostButtonUi>(PrepSceneData.ButtonSellPath);
     _sellButton.Connect("pressed", this, nameof(Button_sell_pressed));
+    _sellButton.Disabled = true;
+    _sellButton.CostVisible = false;
     _goButton = GetNode<TextureButton>(PrepSceneData.ButtonGoPath);
     _goButton.Connect("pressed", this, nameof(Button_go_pressed));
     _goButton.Disabled = false;
@@ -82,7 +95,7 @@ public class PrepMain : Node2D
   public void _on_Card_selected(CardScript cardScript)
   {
     _selectedCard = cardScript;
-    DisplaySelectedCardData(cardScript.Card);
+    DisplaySelectedCardData(cardScript);
     EnableCardActionButtons(cardScript.IsInShop());
   }
 
@@ -421,6 +434,7 @@ public class PrepMain : Node2D
   private void SellCard()
   {
     DisableCardActionButtons();
+    HideSelectedCardData();
     if (_selectedCard == null)
     {
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
@@ -519,21 +533,33 @@ public class PrepMain : Node2D
     return GameManager.PrepEngine.ShopInventory.GetCardsAsList().Where(c => c.Frozen);
   }
 
-  private void DisplaySelectedCardData(Card card)
+  private void DisplaySelectedCardData(CardScript cardScript)
   {
+    if (cardScript.IsInShop())
+    {
+      _cardCostContainers[cardScript.Slot].Visible = true;
+    }
+    var card = cardScript.Card;
     _selectedCardPanel.Visible = true;
     _selectedCardNameLabel.Text = card.GetName();
     _selectedCardDescriptionLabel.Text = card.GetDescription();
     _selectedCardSellsForLabel.Text = GameManager.PrepEngine.Bank.GetSellValue(card).ToString();
     _selectedCardBaseMoveLabel.Text = card.BaseMove.ToString();
+    _sellButton.Cost = GameManager.PrepEngine.Bank.GetSellValue(card);
+    _sellButton.CostVisible = true;
   }
 
   private void HideSelectedCardData()
   {
+    foreach (var container in _cardCostContainers)
+    {
+      container.Visible = false;
+    }
     _selectedCardPanel.Visible = false;
     _selectedCardNameLabel.Text = "";
     _selectedCardDescriptionLabel.Text = "";
     _selectedCardSellsForLabel.Text = "";
     _selectedCardBaseMoveLabel.Text = "";
+    _sellButton.CostVisible = false;
   }
 }

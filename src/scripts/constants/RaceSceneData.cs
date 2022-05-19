@@ -7,11 +7,12 @@ public static class RaceSceneData
   public const string ButtonForwardPath = "Control/HBoxContainerLeft/Button_Forward";
   public const string ButtonBackPath = "Control/HBoxContainerLeft/Button_Back";
   public const string RichTextLabel_GameState = "MarginContainer/RichTextLabel_GameState";
-  public const string Label_TurnPhase = "Label_TurnPhase";
+  public const string Label_TurnPhase = "CenterContainer/Label_TurnPhase";
   public const string Label_CardP1 = "Control_cards/HBoxContainer/Label_p1/Label_p1_card";
   public const string Label_CardP2 = "Control_cards/HBoxContainer/Label_p2/Label_p2_card";
   public const string Label_CardP3 = "Control_cards/HBoxContainer/Label_p3/Label_p3_card";
   public const string Label_CardP4 = "Control_cards/HBoxContainer/Label_p4/Label_p4_card";
+  public const string GroupProjectiles = "Projectile";
   public const string CharacterTokenPositiveLabel = "Label_token_positive";
   public const string CharacterTokenNegativeLabel = "Label_token_negative";
   public const string CharacterScenePath = "res://src/scenes/objects/characters/character.tscn";
@@ -40,6 +41,10 @@ public static class RaceSceneData
   public const string LabelPlayerName1 = "CardSlots/slot_1/Label_PlayerName";
   public const string LabelPlayerName2 = "CardSlots/slot_2/Label_PlayerName";
   public const string LabelPlayerName3 = "CardSlots/slot_3/Label_PlayerName";
+  public const string SelectedSlot0 = "CardSlots/slot_0/Selected";
+  public const string SelectedSlot1 = "CardSlots/slot_1/Selected";
+  public const string SelectedSlot2 = "CardSlots/slot_2/Selected";
+  public const string SelectedSlot3 = "CardSlots/slot_3/Selected";
   public const string LabelSelectedNameRelPath = "/MarginContainer/VBoxContainer/Label_selected_name";
   public const string LabelSelectedDescriptionRelPath = "/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedSellsForRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
