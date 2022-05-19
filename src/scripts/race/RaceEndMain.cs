@@ -7,12 +7,23 @@ public class RaceEndMain : Node2D
   {
     var results = GameManager.RaceHistory.GetResult(GameManager.CurrentRace);
 
+    var labelFirst = GetNode(RaceEndSceneData.Label_first) as Label;
+    labelFirst.Text = results[0].Place.IntToPlaceStr();
     var labelFirstPlayer = GetNode(RaceEndSceneData.Label_first_player) as Label;
     labelFirstPlayer.Text = results[0].Player.Name + "\nDistance: " + results[0].Position;
+    var labelSecond = GetNode(RaceEndSceneData.Label_second) as Label;
+    labelSecond.Text = results[1].Place.IntToPlaceStr();
+    UpdateLabelPosition(labelSecond, results[1].Place);
     var labelSecondPlayer = GetNode(RaceEndSceneData.Label_second_player) as Label;
     labelSecondPlayer.Text = results[1].Player.Name + "\nDistance: " + results[1].Position;
+    var labelThird = GetNode(RaceEndSceneData.Label_third) as Label;
+    labelThird.Text = results[2].Place.IntToPlaceStr();
+    UpdateLabelPosition(labelThird, results[2].Place);
     var labelThirdPlayer = GetNode(RaceEndSceneData.Label_third_player) as Label;
     labelThirdPlayer.Text = results[2].Player.Name + "\nDistance: " + results[2].Position;
+    var labelFourth = GetNode(RaceEndSceneData.Label_fourth) as Label;
+    labelFourth.Text = results[3].Place.IntToPlaceStr();
+    UpdateLabelPosition(labelFourth, results[3].Place);
     var labelFourthPlayer = GetNode(RaceEndSceneData.Label_fourth_player) as Label;
     labelFourthPlayer.Text = results[3].Player.Name + "\nDistance: " + results[3].Position;
 
@@ -32,7 +43,6 @@ public class RaceEndMain : Node2D
   private void Button_finish_pressed()
   {
     GD.Print("Finish button pressed");
-    // GameManager.OpposingCharacterSkins = new List<string>();
     if (GameManager.CurrentRace >= GameManager.TotalRaces)
     {
       GD.Print("Race over!");
@@ -42,5 +52,10 @@ public class RaceEndMain : Node2D
     {
       GetTree().ChangeScene("res://src/scenes/game/Prep.tscn");
     }
+  }
+
+  private void UpdateLabelPosition(Label label, int place)
+  {
+    label.RectPosition = new Vector2(label.RectPosition.x, label.RectPosition.y + 40 * place);
   }
 }

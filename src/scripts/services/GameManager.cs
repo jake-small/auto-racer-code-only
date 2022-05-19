@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 
 public static class GameManager
 {
+  public static bool ShowTutorial { get; set; } = true;
   public static Player LocalPlayer { get; set; }
   public static Score Score { get; set; } = new Score();
   public static RaceHistory RaceHistory { get; set; } = new RaceHistory();

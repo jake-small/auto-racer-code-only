@@ -6,7 +6,7 @@ public class Score
 
   public Score()
   {
-    for (int i = 1; i < GameData.NumPlayers + 1; i++)
+    for (int i = 0; i < GameData.NumPlayers; i++)
     {
       _placements[i] = 0;
     }

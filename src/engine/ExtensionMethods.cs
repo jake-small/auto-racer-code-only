@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public static class ExtensionMethods
 {
+  private static readonly Random rnd = new Random();
+
   public static void MergeDictionaries<OBJ1, OBJ2>(this IDictionary<OBJ1, List<OBJ2>> dict1, IDictionary<OBJ1, List<OBJ2>> dict2)
   {
     foreach (var kvp2 in dict2)
@@ -35,6 +37,38 @@ public static class ExtensionMethods
       case null: throw new ArgumentNullException(nameof(input));
       case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
       default: return input[0].ToString().ToUpper() + input.Substring(1);
+    }
+  }
+
+  public static IList<T> Shuffle<T>(this IList<T> list)
+  {
+    var n = list.Count;
+    while (n > 1)
+    {
+      var k = (rnd.Next(0, n) % n);
+      n--;
+      T value = list[k];
+      list[k] = list[n];
+      list[n] = value;
+    }
+    return list;
+  }
+
+  public static string IntToPlaceStr(this int i)
+  {
+    switch (i)
+    {
+      case 0:
+        return "1st";
+      case 1:
+        return "2nd";
+      case 2:
+        return "3rd";
+      case 3:
+        return "4th";
+      default:
+        Console.WriteLine($"error in function IntToPlace() with parameter {i}");
+        return "error";
     }
   }
 }

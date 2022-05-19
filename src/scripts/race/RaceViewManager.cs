@@ -40,7 +40,14 @@ public class RaceViewManager
       if (playerId == GameManager.LocalPlayer.Id
         && _characters.Any(c => c.Id != GameManager.LocalPlayer.Id && c.Position.x > playerSprite.Position.x))
       {
-        TryScrollRight(playerSprite, newXPosition, _characterSoftLeftBound.x);
+        if (newXPosition > 0)
+        {
+          TryScrollRight(playerSprite, newXPosition, _characterSoftLeftBound.x);
+        }
+        else if (newXPosition < 0)
+        {
+          TryScrollLeft(playerSprite, newXPosition, _characterSoftLeftBound.x);
+        }
       }
       else if (playerId == GameManager.LocalPlayer.Id && newXPosition >= _characterSoftRightBound.x)
       {

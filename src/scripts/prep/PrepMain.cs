@@ -24,6 +24,10 @@ public class PrepMain : Node2D
 
   public override void _Ready()
   {
+    if (!GameManager.ShowTutorial)
+    {
+      var tutorialContainer = GetNode<Node2D>(PrepSceneData.TutorialPath).Visible = false;
+    }
     var playerNameLabel = GetNode<Label>(PrepSceneData.LabelPlayerName);
     playerNameLabel.Text = GameManager.LocalPlayer.Name;
     var playerCharacter = GetNode<CharacterScript>(PrepSceneData.CharacterPath);
@@ -33,10 +37,10 @@ public class PrepMain : Node2D
     var secondPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumSecondPlaces);
     var thirdPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumThirdPlaces);
     var fourthPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumFourthPlaces);
-    firstPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
-    secondPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
-    thirdPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
-    fourthPlacesLabel.Text = GameManager.Score.GetResult(4).ToString();
+    firstPlacesLabel.Text = GameManager.Score.GetResult(0).ToString();
+    secondPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
+    thirdPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
+    fourthPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
 
     var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
     raceLabel.Text = GameManager.CurrentRace.ToString();
@@ -284,6 +288,7 @@ public class PrepMain : Node2D
     GameManager.PrepEngine.CalculateEndTurnAbilities();
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
+    GameManager.ShowTutorial = false;
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
