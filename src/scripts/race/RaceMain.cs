@@ -29,6 +29,7 @@ public class RaceMain : Node2D
 
   public override void _Ready()
   {
+    GameManager.LocalPlayer.Position = 0;
     _autoRaceEngine = EngineTesting.RaceEngine(GameManager.LocalPlayer, GameManager.NameGenerator);
     LoadPlayerNames(_autoRaceEngine.GetPlayers());
     _currentTurnView = _autoRaceEngine.GetTurn();
@@ -214,6 +215,7 @@ public class RaceMain : Node2D
     GetTree().ChangeScene("res://src/scenes/game/RaceEnd.tscn");
   }
 
+  // TODO Big Refactor Needed Here
   private void Button_forward_pressed()
   {
     GD.Print("Forward button pressed");

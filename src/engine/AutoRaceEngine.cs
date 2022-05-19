@@ -28,10 +28,6 @@ public class AutoRaceEngine
 
   public AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount)
   {
-    foreach (var player in players)
-    {
-      player.Position = 0;
-    }
     _players = players;
     _raceLength = raceLength;
     _slotCount = slotCount;
@@ -317,6 +313,7 @@ public class AutoRaceEngine
     }
 
     var sortedTargets = targets.ToList();
+    sortedTargets.Shuffle();
     switch (tokenTarget.GetPriority())
     {
       case Priority.Closest:
@@ -332,7 +329,6 @@ public class AutoRaceEngine
         sortedTargets = sortedTargets.OrderByDescending(p => p.Position).ToList();
         break;
     }
-
-    return targets.Select(p => p.Id).Take(tokenTarget.Amount.ToInt());
+    return sortedTargets.Select(p => p.Id).Take(tokenTarget.Amount.ToInt());
   }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public static class ExtensionMethods
 {
+  private static readonly Random rnd = new Random();
+
   public static void MergeDictionaries<OBJ1, OBJ2>(this IDictionary<OBJ1, List<OBJ2>> dict1, IDictionary<OBJ1, List<OBJ2>> dict2)
   {
     foreach (var kvp2 in dict2)
@@ -35,6 +37,19 @@ public static class ExtensionMethods
       case null: throw new ArgumentNullException(nameof(input));
       case "": throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input));
       default: return input[0].ToString().ToUpper() + input.Substring(1);
+    }
+  }
+
+  public static void Shuffle<T>(this IList<T> list)
+  {
+    var n = list.Count;
+    while (n > 1)
+    {
+      var k = (rnd.Next(0, n) % n);
+      n--;
+      T value = list[k];
+      list[k] = list[n];
+      list[n] = value;
     }
   }
 }

@@ -17,13 +17,13 @@
 size = 36
 font_data = ExtResource( 8 )
 
-[sub_resource type="InputEventAction" id=4]
+[sub_resource type="InputEventAction" id=3]
 action = "go"
 
-[sub_resource type="ShortCut" id=5]
-shortcut = SubResource( 4 )
+[sub_resource type="ShortCut" id=4]
+shortcut = SubResource( 3 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=5]
 size = 24
 use_filter = true
 font_data = ExtResource( 8 )
@@ -196,7 +196,7 @@ margin_left = 648.0
 margin_right = 838.0
 margin_bottom = 49.0
 shortcut_in_tooltip = false
-shortcut = SubResource( 5 )
+shortcut = SubResource( 4 )
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Start" index="0"]
 text = "start"
@@ -210,7 +210,7 @@ disabled = true
 shortcut_in_tooltip = false
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Options" index="0"]
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "options"
 
 [node name="Button_Quit" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
@@ -221,7 +221,7 @@ shortcut_in_tooltip = false
 shortcut = SubResource( 7 )
 
 [node name="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/Button_Quit" index="0"]
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "quit"
 
 [editable path="MarginContainer/VBoxContainer/HBoxContainer/Button_Start"]
