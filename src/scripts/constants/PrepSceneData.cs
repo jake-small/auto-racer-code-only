@@ -26,7 +26,7 @@ public static class PrepSceneData
   public const string LabelNumSecondPlaces = "Container_win_record/Label_secondPlaceTotal";
   public const string LabelNumThirdPlaces = "Container_win_record/Label_thirdPlaceTotal";
   public const string LabelNumFourthPlaces = "Container_win_record/Label_fourthPlaceTotal";
-  public const string LabelRaceTotalPath = "Container_info/Label_raceTotal";
+  public const string LabelRaceTotalPath = "Container_win_record/Label_raceTotal";
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";
   public const string ContainerSelectedCard = "Container_selected_card";

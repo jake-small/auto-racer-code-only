@@ -130,6 +130,7 @@ shortcut = SubResource( 8 )
 text = "race!"
 
 [node name="Container_selected_card" type="Node2D" parent="."]
+visible = false
 position = Vector2( 440, 150 )
 
 [node name="Panel_selected" type="Sprite" parent="Container_selected_card"]
@@ -520,35 +521,52 @@ texture = ExtResource( 7 )
 [node name="Container_win_record" type="Node2D" parent="."]
 
 [node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
-position = Vector2( 316, 596 )
-scale = Vector2( 4.2963, 1.46667 )
+position = Vector2( 319.034, 614 )
+scale = Vector2( 5.33206, 1.6 )
 texture = ExtResource( 18 )
 
+[node name="flag" type="Sprite" parent="Container_win_record"]
+position = Vector2( 212, 596 )
+scale = Vector2( 0.4, 0.5 )
+texture = ExtResource( 22 )
+
+[node name="Label_raceTotal" type="Label" parent="Container_win_record"]
+margin_left = 188.296
+margin_top = 612.332
+margin_right = 228.296
+margin_bottom = 655.332
+custom_fonts/font = ExtResource( 19 )
+text = "3"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="trophy" type="Sprite" parent="Container_win_record"]
-position = Vector2( 240.64, 577.833 )
+position = Vector2( 263.64, 591.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 15 )
 
 [node name="medal2" type="Sprite" parent="Container_win_record"]
-position = Vector2( 295.2, 577.833 )
+position = Vector2( 318.2, 591.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 14 )
 
 [node name="medal1" type="Sprite" parent="Container_win_record"]
-position = Vector2( 349.76, 577.833 )
+position = Vector2( 372.76, 591.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 16 )
 
 [node name="star" type="Sprite" parent="Container_win_record"]
-position = Vector2( 399.36, 577.833 )
+position = Vector2( 422.36, 591.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 17 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 222.296
-margin_top = 597.332
-margin_right = 262.296
-margin_bottom = 633.332
+margin_left = 245.296
+margin_top = 611.332
+margin_right = 285.296
+margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
 text = "-1"
 align = 1
@@ -557,10 +575,10 @@ __meta__ = {
 }
 
 [node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 278.296
-margin_top = 597.332
-margin_right = 318.296
-margin_bottom = 633.332
+margin_left = 301.296
+margin_top = 611.332
+margin_right = 341.296
+margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
 text = "-1"
 align = 1
@@ -569,10 +587,10 @@ __meta__ = {
 }
 
 [node name="Label_thirdPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 333.296
-margin_top = 597.332
-margin_right = 373.296
-margin_bottom = 633.332
+margin_left = 356.296
+margin_top = 611.332
+margin_right = 396.296
+margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
 text = "-1"
 align = 1
@@ -581,10 +599,10 @@ __meta__ = {
 }
 
 [node name="Label_fourthPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 382.296
-margin_top = 597.332
-margin_right = 422.296
-margin_bottom = 633.332
+margin_left = 405.296
+margin_top = 611.332
+margin_right = 445.296
+margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
 text = "-1"
 align = 1
@@ -593,16 +611,12 @@ __meta__ = {
 }
 
 [node name="Container_info" type="Node2D" parent="."]
+position = Vector2( 592, 530 )
 
 [node name="panel_runeBlue2" type="Sprite" parent="Container_info"]
-position = Vector2( 318.76, 727.114 )
-scale = Vector2( 4.74074, 1.77045 )
+position = Vector2( 0, 3.74578 )
+scale = Vector2( 1.95994, 1.2835 )
 texture = ExtResource( 18 )
-
-[node name="flag" type="Sprite" parent="Container_info"]
-position = Vector2( 248, 704 )
-scale = Vector2( 0.6, 0.6 )
-texture = ExtResource( 22 )
 
 [node name="heart" type="Sprite" parent="Container_info"]
 visible = false
@@ -611,21 +625,9 @@ scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 20 )
 
 [node name="coin" type="Sprite" parent="Container_info"]
-position = Vector2( 392, 704 )
+position = Vector2( 19, 0 )
 scale = Vector2( 0.64, 0.62 )
 texture = ExtResource( 21 )
-
-[node name="Label_raceTotal" type="Label" parent="Container_info"]
-margin_left = 230.296
-margin_top = 727.332
-margin_right = 270.296
-margin_bottom = 763.332
-custom_fonts/font = ExtResource( 19 )
-text = "3"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label_hearts" type="Label" parent="Container_info"]
 visible = false
@@ -641,10 +643,10 @@ __meta__ = {
 }
 
 [node name="Label_coins" type="Label" parent="Container_info"]
-margin_left = 380.76
-margin_top = 727.332
-margin_right = 410.76
-margin_bottom = 763.332
+margin_left = -36.0
+margin_top = -20.0
+margin_right = -6.0
+margin_bottom = 23.0
 custom_fonts/font = ExtResource( 19 )
 text = "10"
 align = 1
