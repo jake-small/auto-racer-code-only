@@ -354,28 +354,20 @@ public class RaceMain : Node2D
   private void CalculateStandings()
   {
     var standings = _autoRaceEngine.GetStandings();
-    GameManager.RaceHistory.AddResult(
-      GameManager.CurrentRace, standings.Select(p => new PlayerResult { Player = p, Position = p.Position }).ToList()
-    );
-    var localPlayerPlacement = 0;
-    var i = 1;
-    foreach (var result in standings)
+    var results = new List<PlayerResult>();
+    foreach (var key in standings.Keys)
     {
-      GD.Print($"Player {result.Id} finished {IntToPlace(i)}");
-
-      if (GameManager.LocalPlayer.Id == result.Id)
+      foreach (var player in standings[key])
       {
-        localPlayerPlacement = i;
-        GameManager.Score.AddResult(i);
+        results.Add(new PlayerResult { Player = player, Position = player.Position, Place = key });
+        GD.Print($"Player {player.Id} finished {key.IntToPlaceStr()}");
+        if (GameManager.LocalPlayer.Id == player.Id)
+        {
+          GameManager.Score.AddResult(key);
+        }
       }
-      i = i + 1;
     }
-    if (localPlayerPlacement == standings.Count())
-    {
-      var livesLost = 1;
-      GD.Print($"You lost {livesLost} life");
-      GameManager.LifeTotal = GameManager.LifeTotal - livesLost;
-    }
+    GameManager.RaceHistory.AddResult(GameManager.CurrentRace, results);
   }
 
   private void ToggleDisplaySelectedCardData(Card card, int playerId)
@@ -427,24 +419,6 @@ public class RaceMain : Node2D
     foreach (var indicator in _slotTurnIndicators)
     {
       indicator.Visible = false;
-    }
-  }
-
-  private string IntToPlace(int i)
-  {
-    switch (i)
-    {
-      case 1:
-        return "first";
-      case 2:
-        return "second";
-      case 3:
-        return "third";
-      case 4:
-        return "fourth";
-      default:
-        GD.Print($"error in function IntToPlace() with parameter {i}");
-        return "error";
     }
   }
 }

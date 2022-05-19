@@ -12,10 +12,10 @@ public class GameEndMain : Node2D
     var secondPlacesLabel = GetNode<Label>(GameEndSceneData.LabelNumSecondPlaces);
     var thirdPlacesLabel = GetNode<Label>(GameEndSceneData.LabelNumThirdPlaces);
     var fourthPlacesLabel = GetNode<Label>(GameEndSceneData.LabelNumFourthPlaces);
-    firstPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
-    secondPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
-    thirdPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
-    fourthPlacesLabel.Text = GameManager.Score.GetResult(4).ToString();
+    firstPlacesLabel.Text = GameManager.Score.GetResult(0).ToString();
+    secondPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
+    thirdPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
+    fourthPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
 
     PlayerInventoryFill();
   }

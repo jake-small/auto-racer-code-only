@@ -40,7 +40,7 @@ public static class ExtensionMethods
     }
   }
 
-  public static void Shuffle<T>(this IList<T> list)
+  public static IList<T> Shuffle<T>(this IList<T> list)
   {
     var n = list.Count;
     while (n > 1)
@@ -50,6 +50,25 @@ public static class ExtensionMethods
       T value = list[k];
       list[k] = list[n];
       list[n] = value;
+    }
+    return list;
+  }
+
+  public static string IntToPlaceStr(this int i)
+  {
+    switch (i)
+    {
+      case 0:
+        return "1st";
+      case 1:
+        return "2nd";
+      case 2:
+        return "3rd";
+      case 3:
+        return "4th";
+      default:
+        Console.WriteLine($"error in function IntToPlace() with parameter {i}");
+        return "error";
     }
   }
 }

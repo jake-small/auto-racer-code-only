@@ -41,7 +41,26 @@ public class AutoRaceEngine
   public int GetTurn() => _turn;
   public TurnPhases GetTurnPhase() => _phase;
 
-  public List<Player> GetStandings() => _players.OrderByDescending(p => p.Position).ToList();
+  public Dictionary<int, List<Player>> GetStandings()
+  {
+    var sortedPlayers = _players.OrderByDescending(p => p.Position).ToList();
+    var standings = new Dictionary<int, List<Player>>();
+    var placement = 0;
+    foreach (var player in sortedPlayers)
+    {
+      var previousPlacement = placement - 1;
+      if (standings.ContainsKey(previousPlacement) && standings[previousPlacement].FirstOrDefault().Position == player.Position)
+      {
+        standings[previousPlacement].Add(player);
+      }
+      else
+      {
+        standings[placement] = new List<Player> { player };
+        placement = placement + 1;
+      }
+    }
+    return standings;
+  }
 
   public IEnumerable<PlayerTurnResult> GetTurnResults()
   {
@@ -183,12 +202,13 @@ public class AutoRaceEngine
 
   private Dictionary<int, List<Token>> CalculateTokens(List<MoveTokenAbility> tokenAbilities, Player player)
   {
+    var shuffledPlayers = _players.ToList().Shuffle().ToList();
     var tokensGiven = new Dictionary<int, List<Token>>();
     foreach (var tokenAbility in tokenAbilities)
     {
       if (tokenAbility is MoveTokenAbility)
       {
-        var moveTokensGiven = GetMoveToken(tokenAbility, player);
+        var moveTokensGiven = GetMoveToken(tokenAbility, player, shuffledPlayers);
         tokensGiven.MergeDictionaries(moveTokensGiven);
       }
       // TODO implement ShieldTokenAbility
@@ -201,7 +221,7 @@ public class AutoRaceEngine
     return tokensGiven;
   }
 
-  private Dictionary<int, List<Token>> GetMoveToken(TokenAbility tokenAbility, Player player)
+  private Dictionary<int, List<Token>> GetMoveToken(TokenAbility tokenAbility, Player player, List<Player> shuffledPlayers)
   {
     if (!(tokenAbility is MoveTokenAbility moveTokenAbililty))
     {
@@ -209,7 +229,7 @@ public class AutoRaceEngine
       return new Dictionary<int, List<Token>>();
     }
 
-    var targets = GetTargets(moveTokenAbililty, player);
+    var targets = GetTargets(moveTokenAbililty, player, shuffledPlayers);
     var tokensGiven = new Dictionary<int, List<Token>>();
     foreach (var target in targets)
     {
@@ -245,7 +265,7 @@ public class AutoRaceEngine
     return tokensGiven;
   }
 
-  private IEnumerable<int> GetTargets(TokenAbility tokenAbility, Player player)
+  private IEnumerable<int> GetTargets(TokenAbility tokenAbility, Player player, List<Player> shuffledPlayers)
   {
     var tokenTarget = tokenAbility.Target;
     if (tokenTarget.GetTargetType() == TargetType.Self)
@@ -278,7 +298,7 @@ public class AutoRaceEngine
     {
       var minRangeForward = player.Position + tokenTarget.Range.Min.ToInt();
       var maxRangeForward = player.Position + tokenTarget.Range.Max.ToInt();
-      foreach (var eachPlayer in _players)
+      foreach (var eachPlayer in shuffledPlayers)
       {
         if (tokenTarget.GetTargetType() == TargetType.Others && eachPlayer.Id == player.Id)
         {
@@ -294,7 +314,7 @@ public class AutoRaceEngine
     {
       var minRangeBack = player.Position - tokenTarget.Range.Min.ToInt();
       var maxRangeBack = player.Position - tokenTarget.Range.Max.ToInt();
-      foreach (var eachPlayer in _players)
+      foreach (var eachPlayer in shuffledPlayers)
       {
         if (tokenTarget.GetTargetType() == TargetType.Others && eachPlayer.Id == player.Id)
         {
@@ -313,7 +333,6 @@ public class AutoRaceEngine
     }
 
     var sortedTargets = targets.ToList();
-    sortedTargets.Shuffle();
     switch (tokenTarget.GetPriority())
     {
       case Priority.Closest:

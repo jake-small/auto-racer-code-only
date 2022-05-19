@@ -33,10 +33,10 @@ public class PrepMain : Node2D
     var secondPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumSecondPlaces);
     var thirdPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumThirdPlaces);
     var fourthPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumFourthPlaces);
-    firstPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
-    secondPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
-    thirdPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
-    fourthPlacesLabel.Text = GameManager.Score.GetResult(4).ToString();
+    firstPlacesLabel.Text = GameManager.Score.GetResult(0).ToString();
+    secondPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
+    thirdPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
+    fourthPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
 
     var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
     raceLabel.Text = GameManager.CurrentRace.ToString();

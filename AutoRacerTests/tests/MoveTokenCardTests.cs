@@ -75,14 +75,12 @@ namespace AutoRacerTests.Tests
       var player = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, curseCard } }, Position = 0 };
       var leveledCard = curseCard.GetLeveledCard();
       var maxRange = leveledCard.Abilities.MoveTokenAbilities.Select(a => a.Target.Range.Max.ToInt()).Max();
-
-      /* Unmerged change from project 'AutoRacerTests'
-      Before:
-            Assert.That(playerResults.Count, Is.EqualTo(4));
-            var tokenValue = leveledCard.Abilities.MoveTokenAbilities.Select(t => t.Value.ToInt()).Sum();
-      After:
-            var tokenValue = leveledCard.Abilities.MoveTokenAbilities.Select(t => t.Value.ToInt()).Sum();
-      */
+      var playerResults = TestRace(player, 1, maxRange);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var tokenValue = leveledCard.Abilities.MoveTokenAbilities.Select(t => t.Value.ToInt()).Sum();
+      var cursedPlayers = playerResults.Where(p => p.Position - maxRange == 1 + tokenValue);
+      Assert.That(cursedPlayers.Count, Is.EqualTo(1));
+      Assert.That(playerResults.FirstOrDefault(p => p.Id == 0).Position, Is.EqualTo(leveledCard.BaseMove));
     }
 
     [TestCase(1)]
@@ -237,7 +235,7 @@ namespace AutoRacerTests.Tests
           turn = turn + 1;
         }
       }
-      return engine.GetStandings();
+      return engine.GetStandings().SelectMany(s => s.Value).ToList();
     }
 
     private Dictionary<int, Card> FillEmptyCardSlots(Dictionary<int, Card> cards, int basemove)
@@ -252,5 +250,12 @@ namespace AutoRacerTests.Tests
       return cards;
     }
 
+    private void Debug(List<Player> players)
+    {
+      foreach (var player in players)
+      {
+        Console.WriteLine($"player {player.Id} : pos {player.Position} : name {player.Name} : skin {player.Skin}");
+      }
+    }
   }
 }

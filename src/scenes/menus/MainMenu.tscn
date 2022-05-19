@@ -1,10 +1,10 @@
 [gd_scene load_steps=18 format=2]
 
+[ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/menus/MainMenu.cs" type="Script" id=2]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsTitle1.tres" type="DynamicFont" id=3]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/buttons/return.png" type="Texture" id=5]
-[ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=6]
 [ext_resource path="res://src/scenes/objects/characters/character.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Bold.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=9]
@@ -44,11 +44,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="backgroundEmpty" type="Sprite" parent="."]
+[node name="background" type="Sprite" parent="."]
 position = Vector2( 960, 540 )
-scale = Vector2( 1.875, 1.05469 )
+scale = Vector2( 3.63636, 2.04545 )
 z_index = -2
-texture = ExtResource( 6 )
+texture = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
 }

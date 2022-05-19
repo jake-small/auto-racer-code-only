@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -22,7 +22,7 @@
 [ext_resource path="res://assets/stats/heart.png" type="Texture" id=20]
 [ext_resource path="res://assets/stats/coin.png" type="Texture" id=21]
 [ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
-[ext_resource path="res://assets/backgrounds/backgroundEmpty.png" type="Texture" id=23]
+[ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=23]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=24]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=25]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_BaseMove.tres" type="DynamicFont" id=26]
@@ -30,6 +30,7 @@
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
+[ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
 
 [sub_resource type="InputEventAction" id=1]
 action = "reroll"
@@ -61,9 +62,9 @@ __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
 
-[node name="backgroundEmpty" type="Sprite" parent="."]
+[node name="background" type="Sprite" parent="."]
 position = Vector2( 960, 540 )
-scale = Vector2( 1.875, 1.05469 )
+scale = Vector2( 3.63636, 2.04545 )
 z_index = -2
 texture = ExtResource( 23 )
 __meta__ = {
@@ -239,9 +240,9 @@ __meta__ = {
 
 [node name="Label_player_name" type="Label" parent="."]
 margin_left = 106.0
-margin_top = 500.0
+margin_top = 508.0
 margin_right = 533.0
-margin_bottom = 545.0
+margin_bottom = 553.0
 grow_horizontal = 2
 custom_fonts/font = ExtResource( 29 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -252,8 +253,8 @@ __meta__ = {
 }
 
 [node name="Character" parent="." instance=ExtResource( 5 )]
-position = Vector2( 318, 318 )
-scale = Vector2( 2, 2 )
+position = Vector2( 320, 378 )
+scale = Vector2( 1.6, 1.6 )
 
 [node name="Shop_icon" type="Sprite" parent="."]
 position = Vector2( 592, 728 )
@@ -527,20 +528,20 @@ texture = ExtResource( 7 )
 [node name="Container_win_record" type="Node2D" parent="."]
 
 [node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
-position = Vector2( 319.034, 614 )
-scale = Vector2( 5.33206, 1.6 )
-texture = ExtResource( 18 )
+position = Vector2( 318, 631.166 )
+scale = Vector2( 0.906667, 0.90332 )
+texture = ExtResource( 31 )
 
 [node name="flag" type="Sprite" parent="Container_win_record"]
-position = Vector2( 212, 596 )
+position = Vector2( 210, 618 )
 scale = Vector2( 0.4, 0.5 )
 texture = ExtResource( 22 )
 
 [node name="Label_raceTotal" type="Label" parent="Container_win_record"]
-margin_left = 188.296
-margin_top = 612.332
-margin_right = 228.296
-margin_bottom = 655.332
+margin_left = 186.296
+margin_top = 634.332
+margin_right = 226.296
+margin_bottom = 677.332
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 1
@@ -549,30 +550,30 @@ __meta__ = {
 }
 
 [node name="trophy" type="Sprite" parent="Container_win_record"]
-position = Vector2( 263.64, 591.833 )
+position = Vector2( 261.64, 613.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 15 )
 
 [node name="medal2" type="Sprite" parent="Container_win_record"]
-position = Vector2( 318.2, 591.833 )
+position = Vector2( 316.2, 613.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 14 )
 
 [node name="medal1" type="Sprite" parent="Container_win_record"]
-position = Vector2( 372.76, 591.833 )
+position = Vector2( 370.76, 613.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 16 )
 
 [node name="star" type="Sprite" parent="Container_win_record"]
-position = Vector2( 422.36, 591.833 )
+position = Vector2( 420.36, 613.833 )
 scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 17 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 245.0
-margin_top = 611.332
-margin_right = 285.0
-margin_bottom = 654.332
+margin_left = 242.64
+margin_top = 633.332
+margin_right = 282.64
+margin_bottom = 676.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -581,10 +582,10 @@ __meta__ = {
 }
 
 [node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 300.296
-margin_top = 611.332
-margin_right = 340.296
-margin_bottom = 654.332
+margin_left = 298.296
+margin_top = 633.332
+margin_right = 338.296
+margin_bottom = 676.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -593,10 +594,10 @@ __meta__ = {
 }
 
 [node name="Label_thirdPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 354.296
-margin_top = 611.332
-margin_right = 394.296
-margin_bottom = 654.332
+margin_left = 352.296
+margin_top = 633.332
+margin_right = 392.296
+margin_bottom = 676.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -605,10 +606,10 @@ __meta__ = {
 }
 
 [node name="Label_fourthPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 403.296
-margin_top = 611.332
-margin_right = 443.296
-margin_bottom = 654.332
+margin_left = 401.296
+margin_top = 633.332
+margin_right = 441.296
+margin_bottom = 676.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -620,9 +621,8 @@ __meta__ = {
 position = Vector2( 592, 530 )
 
 [node name="panel_runeBlue2" type="Sprite" parent="Container_info"]
-position = Vector2( 0, 3.74578 )
-scale = Vector2( 1.95994, 1.2835 )
-texture = ExtResource( 18 )
+scale = Vector2( 0.34, 0.6 )
+texture = ExtResource( 31 )
 
 [node name="heart" type="Sprite" parent="Container_info"]
 visible = false
