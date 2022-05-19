@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -29,6 +29,7 @@
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=27]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
+[ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 
 [sub_resource type="InputEventAction" id=9]
 action = "reroll"
@@ -253,6 +254,11 @@ __meta__ = {
 [node name="Character" parent="." instance=ExtResource( 5 )]
 position = Vector2( 318, 318 )
 scale = Vector2( 2, 2 )
+
+[node name="Shop_icon" type="Sprite" parent="."]
+position = Vector2( 592, 728 )
+scale = Vector2( 1.4, 1.4 )
+texture = ExtResource( 30 )
 
 [node name="slot_0" type="Sprite" parent="." groups=[
 "CardSlots",
@@ -563,48 +569,48 @@ scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 17 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 245.296
+margin_left = 245.0
 margin_top = 611.332
-margin_right = 285.296
+margin_right = 285.0
 margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
-text = "-1"
+text = "0"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 301.296
+margin_left = 300.296
 margin_top = 611.332
-margin_right = 341.296
+margin_right = 340.296
 margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
-text = "-1"
+text = "0"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_thirdPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 356.296
+margin_left = 354.296
 margin_top = 611.332
-margin_right = 396.296
+margin_right = 394.296
 margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
-text = "-1"
+text = "0"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_fourthPlaceTotal" type="Label" parent="Container_win_record"]
-margin_left = 405.296
+margin_left = 403.296
 margin_top = 611.332
-margin_right = 445.296
+margin_right = 443.296
 margin_bottom = 654.332
 custom_fonts/font = ExtResource( 19 )
-text = "-1"
+text = "0"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false

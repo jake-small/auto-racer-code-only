@@ -23,7 +23,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 margin_left = 4.0
 margin_top = 2.0
-margin_right = 186.0
+margin_right = 180.0
 margin_bottom = 41.0
 custom_fonts/font = ExtResource( 2 )
 text = "reroll"
@@ -34,9 +34,9 @@ __meta__ = {
 }
 
 [node name="Control_cost" type="Control" parent="."]
-margin_left = 130.0
-margin_right = 186.0
-margin_bottom = 41.0
+margin_left = 127.0
+margin_right = 188.0
+margin_bottom = 45.0
 rect_clip_content = true
 mouse_filter = 1
 __meta__ = {
