@@ -35,7 +35,7 @@ public class BotBasic : Player
   {
     var cards = GameManager.PrepEngine.ShopService.GetAvailableCards();
     _shopService = new ShopService(cards);
-    _bank = new Bank(GameManager.PrepEngine.BankData, false);
+    _bank = new Bank(GameManager.PrepEngine.Bank.BankData, false);
 
     for (int i = 0; i < turn; i++)
     {
@@ -48,7 +48,7 @@ public class BotBasic : Player
 
   private void BuyCards()
   {
-    while (_bank.CoinTotal >= GameManager.PrepEngine.BankData.BuyCost)
+    while (_bank.CoinTotal >= GameManager.PrepEngine.Bank.BuyCost)
     {
       // Buy a card
       var (availableShopCardSlot, availableShopCard) = GetFirstShopCard();

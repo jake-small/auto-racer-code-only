@@ -125,24 +125,24 @@ margin_bottom = 40.0
 [node name="Label_FirstName" type="Label" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/MarginContainer/HBoxContainer"]
 margin_right = 142.0
 margin_bottom = 40.0
-custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
 text = "FirstName"
 
 [node name="Label_the" type="Label" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/MarginContainer/HBoxContainer"]
 margin_left = 146.0
 margin_right = 206.0
 margin_bottom = 40.0
-custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
 text = " the "
 
 [node name="Label_Adjective" type="Label" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer/MarginContainer/HBoxContainer"]
 margin_left = 210.0
 margin_right = 340.0
 margin_bottom = 40.0
-custom_fonts/font = ExtResource( 9 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
 text = "Adjective"
 
 [node name="Button_RandomAdjective" type="Button" parent="MarginContainer/VBoxContainer/CenterContainer/HBoxContainer"]
@@ -169,8 +169,8 @@ texture_normal = ExtResource( 5 )
 margin_top = 434.0
 margin_right = 1680.0
 margin_bottom = 485.0
-custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 2 )
 text = "    "
 align = 1
 valign = 1
@@ -179,8 +179,8 @@ valign = 1
 margin_top = 485.0
 margin_right = 1680.0
 margin_bottom = 576.0
-custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 3 )
 text = "Auto Runner Prototype"
 align = 1
 valign = 1

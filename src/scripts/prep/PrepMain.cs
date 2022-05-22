@@ -68,7 +68,7 @@ public class PrepMain : Node2D
 
     var rerollButton = GetNode<CostButtonUi>(PrepSceneData.ButtonRerollPath);
     rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
-    rerollButton.Cost = GameManager.PrepEngine.BankData.RerollCost;
+    rerollButton.Cost = GameManager.PrepEngine.Bank.RerollCost;
     _freezeButton = GetNode<TextureButton>(PrepSceneData.ButtonFreezePath);
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
     _freezeButton.Disabled = true;

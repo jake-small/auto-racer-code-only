@@ -1,34 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using Godot;
 
-public class CardLoader
+public class CardLoader : FileLoader
 {
   private List<Card> _cards { get; set; }
 
   public CardLoader(string cardDataPath)
   {
-    _cards = LoadJsonCards(cardDataPath);
+    _cards = LoadJsonData<CardData>(cardDataPath).Cards;
   }
 
   public List<Card> GetCards()
   {
     return _cards;
-  }
-
-  private List<Card> LoadJsonCards(string cardDataFile)
-  {
-    if (!System.IO.File.Exists(cardDataFile))
-    {
-      Console.WriteLine($"Error: provided cardDataFile '{cardDataFile}' does not exist");
-      throw new Exception($"Error: provided cardDataFile '{cardDataFile}' does not exist");
-    }
-    var cardDataArr = System.IO.File.ReadAllLines(cardDataFile);
-    var cardDataJson = String.Join("\n", cardDataArr);
-    // GD.Print($"Card Data:\n{cardDataJson}");
-    // TODO: error handling
-    var cardData = JsonSerializer.Deserialize<CardData>(cardDataJson);
-    return cardData.Cards;
   }
 
   private List<Card> LoadSampleCards(int amount)

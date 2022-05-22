@@ -1,0 +1,8 @@
+{
+  "StartingCoins": 10,
+  "BuyCost": 3,
+  "RerollCost": 1,
+  "SellValue": 1,
+  "SellLevelMultiplier": 1,
+  "SellLevelAdditive": 1
+}
