@@ -14,14 +14,12 @@ font_data = ExtResource( 2 )
 [node name="TextureButton" type="TextureButton"]
 margin_right = 40.0
 margin_bottom = 40.0
+shortcut_in_tooltip = false
 keep_pressed_outside = true
 texture_normal = ExtResource( 1 )
 texture_pressed = ExtResource( 3 )
 texture_disabled = ExtResource( 4 )
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="."]
 margin_left = 4.0

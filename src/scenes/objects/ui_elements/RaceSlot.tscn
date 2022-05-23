@@ -4,9 +4,7 @@
 [ext_resource path="res://assets/panels/panel_brown.png" type="Texture" id=2]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=3]
 
-[node name="RaceSlot" type="Sprite" groups=[
-"CardSlots",
-]]
+[node name="RaceSlot" type="Sprite" groups=["CardSlots"]]
 position = Vector2( 390, 625 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
@@ -20,11 +18,8 @@ margin_bottom = 132.833
 grow_horizontal = 2
 grow_vertical = 2
 custom_fonts/font = ExtResource( 1 )
-text = "Player Name"
+text = "First name the Adjective"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Selected" type="Sprite" parent="."]
 visible = false

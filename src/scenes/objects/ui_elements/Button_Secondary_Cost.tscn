@@ -11,6 +11,7 @@
 [node name="TextureButton" type="TextureButton"]
 margin_right = 40.0
 margin_bottom = 40.0
+shortcut_in_tooltip = false
 keep_pressed_outside = true
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 1 )

@@ -26,8 +26,8 @@ public class MainMenu : Control
     nameRandomButton.Connect("pressed", this, nameof(Button_name_random_pressed));
     var startButton = GetNode<TextureButton>(MainMenuData.ButtonStart);
     startButton.Connect("pressed", this, nameof(Button_start_pressed));
-    var quitButton = GetNode<TextureButton>(MainMenuData.ButtonQuit);
-    quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
+    // var quitButton = GetNode<TextureButton>(MainMenuData.ButtonQuit);
+    // quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
     var prevSkinButton = GetNode<TextureButton>(MainMenuData.ButtonSkinPrevious);
     prevSkinButton.Connect("pressed", this, nameof(Button_previous_skin_pressed));
     var nextSkinButton = GetNode<TextureButton>(MainMenuData.ButtonSkinNext);

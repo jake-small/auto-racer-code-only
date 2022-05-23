@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -24,14 +24,12 @@
 [ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
 [ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=23]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=24]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=25]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_BaseMove.tres" type="DynamicFont" id=26]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=27]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsHeader3.tres" type="DynamicFont" id=32]
 [ext_resource path="res://assets/misc/arrow_short.png" type="Texture" id=33]
 [ext_resource path="res://assets/misc/arrow.png" type="Texture" id=34]
 
@@ -70,26 +68,18 @@ position = Vector2( 960, 540 )
 scale = Vector2( 3.63636, 2.04545 )
 z_index = -2
 texture = ExtResource( 23 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="Control" type="Control" parent="."]
 margin_top = 960.0
 margin_right = 1920.0
 margin_bottom = 1080.0
 mouse_filter = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainerLeft" type="HBoxContainer" parent="Control"]
-margin_left = 200.0
-margin_right = 608.0
+margin_left = 100.0
+margin_right = 678.0
 margin_bottom = 55.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+rect_scale = Vector2( 2, 2 )
 
 [node name="Button_Reroll" parent="Control/HBoxContainerLeft" instance=ExtResource( 3 )]
 margin_right = 190.0
@@ -100,8 +90,8 @@ shortcut = SubResource( 2 )
 margin_left = 194.0
 margin_right = 384.0
 margin_bottom = 55.0
+rect_scale = Vector2( 1, 1 )
 disabled = true
-shortcut_in_tooltip = false
 shortcut = SubResource( 4 )
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Freeze" index="0"]
@@ -117,18 +107,17 @@ shortcut = SubResource( 6 )
 text = "sell"
 
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
-margin_left = 1520.0
-margin_right = 402.0
-margin_bottom = 55.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -480.0
+margin_right = -290.0
+margin_bottom = 49.0
+rect_scale = Vector2( 2, 2 )
 alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Button_Go" parent="Control/HBoxContainerRight" instance=ExtResource( 2 )]
 margin_right = 190.0
-margin_bottom = 55.0
-shortcut_in_tooltip = false
+margin_bottom = 49.0
 shortcut = SubResource( 8 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Go" index="0"]
@@ -147,17 +136,14 @@ scale = Vector2( 1, 0.85063 )
 texture = ExtResource( 34 )
 
 [node name="Label" type="Label" parent="Container_tutorial/Sprite"]
-margin_left = 35.5
-margin_top = 36.4437
-margin_right = 302.5
-margin_bottom = 109.444
-custom_fonts/font = ExtResource( 32 )
+margin_left = 36.0
+margin_top = 27.0
+margin_right = 358.0
+margin_bottom = 119.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 29 )
 text = "Drag items from the 
 shop to your inventory"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Sprite2" type="Sprite" parent="Container_tutorial"]
 position = Vector2( 556, 427 )
@@ -166,13 +152,13 @@ scale = Vector2( 1, 0.85063 )
 texture = ExtResource( 33 )
 
 [node name="Label" type="Label" parent="Container_tutorial/Sprite2"]
-margin_left = 104.641
-margin_top = 170.461
-margin_right = 407.641
-margin_bottom = 281.461
+margin_left = 105.0
+margin_top = 176.0
+margin_right = 408.0
+margin_bottom = 308.0
 rect_rotation = 180.0
-custom_fonts/font = ExtResource( 32 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 29 )
 text = "Spend all of 
 your money 
 before the race"
@@ -182,38 +168,36 @@ __meta__ = {
 
 [node name="Container_selected_card" type="Node2D" parent="."]
 visible = false
-position = Vector2( 440, 150 )
+position = Vector2( 440, 64 )
 
 [node name="Panel_selected" type="Sprite" parent="Container_selected_card"]
-scale = Vector2( 2.88881, 3.33083 )
+scale = Vector2( 2.88881, 4.08 )
 texture = ExtResource( 24 )
 centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="Container_selected_card"]
+margin_left = 1.0
 margin_right = 289.0
-margin_bottom = 333.0
+margin_bottom = 408.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Container_selected_card/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 323.0
+margin_right = 278.0
+margin_bottom = 398.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_name" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer"]
-margin_right = 269.0
-margin_bottom = 73.0
-custom_fonts/font = ExtResource( 28 )
+margin_right = 268.0
+margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 28 )
 text = "Card Name
 second line"
 align = 1
@@ -222,26 +206,28 @@ __meta__ = {
 }
 
 [node name="Label_selected_description" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer"]
-margin_top = 77.0
-margin_right = 269.0
-margin_bottom = 190.0
-custom_fonts/font = ExtResource( 25 )
+margin_top = 103.0
+margin_right = 268.0
+margin_bottom = 315.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Card Description Card Description Card Description Card Description Card Description Card Description"
+custom_fonts/font = ExtResource( 29 )
+text = "Card Description Card Description Card Description Card Description Card Description"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="Container_selected_card/MarginContainer"]
+visible = false
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 323.0
+margin_right = 278.0
+margin_bottom = 398.0
 alignment = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="Container_selected_card/MarginContainer/VBoxContainer2"]
-margin_top = 278.0
+visible = false
+margin_top = 313.0
 margin_right = 269.0
 margin_bottom = 313.0
 __meta__ = {
@@ -249,38 +235,39 @@ __meta__ = {
 }
 
 [node name="HSplitContainer" type="HSplitContainer" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 83.0
+visible = false
 margin_bottom = 35.0
 
 [node name="Label_selected_sellsForText" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
+visible = false
 margin_top = 6.0
 margin_right = 59.0
 margin_bottom = 29.0
-custom_fonts/font = ExtResource( 27 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 27 )
 text = "Sells for"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_sellsForValue" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 71.0
+visible = false
 margin_top = 6.0
-margin_right = 83.0
+margin_right = 12.0
 margin_bottom = 29.0
-custom_fonts/font = ExtResource( 27 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 27 )
 text = "-1"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_basemove" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 95.0
+visible = false
 margin_right = 269.0
 margin_bottom = 35.0
-custom_fonts/font = ExtResource( 26 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 26 )
 text = "99"
 align = 2
 __meta__ = {
@@ -293,58 +280,45 @@ margin_top = 508.0
 margin_right = 533.0
 margin_bottom = 553.0
 grow_horizontal = 2
-custom_fonts/font = ExtResource( 29 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 29 )
 text = "Player Name"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Character" parent="." instance=ExtResource( 5 )]
 position = Vector2( 320, 378 )
 scale = Vector2( 1.6, 1.6 )
 
 [node name="Shop_icon" type="Sprite" parent="."]
-position = Vector2( 592, 728 )
-scale = Vector2( 1.4, 1.4 )
+position = Vector2( 571, 728 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 30 )
 
-[node name="slot_0" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_0" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 760, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="slot_1" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_1" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 952, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="slot_2" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_2" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1144, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="slot_3" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_3" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1336, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="slot_4" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_4" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1528, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
@@ -572,8 +546,8 @@ texture = ExtResource( 21 )
 [node name="Container_win_record" type="Node2D" parent="."]
 
 [node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
-position = Vector2( 318, 631.166 )
-scale = Vector2( 0.906667, 0.90332 )
+position = Vector2( 318, 637 )
+scale = Vector2( 0.906667, 1.02 )
 texture = ExtResource( 31 )
 
 [node name="flag" type="Sprite" parent="Container_win_record"]
@@ -589,9 +563,6 @@ margin_bottom = 677.332
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="trophy" type="Sprite" parent="Container_win_record"]
 position = Vector2( 261.64, 613.833 )
@@ -665,7 +636,8 @@ __meta__ = {
 position = Vector2( 592, 530 )
 
 [node name="panel_runeBlue2" type="Sprite" parent="Container_info"]
-scale = Vector2( 0.34, 0.6 )
+position = Vector2( 0, 5.00001 )
+scale = Vector2( 0.34, 0.7 )
 texture = ExtResource( 31 )
 
 [node name="heart" type="Sprite" parent="Container_info"]
@@ -675,8 +647,8 @@ scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 20 )
 
 [node name="coin" type="Sprite" parent="Container_info"]
-position = Vector2( 19, 0 )
-scale = Vector2( 0.64, 0.62 )
+position = Vector2( 28, 4 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 21 )
 
 [node name="Label_hearts" type="Label" parent="Container_info"]
@@ -694,15 +666,12 @@ __meta__ = {
 
 [node name="Label_coins" type="Label" parent="Container_info"]
 margin_left = -36.0
-margin_top = -20.0
-margin_right = -6.0
-margin_bottom = 23.0
+margin_top = -26.0
+margin_right = 5.0
+margin_bottom = 38.0
 custom_fonts/font = ExtResource( 19 )
 text = "10"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Debug" type="Node" parent="."]
 

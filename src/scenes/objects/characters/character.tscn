@@ -20,17 +20,14 @@ __meta__ = {
 [node name="Label_token_positive" type="Label" parent="."]
 visible = false
 margin_left = 94.0
-margin_top = -18.0
+margin_top = -27.0
 margin_right = 494.0
-margin_bottom = 22.0
+margin_bottom = 27.0
 custom_fonts/font = ExtResource( 3 )
 text = "+0"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Sprite_positive_icon" type="Sprite" parent="Label_token_positive"]
-position = Vector2( -29, 18 )
+position = Vector2( -29, 27 )
 rotation = 1.57079
 scale = Vector2( 1, 1.6 )
 texture = ExtResource( 4 )
@@ -39,19 +36,16 @@ texture = ExtResource( 4 )
 visible = false
 anchor_right = 1.0
 margin_left = -495.0
-margin_top = -18.0
+margin_top = -27.0
 margin_right = -95.0
-margin_bottom = 22.0
+margin_bottom = 27.0
 rect_pivot_offset = Vector2( 80, 0 )
 custom_fonts/font = ExtResource( 3 )
 text = "-0"
 align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Sprite_negative_icon" type="Sprite" parent="Label_token_negative"]
-position = Vector2( 426, 18 )
+position = Vector2( 426, 27 )
 rotation = 1.57079
 scale = Vector2( 1, 1.6 )
 texture = ExtResource( 5 )
