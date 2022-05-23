@@ -1,40 +1,52 @@
 using System;
 
-public class Bank
+public class Bank : FileLoader
 {
-  private int _buyCost;
-  private int _rerollCost;
-  private int _sellValue;
-  private int _sellLevelMultiplier;
-  private int _sellLevelAdditive;
-  private int _startingCoins;
+  public BankData BankData { get; private set; }
+  public int BuyCost { get; private set; }
+  public int RerollCost { get; private set; }
+  public int SellValue { get; private set; }
+  public int SellLevelMultiplier { get; private set; }
+  public int SellLevelAdditive { get; private set; }
+  public int StartingCoins { get; private set; }
   private bool _shouldLog;
 
   public int CoinTotal { get; private set; }
 
+  public Bank(string bankDataFile, bool shouldLog = true)
+  {
+    BankData = LoadJsonData<BankData>(bankDataFile);
+    BuyCost = BankData.BuyCost;
+    RerollCost = BankData.RerollCost;
+    SellValue = BankData.SellValue;
+    SellLevelMultiplier = BankData.SellLevelMultiplier ?? 1;
+    SellLevelAdditive = BankData.SellLevelAdditive ?? 0;
+    StartingCoins = BankData.StartingCoins;
+    _shouldLog = shouldLog;
+  }
   public Bank(BankData bankData, bool shouldLog = true)
   {
-    _buyCost = bankData.BuyCost;
-    _rerollCost = bankData.RerollCost;
-    _sellValue = bankData.SellValue;
-    _sellLevelMultiplier = bankData.SellLevelMultiplier ?? 1;
-    _sellLevelAdditive = bankData.SellLevelAdditive ?? 0;
-    _startingCoins = bankData.StartingCoins;
+    BuyCost = bankData.BuyCost;
+    RerollCost = bankData.RerollCost;
+    SellValue = bankData.SellValue;
+    SellLevelMultiplier = bankData.SellLevelMultiplier ?? 1;
+    SellLevelAdditive = bankData.SellLevelAdditive ?? 0;
+    StartingCoins = bankData.StartingCoins;
     _shouldLog = shouldLog;
   }
 
   public int SetStartingCoins()
   {
-    CoinTotal = _startingCoins;
+    CoinTotal = StartingCoins;
     return CoinTotal;
   }
 
   public BankActionResult Buy(Card card)
   {
-    if (CoinTotal >= _buyCost)
+    if (CoinTotal >= BuyCost)
     {
       EngineTesting.Log("Paid for card", _shouldLog);
-      CoinTotal = CoinTotal - _buyCost;
+      CoinTotal = CoinTotal - BuyCost;
       GameManager.PrepEngine.CalculateOnBuyAbilities();
       GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
       return new BankActionResult(true, CoinTotal);
@@ -54,10 +66,10 @@ public class Bank
 
   public BankActionResult Reroll()
   {
-    if (CoinTotal >= _rerollCost)
+    if (CoinTotal >= RerollCost)
     {
       EngineTesting.Log("Paid for reroll", _shouldLog);
-      CoinTotal = CoinTotal - _rerollCost;
+      CoinTotal = CoinTotal - RerollCost;
       GameManager.PrepEngine.CalculateOnRerollAbilities();
       return new BankActionResult(true, CoinTotal);
     }
@@ -74,8 +86,8 @@ public class Bank
   public int GetSellValue(Card card)
   {
     var levelUps = card.Level - 1;
-    var multiplier = _sellLevelMultiplier < 2 || levelUps is 0 ? 1 : _sellLevelMultiplier * levelUps;
-    var additive = _sellLevelAdditive * levelUps;
-    return (_sellValue * multiplier) + additive;
+    var multiplier = SellLevelMultiplier < 2 || levelUps is 0 ? 1 : SellLevelMultiplier * levelUps;
+    var additive = SellLevelAdditive * levelUps;
+    return (SellValue * multiplier) + additive;
   }
 }

@@ -5,7 +5,6 @@ using System.Text.Json;
 
 public class PrepEngine
 {
-  public BankData BankData { get; private set; }
   public Bank Bank { get; private set; }
   public PlayerInventory PlayerInventory { get; set; }
   public ShopInventory ShopInventory { get; set; }
@@ -15,8 +14,7 @@ public class PrepEngine
 
   public PrepEngine()
   {
-    BankData = LoadBankDataJson();
-    Bank = new Bank(BankData);
+    Bank = new Bank(PrepSceneData.BankDataConfigRelativePath);
     PlayerInventory = new PlayerInventory();
     ShopInventory = new ShopInventory();
   }
@@ -178,19 +176,5 @@ public class PrepEngine
         break;
     }
     return targets;
-  }
-
-  private BankData LoadBankDataJson()
-  {
-    var bankConfigFile = PrepSceneData.BankDataConfigRelativePath;
-    if (!System.IO.File.Exists(bankConfigFile))
-    {
-      Console.WriteLine($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
-      throw new Exception($"Error: provided bankConfigFile '{bankConfigFile}' does not exist");
-    }
-    var bankDataConfigArr = System.IO.File.ReadAllLines(bankConfigFile);
-    var bankDataConfig = String.Join("\n", bankDataConfigArr);
-    // TODO: error handling
-    return JsonSerializer.Deserialize<BankData>(bankDataConfig);
   }
 }

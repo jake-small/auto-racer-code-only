@@ -1,0 +1,422 @@
+{
+  "Cards": [
+	{
+	  "Name": "curse",
+	  "Icon": "icon132.png",
+	  "Description": "All opponents within {R} gain {V} move",
+	  "BaseMove": 2,
+	  "Tier": 1,
+	  "Abilities": {
+		"MoveTokenAbilities": [
+		  {
+			"Name": "ability1",
+			"Type": "Additive",
+			"Phase": "Premove",
+			"Value": "{V}",
+			"Duration": "1",
+			"Target": {
+			  "Type": "others",
+			  "Direction": "any",
+			  "Priority": "closest",
+			  "Amount": "4",
+			  "Range": {
+				"Min": "0",
+				"Max": "{R}"
+			  }
+			},
+			"Functions": []
+		  }
+		],
+		"PrepAbilities": []
+	  },
+	  "LevelValues": [
+		{
+		  "Id": 1,
+		  "OutKeys": [
+			{
+			  "Key": "R",
+			  "Value": "3"
+			},
+			{
+			  "Key": "V",
+			  "Value": "-3"
+			}
+		  ]
+		},
+		{
+		  "Id": 2,
+		  "OutKeys": [
+			{
+			  "Key": "R",
+			  "Value": "3"
+			},
+			{
+			  "Key": "V",
+			  "Value": "-6"
+			}
+		  ]
+		},
+		{
+		  "Id": 3,
+		  "OutKeys": [
+			{
+			  "Key": "R",
+			  "Value": "3"
+			},
+			{
+			  "Key": "V",
+			  "Value": "-12"
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "Name": "lingering curse",
+	  "Icon": "icon133.png",
+	  "Description": "First opponent within {R} gains {V} move for 1 turn and -1 for {D} turns",
+	  "BaseMove": 2,
+	  "Tier": 1,
+	  "Abilities": {
+		"MoveTokenAbilities": [
+		  {
+			"Name": "curseInitial",
+			"Type": "Additive",
+			"Phase": "Premove",
+			"Value": "{V}",
+			"Duration": "1",
+			"Target": {
+			  "Type": "others",
+			  "Direction": "any",
+			  "Priority": "closest",
+			  "Amount": "1",
+			  "Range": {
+				"Min": "0",
+				"Max": "{R}"
+			  }
+			},
+			"Functions": []
+		  },
+		  {
+			"Name": "curseDot",
+			"Type": "Additive",
+			"Phase": "Premove",
+			"Value": "-1",
+			"Duration": "{D}",
+			"Target": {
+			  "Type": "others",
+			  "Direction": "any",
+			  "Priority": "closest",
+			  "Amount": "1",
+			  "Range": {
+				"Min": "0",
+				"Max": "{R}"
+			  }
+			},
+			"Functions": []
+		  }
+		],
+		"PrepAbilities": []
+	  },
+	  "LevelValues": [
+		{
+		  "Id": 1,
+		  "OutKeys": [
+			{
+			  "Key": "R",
+			  "Value": "6"
+			},
+			{
+			  "Key": "V",
+			  "Value": "-3"
+			},
+			{
+			  "Key": "D",
+			  "Value": "3"
+			}
+		  ]
+		},
+		{
+		  "Id": 2,
+		  "OutKeys": [
+			{
+			  "Key": "R",
+			  "Value": "6"
+			},
+			{
+			  "Key": "V",
+			  "Value": "-3"
+			},
+			{
+			  "Key": "D",
+			  "Value": "6"
+			}
+		  ]
+		},
+		{
+		  "Id": 3,
+		  "OutKeys": [
+			{
+			  "Key": "R",
+			  "Value": "6"
+			},
+			{
+			  "Key": "V",
+			  "Value": "-3"
+			},
+			{
+			  "Key": "D",
+			  "Value": "12"
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "Name": "escape rune",
+	  "Icon": "icon851.png",
+	  "Description": "For each opponent on your current space, gain {A} move",
+	  "BaseMove": 1,
+	  "Tier": 3,
+	  "Abilities": {
+		"MoveTokenAbilities": [
+		  {
+			"Name": "ability1",
+			"Type": "Additive",
+			"Phase": "Premove",
+			"Value": "{F}",
+			"Duration": "1",
+			"Target": {
+			  "Type": "self",
+			  "Direction": "any",
+			  "Priority": "closest",
+			  "Amount": "4",
+			  "Range": {
+				"Min": "0",
+				"Max": "0"
+			  }
+			},
+			"Functions": [
+			  {
+				"Key": "F",
+				"BodyMultiline": [
+				  "minRange = scriptData.Player.Position ",
+				  "maxRange = scriptData.Player.Position ",
+				  "playersInRange = scriptData.GetPlayersWithinRange(minRange, maxRange) ",
+				  "result = 0 ",
+				  "for key,value in ipairs(playersInRange) ",
+				  "do ",
+				  "  result = result + {A} ",
+				  "end ",
+				  "return result"
+				]
+			  }
+			]
+		  }
+		],
+		"PrepAbilities": []
+	  },
+	  "LevelValues": [
+		{
+		  "Id": 1,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "2"
+			}
+		  ]
+		},
+		{
+		  "Id": 2,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "3"
+			}
+		  ]
+		},
+		{
+		  "Id": 3,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "4"
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "Name": "Stamina Elixir",
+	  "Icon": "icon273.png",
+	  "Description": "Gain {V} move for {D} turns",
+	  "BaseMove": 2,
+	  "Tier": 1,
+	  "Abilities": {
+		"MoveTokenAbilities": [
+		  {
+			"Name": "ability1",
+			"Type": "Additive",
+			"Phase": "Premove",
+			"Value": "{V}",
+			"Duration": "{D}",
+			"Target": {
+			  "Type": "self"
+			},
+			"Functions": []
+		  }
+		],
+		"PrepAbilities": []
+	  },
+	  "LevelValues": [
+		{
+		  "Id": 1,
+		  "OutKeys": [
+			{
+			  "Key": "V",
+			  "Value": "1"
+			},
+			{
+			  "Key": "D",
+			  "Value": "3"
+			}
+		  ]
+		},
+		{
+		  "Id": 2,
+		  "OutKeys": [
+			{
+			  "Key": "V",
+			  "Value": "1"
+			},
+			{
+			  "Key": "D",
+			  "Value": "6"
+			}
+		  ]
+		},
+		{
+		  "Id": 3,
+		  "OutKeys": [
+			{
+			  "Key": "V",
+			  "Value": "1"
+			},
+			{
+			  "Key": "D",
+			  "Value": "12"
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "Name": "Vendor's Pouch",
+	  "Icon": "icon259.png",
+	  "Description": "On any Sell, gain {A} base move",
+	  "BaseMove": 1,
+	  "Tier": 2,
+	  "Abilities": {
+		"MoveTokenAbilities": [],
+		"PrepAbilities": [
+		  {
+			"Name": "sellAbility1",
+			"Trigger": "Sell",
+			"Effect": "BaseMove",
+			"Value": "{A}",
+			"Target": {
+			  "Type": "self",
+			  "Inventory": "player"
+			},
+			"Functions": []
+		  }
+		]
+	  },
+	  "LevelValues": [
+		{
+		  "Id": 1,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "1"
+			}
+		  ]
+		},
+		{
+		  "Id": 2,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "2"
+			}
+		  ]
+		},
+		{
+		  "Id": 3,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "4"
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "Name": "Robin's Hood",
+	  "Icon": "icon702.png",
+	  "Description": "When Sold, give other player cards {A} base move",
+	  "BaseMove": 3,
+	  "Tier": 2,
+	  "Abilities": {
+		"MoveTokenAbilities": [],
+		"PrepAbilities": [
+		  {
+			"Name": "soldAbility1",
+			"Trigger": "Sold",
+			"Effect": "BaseMove",
+			"Value": "{A}",
+			"Target": {
+			  "Type": "others",
+			  "Inventory": "player",
+			  "Slot": "0",
+			  "Direction": "any",
+			  "Priority": "closest",
+			  "Amount": "5"
+			},
+			"Functions": []
+		  }
+		]
+	  },
+	  "LevelValues": [
+		{
+		  "Id": 1,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "1"
+			}
+		  ]
+		},
+		{
+		  "Id": 2,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "2"
+			}
+		  ]
+		},
+		{
+		  "Id": 3,
+		  "OutKeys": [
+			{
+			  "Key": "A",
+			  "Value": "4"
+			}
+		  ]
+		}
+	  ]
+	}
+  ]
+}

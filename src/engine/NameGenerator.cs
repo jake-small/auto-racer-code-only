@@ -1,14 +1,14 @@
 using System;
 using System.Text.Json;
 
-public class NameGenerator
+public class NameGenerator : FileLoader
 {
   private Names _availableNames { get; set; }
   private Random _random = new Random();
 
   public NameGenerator(string nameJsonFile)
   {
-    _availableNames = LoadJsonNames(nameJsonFile);
+    _availableNames = LoadJsonData<Names>(nameJsonFile);
   }
 
   public string GetRandomName()
@@ -36,18 +36,5 @@ public class NameGenerator
       throw new Exception("Unable to get random adjective");
     }
     return adjective.Capitalize();
-  }
-
-  private Names LoadJsonNames(string nameJsonFile)
-  {
-    if (!System.IO.File.Exists(nameJsonFile))
-    {
-      Console.WriteLine($"Error: provided nameJsonFile '{nameJsonFile}' does not exist");
-      throw new Exception($"Error: provided nameJsonFile '{nameJsonFile}' does not exist");
-    }
-    var nameDataArr = System.IO.File.ReadAllLines(nameJsonFile);
-    var nameDataJson = String.Join("\n", nameDataArr);
-    // TODO: error handling
-    return JsonSerializer.Deserialize<Names>(nameDataJson);
   }
 }
