@@ -11,7 +11,7 @@ public class CardScript : KinematicBody2D
   private Vector2 _dragPosition = new Vector2();
   private bool _mouseIn = false;
   private List<Sprite> _cardSlots = new List<Sprite>();
-  private Sprite _selectedSprite = new Sprite();
+  private Sprite _selectedSprite;
   private List<Sprite> _frozenSprites = new List<Sprite>();
   private Label _levelLabel;
   private Label _baseMoveLabel;
@@ -62,7 +62,7 @@ public class CardScript : KinematicBody2D
 
   public override void _Process(float delta)
   {
-    if (Selected)
+    if (Selected && _selectedSprite != null)
     {
       _selectedSprite.Visible = true;
     }

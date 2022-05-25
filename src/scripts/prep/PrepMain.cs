@@ -289,6 +289,7 @@ public class PrepMain : Node2D
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
+    CardShopClear();
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
