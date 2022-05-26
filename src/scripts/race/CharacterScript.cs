@@ -35,13 +35,6 @@ public class CharacterScript : Node2D
     }
   }
 
-  public enum AnimationStates
-  {
-    running,
-    standing,
-    facing_front
-  }
-
   public float MoveToX { get; private set; } = 0;
   public bool Moving { get; private set; } = false;
 
@@ -192,4 +185,11 @@ public class CharacterScript : Node2D
       _sprite.Playing = animationState == AnimationStates.running;
     }
   }
+}
+
+public enum AnimationStates
+{
+  running,
+  standing,
+  facing_front
 }

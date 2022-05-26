@@ -9,13 +9,14 @@ public class BotBasic : Player
   private PlayerInventory _botInventory = new PlayerInventory(false);
   private ShopInventory _botShopInventory = new ShopInventory(false);
 
-  public BotBasic(int id, int turn, string name = null)
+  public BotBasic(int id, int turn, ShopService shopService, string name = null)
   {
+    _shopService = shopService;
     Id = id;
     Name = name ?? $"Player {id}";
     Position = 0;
     Cards = GetBotInventory(turn);
-    Skin = GetRandomSkin();
+    // Skin = GetRandomSkin();
   }
 
   private string GetRandomSkin()
@@ -33,8 +34,6 @@ public class BotBasic : Player
   */
   private Dictionary<int, Card> GetBotInventory(int turn)
   {
-    var cards = GameManager.PrepEngine.ShopService.GetAvailableCards();
-    _shopService = new ShopService(cards);
     _bank = new Bank(GameManager.PrepEngine.Bank.BankData, false);
 
     for (int i = 0; i < turn; i++)

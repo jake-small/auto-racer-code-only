@@ -289,7 +289,6 @@ public class PrepMain : Node2D
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
-    CardShopClear();
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
@@ -412,7 +411,7 @@ public class PrepMain : Node2D
     GameManager.PrepEngine.ShopInventory.Clear();
     foreach (var shopCardNode in shopCardNodes)
     {
-      if (IsInstanceValid(shopCardNode))
+      if (IsInstanceValid(shopCardNode) && !shopCardNode.Card.Frozen)
       {
         shopCardNode.QueueFree();
       }
