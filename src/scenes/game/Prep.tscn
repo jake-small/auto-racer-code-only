@@ -76,10 +76,10 @@ margin_bottom = 1080.0
 mouse_filter = 1
 
 [node name="HBoxContainerLeft" type="HBoxContainer" parent="Control"]
-margin_left = 100.0
-margin_right = 678.0
+margin_left = 185.0
+margin_right = 763.0
 margin_bottom = 55.0
-rect_scale = Vector2( 2, 2 )
+rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Button_Reroll" parent="Control/HBoxContainerLeft" instance=ExtResource( 3 )]
 margin_right = 190.0
@@ -109,10 +109,10 @@ text = "sell"
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -480.0
-margin_right = -290.0
+margin_left = -415.0
+margin_right = -225.0
 margin_bottom = 49.0
-rect_scale = Vector2( 2, 2 )
+rect_scale = Vector2( 1.5, 1.5 )
 alignment = 2
 
 [node name="Button_Go" parent="Control/HBoxContainerRight" instance=ExtResource( 2 )]
@@ -137,8 +137,8 @@ texture = ExtResource( 34 )
 
 [node name="Label" type="Label" parent="Container_tutorial/Sprite"]
 margin_left = 36.0
-margin_top = 27.0
-margin_right = 358.0
+margin_top = 14.0
+margin_right = 370.0
 margin_bottom = 119.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
@@ -153,9 +153,9 @@ texture = ExtResource( 33 )
 
 [node name="Label" type="Label" parent="Container_tutorial/Sprite2"]
 margin_left = 105.0
-margin_top = 176.0
+margin_top = 187.0
 margin_right = 408.0
-margin_bottom = 308.0
+margin_bottom = 330.0
 rect_rotation = 180.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
@@ -406,142 +406,156 @@ texture = ExtResource( 4 )
 centered = false
 
 [node name="Shop_cost_panel_0" type="Sprite" parent="."]
-visible = false
 position = Vector2( 748, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
 
 [node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_0"]
-margin_left = -41.0
-margin_top = -22.0
-margin_right = -1.00002
-margin_bottom = 21.0
+margin_left = -36.8985
+margin_top = -30.7653
+margin_right = 3.10148
+margin_bottom = 29.2347
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="coin" type="Sprite" parent="Shop_cost_panel_0"]
-position = Vector2( 9.867, -2 )
+position = Vector2( 11.5076, -2 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
 
 [node name="Shop_cost_panel_1" type="Sprite" parent="."]
-visible = false
 position = Vector2( 940, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_1"]
-margin_left = -41.0
-margin_top = -22.0
-margin_right = -1.00002
-margin_bottom = 21.0
+margin_left = -36.8985
+margin_top = -30.7653
+margin_right = 3.10148
+margin_bottom = 29.2347
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 2
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": ""
 }
 
 [node name="coin" type="Sprite" parent="Shop_cost_panel_1"]
-position = Vector2( 9.867, -2 )
+position = Vector2( 11.5076, -2 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Shop_cost_panel_2" type="Sprite" parent="."]
-visible = false
 position = Vector2( 1132, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
 
 [node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_2"]
-margin_left = -41.0
-margin_top = -22.0
-margin_right = -1.00002
-margin_bottom = 21.0
+margin_left = -36.8985
+margin_top = -30.7653
+margin_right = 3.10148
+margin_bottom = 29.2347
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 2
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": ""
 }
 
 [node name="coin" type="Sprite" parent="Shop_cost_panel_2"]
-position = Vector2( 9.867, -2 )
+position = Vector2( 11.5076, -2 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Shop_cost_panel_3" type="Sprite" parent="."]
-visible = false
 position = Vector2( 1324, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
 
 [node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_3"]
-margin_left = -41.0
-margin_top = -22.0
-margin_right = -1.00002
-margin_bottom = 21.0
+margin_left = -36.8985
+margin_top = -30.7653
+margin_right = 3.10148
+margin_bottom = 29.2347
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 2
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": ""
 }
 
 [node name="coin" type="Sprite" parent="Shop_cost_panel_3"]
-position = Vector2( 9.867, -2 )
+position = Vector2( 11.5076, -2 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Shop_cost_panel_4" type="Sprite" parent="."]
-visible = false
 position = Vector2( 1516, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
 
 [node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_4"]
-margin_left = -41.0
-margin_top = -22.0
-margin_right = -1.00002
-margin_bottom = 21.0
+margin_left = -36.8985
+margin_top = -30.7653
+margin_right = 3.10148
+margin_bottom = 29.2347
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 2
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": ""
 }
 
 [node name="coin" type="Sprite" parent="Shop_cost_panel_4"]
-position = Vector2( 9.867, -2 )
+position = Vector2( 11.5076, -2 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Shop_cost_panel_5" type="Sprite" parent="."]
-visible = false
 position = Vector2( 1708, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
 
 [node name="Shopt_cost_label" type="Label" parent="Shop_cost_panel_5"]
-margin_left = -41.0
-margin_top = -22.0
-margin_right = -1.00002
-margin_bottom = 21.0
+margin_left = -36.8985
+margin_top = -30.7653
+margin_right = 3.10148
+margin_bottom = 29.2347
 custom_fonts/font = ExtResource( 19 )
 text = "3"
 align = 2
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": false,
+"_editor_description_": ""
 }
 
 [node name="coin" type="Sprite" parent="Shop_cost_panel_5"]
-position = Vector2( 9.867, -2 )
+position = Vector2( 11.5076, -2 )
 scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Container_win_record" type="Node2D" parent="."]
 

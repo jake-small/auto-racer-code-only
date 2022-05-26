@@ -140,11 +140,11 @@ align = 1
 valign = 1
 
 [node name="Button_Start" parent="." instance=ExtResource( 4 )]
-margin_left = 770.0
+margin_left = 819.0
 margin_top = 770.0
-margin_right = 960.0
+margin_right = 1009.0
 margin_bottom = 819.0
-rect_scale = Vector2( 2, 2 )
+rect_scale = Vector2( 1.5, 1.5 )
 shortcut = SubResource( 4 )
 
 [node name="Label" parent="Button_Start" index="0"]
@@ -157,6 +157,6 @@ margin_right = 1871.71
 margin_bottom = 1046.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 6 )
-text = "Alpha v0.2.1"
+text = "Alpha v0.2.2"
 
 [editable path="Button_Start"]

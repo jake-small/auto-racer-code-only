@@ -146,9 +146,9 @@ __meta__ = {
 }
 
 [node name="Control" type="Control" parent="."]
-margin_top = 960.0
+margin_top = 940.0
 margin_right = 1920.0
-margin_bottom = 1080.0
+margin_bottom = 1060.0
 mouse_filter = 1
 __meta__ = {
 "_edit_lock_": true,
@@ -159,9 +159,7 @@ __meta__ = {
 margin_left = 200.0
 margin_right = 608.0
 margin_bottom = 55.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Button_Back" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 visible = false
@@ -183,6 +181,7 @@ text = "next"
 margin_left = 1520.0
 margin_right = 402.0
 margin_bottom = 55.0
+rect_scale = Vector2( 1.5, 1.5 )
 alignment = 2
 
 [node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 17 )]

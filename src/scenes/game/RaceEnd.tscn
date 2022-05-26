@@ -41,8 +41,8 @@ margin_left = 744.613
 margin_top = 26.5953
 margin_right = 1183.61
 margin_bottom = 120.595
-custom_fonts/font = ExtResource( 12 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 12 )
 text = "Results"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -67,8 +67,8 @@ margin_left = 240.0
 margin_top = 140.0
 margin_right = 1680.0
 margin_bottom = 840.0
-custom_fonts/normal_font = SubResource( 1 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = SubResource( 1 )
 text = "|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|120
 0|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
 0|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
@@ -108,12 +108,11 @@ scale = Vector2( 0.62, 0.590278 )
 texture = ExtResource( 7 )
 
 [node name="Control" type="Control" parent="."]
-margin_top = 960.0
+margin_top = 940.0
 margin_right = 1920.0
-margin_bottom = 1080.0
+margin_bottom = 1060.0
 mouse_filter = 1
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -121,6 +120,7 @@ __meta__ = {
 margin_left = 1520.0
 margin_right = 402.0
 margin_bottom = 55.0
+rect_scale = Vector2( 1.5, 1.5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -128,7 +128,6 @@ __meta__ = {
 [node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 3 )]
 margin_right = 190.0
 margin_bottom = 55.0
-shortcut_in_tooltip = false
 shortcut = SubResource( 3 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
@@ -148,8 +147,8 @@ margin_left = 240.0
 margin_top = 40.0
 margin_right = 319.0
 margin_bottom = 132.0
-custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 13 )
 text = "1st"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -159,8 +158,8 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 124.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Player"
 autowrap = true
 __meta__ = {
@@ -175,8 +174,8 @@ margin_left = 569.0
 margin_top = 40.0
 margin_right = 671.0
 margin_bottom = 116.0
-custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 13 )
 text = "2nd"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -186,8 +185,8 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 124.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Player"
 autowrap = true
 __meta__ = {
@@ -202,8 +201,8 @@ margin_left = 915.0
 margin_top = 40.0
 margin_right = 1011.0
 margin_bottom = 116.0
-custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 13 )
 text = "3rd"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -213,8 +212,8 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 124.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Player"
 autowrap = true
 __meta__ = {
@@ -229,8 +228,8 @@ margin_left = 1261.0
 margin_top = 40.0
 margin_right = 1351.0
 margin_bottom = 116.0
-custom_fonts/font = ExtResource( 13 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 13 )
 text = "4th"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -240,8 +239,8 @@ __meta__ = {
 margin_top = 64.0
 margin_right = 300.0
 margin_bottom = 124.0
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Player"
 autowrap = true
 __meta__ = {

@@ -41,17 +41,17 @@ margin_left = 770.198
 margin_top = 26.5953
 margin_right = 1177.2
 margin_bottom = 120.595
-custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 5 )
 text = "Game Over"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Control" type="Control" parent="."]
-margin_top = 960.0
+margin_top = 940.0
 margin_right = 1920.0
-margin_bottom = 1080.0
+margin_bottom = 1060.0
 mouse_filter = 1
 __meta__ = {
 "_edit_lock_": true,
@@ -62,6 +62,7 @@ __meta__ = {
 margin_left = 1520.0
 margin_right = 402.0
 margin_bottom = 55.0
+rect_scale = Vector2( 1.5, 1.5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -69,47 +70,36 @@ __meta__ = {
 [node name="Button_Finish" parent="Control/HBoxContainerRight" instance=ExtResource( 3 )]
 margin_right = 190.0
 margin_bottom = 55.0
-shortcut_in_tooltip = false
 shortcut = SubResource( 2 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
 text = "next"
 
-[node name="slot_0" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_0" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 511.796, 337.895 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
 centered = false
 
-[node name="slot_1" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_1" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 703.796, 337.895 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
 centered = false
 
-[node name="slot_2" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_2" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 895.796, 337.895 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
 centered = false
 
-[node name="slot_3" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_3" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1087.8, 337.895 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
 centered = false
 
-[node name="slot_4" type="Sprite" parent="." groups=[
-"CardSlots",
-]]
+[node name="slot_4" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1279.8, 337.895 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 2 )
@@ -164,8 +154,8 @@ texture = ExtResource( 7 )
 position = Vector2( 652.796, 26.5953 )
 
 [node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
-position = Vector2( 319.204, 596 )
-scale = Vector2( 0.826667, 1 )
+position = Vector2( 319.204, 601.5 )
+scale = Vector2( 0.826667, 1.11 )
 texture = ExtResource( 11 )
 
 [node name="trophy" type="Sprite" parent="Container_win_record"]
