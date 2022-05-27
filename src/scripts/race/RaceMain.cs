@@ -384,7 +384,7 @@ public class RaceMain : Node2D
         }
       }
     }
-    // GameManager.RaceHistory.AddResult(GameManager.CurrentRace, results);
+    GameManager.RaceHistory.AddResult(GameManager.CurrentRace, results);
   }
 
   private void ToggleDisplaySelectedCardData(Card card, int playerId)
