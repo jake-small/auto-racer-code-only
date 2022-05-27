@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/buttons/fastForward_outline.png" type="Texture" id=1]
+[ext_resource path="res://assets/buttons/fastForward_outline_pressed.png" type="Texture" id=2]
+[ext_resource path="res://assets/buttons/fastForward_outline_disabled.png" type="Texture" id=3]
+
+[node name="Button_AutoPlay" type="TextureButton"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_scale = Vector2( 1, 0.6 )
+toggle_mode = true
+shortcut_in_tooltip = false
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 2 )
+texture_disabled = ExtResource( 3 )

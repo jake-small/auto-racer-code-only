@@ -49,20 +49,20 @@ public class BackgroundTileMap : Godot.TileMap
 
   private void AttemptToRepositionRight()
   {
-    if (Position.x < -GetViewport().Size.x)
+    if (Position.x < -GetViewportRect().Size.x)
     {
       var m = _moveToX - Position.x;
-      Position = new Vector2(Position.x + (3 * GetViewport().Size.x), Position.y);
+      Position = new Vector2(Position.x + (3 * GetViewportRect().Size.x), Position.y);
       _moveToX = Position.x + m;
     }
   }
 
   private void AttemptToRepositionLeft()
   {
-    if (Position.x > GetViewport().Size.x)
+    if (Position.x > GetViewportRect().Size.x)
     {
       var m = _moveToX - Position.x;
-      Position = new Vector2(Position.x + (3 * -GetViewport().Size.x), Position.y);
+      Position = new Vector2(Position.x + (3 * -GetViewportRect().Size.x), Position.y);
       _moveToX = Position.x + m;
     }
   }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://src/scripts/race/BackgroundTileMap.cs" type="Script" id=6]
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator_Right.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_AutoPlay.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=10]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
@@ -158,20 +159,20 @@ __meta__ = {
 [node name="HBoxContainerLeft" type="HBoxContainer" parent="Control"]
 margin_left = 200.0
 margin_right = 608.0
-margin_bottom = 55.0
+margin_bottom = 49.0
 rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Button_Back" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 visible = false
 margin_right = 190.0
-margin_bottom = 55.0
+margin_bottom = 66.0
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Back" index="0"]
 text = "back"
 
 [node name="Button_Forward" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 margin_right = 190.0
-margin_bottom = 55.0
+margin_bottom = 49.0
 shortcut = SubResource( 3 )
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Forward" index="0"]
@@ -191,6 +192,13 @@ shortcut = SubResource( 5 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
 text = "finish"
+
+[node name="Button_AutoPlay" parent="." instance=ExtResource( 9 )]
+margin_left = 501.0
+margin_top = 943.0
+margin_right = 579.0
+margin_bottom = 1009.0
+rect_scale = Vector2( 1, 1 )
 
 [node name="Control_cards" type="Control" parent="."]
 visible = false
@@ -381,10 +389,8 @@ position = Vector2( 1680, 700 )
 position = Vector2( 720, 625 )
 
 [node name="Label_PlayerName" parent="CardSlots/slot_1" index="0"]
-margin_left = -95.5
-margin_top = -40.0
-margin_right = 195.5
-margin_bottom = -5.0
+margin_top = -51.1667
+margin_bottom = -11.1667
 
 [node name="slot_2" parent="CardSlots" instance=ExtResource( 3 )]
 position = Vector2( 1050, 625 )
@@ -393,15 +399,13 @@ position = Vector2( 1050, 625 )
 position = Vector2( 1380, 625 )
 
 [node name="Label_PlayerName" parent="CardSlots/slot_3" index="0"]
-margin_left = -95.5
-margin_top = -40.0
-margin_right = 195.5
-margin_bottom = -5.0
+margin_top = -51.1667
+margin_bottom = -11.1667
 
 [node name="Container_selected_card_0" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 324, 284 )
+position = Vector2( 324, 272 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_0"]
@@ -510,7 +514,7 @@ __meta__ = {
 [node name="Container_selected_card_1" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 654, 284 )
+position = Vector2( 654, 272 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_1"]
@@ -619,7 +623,7 @@ __meta__ = {
 [node name="Container_selected_card_2" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 984, 284 )
+position = Vector2( 984, 272 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_2"]
@@ -728,7 +732,7 @@ __meta__ = {
 [node name="Container_selected_card_3" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 1314, 284 )
+position = Vector2( 1314, 272 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_3"]
