@@ -186,9 +186,6 @@ margin_bottom = 640.0
 custom_fonts/font = ExtResource( 14 )
 text = "1"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
 margin_left = 278.296

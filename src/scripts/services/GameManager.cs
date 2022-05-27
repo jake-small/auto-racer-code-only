@@ -10,6 +10,7 @@ public static class GameManager
   public static int CurrentRace { get; set; } = 0;
   public static int TotalRaces { get; set; } = 10;
   public static int LifeTotal { get; set; } = 10;
+  public static CalculationLayer CalcLayer { get; set; } = new CalculationLayer();
   public static PrepEngine PrepEngine { get; set; } = new PrepEngine();
   public static NameGenerator NameGenerator { get; set; }
   public static List<string> CharacterSkins { get; set; } = new List<string>();

@@ -11,20 +11,6 @@ public class AutoRaceEngine
   private int _currentSlot;
   private readonly int _slotCount;
   private TurnPhases _phase;
-  public enum TurnPhases
-  {
-    PreRace = -1,
-    Start = 0,
-    AbilitiesStart = 1,
-    AbilitiesP0 = 2,
-    AbilitiesP1 = 3,
-    AbilitiesP2 = 4,
-    AbilitiesP3 = 5,
-    Move = 6,
-    Abilities2 = 7,
-    End = 8,
-    HandleRemainingTokens = -2
-  }
 
   public AutoRaceEngine(IEnumerable<Player> players, int raceLength, int slotCount)
   {
@@ -65,6 +51,19 @@ public class AutoRaceEngine
   public IEnumerable<PlayerTurnResult> GetTurnResults()
   {
     return _turnManager.PlayerTurns;
+  }
+
+  public void Clear()
+  {
+    _turnManager.ClearPlayerTurns();
+    foreach (var player in _players)
+    {
+      if (GameManager.LocalPlayer.Id != player.Id)
+      {
+        player.Cards.Clear();
+      }
+      _players = null;
+    }
   }
 
   public bool AdvanceRace()
@@ -350,4 +349,19 @@ public class AutoRaceEngine
     }
     return sortedTargets.Select(p => p.Id).Take(tokenTarget.Amount.ToInt());
   }
+}
+
+public enum TurnPhases
+{
+  PreRace = -1,
+  Start = 0,
+  AbilitiesStart = 1,
+  AbilitiesP0 = 2,
+  AbilitiesP1 = 3,
+  AbilitiesP2 = 4,
+  AbilitiesP3 = 5,
+  Move = 6,
+  Abilities2 = 7,
+  End = 8,
+  HandleRemainingTokens = -2
 }

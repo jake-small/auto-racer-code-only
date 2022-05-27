@@ -16,7 +16,6 @@ public class Card : ICloneable
   public InventoryType InventoryType { get; set; }
   public bool Frozen = false;
 
-  private CalculationLayer _calcLayer = new CalculationLayer();
   private const int MaxCardLevel = 3;
 
   public object Clone()
@@ -39,22 +38,22 @@ public class Card : ICloneable
 
   public Card GetLeveledCard()
   {
-    return _calcLayer.ApplyLevelValues((Card)this.Clone());
+    return GameManager.CalcLayer.ApplyLevelValues((Card)this.Clone());
   }
 
   public Card ApplyPrepFunctionValues()
   {
-    return _calcLayer.ApplyPrepFunctionValues((Card)this.Clone());
+    return GameManager.CalcLayer.ApplyPrepFunctionValues((Card)this.Clone());
   }
 
   public Card ApplyTokenFunctionValues(Player player, IEnumerable<Player> players)
   {
-    return _calcLayer.ApplyTokenFunctionValues((Card)this.Clone(), player, players);
+    return GameManager.CalcLayer.ApplyTokenFunctionValues((Card)this.Clone(), player, players);
   }
 
   public string GetName()
   {
-    return _calcLayer.ApplyLevelValues((Card)this.Clone(), Name, Level);
+    return GameManager.CalcLayer.ApplyLevelValues((Card)this.Clone(), Name, Level);
   }
 
   public string GetRawName()
@@ -63,7 +62,7 @@ public class Card : ICloneable
   }
   public string GetDescription()
   {
-    return _calcLayer.ApplyLevelValues((Card)this.Clone(), Description, Level);
+    return GameManager.CalcLayer.ApplyLevelValues((Card)this.Clone(), Description, Level);
   }
 
   public string GetRawDescription()
