@@ -28,7 +28,7 @@ public class OffscreenIndicatorScript : Node2D
   public override void _Ready()
   {
     _distanceLabel = GetNode<Label>(RaceSceneData.OffscreenIndicatorLabelDistance);
-    _isLeftIndicator = Position < GetViewport().Size / 2;
+    _isLeftIndicator = Position < GetViewportRect().Size / 2;
     var position = GetNode<Position2D>(RaceSceneData.OffscreenIndicatorCharacterPosition);
     var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
     var characterInstance = (CharacterScript)characterScene.Instance();
@@ -50,7 +50,7 @@ public class OffscreenIndicatorScript : Node2D
       }
       else
       {
-        Visible = CharacterRef.Position.x > GetViewport().Size.x;
+        Visible = CharacterRef.Position.x > GetViewportRect().Size.x;
       }
       if (_characterIcon.AnimationState != CharacterRef.AnimationState)
       {
