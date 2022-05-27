@@ -406,6 +406,7 @@ texture = ExtResource( 4 )
 centered = false
 
 [node name="Shop_cost_panel_0" type="Sprite" parent="."]
+visible = false
 position = Vector2( 748, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
@@ -425,6 +426,7 @@ scale = Vector2( 0.3, 0.4 )
 texture = ExtResource( 21 )
 
 [node name="Shop_cost_panel_1" type="Sprite" parent="."]
+visible = false
 position = Vector2( 940, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
@@ -454,6 +456,7 @@ __meta__ = {
 }
 
 [node name="Shop_cost_panel_2" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1132, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
@@ -480,6 +483,7 @@ __meta__ = {
 }
 
 [node name="Shop_cost_panel_3" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1324, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
@@ -506,6 +510,7 @@ __meta__ = {
 }
 
 [node name="Shop_cost_panel_4" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1516, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
@@ -532,6 +537,7 @@ __meta__ = {
 }
 
 [node name="Shop_cost_panel_5" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1708, 840 )
 scale = Vector2( 1.21908, 0.798643 )
 texture = ExtResource( 18 )
@@ -560,8 +566,8 @@ __meta__ = {
 [node name="Container_win_record" type="Node2D" parent="."]
 
 [node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
-position = Vector2( 318, 637 )
-scale = Vector2( 0.906667, 1.02 )
+position = Vector2( 318, 637.445 )
+scale = Vector2( 0.906667, 1.02891 )
 texture = ExtResource( 31 )
 
 [node name="flag" type="Sprite" parent="Container_win_record"]
@@ -661,7 +667,7 @@ scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 20 )
 
 [node name="coin" type="Sprite" parent="Container_info"]
-position = Vector2( 28, 4 )
+position = Vector2( 24, 4 )
 scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 21 )
 
@@ -679,9 +685,9 @@ __meta__ = {
 }
 
 [node name="Label_coins" type="Label" parent="Container_info"]
-margin_left = -36.0
+margin_left = -40.0
 margin_top = -26.0
-margin_right = 5.0
+margin_right = 1.0
 margin_bottom = 38.0
 custom_fonts/font = ExtResource( 19 )
 text = "10"
