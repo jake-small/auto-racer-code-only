@@ -16,7 +16,7 @@ public class BotBasic : Player
     Name = name ?? $"Player {id}";
     Position = 0;
     Cards = GetBotInventory(turn);
-    // Skin = GetRandomSkin();
+    Skin = GetRandomSkin();
   }
 
   private string GetRandomSkin()
