@@ -72,6 +72,7 @@ public class CharacterScript : Node2D
   {
     if (Moving)
     {
+      var doneMoving = false;
       float newX;
       if (MoveToX > Position.x)
       {
@@ -79,7 +80,7 @@ public class CharacterScript : Node2D
         if (newX >= MoveToX)
         {
           newX = MoveToX;
-          StopMoving();
+          doneMoving = true;
         }
 
       }
@@ -89,10 +90,14 @@ public class CharacterScript : Node2D
         if (newX <= MoveToX)
         {
           newX = MoveToX;
-          StopMoving();
+          doneMoving = true;
         }
       }
       Position = (new Vector2(newX, Position.y));
+      if (doneMoving)
+      {
+        StopMoving();
+      }
     }
   }
 

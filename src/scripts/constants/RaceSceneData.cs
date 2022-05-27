@@ -6,6 +6,7 @@ public static class RaceSceneData
   public const string ButtonFinishPath = "Control/HBoxContainerRight/Button_Finish";
   public const string ButtonForwardPath = "Control/HBoxContainerLeft/Button_Forward";
   public const string ButtonBackPath = "Control/HBoxContainerLeft/Button_Back";
+  public const string ButtonAutoPlay = "Button_AutoPlay";
   public const string RichTextLabel_GameState = "MarginContainer/RichTextLabel_GameState";
   public const string Label_TurnPhase = "CenterContainer/Label_TurnPhase";
   public const string Label_CardP1 = "Control_cards/HBoxContainer/Label_p1/Label_p1_card";

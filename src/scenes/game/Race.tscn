@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://src/scripts/race/BackgroundTileMap.cs" type="Script" id=6]
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/scenes/objects/ui_elements/Offscreen_Indicator_Right.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_AutoPlay.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=10]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
@@ -158,20 +159,20 @@ __meta__ = {
 [node name="HBoxContainerLeft" type="HBoxContainer" parent="Control"]
 margin_left = 200.0
 margin_right = 608.0
-margin_bottom = 55.0
+margin_bottom = 49.0
 rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Button_Back" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 visible = false
 margin_right = 190.0
-margin_bottom = 55.0
+margin_bottom = 66.0
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Back" index="0"]
 text = "back"
 
 [node name="Button_Forward" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
 margin_right = 190.0
-margin_bottom = 55.0
+margin_bottom = 49.0
 shortcut = SubResource( 3 )
 
 [node name="Label" parent="Control/HBoxContainerLeft/Button_Forward" index="0"]
@@ -191,6 +192,13 @@ shortcut = SubResource( 5 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Finish" index="0"]
 text = "finish"
+
+[node name="Button_AutoPlay" parent="." instance=ExtResource( 9 )]
+margin_left = 501.0
+margin_top = 943.0
+margin_right = 579.0
+margin_bottom = 1009.0
+rect_scale = Vector2( 1, 1 )
 
 [node name="Control_cards" type="Control" parent="."]
 visible = false

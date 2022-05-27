@@ -10,6 +10,7 @@ public class RaceMain : Node2D
   private TextureButton _forwardButton;
   private TextureButton _backButton;
   private TextureButton _endRaceButton;
+  private TextureButton _autoPlayButton;
   private Label _labelTurnPhase;
   // private RichTextLabel _labelGameState;
   // private Label[] _labelCardArray;
@@ -24,6 +25,7 @@ public class RaceMain : Node2D
   private bool _raceOver = false;
   private bool _waitingOnCardEffect = false;
   private bool _waitingOnMovement = false;
+  private bool _autoplay = false;
 
   public override void _Ready()
   {
@@ -68,6 +70,8 @@ public class RaceMain : Node2D
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
     // _backButton = GetNode<TextureButton>(RaceSceneData.ButtonBackPath);
     // _backButton.Connect("pressed", this, nameof(Button_back_pressed));
+    _autoPlayButton = GetNode<TextureButton>(RaceSceneData.ButtonAutoPlay);
+    _autoPlayButton.Connect("pressed", this, nameof(Button_autoplay_pressed));
 
     _slotTurnIndicators = new List<Sprite>{
       GetNode<Sprite>(RaceSceneData.SelectedSlot0),
@@ -100,6 +104,7 @@ public class RaceMain : Node2D
     if (_raceOver && _endRaceButton.Disabled == true)
     {
       _endRaceButton.Disabled = false;
+      _autoPlayButton.Disabled = true;
     }
 
     if (_waitingOnCardEffect)
@@ -118,6 +123,11 @@ public class RaceMain : Node2D
         _waitingOnMovement = false;
         _forwardButton.Disabled = false;
       }
+    }
+
+    if (_autoplay && !_waitingOnCardEffect && !_waitingOnMovement)
+    {
+      AdvanceRace();
     }
   }
 
@@ -236,7 +246,47 @@ public class RaceMain : Node2D
   private void Button_forward_pressed()
   {
     GD.Print("Forward button pressed");
+    AdvanceRace();
+  }
 
+  // private void Button_back_pressed()
+  // {
+  //   GD.Print("Back button pressed");
+  //   _currentTurnView = _currentTurnView - 1;
+  //   if (_currentTurnView < 2)
+  //   {
+  //     _currentTurnView = 1;
+  //     _backButton.Disabled = true;
+  //   }
+  //   _forwardButton.Disabled = false;
+  //   _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
+  //   GD.Print($"current turn after back press: {_currentTurnView}");
+  //   // GD.Print($"position states after back press: {_positionStates.Count()}");
+  //   // _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
+  //   if (_cardStates.Count > _currentTurnView - 1)
+  //   {
+  //     _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
+  //   }
+  // }
+
+  // private void UpdateCardStates(List<string> states)
+  // {
+  //   var p = 0;
+  //   foreach (var state in states)
+  //   {
+  //     GD.Print($"Updating Card States: {state}");
+  //     _labelCardArray[p].Text = state;
+  //     p = p + 1;
+  //   }
+  // }
+
+  private void Button_autoplay_pressed()
+  {
+    _autoplay = !_autoplay;
+  }
+
+  private void AdvanceRace()
+  {
     if (_autoRaceEngine.GetTurn() != _currentTurnView)
     {
       _currentTurnView = _currentTurnView + 1;
@@ -336,37 +386,6 @@ public class RaceMain : Node2D
       return;
     }
   }
-
-  // private void Button_back_pressed()
-  // {
-  //   GD.Print("Back button pressed");
-  //   _currentTurnView = _currentTurnView - 1;
-  //   if (_currentTurnView < 2)
-  //   {
-  //     _currentTurnView = 1;
-  //     _backButton.Disabled = true;
-  //   }
-  //   _forwardButton.Disabled = false;
-  //   _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
-  //   GD.Print($"current turn after back press: {_currentTurnView}");
-  //   // GD.Print($"position states after back press: {_positionStates.Count()}");
-  //   // _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
-  //   if (_cardStates.Count > _currentTurnView - 1)
-  //   {
-  //     _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
-  //   }
-  // }
-
-  // private void UpdateCardStates(List<string> states)
-  // {
-  //   var p = 0;
-  //   foreach (var state in states)
-  //   {
-  //     GD.Print($"Updating Card States: {state}");
-  //     _labelCardArray[p].Text = state;
-  //     p = p + 1;
-  //   }
-  // }
 
   private void CalculateStandings()
   {
