@@ -411,7 +411,7 @@ public class PrepMain : Node2D
     GameManager.PrepEngine.ShopInventory.Clear();
     foreach (var shopCardNode in shopCardNodes)
     {
-      if (IsInstanceValid(shopCardNode) && !shopCardNode.Card.Frozen)
+      if (IsInstanceValid(shopCardNode))
       {
         shopCardNode.QueueFree();
       }
@@ -420,7 +420,6 @@ public class PrepMain : Node2D
 
   private void FreezeCard()
   {
-    DisableCardActionButtons();
     if (_selectedCard == null)
     {
       GD.Print("Error: _selectedCard is null in PrepMain.cs");
