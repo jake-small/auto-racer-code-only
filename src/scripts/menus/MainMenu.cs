@@ -28,6 +28,9 @@ public class MainMenu : Control
     startButton.Connect("pressed", this, nameof(Button_start_pressed));
     // var quitButton = GetNode<TextureButton>(MainMenuData.ButtonQuit);
     // quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
+
+    var creditsButton = GetNode<TextureButton>(MainMenuData.ButtonCredits);
+    creditsButton.Connect("pressed", this, nameof(Button_credits_pressed));
     var prevSkinButton = GetNode<TextureButton>(MainMenuData.ButtonSkinPrevious);
     prevSkinButton.Connect("pressed", this, nameof(Button_previous_skin_pressed));
     var nextSkinButton = GetNode<TextureButton>(MainMenuData.ButtonSkinNext);
@@ -105,6 +108,12 @@ public class MainMenu : Control
   {
     Console.WriteLine("Quit button pressed");
     GetTree().Quit();
+  }
+
+  private void Button_credits_pressed()
+  {
+    Console.WriteLine("Credits button pressed");
+    GetTree().ChangeScene(MainMenuData.CreditsScenePath);
   }
 
   private void LoadCharacterSkins()
