@@ -13,7 +13,13 @@ public class CardScript : KinematicBody2D
   private List<Sprite> _cardSlots = new List<Sprite>();
   private Sprite _selectedSprite;
   private List<Sprite> _frozenSprites = new List<Sprite>();
+  private Node2D _expNode;
   private Label _levelLabel;
+  private Sprite _expFull1;
+  private Sprite _expFull2;
+  private Sprite _expFull3;
+  private List<Sprite> _expFullIcons;
+  private Sprite _expEmpty3;
   private Label _baseMoveLabel;
 
   public bool DisplayOnly { get; set; } = false;
@@ -43,7 +49,13 @@ public class CardScript : KinematicBody2D
     {
       GD.Print($"Unable to load iconSprite with path '{iconPath}'. Using default sprite instead");
     }
+    _expNode = GetNode<Node2D>(PrepSceneData.NodeExp);
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
+    _expFull1 = GetNode<Sprite>(PrepSceneData.SpriteExpFull1);
+    _expFull2 = GetNode<Sprite>(PrepSceneData.SpriteExpFull2);
+    _expFull3 = GetNode<Sprite>(PrepSceneData.SpriteExpFull3);
+    _expEmpty3 = GetNode<Sprite>(PrepSceneData.SpriteExpEmpty3);
+    _expFullIcons = new List<Sprite>() { _expFull1, _expFull2, _expFull3 };
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
     UpdateUi();
 
@@ -134,7 +146,7 @@ public class CardScript : KinematicBody2D
     {
       GD.Print("not dropped in slot");
     }
-    else if (Card.InventoryType == InventoryType.Shop || Slot != potentialSlot)
+    else if (IsInShop() || Slot != potentialSlot)
     {
       emitDroppedInSlotSignal(potentialSlot, DroppedPosition, StartingPosition);
       return;
@@ -203,8 +215,42 @@ public class CardScript : KinematicBody2D
 
   public void UpdateUi()
   {
-    _levelLabel.Text = Card.Level.ToString() + " exp" + Card.Exp.ToString() + "/" + Card.ExpToLvl.ToString();
-    _baseMoveLabel.Text = Card.BaseMove + "m";
+    if (IsInShop())
+    {
+      _expNode.Visible = false;
+      return;
+    }
+    _expNode.Visible = true;
+    _levelLabel.Text = "lvl " + Card.Level.ToString();
+    var exp = Card.Exp;
+    var expToLvl = Card.ExpToLvl;
+    if (expToLvl == 3)
+    {
+      _expEmpty3.Visible = false;
+    }
+    else if (expToLvl > 3)
+    {
+      _expEmpty3.Visible = true;
+    }
+    _expFull1.Visible = false;
+    _expFull2.Visible = false;
+    _expFull3.Visible = false;
+    var expVisible = exp - 1;
+    for (int i = 0; i < expVisible; i++)
+    {
+      _expFullIcons[i].Visible = true;
+    }
+
+
+    // examples 
+    //   1/3  _ _
+    //   2/3  o _
+    //   3/3  o o
+    //   1/4  _ _ _
+    //   2/4  o _ _
+    //   4/4  o o o
+
+    _baseMoveLabel.Text = Card.BaseMove.ToString();
   }
 
   public bool IsInShop()

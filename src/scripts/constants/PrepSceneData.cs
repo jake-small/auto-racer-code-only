@@ -21,8 +21,13 @@ public static class PrepSceneData
   public const string PanelSpriteFrozen1 = "Panel_frozen";
   public const string PanelSpriteFrozen2 = "Panel_frozen2";
   public const string SpriteCardIcon = "Icon";
-  public const string LabelCardLevel = "Label_level";
-  public const string LabelCardBaseMove = "Label_basemove";
+  public const string NodeExp = "Exp";
+  public const string LabelCardLevel = "Exp/Label_level";
+  public const string SpriteExpFull1 = "Exp/Sprite_exp_1_full";
+  public const string SpriteExpFull2 = "Exp/Sprite_exp_2_full";
+  public const string SpriteExpFull3 = "Exp/Sprite_exp_3_full";
+  public const string SpriteExpEmpty3 = "Exp/Sprite_exp_3_empty";
+  public const string LabelCardBaseMove = "Base_move/Label_basemove";
   public const string LabelNumFirstPlaces = "Container_win_record/Label_firstPlaceTotal";
   public const string LabelNumSecondPlaces = "Container_win_record/Label_secondPlaceTotal";
   public const string LabelNumThirdPlaces = "Container_win_record/Label_thirdPlaceTotal";
@@ -35,6 +40,6 @@ public static class PrepSceneData
   public const string LabelSelectedDescriptionPath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedSellsForPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
   public const string LabelSelectedBaseMovePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
-  public const string ContainerCardCostPrefix = "Shop_cost_panel_";
+  public const string ContainerCardCostPrefix = "Shop_cost_";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }

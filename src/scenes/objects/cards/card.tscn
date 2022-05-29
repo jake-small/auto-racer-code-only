@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardExp.tres" type="DynamicFont" id=5]
 [ext_resource path="res://assets/effects/iceBlockAlt.png" type="Texture" id=6]
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=7]
+[ext_resource path="res://assets/card_icons/icon066.png" type="Texture" id=8]
+[ext_resource path="res://assets/card_icons/icon004.png" type="Texture" id=9]
+[ext_resource path="res://assets/card_icons/icon003.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
@@ -99,29 +102,65 @@ position = Vector2( 68, 68 )
 shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="."]
-position = Vector2( 68, 61.5087 )
-scale = Vector2( 3.5, 3.5 )
+position = Vector2( 69, 68 )
+scale = Vector2( 4, 4 )
 texture = SubResource( 2 )
 
-[node name="Label_level" type="Label" parent="."]
-margin_left = 8.0
-margin_top = 103.0
-margin_right = 71.0
-margin_bottom = 134.0
+[node name="Exp" type="Node2D" parent="."]
+position = Vector2( 12, -29 )
+
+[node name="Label_level" type="Label" parent="Exp"]
+margin_left = -12.0
+margin_top = -6.0
+margin_right = 52.0
+margin_bottom = 29.0
 rect_pivot_offset = Vector2( -253.727, -52.4615 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "0 exp0/0"
+text = "lvl 0"
+align = 1
 valign = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label_basemove" type="Label" parent="."]
-margin_left = 31.0
-margin_top = 90.0
-margin_right = 128.0
-margin_bottom = 138.0
+[node name="Sprite_exp_1_empty" type="Sprite" parent="Exp"]
+position = Vector2( 60, 10 )
+texture = ExtResource( 9 )
+
+[node name="Sprite_exp_1_full" type="Sprite" parent="Exp"]
+visible = false
+position = Vector2( 60, 10 )
+texture = ExtResource( 10 )
+
+[node name="Sprite_exp_2_empty" type="Sprite" parent="Exp"]
+position = Vector2( 84, 10 )
+texture = ExtResource( 9 )
+
+[node name="Sprite_exp_2_full" type="Sprite" parent="Exp"]
+visible = false
+position = Vector2( 84, 10 )
+texture = ExtResource( 10 )
+
+[node name="Sprite_exp_3_empty" type="Sprite" parent="Exp"]
+position = Vector2( 108, 10 )
+texture = ExtResource( 9 )
+
+[node name="Sprite_exp_3_full" type="Sprite" parent="Exp"]
+visible = false
+position = Vector2( 108, 10 )
+texture = ExtResource( 10 )
+
+[node name="Base_move" type="Node2D" parent="."]
+position = Vector2( 16, -12 )
+
+[node name="Sprite_move_icon" type="Sprite" parent="Base_move"]
+position = Vector2( 100, 130 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove" type="Label" parent="Base_move"]
+margin_left = 34.0
+margin_top = 107.0
+margin_right = 89.0
+margin_bottom = 155.0
 rect_pivot_offset = Vector2( -253.727, -52.4615 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 4 )

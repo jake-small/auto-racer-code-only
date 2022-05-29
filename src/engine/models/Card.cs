@@ -90,8 +90,10 @@ public class Card : ICloneable
         Exp = ExpToLvl;
         return;
       }
+      var extraExp = Exp - ExpToLvl;
       ExpToLvl = ExpToLvl + 1;
       Exp = 1;
+      AddExp(extraExp);
     }
   }
 

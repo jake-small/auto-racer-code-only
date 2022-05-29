@@ -16,7 +16,7 @@ public class PrepMain : Node2D
   private TextureButton _freezeButton;
   private CostButtonUi _sellButton;
   private TextureButton _goButton;
-  private List<Sprite> _cardCostContainers;
+  private List<Node2D> _cardCostContainers;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
@@ -55,10 +55,10 @@ public class PrepMain : Node2D
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
-    _cardCostContainers = new List<Sprite>();
+    _cardCostContainers = new List<Node2D>();
     for (var i = 0; i < GameData.ShopInventorySize; i++)
     {
-      _cardCostContainers.Add(GetNode<Sprite>(PrepSceneData.ContainerCardCostPrefix + $"{i}"));
+      _cardCostContainers.Add(GetNode<Node2D>(PrepSceneData.ContainerCardCostPrefix + $"{i}"));
     }
 
     _dropCardTimer = new Timer();
