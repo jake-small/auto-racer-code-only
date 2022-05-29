@@ -221,7 +221,7 @@ public class CardScript : KinematicBody2D
       return;
     }
     _expNode.Visible = true;
-    _levelLabel.Text = "lvl " + Card.Level.ToString();
+    _levelLabel.Text = Card.Level.ToString();
     var exp = Card.Exp;
     var expToLvl = Card.ExpToLvl;
     if (expToLvl == 3)

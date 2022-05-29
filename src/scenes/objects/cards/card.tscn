@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
@@ -10,12 +10,20 @@
 [ext_resource path="res://assets/card_icons/icon066.png" type="Texture" id=8]
 [ext_resource path="res://assets/card_icons/icon004.png" type="Texture" id=9]
 [ext_resource path="res://assets/card_icons/icon003.png" type="Texture" id=10]
+[ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
 
 [sub_resource type="StreamTexture" id=2]
 load_path = "res://.import/icon023.png-8a66db349c3824cdfd9434e7f05215eb.stex"
+
+[sub_resource type="DynamicFont" id=3]
+size = 28
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+font_data = ExtResource( 11 )
 
 [node name="Card" type="KinematicBody2D" groups=["Card"]]
 collision_layer = 2
@@ -109,43 +117,57 @@ texture = SubResource( 2 )
 [node name="Exp" type="Node2D" parent="."]
 position = Vector2( 12, -29 )
 
-[node name="Label_level" type="Label" parent="Exp"]
+[node name="Label_level_text" type="Label" parent="Exp"]
 margin_left = -12.0
-margin_top = -6.0
+margin_top = -15.0
+margin_right = 15.0
+margin_bottom = 31.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "lvl"
+valign = 2
+
+[node name="Label_level" type="Label" parent="Exp"]
+margin_left = 12.0
+margin_top = -13.0
 margin_right = 52.0
-margin_bottom = 29.0
+margin_bottom = 33.0
 rect_pivot_offset = Vector2( -253.727, -52.4615 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "lvl 0"
+text = "0"
 align = 1
 valign = 2
 
 [node name="Sprite_exp_1_empty" type="Sprite" parent="Exp"]
-position = Vector2( 60, 10 )
+position = Vector2( 59, 10 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 9 )
 
 [node name="Sprite_exp_1_full" type="Sprite" parent="Exp"]
-visible = false
-position = Vector2( 60, 10 )
+position = Vector2( 59, 10 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 10 )
 
 [node name="Sprite_exp_2_empty" type="Sprite" parent="Exp"]
-position = Vector2( 84, 10 )
+position = Vector2( 85, 10 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 9 )
 
 [node name="Sprite_exp_2_full" type="Sprite" parent="Exp"]
-visible = false
-position = Vector2( 84, 10 )
+position = Vector2( 85, 10 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 10 )
 
 [node name="Sprite_exp_3_empty" type="Sprite" parent="Exp"]
-position = Vector2( 108, 10 )
+position = Vector2( 111, 10 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 9 )
 
 [node name="Sprite_exp_3_full" type="Sprite" parent="Exp"]
-visible = false
-position = Vector2( 108, 10 )
+position = Vector2( 111, 10 )
+scale = Vector2( 1.4, 1.4 )
 texture = ExtResource( 10 )
 
 [node name="Base_move" type="Node2D" parent="."]
