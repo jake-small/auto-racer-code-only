@@ -282,9 +282,9 @@ __meta__ = {
 }
 
 [node name="Label_player_name" type="Label" parent="."]
-margin_left = 106.0
+margin_left = 79.0
 margin_top = 508.0
-margin_right = 533.0
+margin_right = 506.0
 margin_bottom = 553.0
 grow_horizontal = 2
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -293,7 +293,7 @@ text = "Player Name"
 align = 1
 
 [node name="Character" parent="." instance=ExtResource( 5 )]
-position = Vector2( 320, 378 )
+position = Vector2( 293, 378 )
 scale = Vector2( 1.6, 1.6 )
 
 [node name="Shop_icon" type="Sprite" parent="."]

@@ -117,12 +117,16 @@ public class PrepMain : Node2D
 
   public void _on_Card_droppedOnFreezeButton(CardScript cardScript)
   {
+    _freezeButton.Disabled = true;
     FreezeCard();
+    _freezeButton.Disabled = true;
   }
 
   public void _on_Card_droppedOnSellButton(CardScript cardScript)
   {
+    _sellButton.Disabled = true;
     SellCard();
+    _sellButton.Disabled = true;
   }
 
   public void _on_Card_droppedInSlot(CardScript cardScript, int slot, Vector2 droppedPosition, Vector2 originalPosition)
@@ -279,13 +283,17 @@ public class PrepMain : Node2D
   private void Button_freeze_pressed()
   {
     Console.WriteLine("Freeze button pressed");
+    _freezeButton.Disabled = true;
     FreezeCard();
+    _freezeButton.Disabled = false;
   }
 
   private void Button_sell_pressed()
   {
     Console.WriteLine("Sell button pressed");
+    _sellButton.Disabled = true;
     SellCard();
+    _sellButton.Disabled = false;
   }
 
   private void Button_go_pressed()
