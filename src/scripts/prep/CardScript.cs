@@ -215,6 +215,7 @@ public class CardScript : KinematicBody2D
 
   public void UpdateUi()
   {
+    _baseMoveLabel.Text = Card.BaseMove.ToString();
     if (IsInShop())
     {
       _expNode.Visible = false;
@@ -240,17 +241,6 @@ public class CardScript : KinematicBody2D
     {
       _expFullIcons[i].Visible = true;
     }
-
-
-    // examples 
-    //   1/3  _ _
-    //   2/3  o _
-    //   3/3  o o
-    //   1/4  _ _ _
-    //   2/4  o _ _
-    //   4/4  o o o
-
-    _baseMoveLabel.Text = Card.BaseMove.ToString();
   }
 
   public bool IsInShop()

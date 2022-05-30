@@ -24,6 +24,11 @@ public class PrepMain : Node2D
 
   public override void _Ready()
   {
+    if (GameManager.CurrentRace > 0 && GameManager.ShopSize < 6 && GameManager.CurrentRace % GameData.TierIncreaseEveryNLevels == 0)
+    {
+      GameManager.ShopSize += 1;
+    }
+
     if (!GameManager.ShowTutorial)
     {
       var tutorialContainer = GetNode<Node2D>(PrepSceneData.TutorialPath).Visible = false;
@@ -43,7 +48,7 @@ public class PrepMain : Node2D
     fourthPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
 
     var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
-    raceLabel.Text = GameManager.CurrentRace.ToString();
+    raceLabel.Text = $"{GameManager.CurrentRace + 1}/{GameManager.TotalRaces}";
     var heartLabel = GetNode<Label>(PrepSceneData.LabelHeartsPath);
     heartLabel.Text = GameManager.LifeTotal.ToString();
 
@@ -56,8 +61,10 @@ public class PrepMain : Node2D
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
     _cardCostContainers = new List<Node2D>();
-    for (var i = 0; i < GameData.ShopInventorySize; i++)
+    for (var i = 0; i < GameManager.ShopSize; i++)
     {
+      var shopSlot = GetNode<Sprite>(PrepSceneData.ShopSlotPrefix + $"{i}");
+      shopSlot.Visible = true;
       _cardCostContainers.Add(GetNode<Node2D>(PrepSceneData.ContainerCardCostPrefix + $"{i}"));
     }
 
@@ -361,7 +368,7 @@ public class PrepMain : Node2D
   {
     CardShopClear();
     frozenCards = frozenCards ?? new List<Card>();
-    if (frozenCards.Count > GameData.ShopInventorySize)
+    if (frozenCards.Count > GameManager.ShopSize)
     {
       GD.Print("Error: more frozen cards than there are shop slots");
       return;
@@ -376,8 +383,8 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameData.ShopInventorySize);
-    for (int slot = frozenCards.Count; slot < GameData.ShopInventorySize; slot++)
+    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameManager.ShopSize);
+    for (int slot = frozenCards.Count; slot < GameManager.ShopSize; slot++)
     {
       var card = cards[slot];
       CreateCardScript(card, slot, true);

@@ -92,8 +92,8 @@ public class BotBasic : Player
 
   private void FillShop()
   {
-    var shopCards = _shopService.GetRandomCards(GameData.ShopInventorySize);
-    for (int slot = 0; slot < GameData.ShopInventorySize; slot++)
+    var shopCards = _shopService.GetRandomCards(GameManager.ShopSize);
+    for (int slot = 0; slot < GameManager.ShopSize; slot++)
     {
       var card = shopCards[slot];
       _botShopInventory.AddCard(card, slot);

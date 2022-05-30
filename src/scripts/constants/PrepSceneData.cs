@@ -32,7 +32,7 @@ public static class PrepSceneData
   public const string LabelNumSecondPlaces = "Container_win_record/Label_secondPlaceTotal";
   public const string LabelNumThirdPlaces = "Container_win_record/Label_thirdPlaceTotal";
   public const string LabelNumFourthPlaces = "Container_win_record/Label_fourthPlaceTotal";
-  public const string LabelRaceTotalPath = "Container_win_record/Label_raceTotal";
+  public const string LabelRaceTotalPath = "Container_Race_Count/Label_raceTotal";
   public const string LabelHeartsPath = "Container_info/Label_hearts";
   public const string LabelCoinsPath = "Container_info/Label_coins";
   public const string ContainerSelectedCard = "Container_selected_card";
@@ -40,6 +40,7 @@ public static class PrepSceneData
   public const string LabelSelectedDescriptionPath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedSellsForPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
   public const string LabelSelectedBaseMovePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
+  public const string ShopSlotPrefix = "shop_slot_";
   public const string ContainerCardCostPrefix = "Shop_cost_";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }
