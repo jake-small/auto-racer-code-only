@@ -33,7 +33,7 @@ public class ShopInventory
   public List<Card> GetCardsAsList()
   {
     var cards = new List<Card>();
-    for (int i = 0; i < GameData.ShopInventorySize; i++)
+    for (int i = 0; i < GameManager.ShopSize; i++)
     {
       var card = GetCardInSlot(i);
       if (card != null)

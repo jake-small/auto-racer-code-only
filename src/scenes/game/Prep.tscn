@@ -377,36 +377,42 @@ position = Vector2( 1605, 208 )
 texture = ExtResource( 9 )
 
 [node name="shop_slot_0" type="Sprite" parent="."]
+visible = false
 position = Vector2( 672, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="shop_slot_1" type="Sprite" parent="."]
+visible = false
 position = Vector2( 864, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="shop_slot_2" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1056, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="shop_slot_3" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1248, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="shop_slot_4" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1440, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
 [node name="shop_slot_5" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1632, 648 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
@@ -544,26 +550,35 @@ position = Vector2( 14.5076, -1.99994 )
 scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 21 )
 
-[node name="Container_win_record" type="Node2D" parent="."]
+[node name="Container_Race_Count" type="Node2D" parent="."]
+position = Vector2( 63, -1 )
 
-[node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
-position = Vector2( 318, 637.445 )
-scale = Vector2( 0.906667, 1.02891 )
+[node name="panel_runeBlue2" type="Sprite" parent="Container_Race_Count"]
+position = Vector2( 114.115, 638.445 )
+scale = Vector2( 0.312567, 1.02891 )
 texture = ExtResource( 31 )
 
-[node name="flag" type="Sprite" parent="Container_win_record"]
-position = Vector2( 210, 618 )
+[node name="flag" type="Sprite" parent="Container_Race_Count"]
+position = Vector2( 116, 614.587 )
 scale = Vector2( 0.4, 0.5 )
 texture = ExtResource( 22 )
 
-[node name="Label_raceTotal" type="Label" parent="Container_win_record"]
-margin_left = 186.296
-margin_top = 634.332
-margin_right = 226.296
-margin_bottom = 677.332
+[node name="Label_raceTotal" type="Label" parent="Container_Race_Count"]
+margin_left = 77.296
+margin_top = 632.332
+margin_right = 149.296
+margin_bottom = 692.332
 custom_fonts/font = ExtResource( 19 )
-text = "3"
+text = "9/9"
 align = 1
+
+[node name="Container_win_record" type="Node2D" parent="."]
+
+[node name="panel_runeBlue" type="Sprite" parent="Container_win_record"]
+position = Vector2( -87.7525, 510.069 )
+scale = Vector2( 0.744533, 1.02891 )
+texture = ExtResource( 31 )
+offset = Vector2( 577.64, 123.797 )
 
 [node name="trophy" type="Sprite" parent="Container_win_record"]
 position = Vector2( 261.64, 613.833 )
@@ -587,9 +602,9 @@ texture = ExtResource( 17 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
 margin_left = 242.64
-margin_top = 633.332
+margin_top = 631.332
 margin_right = 282.64
-margin_bottom = 676.332
+margin_bottom = 691.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -599,9 +614,9 @@ __meta__ = {
 
 [node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
 margin_left = 298.296
-margin_top = 633.332
+margin_top = 631.332
 margin_right = 338.296
-margin_bottom = 676.332
+margin_bottom = 691.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -611,9 +626,9 @@ __meta__ = {
 
 [node name="Label_thirdPlaceTotal" type="Label" parent="Container_win_record"]
 margin_left = 352.296
-margin_top = 633.332
+margin_top = 631.332
 margin_right = 392.296
-margin_bottom = 676.332
+margin_bottom = 691.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
@@ -623,9 +638,9 @@ __meta__ = {
 
 [node name="Label_fourthPlaceTotal" type="Label" parent="Container_win_record"]
 margin_left = 401.296
-margin_top = 633.332
+margin_top = 631.332
 margin_right = 441.296
-margin_bottom = 676.332
+margin_bottom = 691.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
