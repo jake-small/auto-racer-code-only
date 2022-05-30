@@ -5,7 +5,7 @@ using Godot;
 
 public class FileLoader
 {
-  public T LoadJsonData<T>(string dataFile)
+  public T LoadResourceData<T>(string dataFile)
   {
     if (!ResourceLoader.Exists($"res://{dataFile}"))
     {
@@ -27,6 +27,20 @@ public class FileLoader
     }
     // TODO: error handling
     var data = JsonSerializer.Deserialize<T>(dataStr);
+    return data;
+  }
+
+  public T LoadJsonData<T>(string jsonFile)
+  {
+    if (!System.IO.File.Exists(jsonFile))
+    {
+      GD.Print($"Error: provided json file '{jsonFile}' does not exist");
+      throw new Exception($"Error: provided json file '{jsonFile}' does not exist");
+    }
+    var jsonStr = System.IO.File.ReadAllLines(jsonFile);
+    var dataJson = String.Join("\n", jsonStr);
+    // TODO: error handling
+    var data = JsonSerializer.Deserialize<T>(dataJson);
     return data;
   }
 }

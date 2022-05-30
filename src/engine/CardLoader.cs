@@ -5,11 +5,30 @@ using Godot;
 
 public class CardLoader : FileLoader
 {
+  private const string DefaultCardDataPath = @"configs/cardData.tres";
   private List<Card> _cards { get; set; }
 
   public CardLoader(string cardDataPath)
   {
-    _cards = LoadJsonData<CardData>(cardDataPath).Cards;
+    try
+    {
+      if (System.IO.File.Exists(cardDataPath))
+      {
+        GD.Print($"Loading card data '{cardDataPath}'");
+        _cards = LoadJsonData<CardData>(cardDataPath).Cards;
+      }
+    }
+    catch (System.Exception)
+    {
+      GD.Print($"Warning: Unable to access filesystem to access card config '{cardDataPath}', using built-in card data instead");
+    }
+    finally
+    {
+      if (_cards == null || _cards.Count == 0)
+      {
+        _cards = LoadResourceData<CardData>(DefaultCardDataPath).Cards;
+      }
+    }
   }
 
   public List<Card> GetCards()

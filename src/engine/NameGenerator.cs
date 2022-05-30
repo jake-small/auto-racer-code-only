@@ -8,7 +8,7 @@ public class NameGenerator : FileLoader
 
   public NameGenerator(string nameJsonFile)
   {
-    _availableNames = LoadJsonData<Names>(nameJsonFile);
+    _availableNames = LoadResourceData<Names>(nameJsonFile);
   }
 
   public string GetRandomName()

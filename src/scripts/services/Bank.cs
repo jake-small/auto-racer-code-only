@@ -15,7 +15,7 @@ public class Bank : FileLoader
 
   public Bank(string bankDataFile, bool shouldLog = true)
   {
-    BankData = LoadJsonData<BankData>(bankDataFile);
+    BankData = LoadResourceData<BankData>(bankDataFile);
     BuyCost = BankData.BuyCost;
     RerollCost = BankData.RerollCost;
     SellValue = BankData.SellValue;
