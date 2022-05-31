@@ -1,32 +1,41 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using Godot;
 
-public class CardLoader : FileLoader
+public class CardLoader
 {
   private const string DefaultCardDataPath = @"configs/cardData.tres";
   private List<Card> _cards { get; set; }
 
-  public CardLoader(string cardDataPath)
+  public CardLoader(string cardDataPath, DataLoader dataLoader)
   {
     try
     {
       if (System.IO.File.Exists(cardDataPath))
       {
-        GD.Print($"Loading card data '{cardDataPath}'");
-        _cards = LoadJsonData<CardData>(cardDataPath).Cards;
+        Console.WriteLine($"Loading card data '{cardDataPath}'");
+        _cards = dataLoader.LoadJsonData<CardData>(cardDataPath).Cards;
       }
     }
-    catch (System.Exception)
+    catch (System.Exception e)
     {
-      GD.Print($"Warning: Unable to access filesystem to access card config '{cardDataPath}', using built-in card data instead");
+      Console.WriteLine($"Warning: Unable to access filesystem to access card config '{cardDataPath}', using built-in card data instead. Error: {e.Message}");
+      _cards = dataLoader.LoadJsonData<CardData>(cardDataPath).Cards;
     }
     finally
     {
       if (_cards == null || _cards.Count == 0)
       {
-        _cards = LoadResourceData<CardData>(DefaultCardDataPath).Cards;
+        Console.WriteLine($"Warning: Card json file not found at '{cardDataPath}', using built-in card data instead");
+        if (dataLoader.CanLoadResource())
+        {
+          _cards = dataLoader.LoadResourceData<CardData>(DefaultCardDataPath).Cards;
+        }
+        else
+        {
+          Console.WriteLine($"Warning: Unable to load card resource file");
+        }
+
       }
     }
   }

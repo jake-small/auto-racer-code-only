@@ -18,8 +18,9 @@ namespace AutoRacerTests.Tests
       // Have to register types again because of a bug between unit tests and MoonSharp
       UserData.RegisterType<RaceScriptData>();
       UserData.RegisterType<MoonSharpPlayer>();
-      var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardsTest.json");
+      var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardsTest.json", new JsonLoader());
       _cards = cardLoader.GetCards();
+
     }
 
     [TestCase(1)]

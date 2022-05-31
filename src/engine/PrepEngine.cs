@@ -8,15 +8,19 @@ public class PrepEngine
   public Bank Bank { get; private set; }
   public PlayerInventory PlayerInventory { get; set; }
   public ShopInventory ShopInventory { get; set; }
-  public ShopService ShopService { get; set; } = new ShopService();
+  public ShopService ShopService { get; set; }
   // TODO
   // private string history;
 
+  private DataLoader _dataLoader;
+
   public PrepEngine()
   {
-    Bank = new Bank(PrepSceneData.BankDataConfigRelativePath);
+    _dataLoader = new JsonLoader();
+    Bank = new Bank(PrepSceneData.BankDataConfigRelativePath, _dataLoader);
     PlayerInventory = new PlayerInventory();
     ShopInventory = new ShopInventory();
+    ShopService = new ShopService(_dataLoader);
   }
 
   public void CalculateStartTurnAbilities()

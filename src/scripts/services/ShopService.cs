@@ -8,9 +8,9 @@ public class ShopService
   private static Random _rnd = new Random();
 
 
-  public ShopService()
+  public ShopService(DataLoader dataLoader)
   {
-    var cardLoader = new CardLoader(PrepSceneData.CardDataRelativePath);
+    var cardLoader = new CardLoader(PrepSceneData.CardDataRelativePath, dataLoader);
     var cards = cardLoader.GetCards();
 
     _availableCards = new List<Card>();

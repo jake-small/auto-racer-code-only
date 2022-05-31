@@ -24,6 +24,7 @@ public static class GameManager
     CurrentRace = 0;
     TotalRaces = 9;
     LifeTotal = 10;
+    CalcLayer = new CalculationLayer();
     PrepEngine = new PrepEngine();
     CharacterSkins = new List<string>();
     ShopSize = GameData.StartingShopInventorySize;
