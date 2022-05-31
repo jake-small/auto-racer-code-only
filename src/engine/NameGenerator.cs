@@ -9,7 +9,7 @@ public class NameGenerator
 
   public NameGenerator(string nameJsonFile)
   {
-    var dataLoader = new JsonLoader();
+    var dataLoader = new FileLoader();
     try
     {
       if (System.IO.File.Exists(nameJsonFile))

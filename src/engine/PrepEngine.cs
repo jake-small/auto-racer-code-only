@@ -16,7 +16,7 @@ public class PrepEngine
 
   public PrepEngine()
   {
-    _dataLoader = new JsonLoader();
+    _dataLoader = new FileLoader();
     Bank = new Bank(PrepSceneData.BankDataConfigRelativePath, _dataLoader);
     PlayerInventory = new PlayerInventory();
     ShopInventory = new ShopInventory();
