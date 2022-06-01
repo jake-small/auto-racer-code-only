@@ -293,40 +293,40 @@ namespace AutoRacerTests.Tests
       }
     }
 
-    // [TestCase(1)]
-    // [TestCase(2)]
-    // [TestCase(3)]
-    // public void LastingShield_HasNegativeTokens_Success(int level)
-    // {
-    //   Console.WriteLine($"Starting {nameof(LastingShield_HasNegativeTokens_Success)}({level})");
-    //   var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
-    //   cardInTest.Level = level;
-    //   var minusTokenForTwo = TestHelperData.GetTestMoveToken(-1, 2);
-    //   var player = new Player
-    //   {
-    //     Id = 0,
-    //     Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
-    //     Position = 0,
-    //     Tokens = new List<Token> { minusTokenForTwo, minusTokenForTwo }
-    //   };
-    //   var playerResults = TestRace(player, 2);
-    //   Assert.That(playerResults.Count, Is.EqualTo(4));
-    //   var leveledCard = cardInTest.GetLeveledCard();
-    //   foreach (var playerResult in playerResults)
-    //   {
-    //     Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
-    //     if (playerResult.Id is 0)
-    //     {
-    //       var boostValue = leveledCard
-    //         .LevelValues.FirstOrDefault(l => l.Id == level)
-    //         .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
-    //       var newPosition = 1 + leveledCard.BaseMove + (boostValue * minusTokenForTwo.Duration) + (boostValue * minusTokenForTwo.Duration);
-    //       Assert.That(playerResult.Position, Is.EqualTo(newPosition));
-    //       continue;
-    //     }
-    //     Assert.That(playerResult.Position, Is.EqualTo(1));
-    //   }
-    // }
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void LastingShield_HasNegativeTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(LastingShield_HasNegativeTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var minusTokenForTwo = TestHelperData.GetTestMoveToken(-1, 2);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { minusTokenForTwo, minusTokenForTwo }
+      };
+      var playerResults = TestRace(player, 2);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          var newPosition = 1 + leveledCard.BaseMove + (boostValue * minusTokenForTwo.Duration) + (boostValue * minusTokenForTwo.Duration);
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
 
 
 

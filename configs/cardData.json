@@ -11,7 +11,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{V}",
             "Duration": "1",
             "Target": {
@@ -74,15 +74,15 @@
     {
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
-      "Description": "Gain {M}x move for each negative lingering token",
+      "Description": "Gain {M} move for each negative lingering token",
       "BaseMove": 2,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities2",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -255,7 +255,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -329,7 +329,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{A}",
             "Duration": "1",
             "Target": {
@@ -388,7 +388,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities2",
             "Value": "{V}",
             "Duration": "{F}",
             "Target": {
@@ -469,7 +469,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities2",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -530,15 +530,15 @@
     {
       "Name": "Focus Ring",
       "Icon": "icon802.png",
-      "Description": "Gain {A} move",
+      "Description": "Gain {A}x move",
       "BaseMove": 0,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
             "Name": "ability1",
             "Type": "Multiplicative",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{A}",
             "Duration": "1",
             "Target": {

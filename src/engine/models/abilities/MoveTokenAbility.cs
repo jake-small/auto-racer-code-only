@@ -26,3 +26,9 @@ public class MoveTokenAbility : TokenAbility, ICloneable
     };
   }
 }
+
+public enum RacePhase
+{
+  Abilities1,
+  Abilities2
+}

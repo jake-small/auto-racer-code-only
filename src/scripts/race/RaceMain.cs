@@ -8,7 +8,7 @@ public class RaceMain : Node2D
   private AutoRaceEngine _autoRaceEngine;
   private RaceViewManager _raceViewManager;
   private TextureButton _forwardButton;
-  private TextureButton _backButton;
+  // private TextureButton _backButton;
   private TextureButton _endRaceButton;
   private TextureButton _autoPlayButton;
   private Label _labelTurnPhase;
@@ -298,7 +298,7 @@ public class RaceMain : Node2D
       // {
       //   _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
       // }
-      _backButton.Disabled = false;
+      // _backButton.Disabled = false;
       return;
     }
 
@@ -319,7 +319,7 @@ public class RaceMain : Node2D
     _currentTurnView = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurnView}");
 
-    if (turnPhase == TurnPhases.AbilitiesStart)
+    if (turnPhase == TurnPhases.Abilities1)
     {
       _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities";
       var turnResults = _autoRaceEngine.GetTurnResults();
@@ -338,12 +338,47 @@ public class RaceMain : Node2D
     }
     if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
     {
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
       var turnResults = _autoRaceEngine.GetTurnResults();
       var turnId = int.Parse(turnPhase.ToString().Last().ToString());
-      _slotTurnIndicators[turnId].Visible = true;
-      _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == turnId));
-      _waitingOnCardEffect = true;
-      _forwardButton.Disabled = true;
+      var turnResult = turnResults.Where(r => r.Phase == TurnPhases.Abilities1).FirstOrDefault(r => r.Player.Id == turnId);
+      if (turnResult.TokensGiven.Any())
+      {
+        ShowSlotTurnIndicator(turnId);
+        _raceViewManager.GiveTokens(turnResult);
+        _waitingOnCardEffect = true;
+        _forwardButton.Disabled = true;
+      }
+      else
+      {
+        // ShowSlotTurnIndicator(turnId, false);
+        AdvanceRace();
+        return;
+      }
+    }
+    if (turnPhase == TurnPhases.Abilities2)
+    {
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
+    }
+    if (turnPhase == TurnPhases.Abilities2P0 || turnPhase == TurnPhases.Abilities2P1 || turnPhase == TurnPhases.Abilities2P2 || turnPhase == TurnPhases.Abilities2P3)
+    {
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
+      var turnResults = _autoRaceEngine.GetTurnResults();
+      var turnId = int.Parse(turnPhase.ToString().Last().ToString());
+      var turnResult = turnResults.Where(r => r.Phase == TurnPhases.Abilities2).FirstOrDefault(r => r.Player.Id == turnId);
+      if (turnResult.TokensGiven.Any())
+      {
+        ShowSlotTurnIndicator(turnId);
+        _raceViewManager.GiveTokens(turnResult);
+        _waitingOnCardEffect = true;
+        _forwardButton.Disabled = true;
+      }
+      else
+      {
+        // ShowSlotTurnIndicator(turnId, false);
+        AdvanceRace();
+        return;
+      }
     }
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
@@ -362,9 +397,10 @@ public class RaceMain : Node2D
         // _positionStates.Add(positionState);
       }
     }
+
     if (turnPhase == TurnPhases.Move)
     {
-      didWin = _autoRaceEngine.AdvanceRace();
+      // didWin = _autoRaceEngine.AdvanceRace();
       didWin = _autoRaceEngine.AdvanceRace();
       turnPhase = _autoRaceEngine.GetTurnPhase();
     }
@@ -448,6 +484,16 @@ public class RaceMain : Node2D
     selectedCardDescriptionLabel.Text = "";
     selectedCardSellsForLabel.Text = "";
     selectedCardBaseMoveLabel.Text = "";
+  }
+
+  private void ShowSlotTurnIndicator(int turnId, bool abilityActivated = true)
+  {
+    _slotTurnIndicators[turnId].Visible = true;
+    // if (_slotTurnIndicators[turnId].Modulate.a != 1f && !abilityActivated)
+    // {
+    // var t = abilityActivated ? 1f : 0.5f;
+    // _slotTurnIndicators[turnId].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, t);
+    // }
   }
 
   private void HideSlotTurnIndicators()
