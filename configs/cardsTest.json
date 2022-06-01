@@ -417,6 +417,156 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "Dragon Plate",
+      "Icon": "icon638.png",
+      "Description": "If you have no positive lingering tokens, gain {M}",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "positiveTokens = scriptData.GetPositiveTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(positiveTokens) ",
+                  "do ",
+                  "  count = count + 1 ",
+                  "end ",
+                  "if (count > 0) then",
+                  "  return 0",
+                  "else ",
+                  "  return {M}",
+                  "end "
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Lasting Shield",
+      "Icon": "icon600.png",
+      "Description": "Gain {M} move for the duration of each negative lingering token",
+      "BaseMove": 2,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "{V}",
+            "Duration": "{F}",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  count = count + (value.Duration) ",
+                  "end ",
+                  "return count"
+                ]
+              },
+              {
+                "Key": "V",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  count = count + 1 ",
+                  "end ",
+                  "if (count > 0) then",
+                  "  return {M}",
+                  "else ",
+                  "  return 0",
+                  "end "
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

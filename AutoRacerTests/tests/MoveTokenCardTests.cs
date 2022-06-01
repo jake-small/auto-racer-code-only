@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MoonSharp.Interpreter;
 using NUnit.Framework;
-using static AutoRaceEngine;
 
 namespace AutoRacerTests.Tests
 {
@@ -18,6 +17,7 @@ namespace AutoRacerTests.Tests
       // Have to register types again because of a bug between unit tests and MoonSharp
       UserData.RegisterType<RaceScriptData>();
       UserData.RegisterType<MoonSharpPlayer>();
+      UserData.RegisterType<MoonSharpMoveTokens>();
       var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardsTest.json", new JsonLoader());
       _cards = cardLoader.GetCards();
 
@@ -200,6 +200,135 @@ namespace AutoRacerTests.Tests
         Assert.That(playerResult.Position, Is.EqualTo(5));
       }
     }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void DragonPlate_NoPositiveTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(DragonPlate_NoPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("dragon plate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 0 };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + boostValue));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void DragonPlate_HasPositiveTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(DragonPlate_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("dragon plate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var plusOneToken = TestHelperData.GetTestMoveToken();
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { plusOneToken }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + plusOneToken.Value));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void DragonPlate_HasNegativeTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(DragonPlate_HasNegativeTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("dragon plate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var minusOneToken = TestHelperData.GetTestMoveToken(-1);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { minusOneToken }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + boostValue + minusOneToken.Value));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    // [TestCase(1)]
+    // [TestCase(2)]
+    // [TestCase(3)]
+    // public void LastingShield_HasNegativeTokens_Success(int level)
+    // {
+    //   Console.WriteLine($"Starting {nameof(LastingShield_HasNegativeTokens_Success)}({level})");
+    //   var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
+    //   cardInTest.Level = level;
+    //   var minusTokenForTwo = TestHelperData.GetTestMoveToken(-1, 2);
+    //   var player = new Player
+    //   {
+    //     Id = 0,
+    //     Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+    //     Position = 0,
+    //     Tokens = new List<Token> { minusTokenForTwo, minusTokenForTwo }
+    //   };
+    //   var playerResults = TestRace(player, 2);
+    //   Assert.That(playerResults.Count, Is.EqualTo(4));
+    //   var leveledCard = cardInTest.GetLeveledCard();
+    //   foreach (var playerResult in playerResults)
+    //   {
+    //     Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+    //     if (playerResult.Id is 0)
+    //     {
+    //       var boostValue = leveledCard
+    //         .LevelValues.FirstOrDefault(l => l.Id == level)
+    //         .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+    //       var newPosition = 1 + leveledCard.BaseMove + (boostValue * minusTokenForTwo.Duration) + (boostValue * minusTokenForTwo.Duration);
+    //       Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+    //       continue;
+    //     }
+    //     Assert.That(playerResult.Position, Is.EqualTo(1));
+    //   }
+    // }
+
+
 
     private List<Player> TestRace(Player player, int numTurns, int defaultPosition = 0, int defaultBasemove = 1)
     {
