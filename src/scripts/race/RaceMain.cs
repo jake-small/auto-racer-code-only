@@ -336,50 +336,19 @@ public class RaceMain : Node2D
       }
       // _cardStates.Add(currentCardStates);
     }
-    if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
+
+    if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3
+      || turnPhase == TurnPhases.Abilities2P0 || turnPhase == TurnPhases.Abilities2P1 || turnPhase == TurnPhases.Abilities2P2 || turnPhase == TurnPhases.Abilities2P3)
     {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
-      var turnResults = _autoRaceEngine.GetTurnResults();
-      var turnId = int.Parse(turnPhase.ToString().Last().ToString());
-      var turnResult = turnResults.Where(r => r.Phase == TurnPhases.Abilities1).FirstOrDefault(r => r.Player.Id == turnId);
-      if (turnResult.TokensGiven.Any())
-      {
-        ShowSlotTurnIndicator(turnId);
-        _raceViewManager.GiveTokens(turnResult);
-        _waitingOnCardEffect = true;
-        _forwardButton.Disabled = true;
-      }
-      else
-      {
-        // ShowSlotTurnIndicator(turnId, false);
-        AdvanceRace();
-        return;
-      }
+      HandleAbilitiesPhase(turnPhase);
     }
+
     if (turnPhase == TurnPhases.Abilities2)
     {
+      HideSlotTurnIndicators();
       _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
     }
-    if (turnPhase == TurnPhases.Abilities2P0 || turnPhase == TurnPhases.Abilities2P1 || turnPhase == TurnPhases.Abilities2P2 || turnPhase == TurnPhases.Abilities2P3)
-    {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
-      var turnResults = _autoRaceEngine.GetTurnResults();
-      var turnId = int.Parse(turnPhase.ToString().Last().ToString());
-      var turnResult = turnResults.Where(r => r.Phase == TurnPhases.Abilities2).FirstOrDefault(r => r.Player.Id == turnId);
-      if (turnResult.TokensGiven.Any())
-      {
-        ShowSlotTurnIndicator(turnId);
-        _raceViewManager.GiveTokens(turnResult);
-        _waitingOnCardEffect = true;
-        _forwardButton.Disabled = true;
-      }
-      else
-      {
-        // ShowSlotTurnIndicator(turnId, false);
-        AdvanceRace();
-        return;
-      }
-    }
+
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
       var phase = turnPhase == TurnPhases.Move ? "Move" : "Handle Remaining Tokens";
@@ -420,6 +389,26 @@ public class RaceMain : Node2D
       _raceOver = true;
       CalculateStandings();
       return;
+    }
+  }
+
+  private void HandleAbilitiesPhase(TurnPhases turnPhase)
+  {
+    _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
+    var turnResults = _autoRaceEngine.GetTurnResults();
+    var turnId = int.Parse(turnPhase.ToString().Last().ToString());
+    var abilityPhase = turnPhase.ToString().StartsWith("Abilities2") ? TurnPhases.Abilities2 : TurnPhases.Abilities1;
+    var turnResult = turnResults.Where(r => r.Phase == abilityPhase).FirstOrDefault(r => r.Player.Id == turnId);
+    if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
+    {
+      ShowSlotTurnIndicator(turnId, true);
+      _raceViewManager.GiveTokens(turnResult);
+      _waitingOnCardEffect = true;
+      _forwardButton.Disabled = true;
+    }
+    else
+    {
+      ShowSlotTurnIndicator(turnId, false);
     }
   }
 
@@ -486,14 +475,11 @@ public class RaceMain : Node2D
     selectedCardBaseMoveLabel.Text = "";
   }
 
-  private void ShowSlotTurnIndicator(int turnId, bool abilityActivated = true)
+  private void ShowSlotTurnIndicator(int turnId, bool abilityActivated)
   {
     _slotTurnIndicators[turnId].Visible = true;
-    // if (_slotTurnIndicators[turnId].Modulate.a != 1f && !abilityActivated)
-    // {
-    // var t = abilityActivated ? 1f : 0.5f;
-    // _slotTurnIndicators[turnId].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, t);
-    // }
+    var transparentValue = abilityActivated ? 1f : 0.5f;
+    _slotTurnIndicators[turnId].Modulate = new Color(1, 0.16f, 0.24f, transparentValue);
   }
 
   private void HideSlotTurnIndicators()
