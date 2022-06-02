@@ -5,7 +5,7 @@
       "Icon": "icon132.png",
       "Description": "All opponents within {R} gain {V} move",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -74,7 +74,7 @@
     {
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
-      "Description": "Gain {M} move for each negative lingering token",
+      "Description": "Gain {M} move for each negative token",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -378,9 +378,78 @@
       ]
     },
     {
+      "Name": "Dragon Plate",
+      "Icon": "icon638.png",
+      "Description": "If you have no positive tokens, gain {M}",
+      "BaseMove": 3,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "positiveTokens = scriptData.GetPositiveTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(positiveTokens) ",
+                  "do ",
+                  "  count = count + 1 ",
+                  "end ",
+                  "if (count > 0) then",
+                  "  return 0",
+                  "else ",
+                  "  return {M}",
+                  "end "
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "15"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "Name": "Lasting Shield",
       "Icon": "icon600.png",
-      "Description": "Gain {M} move for the duration of each negative lingering token",
+      "Description": "Gain {M} for the total duration of all negative tokens on you",
       "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
@@ -459,86 +528,17 @@
       ]
     },
     {
-      "Name": "Dragon Plate",
-      "Icon": "icon638.png",
-      "Description": "If you have no positive lingering tokens, gain {M}",
-      "BaseMove": 3,
-      "Tier": 2,
-      "Abilities": {
-        "MoveTokenAbilities": [
-          {
-            "Name": "ability1",
-            "Type": "Additive",
-            "Phase": "Abilities2",
-            "Value": "{F}",
-            "Duration": "1",
-            "Target": {
-              "Type": "self"
-            },
-            "Functions": [
-              {
-                "Key": "F",
-                "BodyMultiline": [
-                  "positiveTokens = scriptData.GetPositiveTokens()",
-                  "count = 0 ",
-                  "for key,value in ipairs(positiveTokens) ",
-                  "do ",
-                  "  count = count + 1 ",
-                  "end ",
-                  "if (count > 0) then",
-                  "  return 0",
-                  "else ",
-                  "  return {M}",
-                  "end "
-                ]
-              }
-            ]
-          }
-        ],
-        "PrepAbilities": []
-      },
-      "LevelValues": [
-        {
-          "Id": 1,
-          "OutKeys": [
-            {
-              "Key": "M",
-              "Value": "5"
-            }
-          ]
-        },
-        {
-          "Id": 2,
-          "OutKeys": [
-            {
-              "Key": "M",
-              "Value": "10"
-            }
-          ]
-        },
-        {
-          "Id": 3,
-          "OutKeys": [
-            {
-              "Key": "M",
-              "Value": "15"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "Name": "Focus Ring",
       "Icon": "icon802.png",
       "Description": "Gain {A}x move",
       "BaseMove": 0,
-      "Tier": 2,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
             "Name": "ability1",
             "Type": "Multiplicative",
-            "Phase": "Abilities1",
+            "Phase": "Abilities2",
             "Value": "{A}",
             "Duration": "1",
             "Target": {
@@ -581,6 +581,181 @@
             {
               "Key": "A",
               "Value": "2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Blue Spell",
+      "Icon": "icon155.png",
+      "Description": "Highest placing opponent gets negative move equal to the distance between you",
+      "BaseMove": 1,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "PositionDescending",
+              "Amount": "1",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "for key,value in ipairs(scriptData.GetOtherPlayers()) ",
+                  "do ",
+                  "  if (highestOppenent == nil) then",
+                  "    highestOppenent = value",
+                  "  elseif(value.Position > highestOppenent.Position) then",
+                  "    highestOppenent = value",
+                  "  end ",
+                  "end ",
+                  "return scriptData.Player.Position - highestOppenent.Position"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": []
+        },
+        {
+          "Id": 2,
+          "OutKeys": []
+        },
+        {
+          "Id": 3,
+          "OutKeys": []
+        }
+      ]
+    },
+    {
+      "Name": "Kakarot",
+      "Icon": "icon310.png",
+      "Description": "Gain {V} move for {D} turns",
+      "BaseMove": 2,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Premove",
+            "Value": "{V}",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "6"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Abyss Brew",
+      "Icon": "icon347.png",
+      "Description": "Gain -1 move for {D} turns",
+      "BaseMove": 8,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "-1",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "6"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "1"
             }
           ]
         }

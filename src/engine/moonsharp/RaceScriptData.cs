@@ -7,12 +7,17 @@ using MoonSharp.Interpreter;
 public class RaceScriptData : MoonSharpScriptData
 {
   public MoonSharpPlayer Player { get; set; }
-  public IEnumerable<MoonSharpPlayer> AllPlayers { get; private set; }
+  public List<MoonSharpPlayer> AllPlayers { get; private set; }
 
   public RaceScriptData(MoonSharpPlayer player, IEnumerable<MoonSharpPlayer> allPlayers)
   {
     Player = player;
-    AllPlayers = allPlayers;
+    AllPlayers = allPlayers.ToList();
+  }
+
+  public List<MoonSharpPlayer> GetOtherPlayers()
+  {
+    return AllPlayers.Where(p => p.Id != Player.Id).ToList();
   }
 
   public List<MoonSharpPlayer> GetPlayersWithinRange(int min, int max)
@@ -44,7 +49,7 @@ public class MoonSharpPlayer
 {
   public int Id { get; set; }
   public int Position { get; set; } = 0;
-  public IEnumerable<MoonSharpMoveTokens> MoveTokens { get; set; }
+  public List<MoonSharpMoveTokens> MoveTokens { get; set; }
 
   public MoonSharpPlayer(Player player)
   {
@@ -58,7 +63,7 @@ public class MoonSharpPlayer
         Type = t.Type,
         Target = t.Target,
         Value = t.Value
-      });
+      }).ToList();
   }
 }
 
