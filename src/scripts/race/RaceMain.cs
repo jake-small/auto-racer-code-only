@@ -321,7 +321,7 @@ public class RaceMain : Node2D
 
     if (turnPhase == TurnPhases.Abilities1)
     {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities";
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 1";
       var turnResults = _autoRaceEngine.GetTurnResults();
       // var currentCardStates = new List<string>();
       var p = 0;
@@ -346,7 +346,7 @@ public class RaceMain : Node2D
     if (turnPhase == TurnPhases.Abilities2)
     {
       HideSlotTurnIndicators();
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 2";
     }
 
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
@@ -394,7 +394,7 @@ public class RaceMain : Node2D
 
   private void HandleAbilitiesPhase(TurnPhases turnPhase)
   {
-    _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
+    // _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
     var turnResults = _autoRaceEngine.GetTurnResults();
     var turnId = int.Parse(turnPhase.ToString().Last().ToString());
     var abilityPhase = turnPhase.ToString().StartsWith("Abilities2") ? TurnPhases.Abilities2 : TurnPhases.Abilities1;
