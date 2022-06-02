@@ -118,6 +118,7 @@ public class AutoRaceEngine
   private void Abilities2Phase()
   {
     Console.WriteLine("Abilities2Phase");
+    _turnManager.ClearPlayerTurns();
     foreach (var player in _players)
     {
       _turnManager.AddPlayerTurn(CalculatePlayerTurn(player, TurnPhases.Abilities2));
