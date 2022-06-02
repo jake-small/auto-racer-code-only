@@ -23,6 +23,8 @@ public class RaceMain : Node2D
   private List<Sprite> _slotTurnIndicators;
   private int _currentTurnView;
   private bool _raceOver = false;
+  private bool _isPaused = false;
+  private float _pauseDuration = 0;
   private bool _waitingOnCardEffect = false;
   private bool _waitingOnMovement = false;
   private bool _autoplay = false;
@@ -107,6 +109,20 @@ public class RaceMain : Node2D
       _autoPlayButton.Disabled = true;
     }
 
+    if (_isPaused)
+    {
+      if (_pauseDuration > 0)
+      {
+        _pauseDuration -= delta;
+      }
+      else
+      {
+        _isPaused = false;
+        _pauseDuration = 0;
+        _forwardButton.Disabled = false;
+      }
+    }
+
     if (_waitingOnCardEffect)
     {
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
@@ -125,7 +141,7 @@ public class RaceMain : Node2D
       }
     }
 
-    if (_autoplay && !_waitingOnCardEffect && !_waitingOnMovement)
+    if (_autoplay && !_isPaused && !_waitingOnCardEffect && !_waitingOnMovement)
     {
       AdvanceRace();
     }
@@ -409,6 +425,7 @@ public class RaceMain : Node2D
     else
     {
       ShowSlotTurnIndicator(turnId, false);
+      Pause(1);
     }
   }
 
@@ -488,6 +505,13 @@ public class RaceMain : Node2D
     {
       indicator.Visible = false;
     }
+  }
+
+  private void Pause(float duration)
+  {
+    _forwardButton.Disabled = true;
+    _isPaused = true;
+    _pauseDuration = duration;
   }
 
   // TODO refactor out to a matchmaker
