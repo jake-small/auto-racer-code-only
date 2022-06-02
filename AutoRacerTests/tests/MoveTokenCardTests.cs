@@ -18,7 +18,7 @@ namespace AutoRacerTests.Tests
       UserData.RegisterType<RaceScriptData>();
       UserData.RegisterType<MoonSharpPlayer>();
       UserData.RegisterType<MoonSharpMoveTokens>();
-      var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardsTest.json", new JsonLoader());
+      var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardDataTest.json", new JsonLoader());
       _cards = cardLoader.GetCards();
 
     }
@@ -293,23 +293,30 @@ namespace AutoRacerTests.Tests
       }
     }
 
-    [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(3)]
-    public void LastingShield_HasNegativeTokens_Success(int level)
+    [TestCase(1, -1, 2, -1, 2)]
+    [TestCase(2, -1, 2, -1, 2)]
+    [TestCase(3, -1, 2, -1, 2)]
+    [TestCase(1, -2, 2, -1, 2)]
+    [TestCase(2, -2, 2, -1, 2)]
+    [TestCase(3, -2, 2, -1, 2)]
+    [TestCase(1, -1, 4, -2, 1)]
+    [TestCase(2, -1, 4, -2, 1)]
+    [TestCase(3, -1, 4, -2, 1)]
+    public void LastingShield_HasNegativeTokens_Success(int level, int token1Value, int token1Duration, int token2Value, int token2Duration)
     {
       Console.WriteLine($"Starting {nameof(LastingShield_HasNegativeTokens_Success)}({level})");
       var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
       cardInTest.Level = level;
-      var minusTokenForTwo = TestHelperData.GetTestMoveToken(-1, 2);
+      var minusToken1 = TestHelperData.GetTestMoveToken(token1Value, token1Duration);
+      var minusToken2 = TestHelperData.GetTestMoveToken(token2Value, token2Duration);
       var player = new Player
       {
         Id = 0,
         Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
         Position = 0,
-        Tokens = new List<Token> { minusTokenForTwo, minusTokenForTwo }
+        Tokens = new List<Token> { minusToken1, minusToken2 }
       };
-      var playerResults = TestRace(player, 2);
+      var playerResults = TestRace(player, 40);
       Assert.That(playerResults.Count, Is.EqualTo(4));
       var leveledCard = cardInTest.GetLeveledCard();
       foreach (var playerResult in playerResults)
@@ -320,7 +327,47 @@ namespace AutoRacerTests.Tests
           var boostValue = leveledCard
             .LevelValues.FirstOrDefault(l => l.Id == level)
             .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
-          var newPosition = 1 + leveledCard.BaseMove + (boostValue * minusTokenForTwo.Duration) + (boostValue * minusTokenForTwo.Duration);
+          var newPosition = 4 + leveledCard.BaseMove
+            + (boostValue * (token1Duration + token2Duration))
+            + ((token1Value * token1Duration) + (token2Value * token2Duration));
+          Console.WriteLine($"boostvalue: {boostValue}, newposition: {newPosition}");
+          Console.WriteLine($"boost: {(boostValue * (minusToken1.Duration + minusToken2.Duration))}");
+          Console.WriteLine($"minus: {((minusToken1.Value * minusToken1.Duration) + (minusToken2.Value * minusToken2.Duration))}");
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(5));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void FocusRing_HasPositiveTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(FocusRing_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("focus ring", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var plusToken = TestHelperData.GetTestMoveToken(1, 1);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { plusToken, plusToken }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "A").Value.ToInt();
+          var newPosition = boostValue * (leveledCard.BaseMove + plusToken.Value + plusToken.Value);
           Assert.That(playerResult.Position, Is.EqualTo(newPosition));
           continue;
         }

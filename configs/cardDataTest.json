@@ -11,7 +11,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{V}",
             "Duration": "1",
             "Target": {
@@ -82,7 +82,7 @@
           {
             "Name": "curseInitial",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{V}",
             "Duration": "1",
             "Target": {
@@ -100,7 +100,7 @@
           {
             "Name": "curseDot",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "-1",
             "Duration": "{D}",
             "Target": {
@@ -183,7 +183,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -257,7 +257,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{V}",
             "Duration": "{D}",
             "Target": {
@@ -429,7 +429,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -490,7 +490,7 @@
     {
       "Name": "Lasting Shield",
       "Icon": "icon600.png",
-      "Description": "Gain {M} move for the duration of each negative lingering token",
+      "Description": "Gain {M} for the total duration of all negative tokens on you",
       "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
@@ -498,7 +498,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities2",
             "Value": "{V}",
             "Duration": "{F}",
             "Target": {
@@ -563,6 +563,65 @@
             {
               "Key": "M",
               "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Focus Ring",
+      "Icon": "icon802.png",
+      "Description": "Gain {A}x move",
+      "BaseMove": 0,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Multiplicative",
+            "Phase": "Abilities1",
+            "Value": "{A}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "0"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
             }
           ]
         }

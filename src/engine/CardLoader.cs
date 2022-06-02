@@ -20,7 +20,6 @@ public class CardLoader
     catch (System.Exception e)
     {
       Console.WriteLine($"Warning: Unable to access filesystem to access card config '{cardDataPath}', using built-in card data instead. Error: {e.Message}");
-      _cards = dataLoader.LoadJsonData<CardData>(cardDataPath).Cards;
     }
     finally
     {
@@ -35,8 +34,8 @@ public class CardLoader
         {
           Console.WriteLine($"Warning: Unable to load card resource file");
         }
-
       }
+      // TODO: add card data validation
     }
   }
 
