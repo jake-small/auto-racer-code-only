@@ -85,5 +85,6 @@ public enum Priority
   Closest,
   Furthest,
   PositionAscending,
-  PositionDescending
+  PositionDescending,
+  Random
 }

@@ -1034,7 +1034,7 @@
               "Inventory": "player",
               "Slot": "0",
               "Direction": "any",
-              "Priority": "closest",
+              "Priority": "random",
               "Amount": "1"
             },
             "Functions": []
@@ -1070,6 +1070,6 @@
           ]
         }
       ]
-    },
+    }
   ]
 }

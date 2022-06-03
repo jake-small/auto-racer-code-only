@@ -282,6 +282,11 @@ public class PrepEngine
         break;
     }
 
+    if (target.GetPriority() == Priority.Random)
+    {
+      targets = targets.Shuffle().ToList();
+    }
+
     if (target.Amount.ToInt() > targets.Count)
     {
       return targets;
