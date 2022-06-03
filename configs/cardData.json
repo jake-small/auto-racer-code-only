@@ -760,6 +760,260 @@
           ]
         }
       ]
+    },
+    {
+      "Name": "Super True Shot",
+      "Icon": "icon534.png",
+      "Description": "Opponent in first gets {V}",
+      "BaseMove": 1,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{V}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "Forward",
+              "Priority": "PositionDescending",
+              "Amount": "1",
+              "Range": {
+                "Min": "1",
+                "Max": "999"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "-4"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "-8"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "-16"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Dream Siphon",
+      "Icon": "icon133.png",
+      "Description": "Gain {M} for each token given to opponents",
+      "BaseMove": 2,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "count = 0 ",
+                  "for key,value in ipairs(otherPlayers) ",
+                  "do ",
+                  "  allTokens = scriptData.GetAllTokens(value.Id) ",
+                  "  for key,value in ipairs(allTokens) ",
+                  "  do ",
+                  "    count = count + 1 ",
+                  "  end ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Ba-dum-dum",
+      "Icon": "icon405.png",
+      "Description": "Give everyone 1 move for {T} turns",
+      "BaseMove": 5,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "1",
+            "Duration": "{T}",
+            "Target": {
+              "Type": "all",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "T",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "T",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "T",
+              "Value": "15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Burning Agate",
+      "Icon": "icon921.png",
+      "Description": "Gain {M} for each opponent ahead",
+      "BaseMove": 2,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "count = 0 ",
+                  "for key,value in ipairs(otherPlayers) ",
+                  "do ",
+                  "  if (value.Position > scriptData.Player.Position) then",
+                  "    count = count + 1",
+                  "  end ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "20"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

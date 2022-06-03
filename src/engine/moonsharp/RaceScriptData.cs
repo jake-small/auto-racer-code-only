@@ -20,6 +20,11 @@ public class RaceScriptData : MoonSharpScriptData
     return AllPlayers.Where(p => p.Id != Player.Id).ToList();
   }
 
+  public MoonSharpPlayer GetPlayer(int id)
+  {
+    return AllPlayers.FirstOrDefault(p => p.Id == id);
+  }
+
   public List<MoonSharpPlayer> GetPlayersWithinRange(int min, int max)
   {
     var playersInRange = new List<MoonSharpPlayer>();
@@ -33,14 +38,31 @@ public class RaceScriptData : MoonSharpScriptData
     return playersInRange;
   }
 
-  public List<MoonSharpMoveTokens> GetPositiveTokens()
+  public List<MoonSharpMoveTokens> GetAllTokens(int id = -1)
   {
-    return Player.MoveTokens.Where(t => t.Value > 0).ToList();
+    if (id == -1)
+    {
+      return Player.MoveTokens;
+    }
+    return GetPlayer(id).MoveTokens;
   }
 
-  public List<MoonSharpMoveTokens> GetNegativeTokens()
+  public List<MoonSharpMoveTokens> GetPositiveTokens(int id = -1)
   {
-    return Player.MoveTokens.Where(t => t.Value < 0).ToList();
+    if (id == -1)
+    {
+      return Player.MoveTokens.Where(t => t.Value > 0).ToList();
+    }
+    return GetPlayer(id).MoveTokens.Where(t => t.Value > 0).ToList();
+  }
+
+  public List<MoonSharpMoveTokens> GetNegativeTokens(int id = -1)
+  {
+    if (id == -1)
+    {
+      return Player.MoveTokens.Where(t => t.Value < 0).ToList();
+    }
+    return GetPlayer(id).MoveTokens.Where(t => t.Value < 0).ToList();
   }
 }
 
