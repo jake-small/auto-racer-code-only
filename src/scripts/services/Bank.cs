@@ -48,7 +48,7 @@ public class Bank
     {
       EngineTesting.Log("Paid for card", _shouldLog);
       CoinTotal = CoinTotal - BuyCost;
-      GameManager.PrepEngine.CalculateOnBuyAbilities();
+      GameManager.PrepEngine.CalculateOnBuyAbilities(card);
       GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
       return new BankActionResult(true, CoinTotal);
     }

@@ -44,7 +44,7 @@ public class PrepEngine
     if (card.Abilities != null && card.Abilities.PrepAbilities != null
       && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sold))
     {
-      CalculateAbilities(new List<Card> { card }, Trigger.Sold);
+      CalculateAbilities(new List<Card> { card }, Trigger.Sold, card);
     }
   }
 
@@ -53,7 +53,7 @@ public class PrepEngine
     if (card.Abilities != null && card.Abilities.PrepAbilities != null
       && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Bought))
     {
-      CalculateAbilities(new List<Card> { card }, Trigger.Bought);
+      CalculateAbilities(new List<Card> { card }, Trigger.Bought, card);
     }
   }
 
@@ -65,12 +65,12 @@ public class PrepEngine
     CalculateAbilities(onSellAbilityCards, Trigger.Sell);
   }
 
-  public void CalculateOnBuyAbilities()
+  public void CalculateOnBuyAbilities(Card boughtCard)
   {
     var onBuyAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Buy));
-    CalculateAbilities(onBuyAbilityCards, Trigger.Buy);
+    CalculateAbilities(onBuyAbilityCards, Trigger.Buy, boughtCard);
   }
 
   public void CalculateOnRerollAbilities()
@@ -81,7 +81,7 @@ public class PrepEngine
     CalculateAbilities(onRerollAbilityCards, Trigger.Reroll);
   }
 
-  private void CalculateAbilities(IEnumerable<Card> cards, Trigger trigger)
+  private void CalculateAbilities(IEnumerable<Card> cards, Trigger trigger, Card triggerCard = null)
   {
     foreach (var card in cards)
     {
@@ -92,20 +92,20 @@ public class PrepEngine
 
       foreach (var ability in onTriggerAbilities)
       {
-        ExecuteAbility(ability, card);
+        ExecuteAbility(ability, card, triggerCard);
       }
     }
   }
 
-  private void ExecuteAbility(PrepAbility ability, Card cardScript)
+  private void ExecuteAbility(PrepAbility ability, Card card, Card triggerCard = null)
   {
     switch (ability.GetEffect())
     {
       case Effect.Basemove:
-        BaseMoveEffect(ability, cardScript);
+        BaseMoveEffect(ability, card, triggerCard);
         break;
       case Effect.Exp:
-        ExperienceEffect(ability, cardScript);
+        ExperienceEffect(ability, card, triggerCard);
         break;
       case Effect.Gold:
         GoldEffect(ability);
@@ -113,18 +113,18 @@ public class PrepEngine
     }
   }
 
-  private void BaseMoveEffect(PrepAbility ability, Card card)
+  private void BaseMoveEffect(PrepAbility ability, Card card, Card triggerCard = null)
   {
-    var targets = GetTargets(ability, card);
+    var targets = GetTargets(ability, card, triggerCard);
     foreach (var target in targets)
     {
       target.BaseMove += ability.Value.ToInt();
     }
   }
 
-  private void ExperienceEffect(PrepAbility ability, Card card)
+  private void ExperienceEffect(PrepAbility ability, Card card, Card triggerCard = null)
   {
-    var targets = GetTargets(ability, card);
+    var targets = GetTargets(ability, card, triggerCard);
     foreach (var target in targets)
     {
       target.AddExp(ability.Value.ToInt());
@@ -136,10 +136,15 @@ public class PrepEngine
     Bank.AddCoins(ability.Value.ToInt());
   }
 
-  private IEnumerable<Card> GetTargets(PrepAbility ability, Card card)
+  private IEnumerable<Card> GetTargets(PrepAbility ability, Card card, Card triggerCard = null)
   {
-    var targets = new List<Card>();
     var target = ability.Target;
+    if (target.GetTriggerCard() && triggerCard != null)
+    {
+      return new List<Card> { triggerCard };
+    }
+
+    var targets = new List<Card>();
     var targetInventoryType = target.GetInventoryType();
     var cardSlot = PlayerInventory.GetSlotOfCard(card);
     switch (target.GetTargetType())

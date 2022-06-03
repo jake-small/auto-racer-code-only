@@ -76,7 +76,7 @@
       "Icon": "icon273.png",
       "Description": "Gain {M} move for each negative token",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1019,7 +1019,7 @@
       "Name": "Leaky Gem",
       "Icon": "icon1006.png",
       "Description": "When sold, give {A} base move to random card",
-      "BaseMove": 0,
+      "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
@@ -1036,6 +1036,57 @@
               "Direction": "any",
               "Priority": "random",
               "Amount": "1"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Jolt Infuser",
+      "Icon": "icon995.png",
+      "Description": "On buy, give bought card {A}",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Buy",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "TriggerCard": "true"
             },
             "Functions": []
           }

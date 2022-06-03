@@ -3,6 +3,11 @@ using System;
 public class PrepTarget
 {
   /// <summary>
+  /// The card that triggered the effect. e.g. a Bought card
+  ///  Possible values: "true", "false"
+  /// </summary>
+  public string TriggerCard { private get; set; }
+  /// <summary>
   ///  Possible values: "other", "self", "all"
   /// </summary>
   public string Type { private get; set; }
@@ -26,6 +31,21 @@ public class PrepTarget
   ///  Possible values: -1 or a positive int
   /// </summary>
   public string Amount { get; set; }
+
+  public bool GetTriggerCard()
+  {
+    if (string.IsNullOrWhiteSpace(TriggerCard))
+    {
+      return false;
+    }
+    var result = bool.TryParse(TriggerCard, out bool useTriggerCard);
+    if (result == false)
+    {
+      Console.WriteLine($"Error: unable to parse TriggerCard {TriggerCard} to bool");
+      throw new Exception($"Error: unable to parse TriggerCard {TriggerCard} to bool");
+    }
+    return useTriggerCard;
+  }
 
   public TargetType GetTargetType()
   {
