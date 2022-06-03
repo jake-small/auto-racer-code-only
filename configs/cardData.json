@@ -1014,6 +1014,62 @@
           ]
         }
       ]
-    }
+    },
+    {
+      "Name": "Leaky Gem",
+      "Icon": "icon1006.png",
+      "Description": "When sold, give {A} base move to random card",
+      "BaseMove": 0,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "0",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "1"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
   ]
 }
