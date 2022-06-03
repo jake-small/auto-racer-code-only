@@ -205,7 +205,7 @@
             "Target": {
               "Type": "others",
               "Inventory": "player",
-              "Slot": "0",
+              "Slot": "",
               "Direction": "any",
               "Priority": "closest",
               "Amount": "5"
@@ -714,7 +714,7 @@
       "Icon": "icon347.png",
       "Description": "Gain -1 move for {D} turns",
       "BaseMove": 8,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1020,7 +1020,7 @@
       "Icon": "icon1006.png",
       "Description": "When sold, give {A} base move to random card",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1032,7 +1032,7 @@
             "Target": {
               "Type": "others",
               "Inventory": "player",
-              "Slot": "0",
+              "Slot": "",
               "Direction": "any",
               "Priority": "random",
               "Amount": "1"
@@ -1087,6 +1087,62 @@
             "Value": "{A}",
             "Target": {
               "TriggerCard": "true"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Reconfigurator",
+      "Icon": "icon940.png",
+      "Description": "Start of turn, give card to the right {A}",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Startturn",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "forward",
+              "Priority": "closest",
+              "Amount": "1"
             },
             "Functions": []
           }

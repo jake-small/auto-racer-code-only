@@ -92,6 +92,7 @@ public class PrepMain : Node2D
     CardShopFill(frozenCards);
     _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
     GameManager.PrepEngine.CalculateStartTurnAbilities();
+    UpdateUiForAllCards();
   }
 
   public override void _Process(float delta)
