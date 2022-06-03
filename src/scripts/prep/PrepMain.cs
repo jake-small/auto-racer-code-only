@@ -391,7 +391,7 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameManager.ShopSize);
+    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameManager.ShopSize, GameManager.CurrentRace);
     for (int slot = frozenCards.Count; slot < GameManager.ShopSize; slot++)
     {
       var card = cards[slot];

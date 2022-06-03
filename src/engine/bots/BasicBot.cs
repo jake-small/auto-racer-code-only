@@ -73,7 +73,6 @@ public class BotBasic : Player
           {
             break;
           }
-
           continue;
         }
         else
@@ -92,7 +91,7 @@ public class BotBasic : Player
 
   private void FillShop()
   {
-    var shopCards = _shopService.GetRandomCards(GameManager.ShopSize);
+    var shopCards = _shopService.GetRandomCards(GameManager.ShopSize, GameManager.CurrentRace - 1);
     for (int slot = 0; slot < GameManager.ShopSize; slot++)
     {
       var card = shopCards[slot];
