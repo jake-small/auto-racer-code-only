@@ -23,66 +23,69 @@ public class PrepEngine
     ShopService = new ShopService(_dataLoader);
   }
 
-  public void CalculateStartTurnAbilities()
+  public PrepAbilityResponse CalculateStartTurnAbilities()
   {
     var startTurnAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn));
-    CalculateAbilities(startTurnAbilityCards, Trigger.Startturn);
+    return CalculateAbilities(startTurnAbilityCards, Trigger.Startturn);
   }
 
-  public void CalculateEndTurnAbilities()
+  public PrepAbilityResponse CalculateEndTurnAbilities()
   {
     var endTurnAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn));
-    CalculateAbilities(endTurnAbilityCards, Trigger.Endturn);
+    return CalculateAbilities(endTurnAbilityCards, Trigger.Endturn);
   }
 
-  public void CalculateOnSoldAbilities(Card card)
+  public PrepAbilityResponse CalculateOnSoldAbilities(Card card)
   {
     if (card.Abilities != null && card.Abilities.PrepAbilities != null
       && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sold))
     {
-      CalculateAbilities(new List<Card> { card }, Trigger.Sold, card);
+      return CalculateAbilities(new List<Card> { card }, Trigger.Sold, card);
     }
+    return PrepAbilityResponse.None;
   }
 
-  public void CalculateOnBoughtAbilities(Card card)
+  public PrepAbilityResponse CalculateOnBoughtAbilities(Card card)
   {
     if (card.Abilities != null && card.Abilities.PrepAbilities != null
       && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Bought))
     {
-      CalculateAbilities(new List<Card> { card }, Trigger.Bought, card);
+      return CalculateAbilities(new List<Card> { card }, Trigger.Bought, card);
     }
+    return PrepAbilityResponse.None;
   }
 
-  public void CalculateOnSellAbilities()
+  public PrepAbilityResponse CalculateOnSellAbilities()
   {
     var onSellAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell));
-    CalculateAbilities(onSellAbilityCards, Trigger.Sell);
+    return CalculateAbilities(onSellAbilityCards, Trigger.Sell);
   }
 
-  public void CalculateOnBuyAbilities(Card boughtCard)
+  public PrepAbilityResponse CalculateOnBuyAbilities(Card boughtCard)
   {
     var onBuyAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Buy));
-    CalculateAbilities(onBuyAbilityCards, Trigger.Buy, boughtCard);
+    return CalculateAbilities(onBuyAbilityCards, Trigger.Buy, boughtCard);
   }
 
-  public void CalculateOnRerollAbilities()
+  public PrepAbilityResponse CalculateOnRerollAbilities()
   {
     var onRerollAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Reroll));
-    CalculateAbilities(onRerollAbilityCards, Trigger.Reroll);
+    return CalculateAbilities(onRerollAbilityCards, Trigger.Reroll);
   }
 
-  private void CalculateAbilities(IEnumerable<Card> cards, Trigger trigger, Card triggerCard = null)
+  private PrepAbilityResponse CalculateAbilities(IEnumerable<Card> cards, Trigger trigger, Card triggerCard = null)
   {
+    var prepAbilityResponse = PrepAbilityResponse.None;
     foreach (var card in cards)
     {
       var leveledCard = card.GetLeveledCard();
@@ -92,13 +95,19 @@ public class PrepEngine
 
       foreach (var ability in onTriggerAbilities)
       {
-        ExecuteAbility(ability, card, triggerCard);
+        var response = ExecuteAbility(ability, card, triggerCard);
+        if (response == PrepAbilityResponse.Reroll)
+        {
+          prepAbilityResponse = PrepAbilityResponse.Reroll;
+        }
       }
     }
+    return prepAbilityResponse;
   }
 
-  private void ExecuteAbility(PrepAbility ability, Card card, Card triggerCard = null)
+  private PrepAbilityResponse ExecuteAbility(PrepAbility ability, Card card, Card triggerCard = null)
   {
+    var prepAbilityResponse = PrepAbilityResponse.None;
     switch (ability.GetEffect())
     {
       case Effect.Basemove:
@@ -110,7 +119,11 @@ public class PrepEngine
       case Effect.Gold:
         GoldEffect(ability);
         break;
+      case Effect.Reroll:
+        prepAbilityResponse = PrepAbilityResponse.Reroll;
+        break;
     }
+    return prepAbilityResponse;
   }
 
   private void BaseMoveEffect(PrepAbility ability, Card card, Card triggerCard = null)
@@ -279,4 +292,10 @@ public class PrepEngine
     }
     return targets.Take(target.Amount.ToInt());
   }
+}
+
+public enum PrepAbilityResponse
+{
+  Reroll,
+  None
 }

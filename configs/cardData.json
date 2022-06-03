@@ -1076,7 +1076,7 @@
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A}",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1173,6 +1173,58 @@
             {
               "Key": "A",
               "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Jamestown",
+      "Icon": "icon021.png",
+      "Description": "When Sold, reroll and gain {A} gold",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "Reroll"
+          },
+          {
+            "Name": "soldAbility2",
+            "Trigger": "Sold",
+            "Effect": "Gold",
+            "Value": "{A}"
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "8"
             }
           ]
         }

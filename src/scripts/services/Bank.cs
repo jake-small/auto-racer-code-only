@@ -48,21 +48,23 @@ public class Bank
     {
       EngineTesting.Log("Paid for card", _shouldLog);
       CoinTotal = CoinTotal - BuyCost;
-      GameManager.PrepEngine.CalculateOnBuyAbilities(card);
-      GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
-      return new BankActionResult(true, CoinTotal);
+      var buyResponse = GameManager.PrepEngine.CalculateOnBuyAbilities(card);
+      var boughtResponse = GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
+      var prepAbilityResponse = buyResponse == PrepAbilityResponse.Reroll ? buyResponse : boughtResponse;
+      return new BankActionResult(true, CoinTotal, prepAbilityResponse);
     }
     EngineTesting.Log("Can't afford to buy card", _shouldLog);
-    return new BankActionResult(false);
+    return new BankActionResult(false, PrepAbilityResponse.None);
   }
 
   public BankActionResult Sell(Card card)
   {
     EngineTesting.Log("Sold card", _shouldLog);
     CoinTotal = CoinTotal + GetSellValue(card);
-    GameManager.PrepEngine.CalculateOnSellAbilities();
-    GameManager.PrepEngine.CalculateOnSoldAbilities(card);
-    return new BankActionResult(true, CoinTotal);
+    var sellResponse = GameManager.PrepEngine.CalculateOnSellAbilities();
+    var soldResponse = GameManager.PrepEngine.CalculateOnSoldAbilities(card);
+    var prepAbilityResponse = sellResponse == PrepAbilityResponse.Reroll ? sellResponse : soldResponse;
+    return new BankActionResult(true, CoinTotal, prepAbilityResponse);
   }
 
   public BankActionResult Reroll()
@@ -71,11 +73,11 @@ public class Bank
     {
       EngineTesting.Log("Paid for reroll", _shouldLog);
       CoinTotal = CoinTotal - RerollCost;
-      GameManager.PrepEngine.CalculateOnRerollAbilities();
-      return new BankActionResult(true, CoinTotal);
+      var rerollResponse = GameManager.PrepEngine.CalculateOnRerollAbilities();
+      return new BankActionResult(true, CoinTotal, rerollResponse);
     }
     EngineTesting.Log("Can't afford to reroll", _shouldLog);
-    return new BankActionResult(false);
+    return new BankActionResult(false, PrepAbilityResponse.None);
   }
 
   public int AddCoins(int amount)

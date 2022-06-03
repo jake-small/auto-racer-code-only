@@ -184,6 +184,10 @@ public class PrepMain : Node2D
         {
           _newCoinTotal = bankResult.CoinTotal;
           var combineResult = CombineCards(cardScript, targetCardScript, true);
+          if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
+          {
+            Reroll();
+          }
           if (combineResult)
           {
             return;
@@ -216,6 +220,10 @@ public class PrepMain : Node2D
           cardScript.Slot = slot;
           cardScript.Card.Frozen = false;
           DropCard(cardScript, droppedPosition);
+          if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
+          {
+            Reroll();
+          }
           return;
         }
       }
@@ -276,8 +284,7 @@ public class PrepMain : Node2D
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
-      var frozenCards = GetFrozenCards().ToList();
-      CardShopFill(frozenCards);
+      Reroll();
     }
   }
 
@@ -306,6 +313,12 @@ public class PrepMain : Node2D
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+  }
+
+  private void Reroll()
+  {
+    var frozenCards = GetFrozenCards().ToList();
+    CardShopFill(frozenCards);
   }
 
   private void DropCard(CardScript cardScript, Vector2 droppedPosition)
@@ -474,6 +487,10 @@ public class PrepMain : Node2D
       {
         // Remove card node
         _selectedCard.QueueFree();
+        if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
+        {
+          Reroll();
+        }
       }
     }
     UpdateUiForAllCards();

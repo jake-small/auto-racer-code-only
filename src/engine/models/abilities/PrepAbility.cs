@@ -45,7 +45,7 @@ public class PrepAbility : Ability, ICloneable
     {
       Name = Name,
       Trigger = Trigger,
-      Functions = Functions.Select(p => p.Clone()).Cast<Function>().ToList(),
+      Functions = Functions?.Select(p => p.Clone()).Cast<Function>().ToList(),
       Effect = Effect,
       Value = Value,
       Target = Target
@@ -68,5 +68,6 @@ public enum Effect
 {
   Basemove,
   Gold,
-  Exp
+  Exp,
+  Reroll
 }
