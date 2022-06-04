@@ -141,7 +141,7 @@
       "Icon": "icon259.png",
       "Description": "On any Sell, gain {A} base move",
       "BaseMove": 0,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -896,7 +896,7 @@
       "Icon": "icon921.png",
       "Description": "Gain {M} for each opponent ahead",
       "BaseMove": 2,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1126,7 +1126,7 @@
       "Icon": "icon021.png",
       "Description": "When Sold, reroll and gain {A} gold",
       "BaseMove": 3,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [

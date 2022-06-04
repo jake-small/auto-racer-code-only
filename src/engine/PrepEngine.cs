@@ -278,7 +278,7 @@ public class PrepEngine
       switch (target.GetPriority())
       {
         case Priority.Random:
-
+          targets.AddRange(targetsDict.Select(kv => kv.Value).ToList().Shuffle());
           break;
         case Priority.Closest:
           var closestCards = targetsDict.OrderBy(e => Math.Abs(e.Key - cardSlot)).Select(d => d.Value);
@@ -298,6 +298,8 @@ public class PrepEngine
           break;
       }
     }
+
+    targets = targets.Where(t => !(t is CardEmpty)).ToList();
 
     if (target.Amount.ToInt() > targets.Count)
     {
