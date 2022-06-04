@@ -427,7 +427,7 @@ public class RaceMain : Node2D
     else
     {
       ShowSlotTurnIndicator(turnId, false);
-      Pause(0.5f);
+      Pause(0.3f);
     }
   }
 
