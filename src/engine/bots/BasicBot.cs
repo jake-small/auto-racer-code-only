@@ -58,7 +58,7 @@ public class BotBasic : Player
         {
           break;
         }
-        availableShopCard = _botShopInventory.GetCardsAsList().FirstOrDefault();
+        continue;
       }
 
       var availableSlot = GetFirstOpenSlot();
@@ -200,8 +200,14 @@ public class BotBasic : Player
     {
       return (-1, null);
     }
-    var slottedCard = cardDict.First();
-    return (slottedCard.Key, slottedCard.Value);
+    var slottedCardNoSellAbility = cardDict
+      .Where(kv => !kv.Value.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell || a.GetTrigger() == Trigger.Sold))
+      .FirstOrDefault();
+    if (slottedCardNoSellAbility.Value == null)
+    {
+      return (-1, null);
+    }
+    return (slottedCardNoSellAbility.Key, slottedCardNoSellAbility.Value);
   }
 
   private int GetFirstOpenSlot()

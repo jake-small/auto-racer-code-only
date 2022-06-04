@@ -141,7 +141,7 @@
       "Icon": "icon259.png",
       "Description": "On any Sell, gain {A} base move",
       "BaseMove": 0,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -532,7 +532,7 @@
       "Icon": "icon155.png",
       "Description": "Highest placing opponent gets negative move equal to the distance between you",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -896,7 +896,7 @@
       "Icon": "icon921.png",
       "Description": "Gain {M} for each opponent ahead",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -963,7 +963,7 @@
       "Icon": "icon1006.png",
       "Description": "When sold, give {A} base move to random card",
       "BaseMove": 2,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
