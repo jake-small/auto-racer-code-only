@@ -3,7 +3,13 @@ using System;
 
 public class ButtonUi : TextureButton
 {
+  private Vector2 _startingPosition;
   private float _moveDownAmount = 4;
+
+  public override void _Ready()
+  {
+    _startingPosition = this.RectPosition;
+  }
 
   public void _on_TextureButton_down()
   {
@@ -13,7 +19,6 @@ public class ButtonUi : TextureButton
 
   public void _on_TextureButton_up()
   {
-    var newPosition = RectPosition - new Vector2(0, _moveDownAmount);
-    SetPosition(newPosition);
+    SetPosition(_startingPosition);
   }
 }

@@ -7,8 +7,6 @@
 [ext_resource path="res://src/scripts/ui/ButtonUi.cs" type="Script" id=5]
 
 [node name="TextureButton" type="TextureButton"]
-margin_right = 40.0
-margin_bottom = 40.0
 shortcut_in_tooltip = false
 keep_pressed_outside = true
 texture_normal = ExtResource( 1 )
