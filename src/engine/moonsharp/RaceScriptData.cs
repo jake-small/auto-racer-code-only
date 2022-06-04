@@ -38,31 +38,55 @@ public class RaceScriptData : MoonSharpScriptData
     return playersInRange;
   }
 
-  public List<MoonSharpMoveTokens> GetAllTokens(int id = -1)
+  public List<MoonSharpMoveTokens> GetAllTokens(int forId = -1, int fromId = -1)
   {
-    if (id == -1)
+    if (forId == -1 && fromId == -1)
     {
       return Player.MoveTokens;
     }
-    return GetPlayer(id).MoveTokens;
+    else if (forId == -1 && fromId != -1)
+    {
+      return Player.MoveTokens.Where(t => t.CreatedBy == fromId).ToList();
+    }
+    else if (forId != -1 && fromId == -1)
+    {
+      return GetPlayer(forId).MoveTokens.ToList();
+    }
+    return GetPlayer(forId).MoveTokens.Where(t => t.CreatedBy == fromId).ToList();
   }
 
-  public List<MoonSharpMoveTokens> GetPositiveTokens(int id = -1)
+  public List<MoonSharpMoveTokens> GetPositiveTokens(int forId = -1, int fromId = -1)
   {
-    if (id == -1)
+    if (forId == -1 && fromId == -1)
     {
       return Player.MoveTokens.Where(t => t.Value > 0).ToList();
     }
-    return GetPlayer(id).MoveTokens.Where(t => t.Value > 0).ToList();
+    else if (forId == -1 && fromId != -1)
+    {
+      return Player.MoveTokens.Where(t => t.Value > 0 && t.CreatedBy == fromId).ToList();
+    }
+    else if (forId != -1 && fromId == -1)
+    {
+      return GetPlayer(forId).MoveTokens.Where(t => t.Value > 0).ToList();
+    }
+    return GetPlayer(forId).MoveTokens.Where(t => t.Value > 0 && t.CreatedBy == fromId).ToList();
   }
 
-  public List<MoonSharpMoveTokens> GetNegativeTokens(int id = -1)
+  public List<MoonSharpMoveTokens> GetNegativeTokens(int forId = -1, int fromId = -1)
   {
-    if (id == -1)
+    if (forId == -1 && fromId == -1)
     {
       return Player.MoveTokens.Where(t => t.Value < 0).ToList();
     }
-    return GetPlayer(id).MoveTokens.Where(t => t.Value < 0).ToList();
+    else if (forId == -1 && fromId != -1)
+    {
+      return Player.MoveTokens.Where(t => t.Value < 0 && t.CreatedBy == fromId).ToList();
+    }
+    else if (forId != -1 && fromId == -1)
+    {
+      return GetPlayer(forId).MoveTokens.Where(t => t.Value < 0).ToList();
+    }
+    return GetPlayer(forId).MoveTokens.Where(t => t.Value < 0 && t.CreatedBy == fromId).ToList();
   }
 }
 
