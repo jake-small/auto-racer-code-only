@@ -3,6 +3,8 @@ using System;
 
 public class BackgroundTileMap : Godot.TileMap
 {
+  public bool IsScrolling { get; set; }
+
   private bool _scrollRight = false;
   private bool _scrollLeft = false;
   private float _moveToX = 0;
@@ -21,6 +23,7 @@ public class BackgroundTileMap : Godot.TileMap
       }
       Position = (new Vector2(newX, Position.y));
       AttemptToRepositionRight();
+      IsScrolling = _scrollRight;
     }
     else if (_scrollLeft)
     {
@@ -32,17 +35,20 @@ public class BackgroundTileMap : Godot.TileMap
       }
       Position = (new Vector2(newX, Position.y));
       AttemptToRepositionLeft();
+      IsScrolling = _scrollLeft;
     }
   }
 
   public void ScrollRight(float amount)
   {
+    IsScrolling = true;
     _moveToX = Position.x - amount;
     _scrollRight = true;
   }
 
   public void ScrollLeft(float amount)
   {
+    IsScrolling = true;
     _moveToX = Position.x + amount;
     _scrollLeft = true;
   }

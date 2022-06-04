@@ -7,6 +7,7 @@ using static CharacterScript;
 public class RaceViewManager
 {
   public bool AreCharactersMoving => _characters.Any(c => c.Moving);
+  public bool IsScrolling => _tileMapManager.IsScrolling();
 
   private TileMapManager _tileMapManager;
   private List<CharacterScript> _characters;

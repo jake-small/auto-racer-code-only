@@ -5,7 +5,7 @@
       "Icon": "icon132.png",
       "Description": "All opponents within 3 gain {V} move for {R} turns",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -249,7 +249,7 @@
       "Icon": "icon851.png",
       "Description": "For each opponent on your current space, gain {A} move",
       "BaseMove": 1,
-      "Tier": 3,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -323,7 +323,7 @@
       "Icon": "icon754.png",
       "Description": "Gain {A} move",
       "BaseMove": 0,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -528,70 +528,11 @@
       ]
     },
     {
-      "Name": "Focus Ring",
-      "Icon": "icon802.png",
-      "Description": "Gain {A}x move",
-      "BaseMove": 0,
-      "Tier": 3,
-      "Abilities": {
-        "MoveTokenAbilities": [
-          {
-            "Name": "ability1",
-            "Type": "Multiplicative",
-            "Phase": "Abilities2",
-            "Value": "{A}",
-            "Duration": "1",
-            "Target": {
-              "Type": "self",
-              "Direction": "any",
-              "Priority": "closest",
-              "Amount": "4",
-              "Range": {
-                "Min": "0",
-                "Max": "0"
-              }
-            },
-            "Functions": []
-          }
-        ],
-        "PrepAbilities": []
-      },
-      "LevelValues": [
-        {
-          "Id": 1,
-          "OutKeys": [
-            {
-              "Key": "A",
-              "Value": "2"
-            }
-          ]
-        },
-        {
-          "Id": 2,
-          "OutKeys": [
-            {
-              "Key": "A",
-              "Value": "2"
-            }
-          ]
-        },
-        {
-          "Id": 3,
-          "OutKeys": [
-            {
-              "Key": "A",
-              "Value": "2"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "Name": "Blue Spell",
       "Icon": "icon155.png",
       "Description": "Highest placing opponent gets negative move equal to the distance between you",
       "BaseMove": 1,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -656,7 +597,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Premove",
+            "Phase": "Abilities1",
             "Value": "{V}",
             "Duration": "{D}",
             "Target": {
@@ -766,7 +707,7 @@
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V}",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1491,7 +1432,7 @@
       "Icon": "icon648.png",
       "Description": "Give other players {M} for each negative token on you",
       "BaseMove": 3,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {

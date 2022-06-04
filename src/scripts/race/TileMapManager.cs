@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 public class TileMapManager
 {
@@ -7,6 +8,11 @@ public class TileMapManager
   public TileMapManager(BackgroundTileMap[] tileMaps)
   {
     _tileMaps = tileMaps;
+  }
+
+  public bool IsScrolling()
+  {
+    return _tileMaps.Any(tile => tile.IsScrolling);
   }
 
   public void ScrollRight(float amount)

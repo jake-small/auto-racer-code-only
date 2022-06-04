@@ -111,6 +111,7 @@ public class RaceMain : Node2D
 
     if (_isPaused)
     {
+      _forwardButton.Disabled = true;
       if (_pauseDuration > 0)
       {
         _pauseDuration -= delta;
@@ -119,31 +120,34 @@ public class RaceMain : Node2D
       {
         _isPaused = false;
         _pauseDuration = 0;
-        _forwardButton.Disabled = false;
       }
     }
 
     if (_waitingOnCardEffect)
     {
+      _forwardButton.Disabled = true;
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
-        _forwardButton.Disabled = false;
       }
     }
 
     if (_waitingOnMovement)
     {
-      if (!_raceViewManager.AreCharactersMoving)
+      _forwardButton.Disabled = true;
+      if (!_raceViewManager.AreCharactersMoving && !_raceViewManager.IsScrolling)
       {
         _waitingOnMovement = false;
-        _forwardButton.Disabled = false;
       }
     }
 
-    if (_autoplay && !_isPaused && !_waitingOnCardEffect && !_waitingOnMovement)
+    if (!_raceOver && !_isPaused && !_waitingOnCardEffect && !_waitingOnMovement)
     {
-      AdvanceRace();
+      _forwardButton.Disabled = false;
+      if (_autoplay)
+      {
+        AdvanceRace();
+      }
     }
   }
 
@@ -376,7 +380,6 @@ public class RaceMain : Node2D
       {
         _raceViewManager.MovePlayers(turnResults);
         _waitingOnMovement = true;
-        _forwardButton.Disabled = true;
         // var positionState = EngineTesting.GetPositionTextView(turnResults);
         // _updatePositionStateLabel = positionState;
         // _positionStates.Add(positionState);
@@ -420,7 +423,6 @@ public class RaceMain : Node2D
       ShowSlotTurnIndicator(turnId, true);
       _raceViewManager.GiveTokens(turnResult);
       _waitingOnCardEffect = true;
-      _forwardButton.Disabled = true;
     }
     else
     {
@@ -509,7 +511,6 @@ public class RaceMain : Node2D
 
   private void Pause(float duration)
   {
-    _forwardButton.Disabled = true;
     _isPaused = true;
     _pauseDuration = duration;
   }
