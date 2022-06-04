@@ -48,6 +48,4 @@ public static class RaceSceneData
   public const string SelectedSlot3 = "CardSlots/slot_3/Selected";
   public const string LabelSelectedNameRelPath = "/MarginContainer/VBoxContainer/Label_selected_name";
   public const string LabelSelectedDescriptionRelPath = "/MarginContainer/VBoxContainer/Label_selected_description";
-  public const string LabelSelectedSellsForRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
-  public const string LabelSelectedBaseMoveRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
 }

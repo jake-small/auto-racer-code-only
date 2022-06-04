@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -12,8 +12,6 @@
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=10]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_BaseMove.tres" type="DynamicFont" id=13]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=14]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=15]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=17]
 
@@ -102,9 +100,6 @@ position = Vector2( 1840, 465 )
 [node name="CenterContainer" type="CenterContainer" parent="."]
 margin_right = 1920.0
 margin_bottom = 120.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label_TurnPhase" type="Label" parent="CenterContainer"]
 margin_left = 774.0
@@ -405,49 +400,49 @@ margin_bottom = -11.1667
 [node name="Container_selected_card_0" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 324, 272 )
+position = Vector2( 299, 214 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_0"]
-scale = Vector2( 2.88881, 3.33083 )
+position = Vector2( -8, -4 )
+scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_0"]
-margin_right = 289.0
-margin_bottom = 333.0
+margin_left = -8.0
+margin_top = -4.0
+margin_right = 312.0
+margin_bottom = 386.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_0/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 323.0
+margin_right = 310.0
+margin_bottom = 380.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer"]
-margin_right = 269.0
+margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 15 )
-text = "Card Name
-second line"
+text = "Dwarven Reconfigurator"
 align = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer"]
 margin_top = 103.0
-margin_right = 269.0
+margin_right = 300.0
 margin_bottom = 247.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 12 )
@@ -457,165 +452,57 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="CardSlots/Container_selected_card_0/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 323.0
-alignment = 2
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2"]
-margin_top = 278.0
-margin_right = 269.0
-margin_bottom = 313.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 83.0
-margin_bottom = 35.0
-
-[node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 6.0
-margin_right = 59.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "Sells for"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 71.0
-margin_top = 6.0
-margin_right = 83.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 95.0
-margin_right = 269.0
-margin_bottom = 35.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 13 )
-text = "99"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Container_selected_card_1" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 654, 272 )
+position = Vector2( 639, 214 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_1"]
-scale = Vector2( 2.88881, 3.33083 )
+position = Vector2( -8, -4 )
+scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_1"]
-margin_right = 289.0
-margin_bottom = 333.0
+margin_left = -8.0
+margin_top = -4.0
+margin_right = 312.0
+margin_bottom = 386.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_1/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 404.0
+margin_right = 310.0
+margin_bottom = 380.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer"]
-margin_right = 269.0
+margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 15 )
-text = "Card Name
-second line"
+text = "Dwarven Reconfigurator"
 align = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer"]
 margin_top = 103.0
-margin_right = 269.0
-margin_bottom = 394.0
+margin_right = 300.0
+margin_bottom = 247.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 12 )
-text = "Card Description Card Description Card Description Card Description Card Description Card Description"
+text = "Card Description Card Description Card Description"
 autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CardSlots/Container_selected_card_1/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 404.0
-alignment = 2
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2"]
-margin_top = 359.0
-margin_right = 269.0
-margin_bottom = 394.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 83.0
-margin_bottom = 35.0
-
-[node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 6.0
-margin_right = 59.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "Sells for"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 71.0
-margin_top = 6.0
-margin_right = 83.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 95.0
-margin_right = 269.0
-margin_bottom = 35.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 13 )
-text = "99"
-align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -623,108 +510,54 @@ __meta__ = {
 [node name="Container_selected_card_2" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 984, 272 )
+position = Vector2( 979, 214 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_2"]
-scale = Vector2( 2.88881, 3.33083 )
+position = Vector2( -8, -4 )
+scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_2"]
-margin_right = 289.0
-margin_bottom = 333.0
+margin_left = -8.0
+margin_top = -4.0
+margin_right = 312.0
+margin_bottom = 386.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_2/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 404.0
+margin_right = 310.0
+margin_bottom = 380.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer"]
-margin_right = 269.0
+margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 15 )
-text = "Card Name
-second line"
+text = "Dwarven Reconfigurator"
 align = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer"]
 margin_top = 103.0
-margin_right = 269.0
-margin_bottom = 394.0
+margin_right = 300.0
+margin_bottom = 247.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 12 )
-text = "Card Description Card Description Card Description Card Description Card Description Card Description"
+text = "Card Description Card Description Card Description"
 autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CardSlots/Container_selected_card_2/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 404.0
-alignment = 2
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2"]
-margin_top = 359.0
-margin_right = 269.0
-margin_bottom = 394.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 83.0
-margin_bottom = 35.0
-
-[node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 6.0
-margin_right = 59.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "Sells for"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 71.0
-margin_top = 6.0
-margin_right = 83.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 95.0
-margin_right = 269.0
-margin_bottom = 35.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 13 )
-text = "99"
-align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -732,108 +565,54 @@ __meta__ = {
 [node name="Container_selected_card_3" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 1314, 272 )
+position = Vector2( 1319, 214 )
 z_index = 2
 
 [node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_3"]
-scale = Vector2( 2.88881, 3.33083 )
+position = Vector2( -8, -4 )
+scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
 [node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_3"]
-margin_right = 289.0
-margin_bottom = 333.0
+margin_left = -8.0
+margin_top = -4.0
+margin_right = 312.0
+margin_bottom = 386.0
 custom_constants/margin_right = 10
 custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_3/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 404.0
+margin_right = 310.0
+margin_bottom = 380.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer"]
-margin_right = 269.0
+margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 15 )
-text = "Card Name
-second line"
+text = "Dwarven Reconfigurator"
 align = 1
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer"]
 margin_top = 103.0
-margin_right = 269.0
-margin_bottom = 394.0
+margin_right = 300.0
+margin_bottom = 247.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 12 )
-text = "Card Description Card Description Card Description Card Description Card Description Card Description"
+text = "Card Description Card Description Card Description"
 autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="CardSlots/Container_selected_card_3/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 279.0
-margin_bottom = 404.0
-alignment = 2
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2"]
-margin_top = 359.0
-margin_right = 269.0
-margin_bottom = 394.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSplitContainer" type="HSplitContainer" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_right = 83.0
-margin_bottom = 35.0
-
-[node name="Label_selected_sellsForText" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_top = 6.0
-margin_right = 59.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "Sells for"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_sellsForValue" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-margin_left = 71.0
-margin_top = 6.0
-margin_right = 83.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 14 )
-text = "-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_basemove" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer2/HSplitContainer"]
-margin_left = 95.0
-margin_right = 269.0
-margin_bottom = 35.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 13 )
-text = "99"
-align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

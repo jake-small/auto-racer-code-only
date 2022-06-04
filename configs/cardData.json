@@ -5,7 +5,7 @@
       "Icon": "icon132.png",
       "Description": "All opponents within 3 gain {V} move for {R} turns",
       "BaseMove": 1,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -76,7 +76,7 @@
       "Icon": "icon273.png",
       "Description": "Gain {M} move for each negative token",
       "BaseMove": 2,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -193,7 +193,7 @@
       "Icon": "icon702.png",
       "Description": "When Sold, give other player cards {A} base move",
       "BaseMove": 1,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -381,8 +381,8 @@
       "Name": "Dragon Plate",
       "Icon": "icon638.png",
       "Description": "If you have no positive tokens, gain {M}",
-      "BaseMove": 3,
-      "Tier": 2,
+      "BaseMove": 5,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -592,7 +592,7 @@
       "Icon": "icon310.png",
       "Description": "Gain {V} move for {D} turns",
       "BaseMove": 2,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -656,7 +656,7 @@
       "Icon": "icon347.png",
       "Description": "Gain -1 move for {D} turns",
       "BaseMove": 8,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -708,7 +708,7 @@
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V}",
       "BaseMove": 1,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -767,7 +767,7 @@
       "Icon": "icon133.png",
       "Description": "Gain {M} for each token given to opponents",
       "BaseMove": 2,
-      "Tier": 2,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -808,7 +808,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "1"
+              "Value": "2"
             }
           ]
         },
@@ -817,7 +817,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "2"
+              "Value": "4"
             }
           ]
         },
@@ -826,7 +826,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "4"
+              "Value": "8"
             }
           ]
         }
@@ -895,8 +895,8 @@
       "Name": "Burning Agate",
       "Icon": "icon921.png",
       "Description": "Gain {M} for each opponent ahead",
-      "BaseMove": 2,
-      "Tier": 1,
+      "BaseMove": 5,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1018,8 +1018,8 @@
       "Name": "Jolt Infuser",
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A}",
-      "BaseMove": 2,
-      "Tier": 2,
+      "BaseMove": 3,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1126,7 +1126,7 @@
       "Icon": "icon021.png",
       "Description": "When Sold, reroll and gain {A} gold",
       "BaseMove": 3,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1174,11 +1174,11 @@
       ]
     },
     {
-      "Name": "Freeze",
-      "Icon": "icon152.png",
+      "Name": "Pioneer Snowmobile",
+      "Icon": "icon922_c.png",
       "Description": "Start of turn, if frozen gain {A} base move",
       "BaseMove": 3,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1308,7 +1308,7 @@
       "Icon": "icon1019.png",
       "Description": "When Sold, give card to the right {A} exp",
       "BaseMove": 3,
-      "Tier": 2,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1433,7 +1433,7 @@
       "Icon": "icon648.png",
       "Description": "Give other players {M} for each negative token on you",
       "BaseMove": 3,
-      "Tier": 2,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {

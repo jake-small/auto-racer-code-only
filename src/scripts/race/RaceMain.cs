@@ -470,13 +470,9 @@ public class RaceMain : Node2D
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
     var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    var selectedCardSellsForLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedSellsForRelPath);
-    var selectedCardBaseMoveLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedBaseMoveRelPath);
     selectedCardPanel.Visible = true;
     selectedCardNameLabel.Text = card.GetName();
     selectedCardDescriptionLabel.Text = card.GetDescription();
-    selectedCardSellsForLabel.Text = GameManager.PrepEngine.Bank.GetSellValue(card).ToString();
-    selectedCardBaseMoveLabel.Text = card.BaseMove.ToString();
   }
 
   private void HideSelectedCardData(int playerId)
@@ -485,13 +481,9 @@ public class RaceMain : Node2D
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
     var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    var selectedCardSellsForLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedSellsForRelPath);
-    var selectedCardBaseMoveLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedBaseMoveRelPath);
     selectedCardPanel.Visible = false;
     selectedCardNameLabel.Text = "";
     selectedCardDescriptionLabel.Text = "";
-    selectedCardSellsForLabel.Text = "";
-    selectedCardBaseMoveLabel.Text = "";
   }
 
   private void ShowSlotTurnIndicator(int turnId, bool abilityActivated)
