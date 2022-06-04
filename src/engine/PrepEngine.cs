@@ -27,7 +27,10 @@ public class PrepEngine
   {
     var startTurnAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
-        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn));
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn)).ToList();
+    startTurnAbilityCards.AddRange(ShopInventory.GetCardsAsList()
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Startturn)));
     return CalculateAbilities(startTurnAbilityCards, Trigger.Startturn);
   }
 
@@ -35,7 +38,10 @@ public class PrepEngine
   {
     var endTurnAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
-        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn));
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn)).ToList();
+    endTurnAbilityCards.AddRange(ShopInventory.GetCardsAsList()
+      .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
+        c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Endturn)));
     return CalculateAbilities(endTurnAbilityCards, Trigger.Endturn);
   }
 
@@ -117,7 +123,7 @@ public class PrepEngine
         ExperienceEffect(ability, card, triggerCard);
         break;
       case Effect.Gold:
-        GoldEffect(ability);
+        GoldEffect(ability, card);
         break;
       case Effect.Reroll:
         prepAbilityResponse = PrepAbilityResponse.Reroll;
@@ -144,9 +150,16 @@ public class PrepEngine
     }
   }
 
-  private void GoldEffect(PrepAbility ability)
+  private void GoldEffect(PrepAbility ability, Card card)
   {
-    Bank.AddCoins(ability.Value.ToInt());
+    if (ability.Target == null || ability.Target.GetInventoryType() == InventoryType.Any)
+    {
+      Bank.AddCoins(ability.Value.ToInt());
+    }
+    else if (ability.Target.GetInventoryType() == card.InventoryType)
+    {
+      Bank.AddCoins(ability.Value.ToInt());
+    }
   }
 
   private IEnumerable<Card> GetTargets(PrepAbility ability, Card card, Card triggerCard = null)

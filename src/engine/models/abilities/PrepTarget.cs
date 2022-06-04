@@ -12,7 +12,7 @@ public class PrepTarget
   /// </summary>
   public string Type { private get; set; }
   /// <summary>
-  ///  Possible values: "player", "shop", "all"
+  ///  Possible values: "player", "shop", "any"
   /// </summary>
   public string Inventory { private get; set; }
   /// <summary>
@@ -41,8 +41,8 @@ public class PrepTarget
     var result = bool.TryParse(TriggerCard, out bool useTriggerCard);
     if (result == false)
     {
-      Console.WriteLine($"Error: unable to parse TriggerCard {TriggerCard} to bool");
-      throw new Exception($"Error: unable to parse TriggerCard {TriggerCard} to bool");
+      Console.WriteLine($"Error: unable to parse TriggerCard '{TriggerCard}' to bool");
+      throw new Exception($"Error: unable to parse TriggerCard '{TriggerCard}' to bool");
     }
     return useTriggerCard;
   }
@@ -52,8 +52,8 @@ public class PrepTarget
     var result = Enum.TryParse(Type, true, out TargetType type);
     if (!result)
     {
-      Console.WriteLine($"Error: unable to parse Type {Type} to enum TargetType");
-      throw new Exception($"Error: unable to parse Type {Type} to enum TargetType");
+      Console.WriteLine($"Error: unable to parse Type '{Type}' to enum TargetType");
+      throw new Exception($"Error: unable to parse Type '{Type}' to enum TargetType");
     }
     return type;
   }
@@ -63,8 +63,8 @@ public class PrepTarget
     var result = Enum.TryParse(Inventory, true, out InventoryType type);
     if (!result)
     {
-      Console.WriteLine($"Error: unable to parse Inventory {Inventory} to enum InventoryType");
-      throw new Exception($"Error: unable to parse Inventory {Inventory} to enum InventoryType");
+      Console.WriteLine($"Error: unable to parse Inventory '{Inventory}' to enum InventoryType");
+      throw new Exception($"Error: unable to parse Inventory '{Inventory}' to enum InventoryType");
     }
     return type;
   }
@@ -74,8 +74,8 @@ public class PrepTarget
     var result = Enum.TryParse(Direction, true, out Direction direction);
     if (!result)
     {
-      Console.WriteLine($"Error: unable to parse Direction {Direction} to enum Direction");
-      throw new Exception($"Error: unable to parse Direction {Direction} to enum Direction");
+      Console.WriteLine($"Error: unable to parse Direction '{Direction}' to enum Direction");
+      throw new Exception($"Error: unable to parse Direction '{Direction}' to enum Direction");
     }
     return direction;
   }
@@ -85,8 +85,8 @@ public class PrepTarget
     var result = Enum.TryParse(Priority, true, out Priority priority);
     if (!result)
     {
-      Console.WriteLine($"Error: unable to parse Priority {Priority} to enum Priority");
-      throw new Exception($"Error: unable to parse Priority {Priority} to enum Priority");
+      Console.WriteLine($"Error: unable to parse Priority '{Priority}' to enum Priority");
+      throw new Exception($"Error: unable to parse Priority '{Priority}' to enum Priority");
     }
     return priority;
   }

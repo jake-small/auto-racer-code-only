@@ -6,16 +6,18 @@ using MoonSharp.Interpreter;
 [MoonSharpUserData]
 public class PrepScriptData : MoonSharpScriptData
 {
-  public IEnumerable<MoonSharpCard> PlayerInventory { get; set; }
-  public IEnumerable<MoonSharpCard> ShopInventory { get; set; }
+  public MoonSharpCard Card { get; set; }
+  public List<MoonSharpCard> PlayerInventory { get; set; }
+  public List<MoonSharpCard> ShopInventory { get; set; }
   public int CoinTotal { get; set; }
   public int LifeTotal { get; set; }
   public int RaceNumber { get; set; }
 
-  public PrepScriptData(Dictionary<int, Card> playerInventory, Dictionary<int, Card> shopInventory, int coinTotal, int lifeTotal, int raceNumber)
+  public PrepScriptData(Card card, Dictionary<int, Card> playerInventory, Dictionary<int, Card> shopInventory, int coinTotal, int lifeTotal, int raceNumber)
   {
-    PlayerInventory = playerInventory.Select(p => new MoonSharpCard(p));
-    ShopInventory = shopInventory.Select(p => new MoonSharpCard(p));
+    Card = new MoonSharpCard(card);
+    PlayerInventory = playerInventory.Select(p => new MoonSharpCard(p)).ToList();
+    ShopInventory = shopInventory.Select(p => new MoonSharpCard(p)).ToList();
     CoinTotal = coinTotal;
     LifeTotal = lifeTotal;
     RaceNumber = raceNumber;
@@ -32,6 +34,7 @@ public class MoonSharpCard
   public int Tier { get; set; }
   public int Level { get; set; }
   public int Exp { get; set; }
+  public bool IsFrozen { get; set; }
 
   public MoonSharpCard(KeyValuePair<int, Card> slottedCard)
   {
@@ -45,5 +48,17 @@ public class MoonSharpCard
     Tier = card.Tier;
     Level = card.Level;
     Exp = card.Exp;
+    IsFrozen = card.Frozen;
+  }
+
+  public MoonSharpCard(Card card)
+  {
+    Name = card.GetName();
+    BaseMove = card.BaseMove;
+    Inventory = card.InventoryType.ToString();
+    Tier = card.Tier;
+    Level = card.Level;
+    Exp = card.Exp;
+    IsFrozen = card.Frozen;
   }
 }

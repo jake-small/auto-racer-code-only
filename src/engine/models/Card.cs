@@ -45,7 +45,8 @@ public class Card : ICloneable
       ExpToLvl = ExpToLvl,
       Abilities = (Abilities)Abilities?.Clone(),
       LevelValues = LevelValues,
-      InventoryType = InventoryType
+      InventoryType = InventoryType,
+      Frozen = Frozen
     };
   }
 

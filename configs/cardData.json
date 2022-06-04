@@ -1127,7 +1127,7 @@
       "Icon": "icon940.png",
       "Description": "Start of turn, give card to the right {A}",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1183,7 +1183,7 @@
       "Icon": "icon021.png",
       "Description": "When Sold, reroll and gain {A} gold",
       "BaseMove": 3,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1225,6 +1225,136 @@
             {
               "Key": "A",
               "Value": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Freeze",
+      "Icon": "icon152.png",
+      "Description": "Start of turn, if frozen gain {A} base move",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Startturn",
+            "Effect": "BaseMove",
+            "Value": "{F}",
+            "Target": {
+              "Type": "self",
+              "Inventory": "Shop"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "if (scriptData.Card.IsFrozen) then",
+                  "  return {A}",
+                  "else ",
+                  "  return 0",
+                  "end "
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Bag of Hoarding",
+      "Icon": "icon359.png",
+      "Description": "Start of turn, gain {A}g for each empty inventory slot",
+      "BaseMove": 3,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Startturn",
+            "Effect": "Gold",
+            "Value": "{F}",
+            "Target": {
+              "Inventory": "Player"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "playerCards = scriptData.PlayerInventory",
+                  "count = 0 ",
+                  "for key,value in ipairs(playerCards) ",
+                  "do ",
+                  "  if (value.Name ~= \"Empty Slot\") then",
+                  "    count = count + 1 ",
+                  "  end ",
+                  "end ",
+                  "emptySlots = 5 - count",
+                  "return emptySlots * {A}"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
             }
           ]
         }

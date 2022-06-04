@@ -90,8 +90,9 @@ public class PrepMain : Node2D
     PlayerInventoryFill();
     var frozenCards = GetFrozenCards().ToList();
     CardShopFill(frozenCards);
-    _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
+    GameManager.PrepEngine.Bank.SetStartingCoins();
     GameManager.PrepEngine.CalculateStartTurnAbilities();
+    _newCoinTotal = GameManager.PrepEngine.Bank.CoinTotal;
     UpdateUiForAllCards();
   }
 
