@@ -323,7 +323,7 @@
       "Icon": "icon754.png",
       "Description": "Gain {A} move",
       "BaseMove": 0,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -555,7 +555,8 @@
               {
                 "Key": "F",
                 "BodyMultiline": [
-                  "for key,value in ipairs(scriptData.GetOtherPlayers()) ",
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayers) ",
                   "do ",
                   "  if (highestOppenent == nil) then",
                   "    highestOppenent = value",
@@ -895,7 +896,7 @@
       "Icon": "icon921.png",
       "Description": "Gain {M} for each opponent ahead",
       "BaseMove": 2,
-      "Tier": 3,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
