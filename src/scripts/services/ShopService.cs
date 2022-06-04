@@ -8,9 +8,9 @@ public class ShopService
   private static Random _rnd = new Random();
 
 
-  public ShopService()
+  public ShopService(DataLoader dataLoader)
   {
-    var cardLoader = new CardLoader(PrepSceneData.CardDataRelativePath);
+    var cardLoader = new CardLoader(PrepSceneData.CardDataRelativePath, dataLoader);
     var cards = cardLoader.GetCards();
 
     _availableCards = new List<Card>();
@@ -30,9 +30,9 @@ public class ShopService
     return _availableCards;
   }
 
-  public List<Card> GetRandomCards(int amount)
+  public List<Card> GetRandomCards(int amount, int raceNumber)
   {
-    var maxTier = GetTier();
+    var maxTier = GetTier(raceNumber);
     var availableCardsForTier = _availableCards.Where(c => c.Tier <= maxTier).ToList();
     var cards = new List<Card>();
     for (int i = 0; i < amount; i++)
@@ -44,7 +44,7 @@ public class ShopService
     return cards;
   }
 
-  private int GetTier()
+  private int GetTier(int raceNumber)
   {
     /*
     option 1:
@@ -54,24 +54,6 @@ public class ShopService
       race: 1 2 3 4 5 6 7 8 9 10 11 12
       tier: 1 1 2 2 3 3 4 4 5 5  6  6
    */
-    var raceNumber = GameManager.CurrentRace;
-
-    // if (raceNumber > 9)
-    // {
-    //   return 4;
-    // }
-    // else if (raceNumber > 6)
-    // {
-    //   return 3;
-    // }
-    // else if (raceNumber > 3)
-    // {
-    //   return 2;
-    // }
-    // else if (raceNumber >= 0)
-    // {
-    //   return 1;
-    // }
 
     if (raceNumber > 10)
     {

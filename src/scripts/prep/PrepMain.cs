@@ -90,8 +90,10 @@ public class PrepMain : Node2D
     PlayerInventoryFill();
     var frozenCards = GetFrozenCards().ToList();
     CardShopFill(frozenCards);
-    _newCoinTotal = GameManager.PrepEngine.Bank.SetStartingCoins();
+    GameManager.PrepEngine.Bank.SetStartingCoins();
     GameManager.PrepEngine.CalculateStartTurnAbilities();
+    _newCoinTotal = GameManager.PrepEngine.Bank.CoinTotal;
+    UpdateUiForAllCards();
   }
 
   public override void _Process(float delta)
@@ -183,6 +185,10 @@ public class PrepMain : Node2D
         {
           _newCoinTotal = bankResult.CoinTotal;
           var combineResult = CombineCards(cardScript, targetCardScript, true);
+          if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
+          {
+            Reroll();
+          }
           if (combineResult)
           {
             return;
@@ -215,6 +221,10 @@ public class PrepMain : Node2D
           cardScript.Slot = slot;
           cardScript.Card.Frozen = false;
           DropCard(cardScript, droppedPosition);
+          if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
+          {
+            Reroll();
+          }
           return;
         }
       }
@@ -275,8 +285,7 @@ public class PrepMain : Node2D
     if (bankResult.Success)
     {
       _newCoinTotal = bankResult.CoinTotal;
-      var frozenCards = GetFrozenCards().ToList();
-      CardShopFill(frozenCards);
+      Reroll();
     }
   }
 
@@ -305,6 +314,12 @@ public class PrepMain : Node2D
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+  }
+
+  private void Reroll()
+  {
+    var frozenCards = GetFrozenCards().ToList();
+    CardShopFill(frozenCards);
   }
 
   private void DropCard(CardScript cardScript, Vector2 droppedPosition)
@@ -391,7 +406,7 @@ public class PrepMain : Node2D
     }
 
     // fill in the rest of the slots with cards
-    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameManager.ShopSize);
+    var cards = GameManager.PrepEngine.ShopService.GetRandomCards(GameManager.ShopSize, GameManager.CurrentRace);
     for (int slot = frozenCards.Count; slot < GameManager.ShopSize; slot++)
     {
       var card = cards[slot];
@@ -473,6 +488,10 @@ public class PrepMain : Node2D
       {
         // Remove card node
         _selectedCard.QueueFree();
+        if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
+        {
+          Reroll();
+        }
       }
     }
     UpdateUiForAllCards();

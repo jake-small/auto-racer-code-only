@@ -6,4 +6,14 @@ public class BankData
   public int SellValue { get; set; }
   public int? SellLevelMultiplier { get; set; }
   public int? SellLevelAdditive { get; set; }
+
+  public bool IsEmpty()
+  {
+    return StartingCoins == default(int)
+        && BuyCost == default(int)
+        && RerollCost == default(int)
+        && SellValue == default(int)
+        && SellLevelMultiplier == null
+        && SellLevelAdditive == null;
+  }
 }

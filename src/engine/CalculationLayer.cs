@@ -7,14 +7,10 @@ using LuaScript = MoonSharp.Interpreter.Script;
 
 public class CalculationLayer
 {
-  private LuaScript _luaScript;
-
   public CalculationLayer()
   {
     // Automatically register all MoonSharpUserData types
     UserData.RegisterAssembly();
-    // https://www.moonsharp.org/sandbox.html
-    _luaScript = new LuaScript(CoreModules.Preset_HardSandbox);
   }
   private MoonSharp.Interpreter.Script _script = new MoonSharp.Interpreter.Script();
   public Card ApplyLevelValues(Card card)
@@ -68,7 +64,7 @@ public class CalculationLayer
       var coinTotal = GameManager.PrepEngine.Bank.CoinTotal;
       var lifeTotal = GameManager.LifeTotal;
       var raceNumber = GameManager.CurrentRace;
-      var scriptData = new PrepScriptData(playerInventory, shopInventory, coinTotal, lifeTotal, raceNumber);
+      var scriptData = new PrepScriptData(card, playerInventory, shopInventory, coinTotal, lifeTotal, raceNumber);
       var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
       UpdateAllNestedStrings(card, calculatedOutKeys);
     }
@@ -188,14 +184,16 @@ public class CalculationLayer
 
   private string RunLuaScript(string scriptBody, MoonSharpScriptData scriptData)
   {
+    // https://www.moonsharp.org/sandbox.html
+    var luaScript = new LuaScript(CoreModules.Preset_HardSandbox);
     var script = $@"
         function script ()
           {scriptBody}
         end
         return script()";
 
-    _luaScript.Globals["scriptData"] = scriptData;
-    DynValue res = _luaScript.DoString(script);
+    luaScript.Globals["scriptData"] = scriptData;
+    DynValue res = luaScript.DoString(script);
     switch (res.Type)
     {
       case DataType.Number:

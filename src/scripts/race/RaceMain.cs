@@ -8,7 +8,7 @@ public class RaceMain : Node2D
   private AutoRaceEngine _autoRaceEngine;
   private RaceViewManager _raceViewManager;
   private TextureButton _forwardButton;
-  private TextureButton _backButton;
+  // private TextureButton _backButton;
   private TextureButton _endRaceButton;
   private TextureButton _autoPlayButton;
   private Label _labelTurnPhase;
@@ -23,6 +23,8 @@ public class RaceMain : Node2D
   private List<Sprite> _slotTurnIndicators;
   private int _currentTurnView;
   private bool _raceOver = false;
+  private bool _isPaused = false;
+  private float _pauseDuration = 0;
   private bool _waitingOnCardEffect = false;
   private bool _waitingOnMovement = false;
   private bool _autoplay = false;
@@ -107,27 +109,45 @@ public class RaceMain : Node2D
       _autoPlayButton.Disabled = true;
     }
 
+    if (_isPaused)
+    {
+      _forwardButton.Disabled = true;
+      if (_pauseDuration > 0)
+      {
+        _pauseDuration -= delta;
+      }
+      else
+      {
+        _isPaused = false;
+        _pauseDuration = 0;
+      }
+    }
+
     if (_waitingOnCardEffect)
     {
+      _forwardButton.Disabled = true;
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
-        _forwardButton.Disabled = false;
       }
     }
 
     if (_waitingOnMovement)
     {
-      if (!_raceViewManager.AreCharactersMoving)
+      _forwardButton.Disabled = true;
+      if (!_raceViewManager.AreCharactersMoving && !_raceViewManager.IsScrolling)
       {
         _waitingOnMovement = false;
-        _forwardButton.Disabled = false;
       }
     }
 
-    if (_autoplay && !_waitingOnCardEffect && !_waitingOnMovement)
+    if (!_raceOver && !_isPaused && !_waitingOnCardEffect && !_waitingOnMovement)
     {
-      AdvanceRace();
+      _forwardButton.Disabled = false;
+      if (_autoplay)
+      {
+        AdvanceRace();
+      }
     }
   }
 
@@ -298,7 +318,7 @@ public class RaceMain : Node2D
       // {
       //   _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
       // }
-      _backButton.Disabled = false;
+      // _backButton.Disabled = false;
       return;
     }
 
@@ -319,9 +339,9 @@ public class RaceMain : Node2D
     _currentTurnView = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurnView}");
 
-    if (turnPhase == TurnPhases.AbilitiesStart)
+    if (turnPhase == TurnPhases.Abilities1)
     {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities";
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 1";
       var turnResults = _autoRaceEngine.GetTurnResults();
       // var currentCardStates = new List<string>();
       var p = 0;
@@ -336,15 +356,19 @@ public class RaceMain : Node2D
       }
       // _cardStates.Add(currentCardStates);
     }
-    if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3)
+
+    if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3
+      || turnPhase == TurnPhases.Abilities2P0 || turnPhase == TurnPhases.Abilities2P1 || turnPhase == TurnPhases.Abilities2P2 || turnPhase == TurnPhases.Abilities2P3)
     {
-      var turnResults = _autoRaceEngine.GetTurnResults();
-      var turnId = int.Parse(turnPhase.ToString().Last().ToString());
-      _slotTurnIndicators[turnId].Visible = true;
-      _raceViewManager.GiveTokens(turnResults.FirstOrDefault(r => r.Player.Id == turnId));
-      _waitingOnCardEffect = true;
-      _forwardButton.Disabled = true;
+      HandleAbilitiesPhase(turnPhase);
     }
+
+    if (turnPhase == TurnPhases.Abilities2)
+    {
+      HideSlotTurnIndicators();
+      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 2";
+    }
+
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
       var phase = turnPhase == TurnPhases.Move ? "Move" : "Handle Remaining Tokens";
@@ -356,15 +380,15 @@ public class RaceMain : Node2D
       {
         _raceViewManager.MovePlayers(turnResults);
         _waitingOnMovement = true;
-        _forwardButton.Disabled = true;
         // var positionState = EngineTesting.GetPositionTextView(turnResults);
         // _updatePositionStateLabel = positionState;
         // _positionStates.Add(positionState);
       }
     }
+
     if (turnPhase == TurnPhases.Move)
     {
-      didWin = _autoRaceEngine.AdvanceRace();
+      // didWin = _autoRaceEngine.AdvanceRace();
       didWin = _autoRaceEngine.AdvanceRace();
       turnPhase = _autoRaceEngine.GetTurnPhase();
     }
@@ -384,6 +408,26 @@ public class RaceMain : Node2D
       _raceOver = true;
       CalculateStandings();
       return;
+    }
+  }
+
+  private void HandleAbilitiesPhase(TurnPhases turnPhase)
+  {
+    // _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
+    var turnResults = _autoRaceEngine.GetTurnResults();
+    var turnId = int.Parse(turnPhase.ToString().Last().ToString());
+    var abilityPhase = turnPhase.ToString().StartsWith("Abilities2") ? TurnPhases.Abilities2 : TurnPhases.Abilities1;
+    var turnResult = turnResults.Where(r => r.Phase == abilityPhase).FirstOrDefault(r => r.Player.Id == turnId);
+    if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
+    {
+      ShowSlotTurnIndicator(turnId, true);
+      _raceViewManager.GiveTokens(turnResult);
+      _waitingOnCardEffect = true;
+    }
+    else
+    {
+      ShowSlotTurnIndicator(turnId, false);
+      Pause(0.3f);
     }
   }
 
@@ -426,13 +470,9 @@ public class RaceMain : Node2D
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
     var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    var selectedCardSellsForLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedSellsForRelPath);
-    var selectedCardBaseMoveLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedBaseMoveRelPath);
     selectedCardPanel.Visible = true;
     selectedCardNameLabel.Text = card.GetName();
     selectedCardDescriptionLabel.Text = card.GetDescription();
-    selectedCardSellsForLabel.Text = GameManager.PrepEngine.Bank.GetSellValue(card).ToString();
-    selectedCardBaseMoveLabel.Text = card.BaseMove.ToString();
   }
 
   private void HideSelectedCardData(int playerId)
@@ -441,13 +481,16 @@ public class RaceMain : Node2D
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
     var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    var selectedCardSellsForLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedSellsForRelPath);
-    var selectedCardBaseMoveLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedBaseMoveRelPath);
     selectedCardPanel.Visible = false;
     selectedCardNameLabel.Text = "";
     selectedCardDescriptionLabel.Text = "";
-    selectedCardSellsForLabel.Text = "";
-    selectedCardBaseMoveLabel.Text = "";
+  }
+
+  private void ShowSlotTurnIndicator(int turnId, bool abilityActivated)
+  {
+    _slotTurnIndicators[turnId].Visible = true;
+    var transparentValue = abilityActivated ? 1f : 0.5f;
+    _slotTurnIndicators[turnId].Modulate = new Color(1, 0.16f, 0.24f, transparentValue);
   }
 
   private void HideSlotTurnIndicators()
@@ -456,6 +499,12 @@ public class RaceMain : Node2D
     {
       indicator.Visible = false;
     }
+  }
+
+  private void Pause(float duration)
+  {
+    _isPaused = true;
+    _pauseDuration = duration;
   }
 
   // TODO refactor out to a matchmaker

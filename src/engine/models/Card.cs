@@ -17,6 +17,19 @@ public class Card : ICloneable
   public bool Frozen = false;
 
   private const int MaxCardLevel = 3;
+  private CalculationLayer _calcLayer;
+  public Card()
+  {
+    try
+    {
+      _calcLayer = GameManager.CalcLayer;
+    }
+    catch (System.Exception)
+    {
+      Console.WriteLine("Warning: Unable to initialize GameManager, using a new CalculationLayer for each card. This is expensive- only use this for unit tests");
+      _calcLayer = new CalculationLayer();
+    }
+  }
 
   public object Clone()
   {
@@ -32,28 +45,29 @@ public class Card : ICloneable
       ExpToLvl = ExpToLvl,
       Abilities = (Abilities)Abilities?.Clone(),
       LevelValues = LevelValues,
-      InventoryType = InventoryType
+      InventoryType = InventoryType,
+      Frozen = Frozen
     };
   }
 
   public Card GetLeveledCard()
   {
-    return GameManager.CalcLayer.ApplyLevelValues((Card)this.Clone());
+    return _calcLayer.ApplyLevelValues((Card)this.Clone());
   }
 
   public Card ApplyPrepFunctionValues()
   {
-    return GameManager.CalcLayer.ApplyPrepFunctionValues((Card)this.Clone());
+    return _calcLayer.ApplyPrepFunctionValues((Card)this.Clone());
   }
 
   public Card ApplyTokenFunctionValues(Player player, IEnumerable<Player> players)
   {
-    return GameManager.CalcLayer.ApplyTokenFunctionValues((Card)this.Clone(), player, players);
+    return _calcLayer.ApplyTokenFunctionValues((Card)this.Clone(), player, players);
   }
 
   public string GetName()
   {
-    return GameManager.CalcLayer.ApplyLevelValues((Card)this.Clone(), Name, Level);
+    return _calcLayer.ApplyLevelValues((Card)this.Clone(), Name, Level);
   }
 
   public string GetRawName()
@@ -62,7 +76,7 @@ public class Card : ICloneable
   }
   public string GetDescription()
   {
-    return GameManager.CalcLayer.ApplyLevelValues((Card)this.Clone(), Description, Level);
+    return _calcLayer.ApplyLevelValues((Card)this.Clone(), Description, Level);
   }
 
   public string GetRawDescription()

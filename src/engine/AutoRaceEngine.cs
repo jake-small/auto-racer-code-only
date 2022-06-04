@@ -75,14 +75,14 @@ public class AutoRaceEngine
       case TurnPhases.Start:
         StartTurnPhase();
         break;
-      case TurnPhases.AbilitiesStart:
+      case TurnPhases.Abilities1:
         Abilities1Phase();
-        break;
-      case TurnPhases.Move:
-        MovePhase();
         break;
       case TurnPhases.Abilities2:
         Abilities2Phase();
+        break;
+      case TurnPhases.Move:
+        MovePhase();
         break;
       case TurnPhases.End:
         var noMoreCardSlots = EndTurnPhase();
@@ -108,10 +108,20 @@ public class AutoRaceEngine
   private void Abilities1Phase()
   {
     Console.WriteLine("Abilities1Phase");
-    Console.WriteLine($"number of players: {_players.Count()}");
     foreach (var player in _players)
     {
-      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player));
+      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player, TurnPhases.Abilities1));
+    }
+    _turnManager.DistributeTokens();
+  }
+
+  private void Abilities2Phase()
+  {
+    Console.WriteLine("Abilities2Phase");
+    _turnManager.ClearPlayerTurns();
+    foreach (var player in _players)
+    {
+      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player, TurnPhases.Abilities2));
     }
     _turnManager.DistributeTokens();
   }
@@ -121,11 +131,6 @@ public class AutoRaceEngine
     Console.WriteLine("MovePhase");
     _turnManager.ApplyTokens();
     _turnManager.UpdatePositions();
-  }
-
-  private void Abilities2Phase()
-  {
-    Console.WriteLine("Abilities2Phase");
   }
 
   private bool EndTurnPhase()
@@ -179,22 +184,24 @@ public class AutoRaceEngine
     }
   }
 
-  private PlayerTurnResult CalculatePlayerTurn(Player player)
+  private PlayerTurnResult CalculatePlayerTurn(Player player, TurnPhases currentPhase)
   {
     var result = new PlayerTurnResult(player);
+    result.Phase = currentPhase;
     if (player.Cards.TryGetValue(_currentSlot, out var card))
     {
       result.Movement = card.BaseMove;
     }
-    result.TokensGiven = CalculateTokensGiven(card, player);
+    result.TokensGiven = CalculateTokensGiven(card, player, currentPhase);
     return result;
   }
 
-  private Dictionary<int, List<Token>> CalculateTokensGiven(Card card, Player player)
+  private Dictionary<int, List<Token>> CalculateTokensGiven(Card card, Player player, TurnPhases currentPhase)
   {
     var leveledCard = card.GetLeveledCard();
     var calculatedCard = leveledCard.ApplyTokenFunctionValues(player, _players);
-    var tokenAbilities = calculatedCard.Abilities?.MoveTokenAbilities ?? new List<MoveTokenAbility>();
+    var tokenAbilities = calculatedCard.Abilities?.MoveTokenAbilities
+      .Where(a => a.Phase.Equals(currentPhase.ToString(), StringComparison.InvariantCultureIgnoreCase)).ToList() ?? new List<MoveTokenAbility>();
     var tokensGiven = CalculateTokens(tokenAbilities, player);
     return tokensGiven;
   }
@@ -355,13 +362,17 @@ public enum TurnPhases
 {
   PreRace = -1,
   Start = 0,
-  AbilitiesStart = 1,
+  Abilities1 = 1,
   AbilitiesP0 = 2,
   AbilitiesP1 = 3,
   AbilitiesP2 = 4,
   AbilitiesP3 = 5,
-  Move = 6,
-  Abilities2 = 7,
-  End = 8,
+  Abilities2 = 6,
+  Abilities2P0 = 7,
+  Abilities2P1 = 8,
+  Abilities2P2 = 9,
+  Abilities2P3 = 10,
+  Move = 11,
+  End = 12,
   HandleRemainingTokens = -2
 }

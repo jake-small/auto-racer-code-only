@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MoonSharp.Interpreter;
 using NUnit.Framework;
-using static AutoRaceEngine;
 
 namespace AutoRacerTests.Tests
 {
@@ -18,8 +17,10 @@ namespace AutoRacerTests.Tests
       // Have to register types again because of a bug between unit tests and MoonSharp
       UserData.RegisterType<RaceScriptData>();
       UserData.RegisterType<MoonSharpPlayer>();
-      var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardsTest.json");
+      UserData.RegisterType<MoonSharpMoveTokens>();
+      var cardLoader = new CardLoader(@"G:\JakeDoc\Files\Projects\Godot\AutoRacer\auto-racer\configs\cardDataTest.json", new JsonLoader());
       _cards = cardLoader.GetCards();
+
     }
 
     [TestCase(1)]
@@ -173,6 +174,7 @@ namespace AutoRacerTests.Tests
       }
     }
 
+    // TODO: update test to match new card, then write test for carrot
     [TestCase(1)]
     [TestCase(2)]
     [TestCase(3)]
@@ -199,6 +201,770 @@ namespace AutoRacerTests.Tests
         Assert.That(playerResult.Position, Is.EqualTo(5));
       }
     }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void DragonPlate_NoPositiveTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(DragonPlate_NoPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("dragon plate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 0 };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + boostValue));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void DragonPlate_HasPositiveTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(DragonPlate_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("dragon plate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var plusOneToken = TestHelperData.GetTestMoveToken();
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { plusOneToken }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + plusOneToken.Value));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void DragonPlate_HasNegativeTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(DragonPlate_HasNegativeTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("dragon plate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var minusOneToken = TestHelperData.GetTestMoveToken(-1);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { minusOneToken }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + boostValue + minusOneToken.Value));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1, -1, 2, -1, 2)]
+    [TestCase(2, -1, 2, -1, 2)]
+    [TestCase(3, -1, 2, -1, 2)]
+    [TestCase(1, -2, 2, -1, 2)]
+    [TestCase(2, -2, 2, -1, 2)]
+    [TestCase(3, -2, 2, -1, 2)]
+    [TestCase(1, -1, 4, -2, 1)]
+    [TestCase(2, -1, 4, -2, 1)]
+    [TestCase(3, -1, 4, -2, 1)]
+    [TestCase(1, -1, 1, -1, 1)]
+    [TestCase(2, -1, 1, -1, 1)]
+    [TestCase(3, -1, 1, -1, 1)]
+    public void LastingShield_HasNegativeTokens_Success(int level, int token1Value, int token1Duration, int token2Value, int token2Duration)
+    {
+      Console.WriteLine($"Starting {nameof(LastingShield_HasNegativeTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var minusToken1 = TestHelperData.GetTestMoveToken(token1Value, token1Duration);
+      var minusToken2 = TestHelperData.GetTestMoveToken(token2Value, token2Duration);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { minusToken1, minusToken2 }
+      };
+      var playerResults = TestRace(player, 40);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          var newPosition = 4 + leveledCard.BaseMove
+            + (boostValue * (token1Duration + token2Duration))
+            + ((token1Value * token1Duration) + (token2Value * token2Duration));
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(5));
+      }
+    }
+
+    [TestCase(1, 1, 2, 2, 3)]
+    [TestCase(2, 1, 2, 2, 3)]
+    [TestCase(3, 1, 2, 2, 3)]
+    public void LastingShield_HasPositiveTokens_Success(int level, int token1Value, int token1Duration, int token2Value, int token2Duration)
+    {
+      Console.WriteLine($"Starting {nameof(LastingShield_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var plusToken1 = TestHelperData.GetTestMoveToken(token1Value, token1Duration);
+      var plusToken2 = TestHelperData.GetTestMoveToken(token2Value, token2Duration);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { plusToken1, plusToken2 }
+      };
+      var playerResults = TestRace(player, 40);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var newPosition = 4 + leveledCard.BaseMove + (token1Value * token1Duration) + (token2Value * token2Duration);
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(5));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void LastingShield_HasNoTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(LastingShield_HasNoTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("lasting shield", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { }
+      };
+      var playerResults = TestRace(player, 40);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var newPosition = 4 + leveledCard.BaseMove;
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(5));
+      }
+    }
+
+    [TestCase(1, 1, 1)]
+    [TestCase(2, 1, 1)]
+    [TestCase(3, 1, 1)]
+    [TestCase(1, 3, 3)]
+    [TestCase(2, 3, 3)]
+    [TestCase(3, 3, 3)]
+    [TestCase(1, 20, 3)]
+    [TestCase(2, 20, 3)]
+    [TestCase(3, 20, 3)]
+    [TestCase(1, 0, 2)]
+    [TestCase(2, 0, 2)]
+    [TestCase(3, 0, 2)]
+    public void FocusRing_HasPositiveTokens_Success(int level, int token1Value, int token2Value)
+    {
+      Console.WriteLine($"Starting {nameof(FocusRing_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("focus ring", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var plusToken1 = TestHelperData.GetTestMoveToken(token1Value, 1);
+      var plusToken2 = TestHelperData.GetTestMoveToken(token2Value, 1);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { plusToken1, plusToken2 }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "A").Value.ToInt();
+          var newPosition = boostValue * (leveledCard.BaseMove + token1Value + token2Value);
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1, -1, -1)]
+    [TestCase(2, -1, -1)]
+    [TestCase(3, -1, -1)]
+    [TestCase(1, -3, -3)]
+    [TestCase(2, -3, -3)]
+    [TestCase(3, -3, -3)]
+    [TestCase(1, -20, -3)]
+    [TestCase(2, -20, -3)]
+    [TestCase(3, -20, -3)]
+    [TestCase(1, 0, -2)]
+    [TestCase(2, 0, -2)]
+    [TestCase(3, 0, -2)]
+    public void FocusRing_HasNegativeTokens_Success(int level, int token1Value, int token2Value)
+    {
+      Console.WriteLine($"Starting {nameof(FocusRing_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("focus ring", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var minusToken1 = TestHelperData.GetTestMoveToken(token1Value, 1);
+      var minusToken2 = TestHelperData.GetTestMoveToken(token2Value, 1);
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { minusToken1, minusToken2 }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "A").Value.ToInt();
+          var newPosition = boostValue * (leveledCard.BaseMove + token1Value + token2Value);
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void FocusRing_HasNoTokens_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(FocusRing_HasPositiveTokens_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("focus ring", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { }
+      };
+      var playerResults = TestRace(player, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "A").Value.ToInt();
+          var newPosition = boostValue * (leveledCard.BaseMove);
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1));
+      }
+    }
+
+    [TestCase(1, 4)]
+    [TestCase(2, 4)]
+    [TestCase(3, 4)]
+    [TestCase(1, 8)]
+    [TestCase(2, 8)]
+    [TestCase(3, 8)]
+    [TestCase(1, 1)]
+    [TestCase(2, 1)]
+    [TestCase(3, 1)]
+    public void BlueSpell_Ahead_Success(int level, int howFarAhead)
+    {
+      Console.WriteLine($"Starting {nameof(BlueSpell_Ahead_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("blue spell", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 3 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 3 + howFarAhead };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 2)
+        {
+          var startingPosition = 3 + howFarAhead;
+          var newPosition = startingPosition + 1 - howFarAhead;
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(4));
+      }
+    }
+
+    [TestCase(1, 4)]
+    [TestCase(2, 4)]
+    [TestCase(3, 4)]
+    [TestCase(1, 8)]
+    [TestCase(2, 8)]
+    [TestCase(3, 8)]
+    [TestCase(1, 1)]
+    [TestCase(2, 1)]
+    [TestCase(3, 1)]
+    public void BlueSpell_Behind_Success(int level, int howFarBehind)
+    {
+      Console.WriteLine($"Starting {nameof(BlueSpell_Behind_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("blue spell", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 3 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 1 - howFarBehind };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 3 - howFarBehind };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 1 - howFarBehind };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 2)
+        {
+          var startingPosition = 3 - howFarBehind;
+          var newPosition = startingPosition + 1 + howFarBehind;
+          Console.WriteLine($"newPosition: {newPosition}");
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(4));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(1 - howFarBehind + 1));
+      }
+    }
+
+    [TestCase(1, 0)]
+    [TestCase(2, 0)]
+    [TestCase(3, 0)]
+    [TestCase(1, 8)]
+    [TestCase(2, 8)]
+    [TestCase(3, 8)]
+    [TestCase(1, 1)]
+    [TestCase(2, 1)]
+    [TestCase(3, 1)]
+    public void BlueSpell_SameSpace_Success(int level, int position)
+    {
+      Console.WriteLine($"Starting {nameof(BlueSpell_SameSpace_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("blue spell", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = position };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = position };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = position };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = position };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(position + leveledCard.BaseMove));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(position + 1));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void AbyssBrew_Buff_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(AbyssBrew_Buff_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("abyss brew", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 0 };
+      var playerResults = TestRace(player, 20);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var abilityValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "D").Value.ToInt();
+          Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + 4 - abilityValue));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(5));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TrueShot_OneInFirst_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(TrueShot_OneInFirst_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("super true shot", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 3 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 10 };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(3 + leveledCard.BaseMove));
+          continue;
+        }
+        if (playerResult.Id is 1)
+        {
+          var abilityValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "V").Value.ToInt();
+          Assert.That(playerResult.Position, Is.EqualTo(10 + 1 + abilityValue));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(4));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TrueShot_TwoTiedForFirst_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(TrueShot_TwoTiedForFirst_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("super true shot", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 3 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 10 };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 10 };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      bool? alreadyGaveDebuff = null;
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(3 + leveledCard.BaseMove));
+          continue;
+        }
+        if (playerResult.Id is 1 || playerResult.Id is 3)
+        {
+          var abilityValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "V").Value.ToInt();
+          if (alreadyGaveDebuff == null)
+          {
+            if (playerResult.Position == 10 + 1 + abilityValue)
+            {
+              alreadyGaveDebuff = true;
+              Assert.That(playerResult.Position, Is.EqualTo(10 + 1 + abilityValue));
+            }
+            else
+            {
+              alreadyGaveDebuff = false;
+              Assert.That(playerResult.Position, Is.EqualTo(10 + 1));
+            }
+          }
+          else
+          {
+            if (alreadyGaveDebuff == true)
+            {
+              Assert.That(playerResult.Position, Is.EqualTo(10 + 1));
+            }
+            else
+            {
+              Assert.That(playerResult.Position, Is.EqualTo(10 + 1 + abilityValue));
+            }
+          }
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(4));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TrueShot_NoneAhead_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(TrueShot_NoneAhead_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("super true shot", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 5 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(5 + leveledCard.BaseMove));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(4));
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void TrueShot_EveryoneTied_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(TrueShot_EveryoneTied_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("super true shot", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 3 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 3 };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(3 + leveledCard.BaseMove));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(4));
+      }
+    }
+
+    [TestCase(1, 1, 1, 1)]
+    [TestCase(2, 1, 1, 1)]
+    [TestCase(3, 1, 1, 1)]
+    [TestCase(1, 3, 1, 0)]
+    [TestCase(2, 3, 1, 0)]
+    [TestCase(3, 3, 1, 0)]
+    [TestCase(1, 0, 0, 15)]
+    [TestCase(2, 0, 0, 15)]
+    [TestCase(3, 0, 0, 15)]
+    [TestCase(1, 0, 0, 0)]
+    [TestCase(2, 0, 0, 0)]
+    [TestCase(3, 0, 0, 0)]
+    public void DreamSiphon_GaveTokensToAll_Success(int level, int numTokens1, int numTokens2, int numTokens3)
+    {
+      Console.WriteLine($"Starting {nameof(DreamSiphon_GaveTokensToAll_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("Dream Siphon", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player1Tokens = new List<Token>();
+      for (int i = 0; i < numTokens1; i++)
+      {
+        player1Tokens.Add(TestHelperData.GetTestMoveToken(-1, 1, 0));
+      }
+      var player2Tokens = new List<Token>();
+      for (int i = 0; i < numTokens2; i++)
+      {
+        player2Tokens.Add(TestHelperData.GetTestMoveToken(-1, 1, 0));
+      }
+      var player3Tokens = new List<Token>();
+      for (int i = 0; i < numTokens3; i++)
+      {
+        player3Tokens.Add(TestHelperData.GetTestMoveToken(-1, 1, 0));
+      }
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 0 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = 0, Tokens = player1Tokens };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = 0, Tokens = player2Tokens };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = 0, Tokens = player3Tokens };
+      var playerResults = TestRace(new List<Player> { player0, player1, player2, player3 }, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+          var newPosition = leveledCard.BaseMove + boostValue * (numTokens1 + numTokens2 + numTokens3);
+          Assert.That(playerResult.Position, Is.EqualTo(newPosition));
+          continue;
+        }
+        switch (playerResult.Id)
+        {
+          case 1:
+            Assert.That(playerResult.Position, Is.EqualTo(1 + (-1 * numTokens1)));
+            break;
+          case 2:
+            Assert.That(playerResult.Position, Is.EqualTo(1 + (-1 * numTokens2)));
+            break;
+          case 3:
+            Assert.That(playerResult.Position, Is.EqualTo(1 + (-1 * numTokens3)));
+            break;
+        }
+      }
+    }
+
+    [TestCase(1)]
+    [TestCase(2)]
+    [TestCase(3)]
+    public void Badumdum_SameSpace_Success(int level)
+    {
+      Console.WriteLine($"Starting {nameof(Badumdum_SameSpace_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("Ba-dum-dum", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player = new Player
+      {
+        Id = 0,
+        Cards = new Dictionary<int, Card>() { { 0, cardInTest } },
+        Position = 0,
+        Tokens = new List<Token> { }
+      };
+      var playerResults = TestRace(player, 16);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      var boostValue = leveledCard
+            .LevelValues.FirstOrDefault(l => l.Id == level)
+            .OutKeys.FirstOrDefault(k => k.Key == "T").Value.ToInt();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        if (playerResult.Id is 0)
+        {
+          Assert.That(playerResult.Position, Is.EqualTo(4 + leveledCard.BaseMove + boostValue));
+          continue;
+        }
+        Assert.That(playerResult.Position, Is.EqualTo(5 + boostValue));
+      }
+    }
+
+    [TestCase(1, 0, 0, 1)]
+    [TestCase(2, 0, 0, 1)]
+    [TestCase(3, 0, 0, 1)]
+    [TestCase(1, 1, 1, 1)]
+    [TestCase(2, 1, 1, 1)]
+    [TestCase(3, 1, 1, 1)]
+    [TestCase(1, 2, 3, 1)]
+    [TestCase(2, 2, 3, 1)]
+    [TestCase(3, 2, 3, 1)]
+    [TestCase(1, 0, 0, 0)]
+    [TestCase(2, 0, 0, 0)]
+    [TestCase(3, 0, 0, 0)]
+    public void BurningAgate_MultiplePositions_Success(int level, int player1Pos, int player2Pos, int player3Pos)
+    {
+      Console.WriteLine($"Starting {nameof(BurningAgate_MultiplePositions_Success)}({level})");
+      var cardInTest = _cards.FirstOrDefault(c => c.GetRawName().Equals("Burning Agate", StringComparison.InvariantCultureIgnoreCase));
+      cardInTest.Level = level;
+      var player0 = new Player { Id = 0, Cards = new Dictionary<int, Card>() { { 0, cardInTest } }, Position = 0 };
+      var player1 = new Player { Id = 1, Cards = new Dictionary<int, Card>(), Position = player1Pos };
+      var player2 = new Player { Id = 2, Cards = new Dictionary<int, Card>(), Position = player2Pos };
+      var player3 = new Player { Id = 3, Cards = new Dictionary<int, Card>(), Position = player3Pos };
+      var players = new List<Player> { player0, player1, player2, player3 };
+      var playersAhead = players.Where(p => p.Position > 0).Count();
+      var playerResults = TestRace(players, 1);
+      Assert.That(playerResults.Count, Is.EqualTo(4));
+      var leveledCard = cardInTest.GetLeveledCard();
+      foreach (var playerResult in playerResults)
+      {
+        Console.WriteLine($"id: {playerResult.Id} pos: {playerResult.Position}");
+        switch (playerResult.Id)
+        {
+          case 0:
+            var boostValue = leveledCard
+                        .LevelValues.FirstOrDefault(l => l.Id == level)
+                        .OutKeys.FirstOrDefault(k => k.Key == "M").Value.ToInt();
+            Assert.That(playerResult.Position, Is.EqualTo(leveledCard.BaseMove + (playersAhead * boostValue)));
+            break;
+          case 1:
+            Assert.That(playerResult.Position, Is.EqualTo(1 + player1Pos));
+            break;
+          case 2:
+            Assert.That(playerResult.Position, Is.EqualTo(1 + player2Pos));
+            break;
+          case 3:
+            Assert.That(playerResult.Position, Is.EqualTo(1 + player3Pos));
+            break;
+        }
+      }
+    }
+
+
+
+
 
     private List<Player> TestRace(Player player, int numTurns, int defaultPosition = 0, int defaultBasemove = 1)
     {

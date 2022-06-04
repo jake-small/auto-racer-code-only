@@ -58,7 +58,7 @@ public class BotBasic : Player
         {
           break;
         }
-        availableShopCard = _botShopInventory.GetCardsAsList().FirstOrDefault();
+        continue;
       }
 
       var availableSlot = GetFirstOpenSlot();
@@ -73,7 +73,6 @@ public class BotBasic : Player
           {
             break;
           }
-
           continue;
         }
         else
@@ -92,7 +91,7 @@ public class BotBasic : Player
 
   private void FillShop()
   {
-    var shopCards = _shopService.GetRandomCards(GameManager.ShopSize);
+    var shopCards = _shopService.GetRandomCards(GameManager.ShopSize, GameManager.CurrentRace - 1);
     for (int slot = 0; slot < GameManager.ShopSize; slot++)
     {
       var card = shopCards[slot];
@@ -201,8 +200,17 @@ public class BotBasic : Player
     {
       return (-1, null);
     }
-    var slottedCard = cardDict.First();
-    return (slottedCard.Key, slottedCard.Value);
+    // Don't buy cards with effects a bot won't make use of (sell, sold, freeze)
+    var slottedCardNoSellAbility = cardDict
+      .Where(kv => !kv.Value.Abilities.PrepAbilities
+        .Any(a => a.GetTrigger() == Trigger.Sell || a.GetTrigger() == Trigger.Sold || a.GetTrigger() == Trigger.Freeze
+          || a.Functions.Any(f => f.Body.Contains(".IsFrozen"))))
+      .FirstOrDefault();
+    if (slottedCardNoSellAbility.Value == null)
+    {
+      return (-1, null);
+    }
+    return (slottedCardNoSellAbility.Key, slottedCardNoSellAbility.Value);
   }
 
   private int GetFirstOpenSlot()

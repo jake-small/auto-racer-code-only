@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ShopInventory
 {
@@ -14,6 +15,16 @@ public class ShopInventory
   public bool IsCardInSlot(int slotNum)
   {
     return _cardDict.ContainsKey(slotNum);
+  }
+
+  public int GetSlotOfCard(Card card)
+  {
+    var slotCardPair = _cardDict.FirstOrDefault(x => x.Value == card);
+    if (slotCardPair.Value != null)
+    {
+      return slotCardPair.Key;
+    }
+    return -1;
   }
 
   public Card GetCardInSlot(int slotNum)

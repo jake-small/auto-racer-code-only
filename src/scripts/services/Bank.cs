@@ -1,6 +1,6 @@
 using System;
 
-public class Bank : FileLoader
+public class Bank
 {
   public BankData BankData { get; private set; }
   public int BuyCost { get; private set; }
@@ -9,13 +9,14 @@ public class Bank : FileLoader
   public int SellLevelMultiplier { get; private set; }
   public int SellLevelAdditive { get; private set; }
   public int StartingCoins { get; private set; }
-  private bool _shouldLog;
-
   public int CoinTotal { get; private set; }
 
-  public Bank(string bankDataFile, bool shouldLog = true)
+  private const string DefaultBankDataPath = @"configs/bankData.tres";
+  private bool _shouldLog;
+
+  public Bank(string bankDataFile, DataLoader dataLoader, bool shouldLog = true)
   {
-    BankData = LoadJsonData<BankData>(bankDataFile);
+    BankData = LoadBankData(bankDataFile, dataLoader);
     BuyCost = BankData.BuyCost;
     RerollCost = BankData.RerollCost;
     SellValue = BankData.SellValue;
@@ -47,21 +48,23 @@ public class Bank : FileLoader
     {
       EngineTesting.Log("Paid for card", _shouldLog);
       CoinTotal = CoinTotal - BuyCost;
-      GameManager.PrepEngine.CalculateOnBuyAbilities();
-      GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
-      return new BankActionResult(true, CoinTotal);
+      var buyResponse = GameManager.PrepEngine.CalculateOnBuyAbilities(card);
+      var boughtResponse = GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
+      var prepAbilityResponse = buyResponse == PrepAbilityResponse.Reroll ? buyResponse : boughtResponse;
+      return new BankActionResult(true, CoinTotal, prepAbilityResponse);
     }
     EngineTesting.Log("Can't afford to buy card", _shouldLog);
-    return new BankActionResult(false);
+    return new BankActionResult(false, PrepAbilityResponse.None);
   }
 
   public BankActionResult Sell(Card card)
   {
     EngineTesting.Log("Sold card", _shouldLog);
     CoinTotal = CoinTotal + GetSellValue(card);
-    GameManager.PrepEngine.CalculateOnSellAbilities();
-    GameManager.PrepEngine.CalculateOnSoldAbilities(card);
-    return new BankActionResult(true, CoinTotal);
+    var sellResponse = GameManager.PrepEngine.CalculateOnSellAbilities();
+    var soldResponse = GameManager.PrepEngine.CalculateOnSoldAbilities(card);
+    var prepAbilityResponse = sellResponse == PrepAbilityResponse.Reroll ? sellResponse : soldResponse;
+    return new BankActionResult(true, CoinTotal, prepAbilityResponse);
   }
 
   public BankActionResult Reroll()
@@ -70,11 +73,11 @@ public class Bank : FileLoader
     {
       EngineTesting.Log("Paid for reroll", _shouldLog);
       CoinTotal = CoinTotal - RerollCost;
-      GameManager.PrepEngine.CalculateOnRerollAbilities();
-      return new BankActionResult(true, CoinTotal);
+      var rerollResponse = GameManager.PrepEngine.CalculateOnRerollAbilities();
+      return new BankActionResult(true, CoinTotal, rerollResponse);
     }
     EngineTesting.Log("Can't afford to reroll", _shouldLog);
-    return new BankActionResult(false);
+    return new BankActionResult(false, PrepAbilityResponse.None);
   }
 
   public int AddCoins(int amount)
@@ -89,5 +92,38 @@ public class Bank : FileLoader
     var multiplier = SellLevelMultiplier < 2 || levelUps is 0 ? 1 : SellLevelMultiplier * levelUps;
     var additive = SellLevelAdditive * levelUps;
     return (SellValue * multiplier) + additive;
+  }
+
+  private BankData LoadBankData(string bankDataFile, DataLoader dataLoader)
+  {
+    var bankData = new BankData();
+    try
+    {
+      if (System.IO.File.Exists(bankDataFile))
+      {
+        Console.WriteLine($"Loading bank data '{bankDataFile}'");
+        bankData = dataLoader.LoadJsonData<BankData>(bankDataFile);
+      }
+    }
+    catch (System.Exception)
+    {
+      Console.WriteLine($"Warning: Unable to access filesystem to access bank config '{bankDataFile}', using built-in bank data instead");
+    }
+    finally
+    {
+      if (bankData == null || bankData.IsEmpty())
+      {
+        Console.WriteLine($"Warning: Bank json file not found at '{bankDataFile}', using built-in bank data instead");
+        if (dataLoader.CanLoadResource())
+        {
+          bankData = dataLoader.LoadResourceData<BankData>(DefaultBankDataPath);
+        }
+        else
+        {
+          Console.WriteLine($"Warning: Unable to load bank resource file");
+        }
+      }
+    }
+    return bankData;
   }
 }
