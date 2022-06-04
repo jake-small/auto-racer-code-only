@@ -74,7 +74,7 @@
     {
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
-      "Description": "Gain {M} move for each negative token",
+      "Description": "Gain {M} move for each negative token on you",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -706,7 +706,7 @@
     {
       "Name": "Super True Shot",
       "Icon": "icon534.png",
-      "Description": "Opponents ahead get {V}",
+      "Description": "Opponents ahead get {V} for {D} turns",
       "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
@@ -739,6 +739,10 @@
             {
               "Key": "V",
               "Value": "-2"
+            },
+            {
+              "Key": "D",
+              "Value": "2"
             }
           ]
         },
@@ -747,7 +751,11 @@
           "OutKeys": [
             {
               "Key": "V",
-              "Value": "-4"
+              "Value": "-3"
+            },
+            {
+              "Key": "D",
+              "Value": "3"
             }
           ]
         },
@@ -756,7 +764,11 @@
           "OutKeys": [
             {
               "Key": "V",
-              "Value": "-8"
+              "Value": "-4"
+            },
+            {
+              "Key": "D",
+              "Value": "4"
             }
           ]
         }

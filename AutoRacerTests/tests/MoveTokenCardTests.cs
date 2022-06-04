@@ -303,6 +303,9 @@ namespace AutoRacerTests.Tests
     [TestCase(1, -1, 4, -2, 1)]
     [TestCase(2, -1, 4, -2, 1)]
     [TestCase(3, -1, 4, -2, 1)]
+    [TestCase(1, -1, 1, -1, 1)]
+    [TestCase(2, -1, 1, -1, 1)]
+    [TestCase(3, -1, 1, -1, 1)]
     public void LastingShield_HasNegativeTokens_Success(int level, int token1Value, int token1Duration, int token2Value, int token2Duration)
     {
       Console.WriteLine($"Starting {nameof(LastingShield_HasNegativeTokens_Success)}({level})");

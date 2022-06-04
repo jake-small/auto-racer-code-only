@@ -200,8 +200,11 @@ public class BotBasic : Player
     {
       return (-1, null);
     }
+    // Don't buy cards with effects a bot won't make use of (sell, sold, freeze)
     var slottedCardNoSellAbility = cardDict
-      .Where(kv => !kv.Value.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell || a.GetTrigger() == Trigger.Sold))
+      .Where(kv => !kv.Value.Abilities.PrepAbilities
+        .Any(a => a.GetTrigger() == Trigger.Sell || a.GetTrigger() == Trigger.Sold || a.GetTrigger() == Trigger.Freeze
+          || a.Functions.Any(f => f.Body.Contains(".IsFrozen"))))
       .FirstOrDefault();
     if (slottedCardNoSellAbility.Value == null)
     {
