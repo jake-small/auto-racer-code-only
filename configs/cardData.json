@@ -21,7 +21,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "{R}"
+                "Max": "3"
               }
             },
             "Functions": []
@@ -825,7 +825,7 @@
       "Icon": "icon133.png",
       "Description": "Gain {M} for each token given to opponents",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -895,7 +895,7 @@
       "Icon": "icon405.png",
       "Description": "Give everyone 1 move for {T} turns",
       "BaseMove": 5,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1124,7 +1124,7 @@
       ]
     },
     {
-      "Name": "Reconfigurator",
+      "Name": "Dwarven Reconfigurator",
       "Icon": "icon940.png",
       "Description": "Start of turn, give card to the right {A}",
       "BaseMove": 2,
@@ -1422,7 +1422,7 @@
       "Icon": "icon737.png",
       "Description": "Gain {M} for each positive token on other players",
       "BaseMove": 0,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1481,6 +1481,78 @@
             {
               "Key": "M",
               "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Anti Wizard",
+      "Icon": "icon648.png",
+      "Description": "Give other players {M} for each negative token on you",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  count = count + (value.Value * -1) ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "-1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "-2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "-4"
             }
           ]
         }
