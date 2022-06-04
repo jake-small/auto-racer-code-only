@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
@@ -14,9 +14,6 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
-
-[sub_resource type="StreamTexture" id=2]
-load_path = "res://.import/icon023.png-8a66db349c3824cdfd9434e7f05215eb.stex"
 
 [sub_resource type="DynamicFont" id=3]
 size = 28
@@ -112,7 +109,6 @@ shape = SubResource( 1 )
 [node name="Icon" type="Sprite" parent="."]
 position = Vector2( 69, 68 )
 scale = Vector2( 4, 4 )
-texture = SubResource( 2 )
 
 [node name="Exp" type="Node2D" parent="."]
 position = Vector2( 12, -29 )
