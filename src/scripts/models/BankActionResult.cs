@@ -1,19 +1,21 @@
+using System.Collections.Generic;
+
 public class BankActionResult
 {
   public bool Success { get; }
   public int CoinTotal { get; }
-  public PrepAbilityResponse PrepAbilityResponse { get; }
+  public IEnumerable<PrepAbilityResult> PrepAbilityResults { get; }
 
-  public BankActionResult(bool success, int coinTotal, PrepAbilityResponse prepAbilityResponse)
+  public BankActionResult(bool success, int coinTotal, IEnumerable<PrepAbilityResult> prepAbilityResults)
   {
     Success = success;
     CoinTotal = coinTotal;
-    PrepAbilityResponse = prepAbilityResponse;
+    PrepAbilityResults = prepAbilityResults;
   }
 
-  public BankActionResult(bool success, PrepAbilityResponse prepAbilityResponse)
+  public BankActionResult(bool success, IEnumerable<PrepAbilityResult> prepAbilityResults)
   {
     Success = success;
-    PrepAbilityResponse = prepAbilityResponse;
+    PrepAbilityResults = prepAbilityResults;
   }
 }

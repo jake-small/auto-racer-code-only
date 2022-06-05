@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 public class Bank
 {
@@ -48,23 +49,23 @@ public class Bank
     {
       EngineTesting.Log("Paid for card", _shouldLog);
       CoinTotal = CoinTotal - BuyCost;
-      var buyResponse = GameManager.PrepEngine.CalculateOnBuyAbilities(card);
-      var boughtResponse = GameManager.PrepEngine.CalculateOnBoughtAbilities(card);
-      var prepAbilityResponse = buyResponse == PrepAbilityResponse.Reroll ? buyResponse : boughtResponse;
-      return new BankActionResult(true, CoinTotal, prepAbilityResponse);
+      var buyResults = GameManager.PrepEngine.CalculateOnBuyAbilities(card).ToList();
+      var boughtResults = GameManager.PrepEngine.CalculateOnBoughtAbilities(card).ToList();
+      var prepAbilityResults = buyResults.Concat(boughtResults);
+      return new BankActionResult(true, CoinTotal, prepAbilityResults);
     }
     EngineTesting.Log("Can't afford to buy card", _shouldLog);
-    return new BankActionResult(false, PrepAbilityResponse.None);
+    return new BankActionResult(false, null);
   }
 
   public BankActionResult Sell(Card card)
   {
     EngineTesting.Log("Sold card", _shouldLog);
     CoinTotal = CoinTotal + GetSellValue(card);
-    var sellResponse = GameManager.PrepEngine.CalculateOnSellAbilities();
-    var soldResponse = GameManager.PrepEngine.CalculateOnSoldAbilities(card);
-    var prepAbilityResponse = sellResponse == PrepAbilityResponse.Reroll ? sellResponse : soldResponse;
-    return new BankActionResult(true, CoinTotal, prepAbilityResponse);
+    var sellResults = GameManager.PrepEngine.CalculateOnSellAbilities();
+    var soldResults = GameManager.PrepEngine.CalculateOnSoldAbilities(card);
+    var prepAbilityResults = sellResults.Concat(soldResults);
+    return new BankActionResult(true, CoinTotal, prepAbilityResults);
   }
 
   public BankActionResult Reroll()
@@ -73,11 +74,11 @@ public class Bank
     {
       EngineTesting.Log("Paid for reroll", _shouldLog);
       CoinTotal = CoinTotal - RerollCost;
-      var rerollResponse = GameManager.PrepEngine.CalculateOnRerollAbilities();
-      return new BankActionResult(true, CoinTotal, rerollResponse);
+      var rerollResults = GameManager.PrepEngine.CalculateOnRerollAbilities();
+      return new BankActionResult(true, CoinTotal, rerollResults);
     }
     EngineTesting.Log("Can't afford to reroll", _shouldLog);
-    return new BankActionResult(false, PrepAbilityResponse.None);
+    return new BankActionResult(false, null);
   }
 
   public int AddCoins(int amount)

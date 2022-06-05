@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 public class PrepEngine
 {
@@ -23,7 +22,7 @@ public class PrepEngine
     ShopService = new ShopService(_dataLoader);
   }
 
-  public PrepAbilityResponse CalculateStartTurnAbilities()
+  public IEnumerable<PrepAbilityResult> CalculateStartTurnAbilities()
   {
     var startTurnAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
@@ -34,7 +33,7 @@ public class PrepEngine
     return CalculateAbilities(startTurnAbilityCards, Trigger.Startturn);
   }
 
-  public PrepAbilityResponse CalculateEndTurnAbilities()
+  public IEnumerable<PrepAbilityResult> CalculateEndTurnAbilities()
   {
     var endTurnAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
@@ -45,27 +44,27 @@ public class PrepEngine
     return CalculateAbilities(endTurnAbilityCards, Trigger.Endturn);
   }
 
-  public PrepAbilityResponse CalculateOnSoldAbilities(Card card)
+  public IEnumerable<PrepAbilityResult> CalculateOnSoldAbilities(Card card)
   {
     if (card.Abilities != null && card.Abilities.PrepAbilities != null
       && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sold))
     {
       return CalculateAbilities(new List<Card> { card }, Trigger.Sold, card);
     }
-    return PrepAbilityResponse.None;
+    return new List<PrepAbilityResult>();
   }
 
-  public PrepAbilityResponse CalculateOnBoughtAbilities(Card card)
+  public IEnumerable<PrepAbilityResult> CalculateOnBoughtAbilities(Card card)
   {
     if (card.Abilities != null && card.Abilities.PrepAbilities != null
       && card.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Bought))
     {
       return CalculateAbilities(new List<Card> { card }, Trigger.Bought, card);
     }
-    return PrepAbilityResponse.None;
+    return new List<PrepAbilityResult>();
   }
 
-  public PrepAbilityResponse CalculateOnSellAbilities()
+  public IEnumerable<PrepAbilityResult> CalculateOnSellAbilities()
   {
     var onSellAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
@@ -73,7 +72,7 @@ public class PrepEngine
     return CalculateAbilities(onSellAbilityCards, Trigger.Sell);
   }
 
-  public PrepAbilityResponse CalculateOnBuyAbilities(Card boughtCard)
+  public IEnumerable<PrepAbilityResult> CalculateOnBuyAbilities(Card boughtCard)
   {
     var onBuyAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
@@ -81,7 +80,7 @@ public class PrepEngine
     return CalculateAbilities(onBuyAbilityCards, Trigger.Buy, boughtCard);
   }
 
-  public PrepAbilityResponse CalculateOnRerollAbilities()
+  public IEnumerable<PrepAbilityResult> CalculateOnRerollAbilities()
   {
     var onRerollAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
@@ -89,9 +88,9 @@ public class PrepEngine
     return CalculateAbilities(onRerollAbilityCards, Trigger.Reroll);
   }
 
-  private PrepAbilityResponse CalculateAbilities(IEnumerable<Card> cards, Trigger trigger, Card triggerCard = null)
+  private IEnumerable<PrepAbilityResult> CalculateAbilities(IEnumerable<Card> cards, Trigger trigger, Card triggerCard = null)
   {
-    var prepAbilityResponse = PrepAbilityResponse.None;
+    var prepAbilityResponses = new List<PrepAbilityResult>();
     foreach (var card in cards)
     {
       var leveledCard = card.GetLeveledCard();
@@ -102,64 +101,66 @@ public class PrepEngine
       foreach (var ability in onTriggerAbilities)
       {
         var response = ExecuteAbility(ability, card, triggerCard);
-        if (response == PrepAbilityResponse.Reroll)
-        {
-          prepAbilityResponse = PrepAbilityResponse.Reroll;
-        }
+        prepAbilityResponses.Add(response);
       }
     }
-    return prepAbilityResponse;
+    return prepAbilityResponses;
   }
 
-  private PrepAbilityResponse ExecuteAbility(PrepAbility ability, Card card, Card triggerCard = null)
+  private PrepAbilityResult ExecuteAbility(PrepAbility ability, Card card, Card triggerCard = null)
   {
-    var prepAbilityResponse = PrepAbilityResponse.None;
+    var prepAbilityResult = new PrepAbilityResult();
     switch (ability.GetEffect())
     {
       case Effect.Basemove:
-        BaseMoveEffect(ability, card, triggerCard);
+        prepAbilityResult = BaseMoveEffect(ability, card, triggerCard);
         break;
       case Effect.Exp:
-        ExperienceEffect(ability, card, triggerCard);
+        prepAbilityResult = ExperienceEffect(ability, card, triggerCard);
         break;
       case Effect.Gold:
-        GoldEffect(ability, card);
+        prepAbilityResult = GoldEffect(ability, card);
         break;
       case Effect.Reroll:
-        prepAbilityResponse = PrepAbilityResponse.Reroll;
+        prepAbilityResult = new PrepAbilityResult(card, Effect.Reroll);
         break;
     }
-    return prepAbilityResponse;
+    return prepAbilityResult;
   }
 
-  private void BaseMoveEffect(PrepAbility ability, Card card, Card triggerCard = null)
+  private PrepAbilityResult BaseMoveEffect(PrepAbility ability, Card card, Card triggerCard = null)
   {
     var targets = GetTargets(ability, card, triggerCard);
     foreach (var target in targets)
     {
       target.BaseMove += ability.Value.ToInt();
     }
+    return new PrepAbilityResult(card, Effect.Basemove, ability.Value.ToInt(), targets);
   }
 
-  private void ExperienceEffect(PrepAbility ability, Card card, Card triggerCard = null)
+  private PrepAbilityResult ExperienceEffect(PrepAbility ability, Card card, Card triggerCard = null)
   {
     var targets = GetTargets(ability, card, triggerCard);
     foreach (var target in targets)
     {
       target.AddExp(ability.Value.ToInt());
     }
+    return new PrepAbilityResult(card, Effect.Exp, ability.Value.ToInt(), targets);
   }
 
-  private void GoldEffect(PrepAbility ability, Card card)
+  private PrepAbilityResult GoldEffect(PrepAbility ability, Card card)
   {
     if (ability.Target == null || ability.Target.GetInventoryType() == InventoryType.Any)
     {
       Bank.AddCoins(ability.Value.ToInt());
+      return new PrepAbilityResult(card, Effect.Gold, ability.Value.ToInt());
     }
     else if (ability.Target.GetInventoryType() == card.InventoryType)
     {
       Bank.AddCoins(ability.Value.ToInt());
+      return new PrepAbilityResult(card, Effect.Gold, ability.Value.ToInt());
     }
+    return new PrepAbilityResult();
   }
 
   private IEnumerable<Card> GetTargets(PrepAbility ability, Card card, Card triggerCard = null)
@@ -307,10 +308,4 @@ public class PrepEngine
     }
     return targets.Take(target.Amount.ToInt());
   }
-}
-
-public enum PrepAbilityResponse
-{
-  Reroll,
-  None
 }
