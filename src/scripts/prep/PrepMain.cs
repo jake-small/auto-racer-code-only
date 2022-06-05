@@ -22,6 +22,7 @@ public class PrepMain : Node2D
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
+  private bool _waitingOnCardEffect;
 
   public override void _Ready()
   {
@@ -104,6 +105,16 @@ public class PrepMain : Node2D
     {
       _coinTotalLabel.Text = _newCoinTotal.ToString();
       _newCoinTotal = null;
+    }
+
+    if (_waitingOnCardEffect)
+    {
+      SetButtonsDisabled(true);
+      if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
+      {
+        _waitingOnCardEffect = false;
+        SetButtonsDisabled(false);
+      }
     }
   }
 
@@ -312,6 +323,14 @@ public class PrepMain : Node2D
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+  }
+
+  private void SetButtonsDisabled(bool disabled)
+  {
+    _rerollButton.Disabled = disabled;
+    _freezeButton.Disabled = disabled;
+    _sellButton.Disabled = disabled;
+    _goButton.Disabled = disabled;
   }
 
   private void Reroll()
@@ -679,6 +698,7 @@ public class PrepMain : Node2D
       projectileInstance.TargetCard = targetCard;
       GetTree().Root.AddChild(projectileInstance);
     }
+    _waitingOnCardEffect = true;
   }
 
   // TODO: try to solve these problems with closures

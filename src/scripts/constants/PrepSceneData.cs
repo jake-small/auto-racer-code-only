@@ -17,6 +17,7 @@ public static class PrepSceneData
   public const string CardScenePath = "res://src/scenes/objects/cards/card.tscn";
   public const string GroupCardSlots = "CardSlots";
   public const string GroupCard = "Card";
+  public const string GroupProjectiles = "Projectile";
   public const string PanelSpriteSelected = "Panel_selected";
   public const string PanelSpriteFrozen1 = "Panel_frozen";
   public const string PanelSpriteFrozen2 = "Panel_frozen2";

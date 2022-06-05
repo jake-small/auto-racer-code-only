@@ -23,7 +23,7 @@ public class PrepProjectile : Sprite
   public override void _Ready()
   {
     SpawnPosition();
-    AddToGroup(RaceSceneData.GroupProjectiles);
+    AddToGroup(PrepSceneData.GroupProjectiles);
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
     if (TargetCenter == null || TargetCenter == default(Vector2))
     {
