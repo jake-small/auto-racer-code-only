@@ -7,6 +7,10 @@ public class ProjectileTrail : Line2D
   public override void _Ready()
   {
     SetAsToplevel(true);
+    if (Length > 0)
+    {
+      Length = Length + 1;
+    }
   }
 
   public override void _Process(float delta)
@@ -17,7 +21,7 @@ public class ProjectileTrail : Line2D
     }
     var point = ((Sprite)GetParent()).GlobalPosition;
     AddPoint(point);
-    if (Points.Length > Length)
+    if (Points.Length > Length + 1)
     {
       RemovePoint(0);
     }

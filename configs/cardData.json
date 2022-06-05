@@ -449,7 +449,7 @@
     {
       "Name": "Lasting Shield",
       "Icon": "icon600.png",
-      "Description": "Gain {M} for the total duration of all negative tokens on you",
+      "Description": "Gain {M} move for each negative token on you for {D} turns",
       "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
@@ -458,8 +458,8 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Abilities2",
-            "Value": "{V}",
-            "Duration": "{F}",
+            "Value": "{F}",
+            "Duration": "{D}",
             "Target": {
               "Type": "self"
             },
@@ -471,25 +471,9 @@
                   "count = 0 ",
                   "for key,value in ipairs(negativeTokens) ",
                   "do ",
-                  "  count = count + (value.Duration) ",
+                  "  count = count + (value.Value * -1) ",
                   "end ",
-                  "return count"
-                ]
-              },
-              {
-                "Key": "V",
-                "BodyMultiline": [
-                  "negativeTokens = scriptData.GetNegativeTokens()",
-                  "count = 0 ",
-                  "for key,value in ipairs(negativeTokens) ",
-                  "do ",
-                  "  count = count + 1 ",
-                  "end ",
-                  "if (count > 0) then",
-                  "  return {M}",
-                  "else ",
-                  "  return 0",
-                  "end "
+                  "return count * {M}"
                 ]
               }
             ]
@@ -504,6 +488,10 @@
             {
               "Key": "M",
               "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "2"
             }
           ]
         },
@@ -512,7 +500,11 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "2"
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "4"
             }
           ]
         },
@@ -521,7 +513,11 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "4"
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "8"
             }
           ]
         }
