@@ -39,18 +39,29 @@ align = 1
 valign = 1
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = 120.0
-margin_top = 315.0
+margin_left = 128.0
+margin_top = 280.0
 margin_right = 1872.0
 margin_bottom = 928.0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 custom_fonts/normal_font = ExtResource( 2 )
-text = "Made with Godot:  https://godotengine.org/
+bbcode_enabled = true
+bbcode_text = "Made with Godot:  [color=blue][url=https://godotengine.org/]godotengine.org[/url][/color]
 
-Pixel Art by finalbossblues:  http://www.timefantasy.net/
-                                                    https://finalbossblues.itch.io/
+Pixel Art by finalbossblues:  [color=blue][url=http://www.timefantasy.net/]timefantasy.net[/url][/color]
+                                                  [color=blue][url=https://finalbossblues.itch.io/]finalbossblues.itch.io[/url][/color]
 
-UI Elements by Kenney:  https://www.kenney.nl/"
+UI Elements by Kenney:  [color=blue][url=https://www.kenney.nl/]kenney.nl[/url][/color]
+
+Inspired by Super Auto Pets: [color=blue][url=https://teamwoodgames.com/]teamwoodgames.com[/url][/color]"
+text = "Made with Godot:  godotengine.org
+
+Pixel Art by finalbossblues:  timefantasy.net
+                                                  finalbossblues.itch.io
+
+UI Elements by Kenney:  kenney.nl
+
+Inspired by Super Auto Pets: teamwoodgames.com"
 
 [node name="Button_back" parent="." instance=ExtResource( 4 )]
 margin_left = 127.0
@@ -61,5 +72,7 @@ rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Label" parent="Button_back" index="0"]
 text = "back"
+
+[connection signal="meta_clicked" from="RichTextLabel" to="." method="_on_RichTextLabel_meta_clicked"]
 
 [editable path="Button_back"]

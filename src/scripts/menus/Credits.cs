@@ -14,4 +14,9 @@ public class Credits : Control
     Console.WriteLine("Back button pressed");
     GetTree().ChangeScene("res://src/scenes/menus/MainMenu.tscn");
   }
+
+  private void _on_RichTextLabel_meta_clicked(string meta)
+  {
+    OS.ShellOpen(meta.ToString());
+  }
 }
