@@ -1,422 +1,1512 @@
 {
   "Cards": [
-	{
-	  "Name": "curse",
-	  "Icon": "icon132.png",
-	  "Description": "All opponents within {R} gain {V} move",
-	  "BaseMove": 2,
-	  "Tier": 1,
-	  "Abilities": {
-		"MoveTokenAbilities": [
-		  {
-			"Name": "ability1",
-			"Type": "Additive",
-			"Phase": "Premove",
-			"Value": "{V}",
-			"Duration": "1",
-			"Target": {
-			  "Type": "others",
-			  "Direction": "any",
-			  "Priority": "closest",
-			  "Amount": "4",
-			  "Range": {
-				"Min": "0",
-				"Max": "{R}"
-			  }
-			},
-			"Functions": []
-		  }
-		],
-		"PrepAbilities": []
-	  },
-	  "LevelValues": [
-		{
-		  "Id": 1,
-		  "OutKeys": [
-			{
-			  "Key": "R",
-			  "Value": "3"
-			},
-			{
-			  "Key": "V",
-			  "Value": "-3"
-			}
-		  ]
-		},
-		{
-		  "Id": 2,
-		  "OutKeys": [
-			{
-			  "Key": "R",
-			  "Value": "3"
-			},
-			{
-			  "Key": "V",
-			  "Value": "-6"
-			}
-		  ]
-		},
-		{
-		  "Id": 3,
-		  "OutKeys": [
-			{
-			  "Key": "R",
-			  "Value": "3"
-			},
-			{
-			  "Key": "V",
-			  "Value": "-12"
-			}
-		  ]
-		}
-	  ]
-	},
-	{
-	  "Name": "lingering curse",
-	  "Icon": "icon133.png",
-	  "Description": "First opponent within {R} gains {V} move for 1 turn and -1 for {D} turns",
-	  "BaseMove": 2,
-	  "Tier": 1,
-	  "Abilities": {
-		"MoveTokenAbilities": [
-		  {
-			"Name": "curseInitial",
-			"Type": "Additive",
-			"Phase": "Premove",
-			"Value": "{V}",
-			"Duration": "1",
-			"Target": {
-			  "Type": "others",
-			  "Direction": "any",
-			  "Priority": "closest",
-			  "Amount": "1",
-			  "Range": {
-				"Min": "0",
-				"Max": "{R}"
-			  }
-			},
-			"Functions": []
-		  },
-		  {
-			"Name": "curseDot",
-			"Type": "Additive",
-			"Phase": "Premove",
-			"Value": "-1",
-			"Duration": "{D}",
-			"Target": {
-			  "Type": "others",
-			  "Direction": "any",
-			  "Priority": "closest",
-			  "Amount": "1",
-			  "Range": {
-				"Min": "0",
-				"Max": "{R}"
-			  }
-			},
-			"Functions": []
-		  }
-		],
-		"PrepAbilities": []
-	  },
-	  "LevelValues": [
-		{
-		  "Id": 1,
-		  "OutKeys": [
-			{
-			  "Key": "R",
-			  "Value": "6"
-			},
-			{
-			  "Key": "V",
-			  "Value": "-3"
-			},
-			{
-			  "Key": "D",
-			  "Value": "3"
-			}
-		  ]
-		},
-		{
-		  "Id": 2,
-		  "OutKeys": [
-			{
-			  "Key": "R",
-			  "Value": "6"
-			},
-			{
-			  "Key": "V",
-			  "Value": "-3"
-			},
-			{
-			  "Key": "D",
-			  "Value": "6"
-			}
-		  ]
-		},
-		{
-		  "Id": 3,
-		  "OutKeys": [
-			{
-			  "Key": "R",
-			  "Value": "6"
-			},
-			{
-			  "Key": "V",
-			  "Value": "-3"
-			},
-			{
-			  "Key": "D",
-			  "Value": "12"
-			}
-		  ]
-		}
-	  ]
-	},
-	{
-	  "Name": "escape rune",
-	  "Icon": "icon851.png",
-	  "Description": "For each opponent on your current space, gain {A} move",
-	  "BaseMove": 1,
-	  "Tier": 3,
-	  "Abilities": {
-		"MoveTokenAbilities": [
-		  {
-			"Name": "ability1",
-			"Type": "Additive",
-			"Phase": "Premove",
-			"Value": "{F}",
-			"Duration": "1",
-			"Target": {
-			  "Type": "self",
-			  "Direction": "any",
-			  "Priority": "closest",
-			  "Amount": "4",
-			  "Range": {
-				"Min": "0",
-				"Max": "0"
-			  }
-			},
-			"Functions": [
-			  {
-				"Key": "F",
-				"BodyMultiline": [
-				  "minRange = scriptData.Player.Position ",
-				  "maxRange = scriptData.Player.Position ",
-				  "playersInRange = scriptData.GetPlayersWithinRange(minRange, maxRange) ",
-				  "result = 0 ",
-				  "for key,value in ipairs(playersInRange) ",
-				  "do ",
-				  "  result = result + {A} ",
-				  "end ",
-				  "return result"
-				]
-			  }
-			]
-		  }
-		],
-		"PrepAbilities": []
-	  },
-	  "LevelValues": [
-		{
-		  "Id": 1,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "2"
-			}
-		  ]
-		},
-		{
-		  "Id": 2,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "3"
-			}
-		  ]
-		},
-		{
-		  "Id": 3,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "4"
-			}
-		  ]
-		}
-	  ]
-	},
-	{
-	  "Name": "Stamina Elixir",
-	  "Icon": "icon273.png",
-	  "Description": "Gain {V} move for {D} turns",
-	  "BaseMove": 2,
-	  "Tier": 1,
-	  "Abilities": {
-		"MoveTokenAbilities": [
-		  {
-			"Name": "ability1",
-			"Type": "Additive",
-			"Phase": "Premove",
-			"Value": "{V}",
-			"Duration": "{D}",
-			"Target": {
-			  "Type": "self"
-			},
-			"Functions": []
-		  }
-		],
-		"PrepAbilities": []
-	  },
-	  "LevelValues": [
-		{
-		  "Id": 1,
-		  "OutKeys": [
-			{
-			  "Key": "V",
-			  "Value": "1"
-			},
-			{
-			  "Key": "D",
-			  "Value": "3"
-			}
-		  ]
-		},
-		{
-		  "Id": 2,
-		  "OutKeys": [
-			{
-			  "Key": "V",
-			  "Value": "1"
-			},
-			{
-			  "Key": "D",
-			  "Value": "6"
-			}
-		  ]
-		},
-		{
-		  "Id": 3,
-		  "OutKeys": [
-			{
-			  "Key": "V",
-			  "Value": "1"
-			},
-			{
-			  "Key": "D",
-			  "Value": "12"
-			}
-		  ]
-		}
-	  ]
-	},
-	{
-	  "Name": "Vendor's Pouch",
-	  "Icon": "icon259.png",
-	  "Description": "On any Sell, gain {A} base move",
-	  "BaseMove": 1,
-	  "Tier": 2,
-	  "Abilities": {
-		"MoveTokenAbilities": [],
-		"PrepAbilities": [
-		  {
-			"Name": "sellAbility1",
-			"Trigger": "Sell",
-			"Effect": "BaseMove",
-			"Value": "{A}",
-			"Target": {
-			  "Type": "self",
-			  "Inventory": "player"
-			},
-			"Functions": []
-		  }
-		]
-	  },
-	  "LevelValues": [
-		{
-		  "Id": 1,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "1"
-			}
-		  ]
-		},
-		{
-		  "Id": 2,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "2"
-			}
-		  ]
-		},
-		{
-		  "Id": 3,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "4"
-			}
-		  ]
-		}
-	  ]
-	},
-	{
-	  "Name": "Robin's Hood",
-	  "Icon": "icon702.png",
-	  "Description": "When Sold, give other player cards {A} base move",
-	  "BaseMove": 3,
-	  "Tier": 2,
-	  "Abilities": {
-		"MoveTokenAbilities": [],
-		"PrepAbilities": [
-		  {
-			"Name": "soldAbility1",
-			"Trigger": "Sold",
-			"Effect": "BaseMove",
-			"Value": "{A}",
-			"Target": {
-			  "Type": "others",
-			  "Inventory": "player",
-			  "Slot": "0",
-			  "Direction": "any",
-			  "Priority": "closest",
-			  "Amount": "5"
-			},
-			"Functions": []
-		  }
-		]
-	  },
-	  "LevelValues": [
-		{
-		  "Id": 1,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "1"
-			}
-		  ]
-		},
-		{
-		  "Id": 2,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "2"
-			}
-		  ]
-		},
-		{
-		  "Id": 3,
-		  "OutKeys": [
-			{
-			  "Key": "A",
-			  "Value": "4"
-			}
-		  ]
-		}
-	  ]
-	}
+    {
+      "Name": "Curse",
+      "Icon": "icon132.png",
+      "Description": "All opponents within 3 gain {V} move for {R} turns",
+      "BaseMove": 1,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{V}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "3"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "R",
+              "Value": "1"
+            },
+            {
+              "Key": "V",
+              "Value": "-3"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "R",
+              "Value": "2"
+            },
+            {
+              "Key": "V",
+              "Value": "-3"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "R",
+              "Value": "4"
+            },
+            {
+              "Key": "V",
+              "Value": "-3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Stamina Elixir",
+      "Icon": "icon273.png",
+      "Description": "Gain {M} move for each negative token on you",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  count = count + (value.Value * -1) ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Vendor's Pouch",
+      "Icon": "icon259.png",
+      "Description": "On any Sell, gain {A} base move",
+      "BaseMove": 0,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "sellAbility1",
+            "Trigger": "Sell",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "self",
+              "Inventory": "player"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Robin's Hood",
+      "Icon": "icon702.png",
+      "Description": "When Sold, give other player cards {A} base move",
+      "BaseMove": 1,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "5"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "escape rune",
+      "Icon": "icon851.png",
+      "Description": "For each opponent on your current space, gain {A} move",
+      "BaseMove": 1,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "0"
+              }
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "minRange = scriptData.Player.Position ",
+                  "maxRange = scriptData.Player.Position ",
+                  "playersInRange = scriptData.GetPlayersWithinRange(minRange, maxRange) ",
+                  "result = 0 ",
+                  "for key,value in ipairs(playersInRange) ",
+                  "do ",
+                  "  result = result + {A} ",
+                  "end ",
+                  "return result"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Charge Boots",
+      "Icon": "icon754.png",
+      "Description": "Gain {A} move",
+      "BaseMove": 0,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{A}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "0"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Dragon Plate",
+      "Icon": "icon638.png",
+      "Description": "If you have no positive tokens, gain {M}",
+      "BaseMove": 5,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "positiveTokens = scriptData.GetPositiveTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(positiveTokens) ",
+                  "do ",
+                  "  count = count + 1 ",
+                  "end ",
+                  "if (count > 0) then",
+                  "  return 0",
+                  "else ",
+                  "  return {M}",
+                  "end "
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Lasting Shield",
+      "Icon": "icon600.png",
+      "Description": "Gain {M} move for each negative token on you for {D} turns",
+      "BaseMove": 2,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  count = count + (value.Value * -1) ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "4"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Blue Spell",
+      "Icon": "icon155.png",
+      "Description": "Highest placing opponent gets negative move equal to the distance between you",
+      "BaseMove": 1,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "PositionDescending",
+              "Amount": "1",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayers) ",
+                  "do ",
+                  "  if (highestOppenent == nil) then",
+                  "    highestOppenent = value",
+                  "  elseif(value.Position > highestOppenent.Position) then",
+                  "    highestOppenent = value",
+                  "  end ",
+                  "end ",
+                  "return scriptData.Player.Position - highestOppenent.Position"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": []
+        },
+        {
+          "Id": 2,
+          "OutKeys": []
+        },
+        {
+          "Id": 3,
+          "OutKeys": []
+        }
+      ]
+    },
+    {
+      "Name": "Kakarot",
+      "Icon": "icon310.png",
+      "Description": "Gain {V} move for {D} turns",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{V}",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "6"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Abyss Brew",
+      "Icon": "icon347.png",
+      "Description": "Gain -1 move for {D} turns",
+      "BaseMove": 8,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "-1",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "6"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Super True Shot",
+      "Icon": "icon534.png",
+      "Description": "Opponents ahead get {V} for {D} turns",
+      "BaseMove": 1,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{V}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "Forward",
+              "Priority": "PositionDescending",
+              "Amount": "4",
+              "Range": {
+                "Min": "1",
+                "Max": "999"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "-2"
+            },
+            {
+              "Key": "D",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "-3"
+            },
+            {
+              "Key": "D",
+              "Value": "3"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "V",
+              "Value": "-4"
+            },
+            {
+              "Key": "D",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Dream Siphon",
+      "Icon": "icon133.png",
+      "Description": "Gain {M} for each token given to opponents",
+      "BaseMove": 2,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "playerId = scriptData.Player.Id",
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "count = 0 ",
+                  "for key,value in ipairs(otherPlayers) ",
+                  "do ",
+                  "  allTokens = scriptData.GetAllTokens(value.Id, playerId) ",
+                  "  for key,value in ipairs(allTokens) ",
+                  "  do ",
+                  "    count = count + 1",
+                  "  end ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "4"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Ba-dum-dum",
+      "Icon": "icon405.png",
+      "Description": "Give everyone 1 move for {T} turns",
+      "BaseMove": 5,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "1",
+            "Duration": "{T}",
+            "Target": {
+              "Type": "all",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": []
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "T",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "T",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "T",
+              "Value": "15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Burning Agate",
+      "Icon": "icon913.png",
+      "Description": "Gain {M} for each opponent ahead",
+      "BaseMove": 5,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "count = 0 ",
+                  "for key,value in ipairs(otherPlayers) ",
+                  "do ",
+                  "  if (value.Position > scriptData.Player.Position) then",
+                  "    count = count + 1",
+                  "  end ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "10"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "20"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Leaky Gem",
+      "Icon": "icon1006.png",
+      "Description": "When sold, give {A} base move to random card",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "any",
+              "Priority": "random",
+              "Amount": "1"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Jolt Infuser",
+      "Icon": "icon995.png",
+      "Description": "On buy, give bought card {A}",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Buy",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "TriggerCard": "true"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Dwarven Reconfigurator",
+      "Icon": "icon940.png",
+      "Description": "Start of turn, give card to the right {A}",
+      "BaseMove": 2,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Startturn",
+            "Effect": "BaseMove",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "forward",
+              "Priority": "closest",
+              "Amount": "1"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Jamestown",
+      "Icon": "icon021.png",
+      "Description": "When Sold, reroll and gain {A} gold",
+      "BaseMove": 3,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "Reroll"
+          },
+          {
+            "Name": "soldAbility2",
+            "Trigger": "Sold",
+            "Effect": "Gold",
+            "Value": "{A}"
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Pioneer Snowmobile",
+      "Icon": "icon922_c.png",
+      "Description": "Start of turn, if frozen gain {A} base move",
+      "BaseMove": 3,
+      "Tier": 1,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Startturn",
+            "Effect": "BaseMove",
+            "Value": "{F}",
+            "Target": {
+              "Type": "self",
+              "Inventory": "Shop"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "if (scriptData.Card.IsFrozen) then",
+                  "  return {A}",
+                  "else ",
+                  "  return 0",
+                  "end "
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Bag of Hoarding",
+      "Icon": "icon359.png",
+      "Description": "Start of turn, gain {A}g for each empty inventory slot",
+      "BaseMove": 3,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "ability1",
+            "Trigger": "Startturn",
+            "Effect": "Gold",
+            "Value": "{F}",
+            "Target": {
+              "Inventory": "Player"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "playerCards = scriptData.PlayerInventory",
+                  "count = 0 ",
+                  "for key,value in ipairs(playerCards) ",
+                  "do ",
+                  "  if (value.Name ~= \"Empty Slot\") then",
+                  "    count = count + 1 ",
+                  "  end ",
+                  "end ",
+                  "emptySlots = 5 - count",
+                  "return emptySlots * {A}"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Soul Essence",
+      "Icon": "icon1019.png",
+      "Description": "When Sold, give card to the right {A} exp",
+      "BaseMove": 3,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [],
+        "PrepAbilities": [
+          {
+            "Name": "soldAbility1",
+            "Trigger": "Sold",
+            "Effect": "Exp",
+            "Value": "{A}",
+            "Target": {
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "forward",
+              "Priority": "closest",
+              "Amount": "1"
+            },
+            "Functions": []
+          }
+        ]
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "A",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Wonder Glove",
+      "Icon": "icon737.png",
+      "Description": "Gain {M} for each positive token on other players",
+      "BaseMove": 0,
+      "Tier": 2,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "otherPlayers = scriptData.GetOtherPlayers()",
+                  "count = 0 ",
+                  "for key,value in ipairs(otherPlayers) ",
+                  "do ",
+                  "  allTokens = scriptData.GetPositiveTokens(value.Id) ",
+                  "  for key,value in ipairs(allTokens) ",
+                  "  do ",
+                  "    count = count + 1",
+                  "  end ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "4"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Name": "Anti Wizard",
+      "Icon": "icon648.png",
+      "Description": "Give other players {M} for each negative token on you",
+      "BaseMove": 3,
+      "Tier": 3,
+      "Abilities": {
+        "MoveTokenAbilities": [
+          {
+            "Name": "ability1",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{F}",
+            "Duration": "1",
+            "Target": {
+              "Type": "others",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": [
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "count = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  count = count + (value.Value * -1) ",
+                  "end ",
+                  "return count * {M}"
+                ]
+              }
+            ]
+          }
+        ],
+        "PrepAbilities": []
+      },
+      "LevelValues": [
+        {
+          "Id": 1,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "-1"
+            }
+          ]
+        },
+        {
+          "Id": 2,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "-2"
+            }
+          ]
+        },
+        {
+          "Id": 3,
+          "OutKeys": [
+            {
+              "Key": "M",
+              "Value": "-4"
+            }
+          ]
+        }
+      ]
+    }
   ]
 }
