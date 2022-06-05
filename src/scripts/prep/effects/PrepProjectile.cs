@@ -6,8 +6,10 @@ public class PrepProjectile : Sprite
   public Vector2 Target { get; set; }
   public Vector2 TargetSize { get; set; }
   public Vector2 TargetCenter { get; set; }
+  public Card TargetCard { get; set; }
   public float? DelayedTakeoffAmount { get; set; }
   public bool SelfBuff { get; set; }
+  public Action<Card> EffectEvent { get; set; }
 
   private float _speed = 130;
   private float _time = 0;
@@ -106,14 +108,19 @@ public class PrepProjectile : Sprite
       _isDespawning = true;
       Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 0);
 
-      if (SelfBuff)
+      if (EffectEvent != null)
       {
-        // Target.PositiveTokenValue += 1;
+        EffectEvent(TargetCard);
       }
-      else
-      {
-        // Target.NegativeTokenValue -= 1;
-      }
+
+      // if (SelfBuff)
+      // {
+      //   Target.PositiveTokenValue += 1;
+      // }
+      // else
+      // {
+      //   Target.NegativeTokenValue -= 1;
+      // }
     }
 
     // if (_despawnTimer * 80 < Length)

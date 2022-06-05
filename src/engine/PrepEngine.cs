@@ -131,20 +131,12 @@ public class PrepEngine
   private PrepAbilityResult BaseMoveEffect(PrepAbility ability, Card card, Card triggerCard = null)
   {
     var targets = GetTargets(ability, card, triggerCard);
-    foreach (var target in targets)
-    {
-      target.BaseMove += ability.Value.ToInt();
-    }
     return new PrepAbilityResult(card, Effect.Basemove, ability.Value.ToInt(), targets);
   }
 
   private PrepAbilityResult ExperienceEffect(PrepAbility ability, Card card, Card triggerCard = null)
   {
     var targets = GetTargets(ability, card, triggerCard);
-    foreach (var target in targets)
-    {
-      target.AddExp(ability.Value.ToInt());
-    }
     return new PrepAbilityResult(card, Effect.Exp, ability.Value.ToInt(), targets);
   }
 
@@ -152,12 +144,10 @@ public class PrepEngine
   {
     if (ability.Target == null || ability.Target.GetInventoryType() == InventoryType.Any)
     {
-      Bank.AddCoins(ability.Value.ToInt());
       return new PrepAbilityResult(card, Effect.Gold, ability.Value.ToInt());
     }
     else if (ability.Target.GetInventoryType() == card.InventoryType)
     {
-      Bank.AddCoins(ability.Value.ToInt());
       return new PrepAbilityResult(card, Effect.Gold, ability.Value.ToInt());
     }
     return new PrepAbilityResult();

@@ -187,10 +187,6 @@ public class PrepMain : Node2D
         {
           _newCoinTotal = bankResult.CoinTotal;
           var combineResult = CombineCards(cardScript, targetCardScript, true);
-          if (bankResult.PrepAbilityResults.Any(r => r.Effect == Effect.Reroll))
-          {
-            Reroll();
-          }
           AnimatePrepAbilityEffects(bankResult.PrepAbilityResults);
           if (combineResult)
           {
@@ -224,10 +220,6 @@ public class PrepMain : Node2D
           cardScript.Slot = slot;
           cardScript.Card.Frozen = false;
           DropCard(cardScript, droppedPosition);
-          if (bankResult.PrepAbilityResults.Any(r => r.Effect == Effect.Reroll))
-          {
-            Reroll();
-          }
           AnimatePrepAbilityEffects(bankResult.PrepAbilityResults);
           return;
         }
@@ -493,10 +485,6 @@ public class PrepMain : Node2D
       {
         // Remove card node
         _selectedCard.QueueFree();
-        if (bankResult.PrepAbilityResults.Any(r => r.Effect == Effect.Reroll))
-        {
-          Reroll();
-        }
         AnimatePrepAbilityEffects(bankResult.PrepAbilityResults);
       }
     }
@@ -640,7 +628,7 @@ public class PrepMain : Node2D
     {
       var selfBuff = ability.Card == targetCard;
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
-      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene);
+      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene, AddBaseMoveCallBack, targetCard);
     };
   }
 
@@ -654,7 +642,7 @@ public class PrepMain : Node2D
     {
       var selfBuff = ability.Card == targetCard;
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
-      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene);
+      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene, AddExpCallBack, targetCard);
     };
   }
 
@@ -664,7 +652,7 @@ public class PrepMain : Node2D
     var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
     var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileGold.tscn") as PackedScene;
-    SpawnProjectiles(spawn, _coinTotalLabel.RectGlobalPosition, _coinTotalLabel.RectSize, ability.Value, false, projectileScene);
+    SpawnProjectiles(spawn, _coinTotalLabel.RectGlobalPosition, _coinTotalLabel.RectSize, ability.Value, false, projectileScene, AddToBankCallback);
   }
 
   private void RerollEffectAnimation(PrepAbilityResult ability)
@@ -673,10 +661,11 @@ public class PrepMain : Node2D
     var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
     var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileReroll.tscn") as PackedScene;
-    SpawnProjectiles(spawn, _rerollButton.RectGlobalPosition, _rerollButton.RectSize, 1, false, projectileScene);
+    SpawnProjectiles(spawn, _rerollButton.RectGlobalPosition, _rerollButton.RectSize, 1, false, projectileScene, RerollCallback);
   }
 
-  private void SpawnProjectiles(Vector2 spawn, Vector2 target, Vector2 targetSize, int amount, bool selfBuff, PackedScene projectileScene)
+  private void SpawnProjectiles(Vector2 spawn, Vector2 target, Vector2 targetSize, int amount, bool selfBuff,
+    PackedScene projectileScene, Action<Card> effectEvent, Card targetCard = null)
   {
     for (int i = 0; i < amount; i++)
     {
@@ -686,7 +675,32 @@ public class PrepMain : Node2D
       projectileInstance.TargetSize = targetSize;
       projectileInstance.SelfBuff = selfBuff;
       projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
+      projectileInstance.EffectEvent = effectEvent;
+      projectileInstance.TargetCard = targetCard;
       GetTree().Root.AddChild(projectileInstance);
     }
+  }
+
+  // TODO: try to solve these problems with closures
+  private void RerollCallback(Card card)
+  {
+    Reroll();
+  }
+
+  private void AddToBankCallback(Card card)
+  {
+    _newCoinTotal = GameManager.PrepEngine.Bank.AddCoins(1);
+  }
+
+  private void AddBaseMoveCallBack(Card card)
+  {
+    card.BaseMove += 1;
+    UpdateUiForAllCards();
+  }
+
+  private void AddExpCallBack(Card card)
+  {
+    card.AddExp(1);
+    UpdateUiForAllCards();
   }
 }
