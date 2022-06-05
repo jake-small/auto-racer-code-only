@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://assets/effects/projectile_green.png" type="Texture" id=1]
+[ext_resource path="res://assets/card_icons/icon920.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/race/effects/Projectile.cs" type="Script" id=2]
 [ext_resource path="res://src/scripts/race/effects/ProjectileTrail.cs" type="Script" id=3]
 

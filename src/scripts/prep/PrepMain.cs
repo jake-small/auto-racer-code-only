@@ -13,6 +13,7 @@ public class PrepMain : Node2D
   private Label _selectedCardSellsForLabel;
   private Label _selectedCardBaseMoveLabel;
   private CardScript _selectedCard = null;
+  private CostButtonUi _rerollButton;
   private TextureButton _freezeButton;
   private CostButtonUi _sellButton;
   private TextureButton _goButton;
@@ -21,6 +22,7 @@ public class PrepMain : Node2D
   private Timer _dropCardTimer;
   private const float _dropCardTimerLength = 0.1f;
   private bool _canDropCard = true;
+  private bool _waitingOnCardEffect;
 
   public override void _Ready()
   {
@@ -73,9 +75,9 @@ public class PrepMain : Node2D
     _dropCardTimer.Connect("timeout", this, nameof(_on_dropCardTimer_timeout));
     AddChild(_dropCardTimer);
 
-    var rerollButton = GetNode<CostButtonUi>(PrepSceneData.ButtonRerollPath);
-    rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
-    rerollButton.Cost = GameManager.PrepEngine.Bank.RerollCost;
+    _rerollButton = GetNode<CostButtonUi>(PrepSceneData.ButtonRerollPath);
+    _rerollButton.Connect("pressed", this, nameof(Button_reroll_pressed));
+    _rerollButton.Cost = GameManager.PrepEngine.Bank.RerollCost;
     _freezeButton = GetNode<TextureButton>(PrepSceneData.ButtonFreezePath);
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
     _freezeButton.Disabled = true;
@@ -91,9 +93,10 @@ public class PrepMain : Node2D
     var frozenCards = GetFrozenCards().ToList();
     CardShopFill(frozenCards);
     GameManager.PrepEngine.Bank.SetStartingCoins();
-    GameManager.PrepEngine.CalculateStartTurnAbilities();
+    var prepAbilityResults = GameManager.PrepEngine.CalculateStartTurnAbilities();
     _newCoinTotal = GameManager.PrepEngine.Bank.CoinTotal;
     UpdateUiForAllCards();
+    AnimatePrepAbilityEffects(prepAbilityResults);
   }
 
   public override void _Process(float delta)
@@ -102,6 +105,16 @@ public class PrepMain : Node2D
     {
       _coinTotalLabel.Text = _newCoinTotal.ToString();
       _newCoinTotal = null;
+    }
+
+    if (_waitingOnCardEffect)
+    {
+      SetButtonsDisabled(true);
+      if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
+      {
+        _waitingOnCardEffect = false;
+        SetButtonsDisabled(false);
+      }
     }
   }
 
@@ -185,10 +198,7 @@ public class PrepMain : Node2D
         {
           _newCoinTotal = bankResult.CoinTotal;
           var combineResult = CombineCards(cardScript, targetCardScript, true);
-          if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
-          {
-            Reroll();
-          }
+          AnimatePrepAbilityEffects(bankResult.PrepAbilityResults);
           if (combineResult)
           {
             return;
@@ -221,10 +231,7 @@ public class PrepMain : Node2D
           cardScript.Slot = slot;
           cardScript.Card.Frozen = false;
           DropCard(cardScript, droppedPosition);
-          if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
-          {
-            Reroll();
-          }
+          AnimatePrepAbilityEffects(bankResult.PrepAbilityResults);
           return;
         }
       }
@@ -309,11 +316,21 @@ public class PrepMain : Node2D
   {
     _goButton.Disabled = true;
     Console.WriteLine("Go button pressed");
-    GameManager.PrepEngine.CalculateEndTurnAbilities();
+    var prepAbilityResults = GameManager.PrepEngine.CalculateEndTurnAbilities();
+    AnimatePrepAbilityEffects(prepAbilityResults);
+    // TODO: wait for animations to finish
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+  }
+
+  private void SetButtonsDisabled(bool disabled)
+  {
+    _rerollButton.Disabled = disabled;
+    _freezeButton.Disabled = disabled;
+    _sellButton.Disabled = disabled;
+    _goButton.Disabled = disabled;
   }
 
   private void Reroll()
@@ -354,7 +371,6 @@ public class PrepMain : Node2D
     {
       cardScript.Selected = false;
     }
-
   }
 
   private void EnableCardActionButtons(bool isInShop)
@@ -488,10 +504,7 @@ public class PrepMain : Node2D
       {
         // Remove card node
         _selectedCard.QueueFree();
-        if (bankResult.PrepAbilityResponse == PrepAbilityResponse.Reroll)
-        {
-          Reroll();
-        }
+        AnimatePrepAbilityEffects(bankResult.PrepAbilityResults);
       }
     }
     UpdateUiForAllCards();
@@ -599,5 +612,115 @@ public class PrepMain : Node2D
     _selectedCardSellsForLabel.Text = "";
     _selectedCardBaseMoveLabel.Text = "";
     _sellButton.CostVisible = false;
+  }
+
+  private void AnimatePrepAbilityEffects(IEnumerable<PrepAbilityResult> abilityResults)
+  {
+    foreach (var ability in abilityResults)
+    {
+      switch (ability.Effect)
+      {
+        case Effect.Basemove:
+          BaseMoveEffectAnimation(ability);
+          break;
+        case Effect.Exp:
+          ExperienceEffectAnimation(ability);
+          break;
+        case Effect.Gold:
+          GoldEffectAnimation(ability);
+          break;
+        case Effect.Reroll:
+          RerollEffectAnimation(ability);
+          break;
+      }
+    }
+  }
+
+  private void BaseMoveEffectAnimation(PrepAbilityResult ability)
+  {
+    var cardsInScene = GetCardScriptsInScene();
+    var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
+    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileBaseMove.tscn") as PackedScene;
+    foreach (var targetCard in ability.Targets)
+    {
+      var selfBuff = ability.Card == targetCard;
+      var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
+      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene, AddBaseMoveCallBack, targetCard);
+    };
+  }
+
+  private void ExperienceEffectAnimation(PrepAbilityResult ability)
+  {
+    var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
+    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileExp.tscn") as PackedScene;
+    foreach (var targetCard in ability.Targets)
+    {
+      var selfBuff = ability.Card == targetCard;
+      var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
+      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene, AddExpCallBack, targetCard);
+    };
+  }
+
+  private void GoldEffectAnimation(PrepAbilityResult ability)
+  {
+    var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
+    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileGold.tscn") as PackedScene;
+    SpawnProjectiles(spawn, _coinTotalLabel.RectGlobalPosition, _coinTotalLabel.RectSize, ability.Value, false, projectileScene, AddToBankCallback);
+  }
+
+  private void RerollEffectAnimation(PrepAbilityResult ability)
+  {
+    var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
+    var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileReroll.tscn") as PackedScene;
+    SpawnProjectiles(spawn, _rerollButton.RectGlobalPosition, _rerollButton.RectSize, 1, false, projectileScene, RerollCallback);
+  }
+
+  private void SpawnProjectiles(Vector2 spawn, Vector2 target, Vector2 targetSize, int amount, bool selfBuff,
+    PackedScene projectileScene, Action<Card> effectEvent, Card targetCard = null)
+  {
+    for (int i = 0; i < amount; i++)
+    {
+      var projectileInstance = (PrepProjectile)projectileScene.Instance();
+      projectileInstance.Position = spawn;
+      projectileInstance.Target = target;
+      projectileInstance.TargetSize = targetSize;
+      projectileInstance.SelfBuff = selfBuff;
+      projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
+      projectileInstance.EffectEvent = effectEvent;
+      projectileInstance.TargetCard = targetCard;
+      GetTree().Root.AddChild(projectileInstance);
+    }
+    _waitingOnCardEffect = true;
+  }
+
+  // TODO: try to solve these problems with closures
+  private void RerollCallback(Card card)
+  {
+    Reroll();
+  }
+
+  private void AddToBankCallback(Card card)
+  {
+    _newCoinTotal = GameManager.PrepEngine.Bank.AddCoins(1);
+  }
+
+  private void AddBaseMoveCallBack(Card card)
+  {
+    card.BaseMove += 1;
+    UpdateUiForAllCards();
+  }
+
+  private void AddExpCallBack(Card card)
+  {
+    card.AddExp(1);
+    UpdateUiForAllCards();
   }
 }

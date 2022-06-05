@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/scripts/prep/effects/PrepProjectile.cs" type="Script" id=1]
+[ext_resource path="res://assets/card_icons/icon922.png" type="Texture" id=2]
+
+[node name="Projectile" type="Sprite"]
+texture = ExtResource( 2 )
+script = ExtResource( 1 )

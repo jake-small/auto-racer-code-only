@@ -1,14 +1,17 @@
 using Godot;
 using System;
 
-public class Projectile : Sprite
+public class PrepProjectile : Sprite
 {
-  public CharacterScript Target { get; set; }
+  public Vector2 Target { get; set; }
+  public Vector2 TargetSize { get; set; }
+  public Vector2 TargetCenter { get; set; }
+  public Card TargetCard { get; set; }
   public float? DelayedTakeoffAmount { get; set; }
-  public bool IsPositive { get; set; }
-  public int Length { get; set; }
+  public bool SelfBuff { get; set; }
+  public Action<Card> EffectEvent { get; set; }
 
-  private const float StartingSpeed = 400;
+  private const float StartingSpeed = 600;
   private float _speed = StartingSpeed;
   private Vector2 _spawn;
   private float _time = 0;
@@ -22,16 +25,20 @@ public class Projectile : Sprite
   public override void _Ready()
   {
     SpawnPosition();
-    AddToGroup(RaceSceneData.GroupProjectiles);
+    AddToGroup(PrepSceneData.GroupProjectiles);
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
-    var trail = GetNode<ProjectileTrail>("Trail");
-    trail.Length = Length;
+    if (TargetCenter == null || TargetCenter == default(Vector2))
+    {
+      var centerX = Target.x + (TargetSize.x / 2);
+      var centerY = Target.y + (TargetSize.y / 2);
+      TargetCenter = new Vector2(centerX, centerY);
+    }
     _spawn = GlobalPosition;
   }
 
   public override void _Process(float delta)
   {
-    if (Target == null || DelayedTakeoffAmount == null)
+    if (TargetCenter == null || TargetCenter == default(Vector2) || DelayedTakeoffAmount == null)
     {
       return;
     }
@@ -55,27 +62,27 @@ public class Projectile : Sprite
       return;
     }
 
-    if (Target.Position != Position)
+    if (TargetCenter != Position)
     {
       if (_time > 5 + DelayedTakeoffAmount)
       {
         Despawn();
         return;
       }
-      var distanceToTarget = GlobalPosition.DistanceTo(Target.Position);
+      var distanceToTarget = GlobalPosition.DistanceTo(TargetCenter);
       var distanceFromSpawn = GlobalPosition.DistanceTo(_spawn);
-      if (400 > distanceToTarget && _speed > StartingSpeed && distanceFromSpawn > 400)
+      if (200 > distanceToTarget && _speed > StartingSpeed && distanceFromSpawn > 200)
       {
-        _speed = _speed - (_speed * delta);
+        _speed = _speed - (_speed * delta) - 1;
       }
-      else
+      else if (distanceFromSpawn > 40)
       {
-        _speed = _speed + (_speed * delta);
+        _speed = _speed + (_speed * delta) + 1;
       }
-      var towardsTarget = (Target.Position - Position).Normalized();
+      var towardsTarget = (TargetCenter - Position).Normalized();
       var perpendicular = new Vector2(towardsTarget.y, -towardsTarget.x);
       Position += (TowardsStrength * towardsTarget + PerpendicularStrength * perpendicular * (float)Math.Sin(_time)) * _speed * delta;
-      if (Math.Abs(Target.Position.x - Position.x) < 20 && Math.Abs(Target.Position.y - Position.y) < 20)
+      if (Math.Abs(TargetCenter.x - Position.x) < 20 && Math.Abs(TargetCenter.y - Position.y) < 20)
       {
         Despawn();
         return;
@@ -91,7 +98,7 @@ public class Projectile : Sprite
   private void SpawnPosition()
   {
     var random = new Random();
-    var radius = IsPositive ? random.Next(96, 128) : random.Next(32, 64);
+    var radius = SelfBuff ? random.Next(128, 160) : random.Next(8, 16);
     var min = 0;
     var max = Math.PI * 2;
     var angle = random.NextDouble() * (max - min) + min;
@@ -102,7 +109,7 @@ public class Projectile : Sprite
 
   private void Despawn()
   {
-    if (Target == null)
+    if (TargetCenter == null)
     {
       return;
     }
@@ -112,21 +119,11 @@ public class Projectile : Sprite
       _isDespawning = true;
       Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 0);
 
-      if (IsPositive)
+      if (EffectEvent != null)
       {
-        Target.PositiveTokenValue += 1;
-      }
-      else
-      {
-        Target.NegativeTokenValue -= 1;
+        EffectEvent(TargetCard);
       }
     }
-
-    if (_despawnTimer * 80 < Length)
-    {
-      return;
-    }
-
     QueueFree();
   }
 }
