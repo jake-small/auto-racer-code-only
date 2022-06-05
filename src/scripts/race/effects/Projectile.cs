@@ -8,7 +8,9 @@ public class Projectile : Sprite
   public bool IsPositive { get; set; }
   public int Length { get; set; }
 
-  private float _speed = 260;
+  private const float StartingSpeed = 400;
+  private float _speed = StartingSpeed;
+  private Vector2 _spawn;
   private float _time = 0;
   private const float TowardsStrength = 0.5f;
   private const float PerpendicularStrength = 0.5f;
@@ -24,6 +26,7 @@ public class Projectile : Sprite
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
     var trail = GetNode<ProjectileTrail>("Trail");
     trail.Length = Length;
+    _spawn = GlobalPosition;
   }
 
   public override void _Process(float delta)
@@ -59,8 +62,16 @@ public class Projectile : Sprite
         Despawn();
         return;
       }
-      _speed = _speed + (_speed * delta);
-
+      var distanceToTarget = GlobalPosition.DistanceTo(Target.Position);
+      var distanceFromSpawn = GlobalPosition.DistanceTo(_spawn);
+      if (400 > distanceToTarget && _speed > StartingSpeed && distanceFromSpawn > 400)
+      {
+        _speed = _speed - (_speed * delta);
+      }
+      else
+      {
+        _speed = _speed + (_speed * delta);
+      }
       var towardsTarget = (Target.Position - Position).Normalized();
       var perpendicular = new Vector2(towardsTarget.y, -towardsTarget.x);
       Position += (TowardsStrength * towardsTarget + PerpendicularStrength * perpendicular * (float)Math.Sin(_time)) * _speed * delta;

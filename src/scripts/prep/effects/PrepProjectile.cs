@@ -11,7 +11,9 @@ public class PrepProjectile : Sprite
   public bool SelfBuff { get; set; }
   public Action<Card> EffectEvent { get; set; }
 
-  private float _speed = 130;
+  private const float StartingSpeed = 600;
+  private float _speed = StartingSpeed;
+  private Vector2 _spawn;
   private float _time = 0;
   private const float TowardsStrength = 0.5f;
   private const float PerpendicularStrength = 0.5f;
@@ -31,6 +33,7 @@ public class PrepProjectile : Sprite
       var centerY = Target.y + (TargetSize.y / 2);
       TargetCenter = new Vector2(centerX, centerY);
     }
+    _spawn = GlobalPosition;
   }
 
   public override void _Process(float delta)
@@ -66,8 +69,16 @@ public class PrepProjectile : Sprite
         Despawn();
         return;
       }
-      _speed = _speed + (_speed * delta);
-
+      var distanceToTarget = GlobalPosition.DistanceTo(TargetCenter);
+      var distanceFromSpawn = GlobalPosition.DistanceTo(_spawn);
+      if (200 > distanceToTarget && _speed > StartingSpeed && distanceFromSpawn > 200)
+      {
+        _speed = _speed - (_speed * delta) - 1;
+      }
+      else if (distanceFromSpawn > 40)
+      {
+        _speed = _speed + (_speed * delta) + 1;
+      }
       var towardsTarget = (TargetCenter - Position).Normalized();
       var perpendicular = new Vector2(towardsTarget.y, -towardsTarget.x);
       Position += (TowardsStrength * towardsTarget + PerpendicularStrength * perpendicular * (float)Math.Sin(_time)) * _speed * delta;
@@ -87,7 +98,7 @@ public class PrepProjectile : Sprite
   private void SpawnPosition()
   {
     var random = new Random();
-    var radius = SelfBuff ? random.Next(96, 128) : random.Next(8, 16);
+    var radius = SelfBuff ? random.Next(128, 160) : random.Next(8, 16);
     var min = 0;
     var max = Math.PI * 2;
     var angle = random.NextDouble() * (max - min) + min;
@@ -112,22 +123,7 @@ public class PrepProjectile : Sprite
       {
         EffectEvent(TargetCard);
       }
-
-      // if (SelfBuff)
-      // {
-      //   Target.PositiveTokenValue += 1;
-      // }
-      // else
-      // {
-      //   Target.NegativeTokenValue -= 1;
-      // }
     }
-
-    // if (_despawnTimer * 80 < Length)
-    // {
-    //   return;
-    // }
-
     QueueFree();
   }
 }
