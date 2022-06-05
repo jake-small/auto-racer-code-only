@@ -633,46 +633,58 @@ public class PrepMain : Node2D
   {
     var cardsInScene = GetCardScriptsInScene();
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileBaseMove.tscn") as PackedScene;
     foreach (var targetCard in ability.Targets)
     {
+      var selfBuff = ability.Card == targetCard;
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
-      SpawnProjectiles(cardScript.Position, targetCardScript.Position, ability.Value, projectileScene);
+      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene);
     };
   }
 
   private void ExperienceEffectAnimation(PrepAbilityResult ability)
   {
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileExp.tscn") as PackedScene;
     foreach (var targetCard in ability.Targets)
     {
+      var selfBuff = ability.Card == targetCard;
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
-      SpawnProjectiles(cardScript.Position, targetCardScript.Position, ability.Value, projectileScene);
+      SpawnProjectiles(spawn, targetCardScript.Position, cardScriptSize, ability.Value, selfBuff, projectileScene);
     };
   }
 
   private void GoldEffectAnimation(PrepAbilityResult ability)
   {
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileGold.tscn") as PackedScene;
-    SpawnProjectiles(cardScript.Position, _coinTotalLabel.RectGlobalPosition, ability.Value, projectileScene);
+    SpawnProjectiles(spawn, _coinTotalLabel.RectGlobalPosition, _coinTotalLabel.RectSize, ability.Value, false, projectileScene);
   }
 
   private void RerollEffectAnimation(PrepAbilityResult ability)
   {
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
+    var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileReroll.tscn") as PackedScene;
-    SpawnProjectiles(cardScript.Position, _rerollButton.RectGlobalPosition, 1, projectileScene);
+    SpawnProjectiles(spawn, _rerollButton.RectGlobalPosition, _rerollButton.RectSize, 1, false, projectileScene);
   }
 
-  private void SpawnProjectiles(Vector2 spawn, Vector2 target, int amount, PackedScene projectileScene)
+  private void SpawnProjectiles(Vector2 spawn, Vector2 target, Vector2 targetSize, int amount, bool selfBuff, PackedScene projectileScene)
   {
     for (int i = 0; i < amount; i++)
     {
       var projectileInstance = (PrepProjectile)projectileScene.Instance();
       projectileInstance.Position = spawn;
       projectileInstance.Target = target;
+      projectileInstance.TargetSize = targetSize;
+      projectileInstance.SelfBuff = selfBuff;
       projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
       GetTree().Root.AddChild(projectileInstance);
     }

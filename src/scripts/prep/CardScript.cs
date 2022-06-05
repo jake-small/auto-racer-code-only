@@ -11,6 +11,7 @@ public class CardScript : KinematicBody2D
   private Vector2 _dragPosition = new Vector2();
   private bool _mouseIn = false;
   private List<Sprite> _cardSlots = new List<Sprite>();
+  private Sprite _backgroundSprite;
   private Sprite _selectedSprite;
   private List<Sprite> _frozenSprites = new List<Sprite>();
   private Node2D _expNode;
@@ -49,6 +50,7 @@ public class CardScript : KinematicBody2D
     {
       GD.Print($"Unable to load iconSprite with path '{iconPath}'. Using default sprite instead");
     }
+    _backgroundSprite = GetNode<Sprite>(PrepSceneData.SpriteCardBackground);
     _expNode = GetNode<Node2D>(PrepSceneData.NodeExp);
     _levelLabel = GetNode<Label>(PrepSceneData.LabelCardLevel);
     _expFull1 = GetNode<Sprite>(PrepSceneData.SpriteExpFull1);
@@ -241,6 +243,11 @@ public class CardScript : KinematicBody2D
     {
       _expFullIcons[i].Visible = true;
     }
+  }
+
+  public Sprite GetBackgroundSprite()
+  {
+    return _backgroundSprite;
   }
 
   public bool IsInShop()

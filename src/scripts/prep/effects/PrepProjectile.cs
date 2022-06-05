@@ -4,6 +4,8 @@ using System;
 public class PrepProjectile : Sprite
 {
   public Vector2 Target { get; set; }
+  public Vector2 TargetSize { get; set; }
+  public Vector2 TargetCenter { get; set; }
   public float? DelayedTakeoffAmount { get; set; }
   public bool SelfBuff { get; set; }
 
@@ -21,11 +23,17 @@ public class PrepProjectile : Sprite
     SpawnPosition();
     AddToGroup(RaceSceneData.GroupProjectiles);
     Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
+    if (TargetCenter == null || TargetCenter == default(Vector2))
+    {
+      var centerX = Target.x + (TargetSize.x / 2);
+      var centerY = Target.y + (TargetSize.y / 2);
+      TargetCenter = new Vector2(centerX, centerY);
+    }
   }
 
   public override void _Process(float delta)
   {
-    if (Target == null || DelayedTakeoffAmount == null)
+    if (TargetCenter == null || TargetCenter == default(Vector2) || DelayedTakeoffAmount == null)
     {
       return;
     }
@@ -49,7 +57,7 @@ public class PrepProjectile : Sprite
       return;
     }
 
-    if (Target != Position)
+    if (TargetCenter != Position)
     {
       if (_time > 5 + DelayedTakeoffAmount)
       {
@@ -58,10 +66,10 @@ public class PrepProjectile : Sprite
       }
       _speed = _speed + (_speed * delta);
 
-      var towardsTarget = (Target - Position).Normalized();
+      var towardsTarget = (TargetCenter - Position).Normalized();
       var perpendicular = new Vector2(towardsTarget.y, -towardsTarget.x);
       Position += (TowardsStrength * towardsTarget + PerpendicularStrength * perpendicular * (float)Math.Sin(_time)) * _speed * delta;
-      if (Math.Abs(Target.x - Position.x) < 20 && Math.Abs(Target.y - Position.y) < 20)
+      if (Math.Abs(TargetCenter.x - Position.x) < 20 && Math.Abs(TargetCenter.y - Position.y) < 20)
       {
         Despawn();
         return;
@@ -77,7 +85,7 @@ public class PrepProjectile : Sprite
   private void SpawnPosition()
   {
     var random = new Random();
-    var radius = SelfBuff ? random.Next(96, 128) : random.Next(32, 64);
+    var radius = SelfBuff ? random.Next(96, 128) : random.Next(8, 16);
     var min = 0;
     var max = Math.PI * 2;
     var angle = random.NextDouble() * (max - min) + min;
@@ -88,7 +96,7 @@ public class PrepProjectile : Sprite
 
   private void Despawn()
   {
-    if (Target == null)
+    if (TargetCenter == null)
     {
       return;
     }
