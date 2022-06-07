@@ -7,10 +7,14 @@ using LuaScript = MoonSharp.Interpreter.Script;
 
 public class CalculationLayer
 {
+  private LuaScript _luaScript;
+
   public CalculationLayer()
   {
     // Automatically register all MoonSharpUserData types
     UserData.RegisterAssembly();
+    // https://www.moonsharp.org/sandbox.html
+    _luaScript = new LuaScript(CoreModules.Preset_HardSandbox);
   }
   private MoonSharp.Interpreter.Script _script = new MoonSharp.Interpreter.Script();
   public Card ApplyLevelValues(Card card)
@@ -184,16 +188,14 @@ public class CalculationLayer
 
   private string RunLuaScript(string scriptBody, MoonSharpScriptData scriptData)
   {
-    // https://www.moonsharp.org/sandbox.html
-    var luaScript = new LuaScript(CoreModules.Preset_HardSandbox);
     var script = $@"
         function script ()
           {scriptBody}
         end
         return script()";
 
-    luaScript.Globals["scriptData"] = scriptData;
-    DynValue res = luaScript.DoString(script);
+    _luaScript.Globals["scriptData"] = scriptData;
+    DynValue res = _luaScript.DoString(script);
     switch (res.Type)
     {
       case DataType.Number:
