@@ -191,7 +191,7 @@
     {
       "Name": "Robin's Hood",
       "Icon": "icon702.png",
-      "Description": "When Sold, give other player cards {A} base move",
+      "Description": "When Sold, give other cards in player inventory {A} base move",
       "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
@@ -321,7 +321,7 @@
     {
       "Name": "Charge Boots",
       "Icon": "icon754.png",
-      "Description": "Gain {A} move",
+      "Description": "Gain {A} move for 2 turns",
       "BaseMove": 0,
       "Tier": 2,
       "Abilities": {
@@ -331,7 +331,7 @@
             "Type": "Additive",
             "Phase": "Abilities1",
             "Value": "{A}",
-            "Duration": "1",
+            "Duration": "2",
             "Target": {
               "Type": "self",
               "Direction": "any",
@@ -353,7 +353,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "5"
+              "Value": "4"
             }
           ]
         },
@@ -362,7 +362,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "10"
+              "Value": "8"
             }
           ]
         },
@@ -371,7 +371,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "15"
+              "Value": "12"
             }
           ]
         }
@@ -551,6 +551,7 @@
               {
                 "Key": "F",
                 "BodyMultiline": [
+                  "highestOppenent = nil",
                   "otherPlayers = scriptData.GetOtherPlayers()",
                   "for key,value in ipairs(otherPlayers) ",
                   "do ",
@@ -703,7 +704,7 @@
       "Name": "Super True Shot",
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V} for {D} turns",
-      "BaseMove": 1,
+      "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -843,7 +844,7 @@
     {
       "Name": "Ba-dum-dum",
       "Icon": "icon405.png",
-      "Description": "Give everyone 1 move for {T} turns",
+      "Description": "Give everyone +1 move and -1 move for {T} turns",
       "BaseMove": 5,
       "Tier": 2,
       "Abilities": {
@@ -865,6 +866,24 @@
               }
             },
             "Functions": []
+          },
+          {
+            "Name": "ability2",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "-1",
+            "Duration": "{D}",
+            "Target": {
+              "Type": "all",
+              "Direction": "any",
+              "Priority": "closest",
+              "Amount": "4",
+              "Range": {
+                "Min": "0",
+                "Max": "999"
+              }
+            },
+            "Functions": []
           }
         ],
         "PrepAbilities": []
@@ -874,7 +893,7 @@
           "Id": 1,
           "OutKeys": [
             {
-              "Key": "T",
+              "Key": "D",
               "Value": "5"
             }
           ]
@@ -883,7 +902,7 @@
           "Id": 2,
           "OutKeys": [
             {
-              "Key": "T",
+              "Key": "D",
               "Value": "10"
             }
           ]
@@ -892,7 +911,7 @@
           "Id": 3,
           "OutKeys": [
             {
-              "Key": "T",
+              "Key": "D",
               "Value": "15"
             }
           ]
@@ -998,7 +1017,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "1"
+              "Value": "3"
             }
           ]
         },
@@ -1007,7 +1026,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "2"
+              "Value": "6"
             }
           ]
         },
@@ -1016,7 +1035,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "12"
             }
           ]
         }
@@ -1025,7 +1044,7 @@
     {
       "Name": "Jolt Infuser",
       "Icon": "icon995.png",
-      "Description": "On buy, give bought card {A}",
+      "Description": "On buy, give bought card {A} base move",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
@@ -1076,7 +1095,7 @@
     {
       "Name": "Dwarven Reconfigurator",
       "Icon": "icon940.png",
-      "Description": "Start of turn, give card to the right {A}",
+      "Description": "Start of turn, give card to the right {A} base move",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -1220,7 +1239,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "1"
+              "Value": "2"
             }
           ]
         },
@@ -1229,7 +1248,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "2"
+              "Value": "4"
             }
           ]
         },
@@ -1238,7 +1257,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "8"
             }
           ]
         }
@@ -1368,9 +1387,9 @@
       ]
     },
     {
-      "Name": "Wonder Glove",
+      "Name": "Wonder Gloves",
       "Icon": "icon737.png",
-      "Description": "Gain {M} for each positive token on other players",
+      "Description": "Gain {M} move for each positive token on other players",
       "BaseMove": 0,
       "Tier": 2,
       "Abilities": {
