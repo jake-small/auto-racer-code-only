@@ -80,10 +80,8 @@ public class PrepMain : Node2D
     _rerollButton.Cost = GameManager.PrepEngine.Bank.RerollCost;
     _freezeButton = GetNode<TextureButton>(PrepSceneData.ButtonFreezePath);
     _freezeButton.Connect("pressed", this, nameof(Button_freeze_pressed));
-    _freezeButton.Disabled = true;
     _sellButton = GetNode<CostButtonUi>(PrepSceneData.ButtonSellPath);
     _sellButton.Connect("pressed", this, nameof(Button_sell_pressed));
-    _sellButton.Disabled = true;
     _sellButton.CostVisible = false;
     _goButton = GetNode<TextureButton>(PrepSceneData.ButtonGoPath);
     _goButton.Connect("pressed", this, nameof(Button_go_pressed));
@@ -97,6 +95,8 @@ public class PrepMain : Node2D
     _newCoinTotal = GameManager.PrepEngine.Bank.CoinTotal;
     UpdateUiForAllCards();
     AnimatePrepAbilityEffects(prepAbilityResults);
+
+    DisableCardActionButtons();
   }
 
   public override void _Process(float delta)
@@ -115,6 +115,11 @@ public class PrepMain : Node2D
         _waitingOnCardEffect = false;
         SetButtonsDisabled(false);
       }
+    }
+
+    if (_selectedCard == null)
+    {
+      DisableCardActionButtons();
     }
   }
 

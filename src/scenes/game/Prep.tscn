@@ -114,10 +114,8 @@ shortcut = SubResource( 6 )
 text = "sell"
 
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -415.0
-margin_right = -225.0
+margin_left = 1520.0
+margin_right = 1710.0
 margin_bottom = 49.0
 rect_scale = Vector2( 1.5, 1.5 )
 alignment = 2
