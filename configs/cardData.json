@@ -704,7 +704,7 @@
       "Name": "Super True Shot",
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V} for {D} turns",
-      "BaseMove": 3,
+      "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -842,9 +842,9 @@
       ]
     },
     {
-      "Name": "Ba-dum-dum",
+      "Name": "Ba-dum-tss",
       "Icon": "icon405.png",
-      "Description": "Give everyone +1 move and -1 move for {T} turns",
+      "Description": "Give everyone +1 move and -1 move for {D} turns",
       "BaseMove": 5,
       "Tier": 2,
       "Abilities": {
@@ -854,7 +854,7 @@
             "Type": "Additive",
             "Phase": "Abilities1",
             "Value": "1",
-            "Duration": "{T}",
+            "Duration": "{D}",
             "Target": {
               "Type": "all",
               "Direction": "any",
@@ -1203,7 +1203,7 @@
     {
       "Name": "Pioneer Snowmobile",
       "Icon": "icon922_c.png",
-      "Description": "Start of turn, if frozen gain {A} base move",
+      "Description": "Start of turn, if frozen, gain {A} base move",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
@@ -1414,7 +1414,7 @@
                   "  allTokens = scriptData.GetPositiveTokens(value.Id) ",
                   "  for key,value in ipairs(allTokens) ",
                   "  do ",
-                  "    count = count + 1",
+                  "    count = value.Value + 1",
                   "  end ",
                   "end ",
                   "return count * {M}"
