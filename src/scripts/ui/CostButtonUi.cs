@@ -3,6 +3,9 @@ using System;
 
 public class CostButtonUi : ButtonUi
 {
+  private Vector2 _startingPosition;
+  private float _moveDownAmount = 4;
+
   private bool _disabled;
   public new bool Disabled
   {
@@ -50,10 +53,22 @@ public class CostButtonUi : ButtonUi
 
   public override void _Ready()
   {
+    _startingPosition = this.RectGlobalPosition;
     _costContainer = GetNode<Control>("Control_cost");
     _costLabel = GetNode<Label>("Control_cost/Label_cost");
     UpdateCostVisibility(CostVisible);
     UpdateCostLabel(Cost);
+  }
+
+  public new void _on_TextureButton_down()
+  {
+    var newPosition = RectGlobalPosition + new Vector2(0, _moveDownAmount);
+    SetGlobalPosition(newPosition);
+  }
+
+  public new void _on_TextureButton_up()
+  {
+    SetGlobalPosition(_startingPosition);
   }
 
   private void DisableCostButton(bool disabled)

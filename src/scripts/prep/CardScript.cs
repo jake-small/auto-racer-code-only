@@ -162,11 +162,13 @@ public class CardScript : KinematicBody2D
     }
     else if (MouseInCardActionButton) // Card is dragged over either Freeze or Sell button
     {
+      if (!_dragging)
+      {
+        return;
+      }
       if (IsInShop())
       {
         GD.Print($"Card {Card.GetName()} dropped on freeze button");
-        DroppedPosition = StartingPosition;
-        Dropped = true;
         emitDroppedOnFreezeButtonSignal();
       }
       else
