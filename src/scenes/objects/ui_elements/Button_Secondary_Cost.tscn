@@ -17,9 +17,6 @@ texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 1 )
 texture_disabled = ExtResource( 4 )
 script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="."]
 margin_left = 4.0
