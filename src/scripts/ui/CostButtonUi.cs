@@ -60,6 +60,16 @@ public class CostButtonUi : ButtonUi
     UpdateCostLabel(Cost);
   }
 
+  public override void _Process(float delta)
+  {
+    if (_startingPosition != default(Vector2)
+      && RectGlobalPosition != _startingPosition
+      && Disabled)
+    {
+      SetGlobalPosition(_startingPosition);
+    }
+  }
+
   public new void _on_TextureButton_down()
   {
     var newPosition = RectGlobalPosition + new Vector2(0, _moveDownAmount);

@@ -11,6 +11,16 @@ public class ButtonUi : TextureButton
     _startingPosition = this.RectGlobalPosition;
   }
 
+  public override void _Process(float delta)
+  {
+    if (_startingPosition != default(Vector2)
+      && RectGlobalPosition != _startingPosition
+      && Disabled)
+    {
+      SetGlobalPosition(_startingPosition);
+    }
+  }
+
   public void _on_TextureButton_down()
   {
     var newPosition = RectGlobalPosition + new Vector2(0, _moveDownAmount);

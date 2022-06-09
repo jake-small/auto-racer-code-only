@@ -137,12 +137,23 @@ public class PrepMain : Node2D
 
   public void _on_Card_droppedOnFreezeButton(CardScript cardScript)
   {
-    FreezeCard();
+    var mousePosition = _freezeButton.GetGlobalMousePosition();
+    var freezeButtonRect = new Rect2(_freezeButton.RectGlobalPosition, _freezeButton.RectSize);
+    if (freezeButtonRect.HasPoint(mousePosition))
+    {
+      FreezeCard();
+    }
+    DropCard(_selectedCard, _selectedCard.StartingPosition);
   }
 
   public void _on_Card_droppedOnSellButton(CardScript cardScript)
   {
-    SellCard();
+    var mousePosition = _sellButton.GetGlobalMousePosition();
+    var sellButtonRect = new Rect2(_sellButton.RectGlobalPosition, _sellButton.RectSize);
+    if (sellButtonRect.HasPoint(mousePosition))
+    {
+      SellCard();
+    }
   }
 
   public void _on_Card_droppedInSlot(CardScript cardScript, int slot, Vector2 droppedPosition, Vector2 originalPosition)
@@ -476,7 +487,6 @@ public class PrepMain : Node2D
       return;
     }
     _selectedCard.Card.Frozen = !_selectedCard.Card.Frozen;
-    DropCard(_selectedCard, _selectedCard.StartingPosition);
     UpdateUiForAllCards();
   }
 
