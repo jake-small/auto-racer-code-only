@@ -8,17 +8,17 @@ public class ButtonUi : TextureButton
 
   public override void _Ready()
   {
-    _startingPosition = this.RectPosition;
+    _startingPosition = this.RectGlobalPosition;
   }
 
   public void _on_TextureButton_down()
   {
-    var newPosition = RectPosition + new Vector2(0, _moveDownAmount);
-    SetPosition(newPosition);
+    var newPosition = RectGlobalPosition + new Vector2(0, _moveDownAmount);
+    SetGlobalPosition(newPosition);
   }
 
   public void _on_TextureButton_up()
   {
-    SetPosition(_startingPosition);
+    SetGlobalPosition(_startingPosition);
   }
 }
