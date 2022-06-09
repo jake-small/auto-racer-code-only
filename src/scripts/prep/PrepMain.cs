@@ -211,6 +211,7 @@ public class PrepMain : Node2D
       var result = GameManager.PrepEngine.PlayerInventory.MoveCard(cardScript.Card, cardScript.Slot, slot);
       if (result)
       {
+        DeselectCard();
         cardScript.Slot = slot;
         DropCard(cardScript, droppedPosition);
         return;
