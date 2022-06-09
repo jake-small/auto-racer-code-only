@@ -25,9 +25,20 @@ public class MoveTokenAbility : TokenAbility, ICloneable
       Functions = Functions.Select(m => m.Clone()).Cast<Function>().ToList()
     };
   }
+
+  public AbilityPhase GetAbilityPhase()
+  {
+    var result = Enum.TryParse(Phase, true, out AbilityPhase phase);
+    if (!result)
+    {
+      Console.WriteLine($"Error: unable to parse Phase '{Phase}' to enum AbilityPhase");
+      throw new Exception($"Error: unable to parse Phase '{Phase}' to enum AbilityPhase");
+    }
+    return phase;
+  }
 }
 
-public enum RacePhase
+public enum AbilityPhase
 {
   Abilities1,
   Abilities2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=10]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
+[ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=15]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=17]
 
@@ -397,19 +398,43 @@ position = Vector2( 1380, 625 )
 margin_top = -58.0
 margin_bottom = -18.0
 
-[node name="Container_selected_card_0" type="Node2D" parent="CardSlots"]
+[node name="Container_selected_card_0" parent="CardSlots" instance=ExtResource( 13 )]
+visible = false
+modulate = Color( 1, 1, 1, 0.607843 )
+position = Vector2( 291, 188.574 )
+z_index = 2
+
+[node name="Container_selected_card_1" parent="CardSlots" instance=ExtResource( 13 )]
+visible = false
+modulate = Color( 1, 1, 1, 0.607843 )
+position = Vector2( 631, 188.574 )
+z_index = 2
+
+[node name="Container_selected_card_2" parent="CardSlots" instance=ExtResource( 13 )]
+visible = false
+modulate = Color( 1, 1, 1, 0.607843 )
+position = Vector2( 971, 188.574 )
+z_index = 2
+
+[node name="Container_selected_card_3" parent="CardSlots" instance=ExtResource( 13 )]
+visible = false
+modulate = Color( 1, 1, 1, 0.607843 )
+position = Vector2( 1311, 188.574 )
+z_index = 2
+
+[node name="Container_selected_card_0_old" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
 position = Vector2( 299, 214 )
 z_index = 2
 
-[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_0"]
+[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_0_old"]
 position = Vector2( -8, -4 )
 scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
-[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_0"]
+[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_0_old"]
 margin_left = -8.0
 margin_top = -4.0
 margin_right = 312.0
@@ -419,7 +444,7 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_0/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_0_old/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 310.0
@@ -428,7 +453,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer"]
+[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_0_old/MarginContainer/VBoxContainer"]
 margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -440,7 +465,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_0/MarginContainer/VBoxContainer"]
+[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_0_old/MarginContainer/VBoxContainer"]
 margin_top = 103.0
 margin_right = 300.0
 margin_bottom = 247.0
@@ -452,19 +477,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Container_selected_card_1" type="Node2D" parent="CardSlots"]
+[node name="Container_selected_card_1_old" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
 position = Vector2( 639, 214 )
 z_index = 2
 
-[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_1"]
+[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_1_old"]
 position = Vector2( -8, -4 )
 scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
-[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_1"]
+[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_1_old"]
 margin_left = -8.0
 margin_top = -4.0
 margin_right = 312.0
@@ -474,7 +499,7 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_1/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_1_old/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 310.0
@@ -483,7 +508,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer"]
+[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_1_old/MarginContainer/VBoxContainer"]
 margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -495,7 +520,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_1/MarginContainer/VBoxContainer"]
+[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_1_old/MarginContainer/VBoxContainer"]
 margin_top = 103.0
 margin_right = 300.0
 margin_bottom = 247.0
@@ -507,19 +532,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Container_selected_card_2" type="Node2D" parent="CardSlots"]
+[node name="Container_selected_card_2_old" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
 position = Vector2( 979, 214 )
 z_index = 2
 
-[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_2"]
+[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_2_old"]
 position = Vector2( -8, -4 )
 scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
-[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_2"]
+[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_2_old"]
 margin_left = -8.0
 margin_top = -4.0
 margin_right = 312.0
@@ -529,7 +554,7 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_2/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_2_old/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 310.0
@@ -538,7 +563,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer"]
+[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_2_old/MarginContainer/VBoxContainer"]
 margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -550,7 +575,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_2/MarginContainer/VBoxContainer"]
+[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_2_old/MarginContainer/VBoxContainer"]
 margin_top = 103.0
 margin_right = 300.0
 margin_bottom = 247.0
@@ -562,19 +587,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Container_selected_card_3" type="Node2D" parent="CardSlots"]
+[node name="Container_selected_card_3_old" type="Node2D" parent="CardSlots"]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
 position = Vector2( 1319, 214 )
 z_index = 2
 
-[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_3"]
+[node name="Panel_selected" type="Sprite" parent="CardSlots/Container_selected_card_3_old"]
 position = Vector2( -8, -4 )
 scale = Vector2( 3.2, 3.9 )
 texture = ExtResource( 10 )
 centered = false
 
-[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_3"]
+[node name="MarginContainer" type="MarginContainer" parent="CardSlots/Container_selected_card_3_old"]
 margin_left = -8.0
 margin_top = -4.0
 margin_right = 312.0
@@ -584,7 +609,7 @@ custom_constants/margin_top = 10
 custom_constants/margin_left = 10
 custom_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_3/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CardSlots/Container_selected_card_3_old/MarginContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 310.0
@@ -593,7 +618,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer"]
+[node name="Label_selected_name" type="Label" parent="CardSlots/Container_selected_card_3_old/MarginContainer/VBoxContainer"]
 margin_right = 300.0
 margin_bottom = 99.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
@@ -605,7 +630,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_3/MarginContainer/VBoxContainer"]
+[node name="Label_selected_description" type="Label" parent="CardSlots/Container_selected_card_3_old/MarginContainer/VBoxContainer"]
 margin_top = 103.0
 margin_right = 300.0
 margin_bottom = 247.0
@@ -622,3 +647,4 @@ __meta__ = {
 [editable path="Control/HBoxContainerRight/Button_Finish"]
 [editable path="CardSlots/slot_1"]
 [editable path="CardSlots/slot_3"]
+[editable path="CardSlots/Container_selected_card_0"]

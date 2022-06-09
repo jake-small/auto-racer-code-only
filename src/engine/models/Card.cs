@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Card : ICloneable
 {
@@ -82,6 +83,25 @@ public class Card : ICloneable
   public string GetRawDescription()
   {
     return Description;
+  }
+
+  public string GetAbilityPhase()
+  {
+    var phase1 = Abilities.MoveTokenAbilities.Any(a => a.GetAbilityPhase() == AbilityPhase.Abilities1);
+    var phase2 = Abilities.MoveTokenAbilities.Any(a => a.GetAbilityPhase() == AbilityPhase.Abilities2);
+    if (phase1 && phase2)
+    {
+      return "Phases 1 & 2";
+    }
+    else if (phase1)
+    {
+      return "Phase 1";
+    }
+    else if (phase2)
+    {
+      return "Phase 1";
+    }
+    return "";
   }
 
   public bool IsMaxLevel()

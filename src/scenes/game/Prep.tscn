@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -23,11 +23,8 @@
 [ext_resource path="res://assets/stats/coin.png" type="Texture" id=21]
 [ext_resource path="res://assets/stats/flag.png" type="Texture" id=22]
 [ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=23]
-[ext_resource path="res://assets/panels/grey_panel.png" type="Texture" id=24]
+[ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=25]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_BaseMove.tres" type="DynamicFont" id=26]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Sells.tres" type="DynamicFont" id=27]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
@@ -135,20 +132,31 @@ texture = ExtResource( 7 )
 
 [node name="Container_tutorial" type="Node2D" parent="."]
 
-[node name="Sprite" type="Sprite" parent="Container_tutorial"]
-position = Vector2( 822, 530 )
-scale = Vector2( 1, 0.85063 )
-texture = ExtResource( 34 )
+[node name="Label" type="Label" parent="Container_tutorial"]
+margin_left = 451.0
+margin_top = 243.932
+margin_right = 754.0
+margin_bottom = 386.932
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 29 )
+text = "Spend all of 
+your money 
+before the race"
 
-[node name="Label" type="Label" parent="Container_tutorial/Sprite"]
-margin_left = 49.0
-margin_top = -103.56
-margin_right = 383.0
-margin_bottom = 1.44006
+[node name="Label2" type="Label" parent="Container_tutorial"]
+margin_left = 873.0
+margin_top = 434.909
+margin_right = 1207.0
+margin_bottom = 539.909
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
 text = "Drag items from the 
 shop to your inventory"
+
+[node name="Sprite" type="Sprite" parent="Container_tutorial"]
+position = Vector2( 822, 530 )
+scale = Vector2( 1, 0.85063 )
+texture = ExtResource( 34 )
 
 [node name="Sprite2" type="Sprite" parent="Container_tutorial"]
 position = Vector2( 556, 427 )
@@ -156,129 +164,9 @@ rotation = -3.14159
 scale = Vector2( 1, 0.85063 )
 texture = ExtResource( 33 )
 
-[node name="Label" type="Label" parent="Container_tutorial/Sprite2"]
-margin_left = 105.0
-margin_top = 187.0
-margin_right = 408.0
-margin_bottom = 330.0
-rect_rotation = 180.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 29 )
-text = "Spend all of 
-your money 
-before the race"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Container_selected_card" type="Node2D" parent="."]
+[node name="Container_selected_card" parent="." instance=ExtResource( 24 )]
 visible = false
-position = Vector2( 440, 64 )
-
-[node name="Panel_selected" type="Sprite" parent="Container_selected_card"]
-position = Vector2( -27, 0 )
-scale = Vector2( 3.2, 4.1 )
-texture = ExtResource( 24 )
-centered = false
-
-[node name="MarginContainer" type="MarginContainer" parent="Container_selected_card"]
-margin_left = -27.0
-margin_right = 293.0
-margin_bottom = 410.0
-custom_constants/margin_right = 10
-custom_constants/margin_top = 10
-custom_constants/margin_left = 10
-custom_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Container_selected_card/MarginContainer"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 310.0
-margin_bottom = 400.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_name" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer"]
-margin_right = 300.0
-margin_bottom = 99.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 28 )
-text = "Dwarven Reconfigurator"
-align = 1
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_description" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer"]
-margin_top = 103.0
-margin_right = 300.0
-margin_bottom = 315.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 29 )
-text = "Card Description Card Description Card Description Card Description Card Description"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="Container_selected_card/MarginContainer"]
-visible = false
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 310.0
-margin_bottom = 400.0
-alignment = 2
-
-[node name="HSplitContainer" type="HSplitContainer" parent="Container_selected_card/MarginContainer/VBoxContainer2"]
-visible = false
-margin_top = 313.0
-margin_right = 269.0
-margin_bottom = 313.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSplitContainer" type="HSplitContainer" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer"]
-visible = false
-margin_bottom = 35.0
-
-[node name="Label_selected_sellsForText" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-visible = false
-margin_top = 6.0
-margin_right = 59.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 27 )
-text = "Sells for"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_sellsForValue" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer"]
-visible = false
-margin_top = 6.0
-margin_right = 12.0
-margin_bottom = 29.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 27 )
-text = "-1"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label_selected_basemove" type="Label" parent="Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer"]
-visible = false
-margin_right = 269.0
-margin_bottom = 35.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 26 )
-text = "99"
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+position = Vector2( 407.2, 66.0357 )
 
 [node name="Label_player_name" type="Label" parent="."]
 margin_left = 79.0

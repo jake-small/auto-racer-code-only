@@ -10,8 +10,8 @@ public class PrepMain : Node2D
   private Node2D _selectedCardPanel;
   private Label _selectedCardNameLabel;
   private Label _selectedCardDescriptionLabel;
-  private Label _selectedCardSellsForLabel;
-  private Label _selectedCardBaseMoveLabel;
+  private Label _selectedCardPhaseLabel;
+  private Label _selectedCardTierLabel;
   private CardScript _selectedCard = null;
   private CostButtonUi _rerollButton;
   private TextureButton _freezeButton;
@@ -57,8 +57,8 @@ public class PrepMain : Node2D
     _selectedCardPanel = GetNode<Node2D>(PrepSceneData.ContainerSelectedCard);
     _selectedCardNameLabel = GetNode<Label>(PrepSceneData.LabelSelectedNamePath);
     _selectedCardDescriptionLabel = GetNode<Label>(PrepSceneData.LabelSelectedDescriptionPath);
-    _selectedCardSellsForLabel = GetNode<Label>(PrepSceneData.LabelSelectedSellsForPath);
-    _selectedCardBaseMoveLabel = GetNode<Label>(PrepSceneData.LabelSelectedBaseMovePath);
+    _selectedCardPhaseLabel = GetNode<Label>(PrepSceneData.LabelSelectedPhasePath);
+    _selectedCardTierLabel = GetNode<Label>(PrepSceneData.LabelSelectedTierPath);
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
@@ -607,8 +607,8 @@ public class PrepMain : Node2D
     _selectedCardPanel.Visible = true;
     _selectedCardNameLabel.Text = card.GetName();
     _selectedCardDescriptionLabel.Text = card.GetDescription();
-    _selectedCardSellsForLabel.Text = GameManager.PrepEngine.Bank.GetSellValue(card).ToString();
-    _selectedCardBaseMoveLabel.Text = card.BaseMove.ToString();
+    _selectedCardPhaseLabel.Text = card.GetAbilityPhase();
+    _selectedCardTierLabel.Text = $"Tier {card.Tier}";
     _sellButton.Cost = GameManager.PrepEngine.Bank.GetSellValue(card);
     _sellButton.CostVisible = true;
   }
@@ -622,8 +622,8 @@ public class PrepMain : Node2D
     _selectedCardPanel.Visible = false;
     _selectedCardNameLabel.Text = "";
     _selectedCardDescriptionLabel.Text = "";
-    _selectedCardSellsForLabel.Text = "";
-    _selectedCardBaseMoveLabel.Text = "";
+    _selectedCardPhaseLabel.Text = "";
+    _selectedCardTierLabel.Text = "";
     _sellButton.CostVisible = false;
   }
 

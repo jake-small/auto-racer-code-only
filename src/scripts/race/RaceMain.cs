@@ -470,9 +470,13 @@ public class RaceMain : Node2D
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
     var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
+    var selectedCardPhaseLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedPhaseRelPath);
+    var selectedCardTierLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedTierRelPath);
     selectedCardPanel.Visible = true;
     selectedCardNameLabel.Text = card.GetName();
     selectedCardDescriptionLabel.Text = card.GetDescription();
+    selectedCardPhaseLabel.Text = card.GetAbilityPhase();
+    selectedCardTierLabel.Text = $"Tier {card.Tier}";
   }
 
   private void HideSelectedCardData(int playerId)

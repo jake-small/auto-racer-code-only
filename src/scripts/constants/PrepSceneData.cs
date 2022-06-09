@@ -40,8 +40,8 @@ public static class PrepSceneData
   public const string ContainerSelectedCard = "Container_selected_card";
   public const string LabelSelectedNamePath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_name";
   public const string LabelSelectedDescriptionPath = "Container_selected_card/MarginContainer/VBoxContainer/Label_selected_description";
-  public const string LabelSelectedSellsForPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/HSplitContainer/Label_selected_sellsForValue";
-  public const string LabelSelectedBaseMovePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_basemove";
+  public const string LabelSelectedPhasePath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_phase";
+  public const string LabelSelectedTierPath = "Container_selected_card/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_tier";
   public const string ShopSlotPrefix = "shop_slot_";
   public const string ContainerCardCostPrefix = "Shop_cost_";
   public const string LabelDebugInventory = "Debug/Label_inventory";
