@@ -162,7 +162,7 @@ public class CardScript : KinematicBody2D
     }
     else if (MouseInCardActionButton) // Card is dragged over either Freeze or Sell button
     {
-      if (!eventMouseButton.IsActionReleased("m1"))
+      if (!eventMouseButton.IsActionReleased("m1") && !OsFeatures.IsTouchScreen())
       {
         return;
       }
