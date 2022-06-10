@@ -122,17 +122,6 @@ public class RaceViewManager
   private bool TryScrollRight(CharacterScript playerSprite, float newXPosition, float boundPosition)
   {
     var extraMove = newXPosition - boundPosition;
-
-    // // only move if main character stays within soft bounds
-    // if (playerSprite.Id != GameManager.LocalPlayer.Id)
-    // {
-    //   var localCharacter = _characters.FirstOrDefault(c => c.Id == GameManager.LocalPlayer.Id);
-    //   if (localCharacter.Position.x - extraMove < _characterSoftLeftBound.x)
-    //   {
-    //     return false;
-    //   }
-    // }
-
     _tileMapManager.ScrollRight(extraMove);
     foreach (var otherCharacter in _characters.Where(c => c.Id != playerSprite.Id))
     {
@@ -150,7 +139,7 @@ public class RaceViewManager
     {
       otherCharacter.Move(extraMove);
     }
-    playerSprite.Move(playerSprite.Position.x - boundPosition);
+    playerSprite.Move(boundPosition - playerSprite.Position.x);
     return true;
   }
 
