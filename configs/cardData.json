@@ -13,7 +13,7 @@
             "Type": "Additive",
             "Phase": "Abilities1",
             "Value": "{V}",
-            "Duration": "1",
+            "Duration": "{R}",
             "Target": {
               "Type": "others",
               "Direction": "any",
