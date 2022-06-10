@@ -375,11 +375,12 @@ public class RaceMain : Node2D
       _updateTurnPhaseLabel = $"T{_currentTurnView}: {phase}";
       HideSlotTurnIndicators();
       var turnResults = _autoRaceEngine.GetTurnResults();
+      _autoRaceEngine.PrintPositions();
       _raceViewManager.UpdateTokenCounts(turnResults);
       if (turnResults != null && turnResults.ToList().Count > 0)
       {
-        _raceViewManager.MovePlayers(turnResults);
         _waitingOnMovement = true;
+        _raceViewManager.MovePlayers(turnResults);
         // var positionState = EngineTesting.GetPositionTextView(turnResults);
         // _updatePositionStateLabel = positionState;
         // _positionStates.Add(positionState);

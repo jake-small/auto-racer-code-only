@@ -66,6 +66,14 @@ public class AutoRaceEngine
     }
   }
 
+  public void PrintPositions()
+  {
+    foreach (var player in _players)
+    {
+      Console.WriteLine($"player {player.Id} at {player.Position}");
+    }
+  }
+
   public bool AdvanceRace()
   {
     _phase = NextTurnPhase(_phase);
