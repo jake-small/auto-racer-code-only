@@ -651,8 +651,11 @@ public class PrepMain : Node2D
 
   private void BaseMoveEffectAnimation(PrepAbilityResult ability)
   {
-    var cardsInScene = GetCardScriptsInScene();
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    if (cardScript == null)
+    {
+      return;
+    }
     var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
     var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileBaseMove.tscn") as PackedScene;
@@ -667,6 +670,10 @@ public class PrepMain : Node2D
   private void ExperienceEffectAnimation(PrepAbilityResult ability)
   {
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    if (cardScript == null)
+    {
+      return;
+    }
     var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
     var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileExp.tscn") as PackedScene;
@@ -681,6 +688,10 @@ public class PrepMain : Node2D
   private void GoldEffectAnimation(PrepAbilityResult ability)
   {
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    if (cardScript == null)
+    {
+      return;
+    }
     var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
     var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileGold.tscn") as PackedScene;
@@ -690,6 +701,10 @@ public class PrepMain : Node2D
   private void RerollEffectAnimation(PrepAbilityResult ability)
   {
     var cardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == ability.Card);
+    if (cardScript == null)
+    {
+      return;
+    }
     var cardScriptSize = cardScript.GetBackgroundSprite().Texture.GetSize();
     var spawn = new Vector2(cardScript.Position.x + (cardScriptSize.x / 2), cardScript.Position.y);
     var projectileScene = ResourceLoader.Load("res://src/scenes/objects/effects/PrepProjectileReroll.tscn") as PackedScene;

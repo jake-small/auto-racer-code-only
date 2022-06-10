@@ -101,7 +101,10 @@ public class PrepEngine
       foreach (var ability in onTriggerAbilities)
       {
         var response = ExecuteAbility(ability, card, triggerCard);
-        prepAbilityResponses.Add(response);
+        if (response != null)
+        {
+          prepAbilityResponses.Add(response);
+        }
       }
     }
     return prepAbilityResponses;
@@ -150,7 +153,7 @@ public class PrepEngine
     {
       return new PrepAbilityResult(card, Effect.Gold, ability.Value.ToInt());
     }
-    return new PrepAbilityResult();
+    return null;
   }
 
   private IEnumerable<Card> GetTargets(PrepAbility ability, Card card, Card triggerCard = null)
