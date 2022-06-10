@@ -99,7 +99,7 @@ public class Card : ICloneable
     }
     else if (phase2)
     {
-      return "Phase 1";
+      return "Phase 2";
     }
     return "";
   }

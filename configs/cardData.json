@@ -1097,7 +1097,7 @@
       "Icon": "icon940.png",
       "Description": "Start of turn, give card to the right {A} base move",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1387,37 +1387,61 @@
       ]
     },
     {
-      "Name": "Wonder Gloves",
-      "Icon": "icon737.png",
-      "Description": "Gain {M} move for each positive token on other players",
+      "Name": "Focus Ring",
+      "Icon": "icon801.png",
+      "Description": "Gain {M} move for each of your {D} tokens",
       "BaseMove": 0,
-      "Tier": 2,
+      "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
           {
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Abilities2",
-            "Value": "{F}",
+            "Value": "{P}",
             "Duration": "1",
             "Target": {
               "Type": "self"
             },
             "Functions": [
               {
-                "Key": "F",
+                "Key": "P",
                 "BodyMultiline": [
-                  "otherPlayers = scriptData.GetOtherPlayers()",
-                  "count = 0 ",
-                  "for key,value in ipairs(otherPlayers) ",
+                  "positiveTokens = scriptData.GetPositiveTokens()",
+                  "amount = 0 ",
+                  "for key,value in ipairs(positiveTokens) ",
                   "do ",
-                  "  allTokens = scriptData.GetPositiveTokens(value.Id) ",
-                  "  for key,value in ipairs(allTokens) ",
-                  "  do ",
-                  "    count = value.Value + 1",
-                  "  end ",
+                  "  amount = amount + value.Value ",
                   "end ",
-                  "return count * {M}"
+                  "return {M} * amount"
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "ability2",
+            "Type": "Additive",
+            "Phase": "Abilities2",
+            "Value": "{N}",
+            "Duration": "1",
+            "Target": {
+              "Type": "self"
+            },
+            "Functions": [
+              {
+                "Key": "N",
+                "BodyMultiline": [
+                  "negativeTokens = scriptData.GetNegativeTokens()",
+                  "amount = 0 ",
+                  "for key,value in ipairs(negativeTokens) ",
+                  "do ",
+                  "  amount = amount + value.Value ",
+                  "end ",
+                  "if ('{D}' == 'positive and negative') then",
+                  "  return {M} * amount",
+                  "else ",
+                  "  return 0",
+                  "end "
                 ]
               }
             ]
@@ -1432,6 +1456,10 @@
             {
               "Key": "M",
               "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "positive and negative"
             }
           ]
         },
@@ -1440,7 +1468,11 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "2"
+              "Value": "1"
+            },
+            {
+              "Key": "D",
+              "Value": "positive"
             }
           ]
         },
@@ -1449,7 +1481,11 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "4"
+              "Value": "2"
+            },
+            {
+              "Key": "D",
+              "Value": "positive"
             }
           ]
         }
