@@ -194,10 +194,10 @@ shortcut = SubResource( 5 )
 text = "finish"
 
 [node name="Button_AutoPlay" parent="." instance=ExtResource( 9 )]
-margin_left = 361.0
-margin_top = 902.757
-margin_right = 461.0
-margin_bottom = 1002.76
+margin_left = 370.0
+margin_top = 900.0
+margin_right = 470.0
+margin_bottom = 1000.0
 rect_scale = Vector2( 1.8, 1.5 )
 texture_normal = ExtResource( 14 )
 texture_pressed = ExtResource( 16 )
