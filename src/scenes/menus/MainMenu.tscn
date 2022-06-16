@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/menus/MainMenu.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://src/scenes/objects/characters/character.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader3.tres" type="DynamicFont" id=9]
+[ext_resource path="res://src/scripts/menus/MainMenuAuth.gd" type="Script" id=10]
 [ext_resource path="res://assets/buttons/arrowRight.png" type="Texture" id=11]
 [ext_resource path="res://assets/buttons/arrowLeft.png" type="Texture" id=12]
 
@@ -169,6 +170,17 @@ rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Label" parent="Button_Credits" index="0"]
 text = "credits"
+
+[node name="Label_user_uuid" type="Label" parent="."]
+margin_left = 440.312
+margin_top = 961.0
+margin_right = 1500.31
+margin_bottom = 1015.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 9 )
+text = "uuid"
+align = 1
+script = ExtResource( 10 )
 
 [editable path="Button_Start"]
 [editable path="Button_Credits"]

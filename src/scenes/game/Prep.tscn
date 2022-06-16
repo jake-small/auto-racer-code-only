@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -25,6 +25,7 @@
 [ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=23]
 [ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=25]
+[ext_resource path="res://src/scripts/prep/PrepFirebase.gd" type="Script" id=26]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
@@ -66,6 +67,9 @@ script = ExtResource( 6 )
 __meta__ = {
 "_edit_vertical_guides_": [  ]
 }
+
+[node name="PrepFirebase" type="Node2D" parent="."]
+script = ExtResource( 26 )
 
 [node name="background" type="Sprite" parent="."]
 position = Vector2( 960, 540 )

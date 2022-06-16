@@ -5,6 +5,7 @@ using System.Linq;
 
 public class PrepMain : Node2D
 {
+  private Node2D _firebaseNode;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
   private Node2D _selectedCardPanel;
@@ -35,6 +36,7 @@ public class PrepMain : Node2D
     {
       var tutorialContainer = GetNode<Node2D>(PrepSceneData.TutorialPath).Visible = false;
     }
+    _firebaseNode = GetNode<Node2D>("PrepFirebase");
     var playerNameLabel = GetNode<Label>(PrepSceneData.LabelPlayerName);
     playerNameLabel.Text = GameManager.LocalPlayer.Name;
     var playerCharacter = GetNode<CharacterScript>(PrepSceneData.CharacterPath);
@@ -335,7 +337,8 @@ public class PrepMain : Node2D
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
-    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+    // GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+    _firebaseNode.Call("StartRace", this);
   }
 
   private void SetButtonsDisabled(bool disabled)
