@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -13,8 +13,11 @@
 [ext_resource path="res://assets/fonts/dynamic/PoppinsHeader.tres" type="DynamicFont" id=11]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo_Description.tres" type="DynamicFont" id=12]
 [ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/buttons/right.png" type="Texture" id=14]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardInfo.tres" type="DynamicFont" id=15]
+[ext_resource path="res://assets/buttons/pause.png" type="Texture" id=16]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=17]
+[ext_resource path="res://assets/buttons/right_disabled.png" type="Texture" id=18]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -167,6 +170,7 @@ margin_bottom = 66.0
 text = "back"
 
 [node name="Button_Forward" parent="Control/HBoxContainerLeft" instance=ExtResource( 17 )]
+visible = false
 margin_right = 190.0
 margin_bottom = 49.0
 shortcut = SubResource( 3 )
@@ -190,11 +194,14 @@ shortcut = SubResource( 5 )
 text = "finish"
 
 [node name="Button_AutoPlay" parent="." instance=ExtResource( 9 )]
-margin_left = 501.0
-margin_top = 943.0
-margin_right = 579.0
-margin_bottom = 1009.0
-rect_scale = Vector2( 1, 1 )
+margin_left = 370.0
+margin_top = 900.0
+margin_right = 470.0
+margin_bottom = 1000.0
+rect_scale = Vector2( 1.8, 1.5 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 16 )
+texture_disabled = ExtResource( 18 )
 
 [node name="Control_cards" type="Control" parent="."]
 visible = false
