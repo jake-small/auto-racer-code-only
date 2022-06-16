@@ -40,14 +40,14 @@ __meta__ = {
 }
 
 [node name="Character" parent="." instance=ExtResource( 7 )]
-position = Vector2( 963, 280 )
+position = Vector2( 963, 366 )
 scale = Vector2( 1.6, 1.6 )
 
 [node name="HBoxContainerCharSelect" type="HBoxContainer" parent="."]
 margin_left = 856.0
-margin_top = 380.0
+margin_top = 466.0
 margin_right = 960.0
-margin_bottom = 430.0
+margin_bottom = 516.0
 rect_scale = Vector2( 2, 2 )
 alignment = 1
 
@@ -64,9 +64,9 @@ texture_normal = ExtResource( 11 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 560.0
-margin_top = 470.0
+margin_top = 556.0
 margin_right = 1360.0
-margin_bottom = 524.0
+margin_bottom = 610.0
 alignment = 1
 
 [node name="Button_RandomFirstName" type="Button" parent="HBoxContainer"]
@@ -123,17 +123,17 @@ flat = true
 
 [node name="Button_RandomName" type="TextureButton" parent="."]
 margin_left = 910.0
-margin_top = 505.0
+margin_top = 591.0
 margin_right = 960.0
-margin_bottom = 555.0
+margin_bottom = 641.0
 rect_scale = Vector2( 2, 2 )
 texture_normal = ExtResource( 5 )
 
 [node name="Label_Title" type="Label" parent="."]
 margin_left = 120.0
-margin_top = 640.0
+margin_top = 108.0
 margin_right = 1800.0
-margin_bottom = 731.0
+margin_bottom = 210.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 3 )
 text = "Fantasy Auto Racer"
