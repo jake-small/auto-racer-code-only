@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 public class PrepMain : Node2D
 {
@@ -337,8 +338,10 @@ public class PrepMain : Node2D
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
-    // GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
-    _firebaseNode.Call("StartRace", this);
+    var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
+    _firebaseNode.Call("SendPlayerTurn", Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
+      GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
+    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
   private void SetButtonsDisabled(bool disabled)

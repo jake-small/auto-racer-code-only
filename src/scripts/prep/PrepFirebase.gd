@@ -1,6 +1,6 @@
 extends Node2D
 
-var uuid : String
+var playerId : String
 
 func _ready():
 	Firebase.Auth.connect("userdata_received", self, "_on_FirebaseAuth_userdata_received")
@@ -13,24 +13,17 @@ func _ready():
 #	print("task error " + str(error_code) + " message " + message)
 
 func _on_FirebaseAuth_userdata_received(userdata: FirebaseUserData):
-	uuid = "anon-" + str(userdata.local_id)
+	playerId = "anon-" + str(userdata.local_id)
 	
-func StartRace(node : Node) -> void:
-	SendPlayerTurn()
-	
-func SendPlayerTurn():
+func SendPlayerTurn(turnGuid: String, playerName: String, skin: String, turn: int, cards: Array, cardVersion: String) -> void:
 	print("Sending player turn to firestore")
-	var firestore_collection : FirestoreCollection = Firebase.Firestore.collection("test_collection_v0_1_0")
-#	var add_task : FirestoreTask = firestore_collection.add("my_uuid", {'player_name': 'anon', 'card':'curse', 'slot': 0})
-#	var added_player_turn : FirestoreDocument = yield(add_task, "task_finished")
-#	var player_turn = {'player_name': 'anon', 'card':'curse', 'slot': 0}
-	var date = GetDate()
-	var cards = {'uuid': 'asdf', 'base_move':5, 'slot':1}
-	var player_turn = {'player_name':'anon the anonymous', 'player_uuid':uuid, 'turn':1, 'amount_used':0, 'date': date, 'cards': cards}
-	var add_task : FirestoreTask = firestore_collection.add("new_uuid2", player_turn)
+	var player_turn = {'player_name':playerName, 'player_id':playerId, 'skin':skin, 'turn':turn,
+	'amount_used':0, "timestamp":OS.get_datetime(), 'cards':cards, 'card_version':cardVersion}
+	var cardMajorVersion = cardVersion.left(cardVersion.find('.'))
+	var firestore_collection : FirestoreCollection = Firebase.Firestore.collection("player_turns_v" + cardMajorVersion)
+	var add_task : FirestoreTask = firestore_collection.add(turnGuid, player_turn)
 	var document : FirestoreTask = yield(add_task, "task_finished")
 	print(document)
-	GetOpponentTurns()
 	
 func GetOpponentTurns():
 #	var query : FirestoreQuery = FirestoreQuery.new()
@@ -43,17 +36,3 @@ func GetOpponentTurns():
 	var query : FirestoreQuery = FirestoreQuery.new().from("test_collection_v0_1_0").limit(3)
 	var result = yield(Firebase.Firestore.query(query), "result_query")
 	print(result)
-
-func GetDate():
-	var time = OS.get_datetime()
-#	var nameweekday= ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-#	var namemonth= ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-#	var dayofweek = time["weekday"]   # from 0 to 6 --> Sunday to Saturday
-	var day = time["day"]                         #   1-31
-	var month= time["month"]               #   1-12
-	var year= time["year"]             
-	var hour= time["hour"]                     #   0-23
-	var minute= time["minute"]             #   0-59
-	var second= time["second"]             #   0-59
-#	var dateRFC1123 = "%s, %02d %s %d %02d:%02d:%02d GMT" % [nameweekday[dayofweek], day, namemonth[month-1], year, hour, minute, second]
-	return "%d-%d-%d-%02d:%02d:%02d GMT" % [year, month, day, hour, minute, second]

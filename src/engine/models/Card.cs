@@ -4,6 +4,7 @@ using System.Linq;
 
 public class Card : ICloneable
 {
+  public string Guid { get; set; }
   public string Name { private get; set; }
   public string Icon { get; set; }
   public string Description { private get; set; }
@@ -36,6 +37,7 @@ public class Card : ICloneable
   {
     return new Card
     {
+      Guid = Guid,
       Name = Name,
       Icon = Icon,
       Description = Description,

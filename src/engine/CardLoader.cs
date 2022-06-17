@@ -5,6 +5,7 @@ using System.Text.Json;
 public class CardLoader
 {
   private const string DefaultCardDataPath = @"configs/cardData.tres";
+  public string Version { get; private set; }
   private List<Card> _cards { get; set; }
 
   public CardLoader(string cardDataPath, DataLoader dataLoader)
@@ -14,7 +15,9 @@ public class CardLoader
       if (System.IO.File.Exists(cardDataPath))
       {
         Console.WriteLine($"Loading card data '{cardDataPath}'");
-        _cards = dataLoader.LoadJsonData<CardData>(cardDataPath).Cards;
+        var cardData = dataLoader.LoadJsonData<CardData>(cardDataPath);
+        Version = cardData.Version;
+        _cards = cardData.Cards;
       }
     }
     catch (System.Exception e)
@@ -28,7 +31,9 @@ public class CardLoader
         Console.WriteLine($"Warning: Card json file not found at '{cardDataPath}', using built-in card data instead");
         if (dataLoader.CanLoadResource())
         {
-          _cards = dataLoader.LoadResourceData<CardData>(DefaultCardDataPath).Cards;
+          var cardData = dataLoader.LoadResourceData<CardData>(DefaultCardDataPath);
+          Version = cardData.Version;
+          _cards = cardData.Cards;
         }
         else
         {
