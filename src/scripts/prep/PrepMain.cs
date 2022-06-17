@@ -2,9 +2,11 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 public class PrepMain : Node2D
 {
+  private Node2D _firebaseNode;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
   private Node2D _selectedCardPanel;
@@ -35,6 +37,7 @@ public class PrepMain : Node2D
     {
       var tutorialContainer = GetNode<Node2D>(PrepSceneData.TutorialPath).Visible = false;
     }
+    _firebaseNode = GetNode<Node2D>("PrepFirebase");
     var playerNameLabel = GetNode<Label>(PrepSceneData.LabelPlayerName);
     playerNameLabel.Text = GameManager.LocalPlayer.Name;
     var playerCharacter = GetNode<CharacterScript>(PrepSceneData.CharacterPath);
@@ -335,6 +338,9 @@ public class PrepMain : Node2D
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
+    var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
+    _firebaseNode.Call("SendPlayerTurn", Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
+      GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 

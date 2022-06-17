@@ -4,6 +4,7 @@ using System.Linq;
 
 public class ShopService
 {
+  public string CardVersion { get; private set; }
   private List<Card> _availableCards { get; set; }
   private static Random _rnd = new Random();
 
@@ -11,6 +12,7 @@ public class ShopService
   public ShopService(DataLoader dataLoader)
   {
     var cardLoader = new CardLoader(PrepSceneData.CardDataRelativePath, dataLoader);
+    CardVersion = cardLoader.Version;
     var cards = cardLoader.GetCards();
 
     _availableCards = new List<Card>();
