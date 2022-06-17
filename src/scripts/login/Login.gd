@@ -1,17 +1,12 @@
 extends Control
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	Firebase.Auth.connect("signup_succeeded", self, "_on_FirebaseAuth_signup_success")
 	Firebase.Auth.connect("login_succeeded", self, "_on_FirebaseAuth_login_success")
 	Firebase.Auth.connect("login_failed", self, "_on_FirebaseAuth_login_failed")
 	Firebase.Auth.connect("auth_request", self, "_on_FirebaseAuth_auth_request")
+	print("Logging in anonymously")
+	Firebase.Auth.check_auth_file()
 
 func _on_FirebaseAuth_signup_success(auth_info):
 	print("Signup successful")

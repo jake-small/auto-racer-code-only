@@ -37,6 +37,7 @@ text = " logging in anonymously"
 align = 1
 
 [node name="TextureButton" parent="." instance=ExtResource( 4 )]
+visible = false
 margin_left = 827.304
 margin_top = 707.936
 margin_right = 1017.3
