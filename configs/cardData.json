@@ -1,9 +1,11 @@
 {
+  "Version": "1.0.0",
   "Cards": [
     {
+      "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
       "Name": "Curse",
       "Icon": "icon132.png",
-      "Description": "All opponents within 3 gain {V} move for {R} turns",
+      "Description": "All opponents within 3 gain {V} move for {R} turn(s)",
       "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
@@ -72,6 +74,7 @@
       ]
     },
     {
+      "Guid": "a2481a29-a4f4-4466-9133-86e1aab09c33",
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
       "Description": "Gain {M} move for each negative token on you",
@@ -137,6 +140,7 @@
       ]
     },
     {
+      "Guid": "a53d188a-ebbc-4199-8284-ad99ab1b7aa6",
       "Name": "Vendor's Pouch",
       "Icon": "icon259.png",
       "Description": "On any Sell, gain {A} base move",
@@ -189,6 +193,7 @@
       ]
     },
     {
+      "Guid": "cfb3a58a-8afb-473a-aa12-6a0707db0467",
       "Name": "Robin's Hood",
       "Icon": "icon702.png",
       "Description": "When Sold, give other cards in player inventory {A} base move",
@@ -245,6 +250,7 @@
       ]
     },
     {
+      "Guid": "1ead9156-f736-4557-b0a2-e53dc0fcb78b",
       "Name": "escape rune",
       "Icon": "icon851.png",
       "Description": "For each opponent on your current space, gain {A} move",
@@ -319,6 +325,7 @@
       ]
     },
     {
+      "Guid": "29127562-6207-403b-a5ec-3410aa889213",
       "Name": "Charge Boots",
       "Icon": "icon754.png",
       "Description": "Gain {A} move for 2 turns",
@@ -378,6 +385,7 @@
       ]
     },
     {
+      "Guid": "6620a26e-eb27-4d55-825d-8b85d3f6d88a",
       "Name": "Dragon Plate",
       "Icon": "icon638.png",
       "Description": "If you have no positive tokens, gain {M}",
@@ -447,6 +455,7 @@
       ]
     },
     {
+      "Guid": "d6d1ab3c-d788-4712-9b18-b1cc7473e776",
       "Name": "Lasting Shield",
       "Icon": "icon600.png",
       "Description": "Gain {M} move for each negative token on you for {D} turns",
@@ -524,6 +533,7 @@
       ]
     },
     {
+      "Guid": "75349081-b1a4-454c-beb9-d9befb92808a",
       "Name": "Blue Spell",
       "Icon": "icon155.png",
       "Description": "Highest placing opponent gets negative move equal to the distance between you",
@@ -585,6 +595,7 @@
       ]
     },
     {
+      "Guid": "215a2700-a37f-45a6-82b2-bcd8d8e6d43e",
       "Name": "Kakarot",
       "Icon": "icon310.png",
       "Description": "Gain {V} move for {D} turns",
@@ -649,6 +660,7 @@
       ]
     },
     {
+      "Guid": "10c63130-1eca-4a25-85f9-cfb16ef040d3",
       "Name": "Abyss Brew",
       "Icon": "icon347.png",
       "Description": "Gain -1 move for {D} turns",
@@ -701,6 +713,7 @@
       ]
     },
     {
+      "Guid": "2c28167c-d4ae-4ca1-9766-47552a9b1f7a",
       "Name": "Super True Shot",
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V} for {D} turns",
@@ -772,6 +785,7 @@
       ]
     },
     {
+      "Guid": "ef36013f-5ee4-468e-b33e-ad1be780ab5d",
       "Name": "Dream Siphon",
       "Icon": "icon133.png",
       "Description": "Gain {M} for each token given to opponents",
@@ -842,6 +856,7 @@
       ]
     },
     {
+      "Guid": "f3f4b7d2-1d29-424f-832c-62e02452f587",
       "Name": "Ba-dum-tss",
       "Icon": "icon405.png",
       "Description": "Give everyone +1 move and -1 move for {D} turns",
@@ -919,6 +934,7 @@
       ]
     },
     {
+      "Guid": "bea34660-4362-4f34-9733-bc735904a9a6",
       "Name": "Burning Agate",
       "Icon": "icon913.png",
       "Description": "Gain {M} for each opponent ahead",
@@ -986,6 +1002,7 @@
       ]
     },
     {
+      "Guid": "2d6c454a-3b36-4671-b217-08d63750d380",
       "Name": "Leaky Gem",
       "Icon": "icon1006.png",
       "Description": "When sold, give {A} base move to random card",
@@ -1042,6 +1059,7 @@
       ]
     },
     {
+      "Guid": "09b9aeaa-366a-4b65-97b6-812f7941b02a",
       "Name": "Jolt Infuser",
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A} base move",
@@ -1093,6 +1111,7 @@
       ]
     },
     {
+      "Guid": "54f9c12b-c4ac-44b0-b48c-3a70161cd132",
       "Name": "Dwarven Reconfigurator",
       "Icon": "icon940.png",
       "Description": "Start of turn, give card to the right {A} base move",
@@ -1149,6 +1168,7 @@
       ]
     },
     {
+      "Guid": "73c8771f-f033-46af-9627-58205fcc71e6",
       "Name": "Jamestown",
       "Icon": "icon021.png",
       "Description": "When Sold, reroll and gain {A} gold",
@@ -1201,7 +1221,8 @@
       ]
     },
     {
-      "Name": "Pioneer Snowmobile",
+      "Guid": "63ad7436-587b-4d81-b22f-6989c8ec1145",
+      "Name": "Snowball",
       "Icon": "icon922_c.png",
       "Description": "Start of turn, if frozen, gain {A} base move",
       "BaseMove": 3,
@@ -1264,6 +1285,7 @@
       ]
     },
     {
+      "Guid": "7dac81b8-35ad-496a-bdfe-1c5d52b09865",
       "Name": "Bag of Hoarding",
       "Icon": "icon359.png",
       "Description": "Start of turn, gain {A}g for each empty inventory slot",
@@ -1331,6 +1353,7 @@
       ]
     },
     {
+      "Guid": "e447d44c-1b2d-4d20-aa67-392ff62b7d4e",
       "Name": "Soul Essence",
       "Icon": "icon1019.png",
       "Description": "When Sold, give card to the right {A} exp",
@@ -1387,9 +1410,10 @@
       ]
     },
     {
+      "Guid": "b2fbba84-f232-4f33-85ab-90158b5e477a",
       "Name": "Focus Ring",
       "Icon": "icon801.png",
-      "Description": "Gain {M} move for each of your {D} tokens",
+      "Description": "Gain {M} move for each of your positive tokens{D}",
       "BaseMove": 0,
       "Tier": 3,
       "Abilities": {
@@ -1459,7 +1483,7 @@
             },
             {
               "Key": "D",
-              "Value": "positive and negative"
+              "Value": " and -1 foreach of your negative tokens"
             }
           ]
         },
@@ -1472,7 +1496,7 @@
             },
             {
               "Key": "D",
-              "Value": "positive"
+              "Value": ""
             }
           ]
         },
@@ -1485,13 +1509,14 @@
             },
             {
               "Key": "D",
-              "Value": "positive"
+              "Value": ""
             }
           ]
         }
       ]
     },
     {
+      "Guid": "63aa289f-7119-456a-878c-e2758d28758e",
       "Name": "Anti Wizard",
       "Icon": "icon648.png",
       "Description": "Give other players {M} for each negative token on you",
