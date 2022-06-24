@@ -334,8 +334,6 @@ public class PrepMain : Node2D
     var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
     _firebaseNode.Call("SendPlayerTurn", this, Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
       GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
-
-    // GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
   private void Button_reroll_pressed()

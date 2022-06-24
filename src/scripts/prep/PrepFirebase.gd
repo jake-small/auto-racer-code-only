@@ -29,12 +29,15 @@ func SendPlayerTurn(csharpNode: Node, turnGuid: String, playerName: String, skin
 	var firestore_collection : FirestoreCollection = Firebase.Firestore.collection("player_turns_v" + cardMajorVersion)
 	var add_task : FirestoreTask = firestore_collection.add(turnGuid, player_turn)
 	var document : FirestoreTask = yield(add_task, "task_finished")
-	GetOpponentTurns(csharpNode, turn, cardMajorVersion)
+	GetOpponentTurns(csharpNode, turn, cardMajorVersion, playerName)
 	
-func GetOpponentTurns(csharpNode: Node, turn: int, cardMajorVersion: String):
+func GetOpponentTurns(csharpNode: Node, turn: int, cardMajorVersion: String, playerName: String):
 	print("Getting opposingn player turns from firestore")
 	var query : FirestoreQuery = FirestoreQuery.new()
-	query.from("player_turns_v" + cardMajorVersion).where("turn", FirestoreQuery.OPERATOR.EQUAL, turn).limit(3)
+	query.from("player_turns_v" + cardMajorVersion)
+	query.where("turn", FirestoreQuery.OPERATOR.EQUAL, turn).where("player_name", FirestoreQuery.OPERATOR.NOT_EQUAL, playerName)
+#	query.where("player_id", FirestoreQuery.OPERATOR.NOT_EQUAL, playerId)
+	query.limit(3)
 	var query_task : FirestoreTask = Firebase.Firestore.query(query)
 	var result : FirestoreTask = yield(query_task, "task_finished")
 	var playerTurnArr = []

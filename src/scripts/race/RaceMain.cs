@@ -158,6 +158,7 @@ public class RaceMain : Node2D
     if (GameManager.Opponents != null && GameManager.Opponents.Any())
     {
       players.AddRange(GameManager.Opponents);
+      GameManager.Opponents = null;
     }
     else
     {
