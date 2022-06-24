@@ -15,6 +15,7 @@ public static class GameManager
   public static NameGenerator NameGenerator { get; set; }
   public static List<string> CharacterSkins { get; set; } = new List<string>();
   public static int ShopSize { get; set; } = GameData.StartingShopInventorySize;
+  public static IEnumerable<Player> Opponents { get; set; }
 
   public static void Reset()
   {

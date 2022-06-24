@@ -305,6 +305,37 @@ public class PrepMain : Node2D
     }
   }
 
+  public void SetupRace(Godot.Collections.Array<Godot.Collections.Dictionary> gdFirebaseOpponentTurns)
+  {
+    GD.Print($"Setting up race...");
+    GD.Print(gdFirebaseOpponentTurns);
+    var id = 1;
+    var opponents = new List<Player>();
+    foreach (var opponentTurn in gdFirebaseOpponentTurns.ToArray())
+    {
+      var firebasePlayer = new FirebasePlayer(id, new FirebasePlayerTurn(opponentTurn), GameManager.PrepEngine.ShopService.GetAvailableCards());
+      opponents.Add(firebasePlayer);
+      id = id + 1;
+    }
+    GameManager.Opponents = opponents;
+    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+  }
+
+  private void Button_go_pressed()
+  {
+    _goButton.Disabled = true;
+    Console.WriteLine("Go button pressed");
+    var prepAbilityResults = GameManager.PrepEngine.CalculateEndTurnAbilities();
+    AnimatePrepAbilityEffects(prepAbilityResults);
+    // TODO: wait for animations to finish
+    GameManager.CurrentRace = GameManager.CurrentRace + 1;
+    GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
+    GameManager.ShowTutorial = false;
+    var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
+    _firebaseNode.Call("SendPlayerTurn", this, Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
+      GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
+  }
+
   private void Button_reroll_pressed()
   {
     Console.WriteLine("Reroll button pressed");
@@ -326,22 +357,6 @@ public class PrepMain : Node2D
   {
     Console.WriteLine("Sell button pressed");
     SellCard();
-  }
-
-  private void Button_go_pressed()
-  {
-    _goButton.Disabled = true;
-    Console.WriteLine("Go button pressed");
-    var prepAbilityResults = GameManager.PrepEngine.CalculateEndTurnAbilities();
-    AnimatePrepAbilityEffects(prepAbilityResults);
-    // TODO: wait for animations to finish
-    GameManager.CurrentRace = GameManager.CurrentRace + 1;
-    GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
-    GameManager.ShowTutorial = false;
-    var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
-    _firebaseNode.Call("SendPlayerTurn", Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
-      GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
-    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
   private void SetButtonsDisabled(bool disabled)
