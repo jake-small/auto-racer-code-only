@@ -12,10 +12,16 @@ func _ready():
 #func _on_task_error(error_code, message):
 #	print("task error " + str(error_code) + " message " + message)
 
+func on_document_error(error, errorCode, errorMessage):
+	print("firebase document error")
+	print(error)
+	print(errorCode)
+	print(errorMessage)
+
 func _on_FirebaseAuth_userdata_received(userdata: FirebaseUserData):
 	playerId = "anon-" + str(userdata.local_id)
 	
-func SendPlayerTurn(turnGuid: String, playerName: String, skin: String, turn: int, cards: Array, cardVersion: String) -> void:
+func SendPlayerTurn(csharpNode: Node, turnGuid: String, playerName: String, skin: String, turn: int, cards: Array, cardVersion: String) -> void:
 	print("Sending player turn to firestore")
 	var player_turn = {'player_name':playerName, 'player_id':playerId, 'skin':skin, 'turn':turn,
 	'amount_used':0, "timestamp":OS.get_datetime(), 'cards':cards, 'card_version':cardVersion}
@@ -23,16 +29,15 @@ func SendPlayerTurn(turnGuid: String, playerName: String, skin: String, turn: in
 	var firestore_collection : FirestoreCollection = Firebase.Firestore.collection("player_turns_v" + cardMajorVersion)
 	var add_task : FirestoreTask = firestore_collection.add(turnGuid, player_turn)
 	var document : FirestoreTask = yield(add_task, "task_finished")
-	print(document)
+	GetOpponentTurns(csharpNode, turn, cardMajorVersion)
 	
-func GetOpponentTurns():
-#	var query : FirestoreQuery = FirestoreQuery.new()
-#	query.from("player_turns_v0.1.0")
-#	query.where("turn", FirestoreQuery.OPERATOR.EQUAL, 1)
-#	query.order_by("date", FirestoreQuery.DIRECTION.DESCENDING)
-#	query.limit(3)
-#	var result : Array = yield(Firebase.Firestore.query(query), "result_query")
-#	var query : FirestoreQuery = FirestoreQuery.new().from("player_turns_v0.1.0").where("turn", FirestoreQuery.OPERATOR.EQUAL, 1).limit(10)
-	var query : FirestoreQuery = FirestoreQuery.new().from("test_collection_v0_1_0").limit(3)
-	var result = yield(Firebase.Firestore.query(query), "result_query")
-	print(result)
+func GetOpponentTurns(csharpNode: Node, turn: int, cardMajorVersion: String):
+	print("Getting opposingn player turns from firestore")
+	var query : FirestoreQuery = FirestoreQuery.new()
+	query.from("player_turns_v" + cardMajorVersion).where("turn", FirestoreQuery.OPERATOR.EQUAL, turn).limit(3)
+	var query_task : FirestoreTask = Firebase.Firestore.query(query)
+	var result : FirestoreTask = yield(query_task, "task_finished")
+	var playerTurnArr = []
+	for i in range(0, result.data.size()):
+		playerTurnArr.append(result.data[i].doc_fields)
+	csharpNode.SetupRace(playerTurnArr)

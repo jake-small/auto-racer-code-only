@@ -155,7 +155,14 @@ public class RaceMain : Node2D
   {
     var players = new List<Player>();
     players.Add(player1);
-    players.AddRange(GetBots(3, nameGenerator));
+    if (GameManager.Opponents != null && GameManager.Opponents.Any())
+    {
+      players.AddRange(GameManager.Opponents);
+    }
+    else
+    {
+      players.AddRange(GetBots(3, nameGenerator));
+    }
     return new AutoRaceEngine(players, 5, 5);
   }
 

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Godot;
 
 public class FirebaseCards
 {
@@ -18,5 +17,10 @@ public class FirebaseCards
       gArray.Add(gDict);
     }
     GodotCards = gArray;
+  }
+
+  public FirebaseCards(Godot.Collections.Array<Godot.Collections.Dictionary> firebaseCards)
+  {
+    GodotCards = firebaseCards;
   }
 }
