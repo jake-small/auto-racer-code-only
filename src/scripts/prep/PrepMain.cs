@@ -321,6 +321,12 @@ public class PrepMain : Node2D
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
+  public void FailedToLoadFirebaseOpponents()
+  {
+    GD.Print($"Unable to get opponents, using bots instead");
+    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+  }
+
   private void Button_go_pressed()
   {
     _goButton.Disabled = true;
