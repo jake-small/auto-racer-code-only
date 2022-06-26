@@ -4,11 +4,10 @@ using System.Linq;
 
 public class FirebasePlayer : Player
 {
-
   public FirebasePlayer(int id, FirebasePlayerTurn firebasePlayerTurn, IEnumerable<Card> availableCards)
   {
     Id = id;
-    Name = firebasePlayerTurn.PlayerName;
+    Name = firebasePlayerTurn.CharacterName;
     Position = 0;
     Cards = ConvertFirebaseCards(firebasePlayerTurn.Cards, availableCards);
     Skin = firebasePlayerTurn.Skin;

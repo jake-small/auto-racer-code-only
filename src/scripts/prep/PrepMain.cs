@@ -321,12 +321,6 @@ public class PrepMain : Node2D
     GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
   }
 
-  public void FailedToLoadFirebaseOpponents()
-  {
-    GD.Print($"Unable to get opponents, using bots instead");
-    GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
-  }
-
   private void Button_go_pressed()
   {
     _goButton.Disabled = true;
@@ -338,7 +332,7 @@ public class PrepMain : Node2D
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
     var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
-    _firebaseNode.Call("SendPlayerTurn", this, Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
+    _firebaseNode.Call("SendPlayerTurn", this, GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
       GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
   }
 
