@@ -111,11 +111,11 @@ public class PrepMain : Node2D
 
     if (_waitingOnCardEffect)
     {
-      SetButtonsDisabled(true);
+      DisableNonCardActionButtons();
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
-        SetButtonsDisabled(false);
+        EnableNonCardActionButtons();
       }
     }
 
@@ -363,14 +363,6 @@ public class PrepMain : Node2D
     SellCard();
   }
 
-  private void SetButtonsDisabled(bool disabled)
-  {
-    _rerollButton.Disabled = disabled;
-    _freezeButton.Disabled = disabled;
-    _sellButton.Disabled = disabled;
-    _goButton.Disabled = disabled;
-  }
-
   private void Reroll()
   {
     var frozenCards = GetFrozenCards().ToList();
@@ -410,6 +402,18 @@ public class PrepMain : Node2D
     {
       cardScript.Selected = false;
     }
+  }
+
+  private void EnableNonCardActionButtons()
+  {
+    _rerollButton.Disabled = false;
+    _goButton.Disabled = false;
+  }
+
+  private void DisableNonCardActionButtons()
+  {
+    _rerollButton.Disabled = true;
+    _goButton.Disabled = true;
   }
 
   private void EnableCardActionButtons(bool isInShop)
