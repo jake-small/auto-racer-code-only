@@ -252,22 +252,28 @@ public class AutoRaceEngine
       {
         moveTokenType = MoveTokenType.Additive;
       }
-      var token = new MoveToken
-      {
-        CreatedBy = player.Id,
-        Duration = moveTokenAbililty.Duration.ToInt(),
-        Type = moveTokenType,
-        Target = target,
-        Value = moveTokenAbililty.Value.ToInt()
-      };
 
-      if (tokensGiven.ContainsKey(target))
+      var individualTokenValue = moveTokenAbililty.Value.ToInt() >= 0 ? 1 : -1;
+      var numTokens = Math.Abs(moveTokenAbililty.Value.ToInt());
+      for (int i = 0; i < numTokens; i++)
       {
-        tokensGiven[target].Add(token);
-      }
-      else
-      {
-        tokensGiven.Add(target, new List<Token> { token });
+        var token = new MoveToken
+        {
+          CreatedBy = player.Id,
+          Duration = moveTokenAbililty.Duration.ToInt(),
+          Type = moveTokenType,
+          Target = target,
+          Value = individualTokenValue
+        };
+
+        if (tokensGiven.ContainsKey(target))
+        {
+          tokensGiven[target].Add(token);
+        }
+        else
+        {
+          tokensGiven.Add(target, new List<Token> { token });
+        }
       }
     }
     return tokensGiven;
