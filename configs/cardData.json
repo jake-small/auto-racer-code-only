@@ -143,7 +143,7 @@
       "Guid": "a53d188a-ebbc-4199-8284-ad99ab1b7aa6",
       "Name": "Vendor's Pouch",
       "Icon": "icon259.png",
-      "Description": "On any Sell, gain {A} base move",
+      "Description": "On any Sell, give {A} base move to random player card",
       "BaseMove": 0,
       "Tier": 2,
       "Abilities": {
@@ -155,8 +155,12 @@
             "Effect": "BaseMove",
             "Value": "{A}",
             "Target": {
-              "Type": "self",
-              "Inventory": "player"
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "any",
+              "Priority": "random",
+              "Amount": "1"
             },
             "Functions": []
           }
@@ -198,7 +202,7 @@
       "Icon": "icon702.png",
       "Description": "When Sold, give other cards in player inventory {A} base move",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1034,7 +1038,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "3"
+              "Value": "2"
             }
           ]
         },
@@ -1043,7 +1047,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "6"
+              "Value": "4"
             }
           ]
         },
@@ -1052,7 +1056,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "12"
+              "Value": "8"
             }
           ]
         }
