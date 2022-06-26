@@ -158,11 +158,12 @@ public class RaceMain : Node2D
     if (GameManager.Opponents != null && GameManager.Opponents.Any())
     {
       players.AddRange(GameManager.Opponents);
-      GameManager.Opponents = null;
     }
-    else
+    GameManager.Opponents = null;
+    GD.Print($"Number of bots: {GameData.NumPlayers - players.Count}");
+    if (players.Count < GameData.NumPlayers)
     {
-      players.AddRange(GetBots(3, nameGenerator));
+      players.AddRange(GetBots(GameData.NumPlayers - players.Count, nameGenerator));
     }
     return new AutoRaceEngine(players, 5, 5);
   }
@@ -520,13 +521,13 @@ public class RaceMain : Node2D
     _pauseDuration = duration;
   }
 
-  // TODO refactor out to a matchmaker
-  private List<Player> GetBots(int numOpponents, NameGenerator nameGenerator)
+  private List<Player> GetBots(int numBots, NameGenerator nameGenerator)
   {
     var bots = new List<Player>();
-    for (var i = 0; i < numOpponents; i++)
+    for (var i = 0; i < numBots; i++)
     {
-      bots.Add(GetBot(i + 1, nameGenerator.GetRandomName()));
+      var id = GameData.NumPlayers - numBots + i;
+      bots.Add(GetBot(id, nameGenerator.GetRandomName()));
     }
     return bots;
   }

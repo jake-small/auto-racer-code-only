@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 
 public class PrepMain : Node2D
 {
@@ -332,7 +331,7 @@ public class PrepMain : Node2D
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
     var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
-    _firebaseNode.Call("SendPlayerTurn", this, Guid.NewGuid().ToString(), GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
+    _firebaseNode.Call("SendPlayerTurn", this, GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
       GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
   }
 

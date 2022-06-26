@@ -5,8 +5,9 @@ public class FirebasePlayerTurn
   public string CardVersion { get; set; }
   public string Skin { get; set; }
   public int AmountUsed { get; set; }
-  public string PlayerName { get; set; }
+  public string CharacterName { get; set; }
   public string PlayerId { get; set; }
+  public string PlayerName { get; set; }
   public int Turn { get; set; }
   public FirebaseCards Cards { get; set; }
 
@@ -14,7 +15,7 @@ public class FirebasePlayerTurn
   {
     foreach (var key in playerTurnDict.Keys)
     {
-      switch (key.ToString())
+      switch (key)
       {
         case "card_version":
           CardVersion = playerTurnDict[key].ToString();
@@ -25,11 +26,14 @@ public class FirebasePlayerTurn
         case "amount_used":
           AmountUsed = (int)playerTurnDict[key];
           break;
-        case "player_name":
-          PlayerName = playerTurnDict[key].ToString();
+        case "character_name":
+          CharacterName = playerTurnDict[key].ToString();
           break;
         case "player_id":
           PlayerId = playerTurnDict[key].ToString();
+          break;
+        case "player_name":
+          PlayerName = playerTurnDict[key].ToString();
           break;
         case "turn":
           Turn = (int)playerTurnDict[key];
