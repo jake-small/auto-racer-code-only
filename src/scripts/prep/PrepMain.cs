@@ -330,6 +330,11 @@ public class PrepMain : Node2D
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
+    if (!GameManager.Online)
+    {
+      GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+      return;
+    }
     var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
     _firebaseNode.Call("SendPlayerTurn", this, GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
       GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
