@@ -1228,7 +1228,7 @@
       "Guid": "63ad7436-587b-4d81-b22f-6989c8ec1145",
       "Name": "Snowball",
       "Icon": "icon922_c.png",
-      "Description": "Start of turn, if frozen, gain {A} base move",
+      "Description": "Start of turn{D}, gain {A} base move",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
@@ -1241,13 +1241,13 @@
             "Value": "{F}",
             "Target": {
               "Type": "self",
-              "Inventory": "Shop"
+              "Inventory": "Any"
             },
             "Functions": [
               {
                 "Key": "F",
                 "BodyMultiline": [
-                  "if (scriptData.Card.IsFrozen) then",
+                  "if (scriptData.Card.IsFrozen or '{D}' == '') then",
                   "  return {A}",
                   "else ",
                   "  return 0",
@@ -1265,6 +1265,10 @@
             {
               "Key": "A",
               "Value": "2"
+            },
+            {
+              "Key": "D",
+              "Value": ", if frozen"
             }
           ]
         },
@@ -1273,7 +1277,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "2"
+            },
+            {
+              "Key": "D",
+              "Value": ""
             }
           ]
         },
@@ -1282,7 +1290,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "8"
+              "Value": "4"
+            },
+            {
+              "Key": "D",
+              "Value": ""
             }
           ]
         }
@@ -1487,7 +1499,7 @@
             },
             {
               "Key": "D",
-              "Value": " and -1 foreach of your negative tokens"
+              "Value": " and -1 for each of your negative tokens"
             }
           ]
         },
