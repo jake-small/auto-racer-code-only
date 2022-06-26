@@ -788,7 +788,7 @@
       "Guid": "ef36013f-5ee4-468e-b33e-ad1be780ab5d",
       "Name": "Dream Siphon",
       "Icon": "icon133.png",
-      "Description": "Gain {M} for each token given to opponents",
+      "Description": "Gain {M} for each negative token on opponents",
       "BaseMove": 2,
       "Tier": 3,
       "Abilities": {
@@ -796,7 +796,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities1",
+            "Phase": "Abilities2",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -811,8 +811,8 @@
                   "count = 0 ",
                   "for key,value in ipairs(otherPlayers) ",
                   "do ",
-                  "  allTokens = scriptData.GetAllTokens(value.Id, playerId) ",
-                  "  for key,value in ipairs(allTokens) ",
+                  "  negativeTokens = scriptData.GetNegativeTokens(value.Id) ",
+                  "  for key,value in ipairs(negativeTokens) ",
                   "  do ",
                   "    count = count + 1",
                   "  end ",
@@ -1461,7 +1461,7 @@
                   "do ",
                   "  amount = amount + value.Value ",
                   "end ",
-                  "if ('{D}' == 'positive and negative') then",
+                  "if ('{D}' ~= '') then",
                   "  return {M} * amount",
                   "else ",
                   "  return 0",
@@ -1564,7 +1564,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-1"
+              "Value": "-2"
             }
           ]
         },
@@ -1573,7 +1573,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-2"
+              "Value": "-4"
             }
           ]
         },
@@ -1582,7 +1582,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-4"
+              "Value": "-8"
             }
           ]
         }
