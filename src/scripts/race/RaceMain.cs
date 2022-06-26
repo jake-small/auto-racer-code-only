@@ -521,7 +521,6 @@ public class RaceMain : Node2D
     _pauseDuration = duration;
   }
 
-  // TODO refactor out to a matchmaker
   private List<Player> GetBots(int numBots, NameGenerator nameGenerator)
   {
     var bots = new List<Player>();
