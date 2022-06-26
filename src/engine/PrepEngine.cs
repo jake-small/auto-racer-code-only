@@ -64,12 +64,12 @@ public class PrepEngine
     return new List<PrepAbilityResult>();
   }
 
-  public IEnumerable<PrepAbilityResult> CalculateOnSellAbilities()
+  public IEnumerable<PrepAbilityResult> CalculateOnSellAbilities(Card soldCard)
   {
     var onSellAbilityCards = PlayerInventory.GetCardsAsList()
       .Where(c => c.Abilities != null && c.Abilities.PrepAbilities != null &&
         c.Abilities.PrepAbilities.Any(a => a.GetTrigger() == Trigger.Sell));
-    return CalculateAbilities(onSellAbilityCards, Trigger.Sell);
+    return CalculateAbilities(onSellAbilityCards, Trigger.Sell, soldCard);
   }
 
   public IEnumerable<PrepAbilityResult> CalculateOnBuyAbilities(Card boughtCard)
@@ -294,6 +294,10 @@ public class PrepEngine
     }
 
     targets = targets.Where(t => !(t is CardEmpty)).ToList();
+    if (ability.GetTrigger() == Trigger.Sell)
+    {
+      targets = targets.Where(c => c != triggerCard).ToList();
+    }
 
     if (target.Amount.ToInt() > targets.Count)
     {
