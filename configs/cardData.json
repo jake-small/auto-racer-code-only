@@ -37,7 +37,7 @@
           "OutKeys": [
             {
               "Key": "R",
-              "Value": "1"
+              "Value": "2"
             },
             {
               "Key": "V",
@@ -85,7 +85,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -400,7 +400,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -470,7 +470,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{F}",
             "Duration": "{D}",
             "Target": {
@@ -800,7 +800,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities4",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -1437,7 +1437,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{P}",
             "Duration": "1",
             "Target": {
@@ -1461,7 +1461,7 @@
           {
             "Name": "ability2",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{N}",
             "Duration": "1",
             "Target": {
@@ -1543,7 +1543,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities3",
             "Value": "{F}",
             "Duration": "1",
             "Target": {

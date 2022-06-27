@@ -38,8 +38,48 @@ public class MoveTokenAbility : TokenAbility, ICloneable
   }
 }
 
+/// <summary>
+/// Ability Phases
+/// 1) foreach n/a
+/// 2) target: others, foreach: others
+/// 3) target: others, foreach: self
+/// 4) target: self, foreach: others
+/// 5) target: self, foreach: self
+/// </summary>
 public enum AbilityPhase
 {
   Abilities1,
-  Abilities2
+  Abilities2,
+  Abilities3,
+  Abilities4,
+  Abilities5
 }
+
+/*
+Ability Phases
+
+1) foreach n/a
+2) target: others, foreach: others
+3) target: others, foreach: self
+4) target: self, foreach: others
+5) target: self, foreach: self
+
+Examples
+
+1) curse: give other players -3
+	target: others, foreach: n/a, sign -
+
+2) ...
+	target: others, foreach: others
+
+3) anti wizard: other players -2 for each negative token on you
+	target: others, foreach: self, sign -
+
+4) dream siphon: gain 2 for each negative token on opponents
+	target: self, foreach: others, sign +
+
+5) focus ring: gain 2x +tokens and 2x -tokens
+	target: self, foreach: self, sign + and -
+5) stamina elixir: gain 1 for each -token
+	target: self, foreach: self, sign +
+*/

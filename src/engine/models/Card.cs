@@ -89,21 +89,29 @@ public class Card : ICloneable
 
   public string GetAbilityPhase()
   {
-    var phase1 = Abilities.MoveTokenAbilities.Any(a => a.GetAbilityPhase() == AbilityPhase.Abilities1);
-    var phase2 = Abilities.MoveTokenAbilities.Any(a => a.GetAbilityPhase() == AbilityPhase.Abilities2);
-    if (phase1 && phase2)
+    var phases = new HashSet<string>();
+    foreach (var ability in Abilities.MoveTokenAbilities)
     {
-      return "Phases 1 & 2";
+      phases.Add(ability.GetAbilityPhase().ToString().Last().ToString());
     }
-    else if (phase1)
+
+    if (!phases.Any())
     {
-      return "Phase 1";
+      return "";
     }
-    else if (phase2)
+
+    if (phases.Count() == 1)
     {
-      return "Phase 2";
+      return $"Phase {phases.First()}";
     }
-    return "";
+
+    var phaseText = "Phases ";
+    foreach (var phase in phases)
+    {
+      phaseText = phaseText + $"{phase}, ";
+    }
+    phaseText.Remove(phaseText.Length - 2, 2); // remove last two characters from string: ", "
+    return phaseText;
   }
 
   public bool IsMaxLevel()
