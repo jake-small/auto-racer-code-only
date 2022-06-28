@@ -21,6 +21,7 @@ public class RaceMain : Node2D
   private bool _waitingOnCardEffect = false;
   private bool _waitingOnMovement = false;
   private bool _autoplay = false;
+  private int _abilityPhasePlayerId = -1;
 
   public override void _Ready()
   {
@@ -99,6 +100,7 @@ public class RaceMain : Node2D
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
+        Pause(0.5f);
       }
     }
 
@@ -108,6 +110,7 @@ public class RaceMain : Node2D
       if (!_raceViewManager.AreCharactersMoving && !_raceViewManager.IsScrolling)
       {
         _waitingOnMovement = false;
+        Pause(0.5f);
       }
     }
 
@@ -269,8 +272,19 @@ public class RaceMain : Node2D
       return;
     }
 
-    var didWin = _autoRaceEngine.AdvanceRace();
+    // If we start and are in an ability phase, handle the remaining players
     var turnPhase = _autoRaceEngine.GetTurnPhase();
+    if (_abilityPhasePlayerId != -1
+      && (turnPhase == TurnPhases.Abilities1 || turnPhase == TurnPhases.Abilities3 || turnPhase == TurnPhases.Abilities4
+          || turnPhase == TurnPhases.Abilities5))
+    {
+      HandleAbilitiesPhase(turnPhase);
+      return;
+    }
+
+
+    var didWin = _autoRaceEngine.AdvanceRace();
+    turnPhase = _autoRaceEngine.GetTurnPhase();
 
     _currentTurnView = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurnView}");
@@ -322,20 +336,26 @@ public class RaceMain : Node2D
 
   private void HandleAbilitiesPhase(TurnPhases turnPhase)
   {
-    var turnResults = _autoRaceEngine.GetTurnResults().Where(t => t.Phase == turnPhase);
-    foreach (var turnResult in turnResults)
+    if (_abilityPhasePlayerId == -1)
     {
-      if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
-      {
-        ShowSlotTurnIndicator(turnResult.Player.Id, true);
-        _raceViewManager.GiveTokens(turnResult);
-        _waitingOnCardEffect = true;
-      }
-      else
-      {
-        ShowSlotTurnIndicator(turnResult.Player.Id, false);
-        Pause(0.3f);
-      }
+      _abilityPhasePlayerId = 0;
+    }
+    var turnResult = _autoRaceEngine.GetTurnResults().Where(t => t.Phase == turnPhase).FirstOrDefault(t => t.Player.Id == _abilityPhasePlayerId);
+    if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
+    {
+      ShowSlotTurnIndicator(turnResult.Player.Id, true);
+      _raceViewManager.GiveTokens(turnResult);
+      _waitingOnCardEffect = true;
+    }
+    // else
+    // {
+    //   ShowSlotTurnIndicator(turnResult.Player.Id, false);
+    //   // Pause(0.3f);
+    // }
+    _abilityPhasePlayerId = _abilityPhasePlayerId + 1;
+    if (_abilityPhasePlayerId > GameData.NumPlayers - 1)
+    {
+      _abilityPhasePlayerId = -1;
     }
   }
 
