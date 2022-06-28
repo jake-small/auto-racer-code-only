@@ -14,7 +14,10 @@ public class RaceMain : Node2D
   private string _updateTurnPhaseLabel;
   private List<CardScript> _displayCards;
   private List<Sprite> _slotTurnIndicators;
-  private int _currentTurnView;
+  private List<Sprite> _phaseAbilityIndicators;
+  private List<Sprite> _phaseMoveIndicators;
+  private Sprite _phaseRemainingTokensIndicator;
+  private int _currentTurn;
   private bool _raceOver = false;
   private bool _isPaused = false;
   private float _pauseDuration = 0;
@@ -30,7 +33,7 @@ public class RaceMain : Node2D
 
     var players = _autoRaceEngine.GetPlayers();
     LoadPlayerNames(players);
-    _currentTurnView = _autoRaceEngine.GetTurn();
+    _currentTurn = _autoRaceEngine.GetTurn();
 
     var tileMapManager = new TileMapManager(
       new[] {
@@ -64,6 +67,22 @@ public class RaceMain : Node2D
       GetNode<Sprite>(RaceSceneData.SelectedSlot2),
       GetNode<Sprite>(RaceSceneData.SelectedSlot3)
     };
+
+    _phaseAbilityIndicators = new List<Sprite>{
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "1"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "2"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "3"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "4"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "5"),
+    };
+    _phaseMoveIndicators = new List<Sprite>{
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "1"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "2"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "3"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "4"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "5"),
+    };
+    _phaseRemainingTokensIndicator = GetNode<Sprite>(RaceSceneData.PhaseIndicatorRemainingTokens);
   }
 
   public override void _Process(float delta)
@@ -110,7 +129,7 @@ public class RaceMain : Node2D
       if (!_raceViewManager.AreCharactersMoving && !_raceViewManager.IsScrolling)
       {
         _waitingOnMovement = false;
-        Pause(0.5f);
+        Pause(1f);
       }
     }
 
@@ -258,15 +277,15 @@ public class RaceMain : Node2D
   // TODO Big Refactor Needed Here
   private void AdvanceRace()
   {
-    if (_autoRaceEngine.GetTurn() != _currentTurnView)
+    if (_autoRaceEngine.GetTurn() != _currentTurn)
     {
-      _currentTurnView = _currentTurnView + 1;
-      GD.Print($"history turn view: {_currentTurnView}");
-      _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
+      _currentTurn = _currentTurn + 1;
+      GD.Print($"history turn view: {_currentTurn}");
+      _updateTurnPhaseLabel = $"Viewing T{_currentTurn}";
       return;
     }
 
-    if (_raceOver && _autoRaceEngine.GetTurn() == _currentTurnView)
+    if (_raceOver && _autoRaceEngine.GetTurn() == _currentTurn)
     {
       _forwardButton.Disabled = true;
       return;
@@ -282,21 +301,21 @@ public class RaceMain : Node2D
       return;
     }
 
-
     var didWin = _autoRaceEngine.AdvanceRace();
     turnPhase = _autoRaceEngine.GetTurnPhase();
 
-    _currentTurnView = _autoRaceEngine.GetTurn();
-    GD.Print($"current turn: {_currentTurnView}");
+    _currentTurn = _autoRaceEngine.GetTurn();
+    GD.Print($"current turn: {_currentTurn}");
 
     if (turnPhase == TurnPhases.Abilities1)
     {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 1";
+      TogglePhaseIndicator(_currentTurn, turnPhase);
+      _updateTurnPhaseLabel = $"T{_currentTurn}: Abilities Phase 1";
       var turnResults = _autoRaceEngine.GetTurnResults();
       var p = 0;
       foreach (var turnResult in turnResults)
       {
-        var card = turnResult.Player.Cards[_currentTurnView - 1];
+        var card = turnResult.Player.Cards[_currentTurn - 1];
         LoadCardScript(card, p);
         p = p + 1;
       }
@@ -305,14 +324,15 @@ public class RaceMain : Node2D
     else if (turnPhase == TurnPhases.Abilities2 || turnPhase == TurnPhases.Abilities3 || turnPhase == TurnPhases.Abilities4 || turnPhase == TurnPhases.Abilities5)
     {
       HideSlotTurnIndicators();
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase {(int)turnPhase}";
+      _updateTurnPhaseLabel = $"T{_currentTurn}: Abilities Phase {(int)turnPhase}";
       HandleAbilitiesPhase(turnPhase);
     }
 
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
+      TogglePhaseIndicator(_currentTurn, turnPhase);
       var phase = turnPhase == TurnPhases.Move ? "Move" : "Handle Remaining Tokens";
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: {phase}";
+      _updateTurnPhaseLabel = $"T{_currentTurn}: {phase}";
       HideSlotTurnIndicators();
       var turnResults = _autoRaceEngine.GetTurnResults();
       _autoRaceEngine.PrintPositions();
@@ -356,6 +376,10 @@ public class RaceMain : Node2D
     if (_abilityPhasePlayerId > GameData.NumPlayers - 1)
     {
       _abilityPhasePlayerId = -1;
+      if (turnPhase == TurnPhases.Abilities5)
+      {
+        Pause(1f);
+      }
     }
   }
 
@@ -430,6 +454,30 @@ public class RaceMain : Node2D
     foreach (var indicator in _slotTurnIndicators)
     {
       indicator.Visible = false;
+    }
+  }
+
+  private void TogglePhaseIndicator(int turn, TurnPhases turnPhase)
+  {
+    var _transparentValue = 0.4f;
+    for (int i = 0; i < _phaseAbilityIndicators.Count; i++)
+    {
+      _phaseAbilityIndicators[i].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
+      _phaseMoveIndicators[i].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
+    }
+
+    if (turnPhase == TurnPhases.Abilities1 || turnPhase == TurnPhases.Abilities2 || turnPhase == TurnPhases.Abilities3
+      || turnPhase == TurnPhases.Abilities4 || turnPhase == TurnPhases.Abilities5)
+    {
+      _phaseAbilityIndicators[turn - 1].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
+    }
+    else if (turnPhase == TurnPhases.Move)
+    {
+      _phaseMoveIndicators[turn - 1].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
+    }
+    else if (turnPhase == TurnPhases.HandleRemainingTokens)
+    {
+      _phaseRemainingTokensIndicator.Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
     }
   }
 

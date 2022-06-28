@@ -50,4 +50,9 @@ public static class RaceSceneData
   public const string LabelSelectedDescriptionRelPath = "/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedPhaseRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_phase";
   public const string LabelSelectedTierRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_tier";
+
+  // Phase Indicator
+  public const string PhaseIndicatorAbilitiesPrefix = "Phase_display/Abilities";
+  public const string PhaseIndicatorMovePrefix = "Phase_display/Move";
+  public const string PhaseIndicatorRemainingTokens = "Phase_display/RemainingTokens";
 }

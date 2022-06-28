@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://assets/backgrounds/BackgroundTileSet.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/fonts/ttfs/Kenney Pixel Square.ttf" type="DynamicFontData" id=2]
@@ -18,6 +18,9 @@
 [ext_resource path="res://assets/buttons/pause.png" type="Texture" id=16]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=17]
 [ext_resource path="res://assets/buttons/right_disabled.png" type="Texture" id=18]
+[ext_resource path="res://assets/card_icons/icon247.png" type="Texture" id=19]
+[ext_resource path="res://assets/card_icons/icon066.png" type="Texture" id=20]
+[ext_resource path="res://assets/card_icons/icon243.png" type="Texture" id=21]
 
 [sub_resource type="DynamicFont" id=1]
 size = 64
@@ -45,6 +48,9 @@ font_data = ExtResource( 5 )
 
 [node name="Node2D2" type="Node2D"]
 script = ExtResource( 4 )
+
+[node name="Position2D_center" type="Position2D" parent="."]
+position = Vector2( 960, 540 )
 
 [node name="TileMap1" type="TileMap" parent="."]
 position = Vector2( -1920, 0 )
@@ -101,7 +107,76 @@ position = Vector2( 1840, 365 )
 visible = false
 position = Vector2( 1840, 465 )
 
+[node name="Phase_display" type="Node2D" parent="."]
+
+[node name="Abilities1" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 568, 960 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 19 )
+
+[node name="Move1" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 640, 966 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 20 )
+
+[node name="Abilities2" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 728, 960 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 19 )
+
+[node name="Move2" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 800, 966 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 20 )
+
+[node name="Abilities3" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 888, 960 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 19 )
+
+[node name="Move3" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 960, 966 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 20 )
+
+[node name="Abilities4" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 1048, 960 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 19 )
+
+[node name="Move4" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 1120, 966 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 20 )
+
+[node name="Abilities5" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 1208, 960 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 19 )
+
+[node name="Move5" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 1280, 966 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 20 )
+
+[node name="RemainingTokens" type="Sprite" parent="Phase_display"]
+modulate = Color( 1, 1, 1, 0.588235 )
+position = Vector2( 1368, 974 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 21 )
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
+visible = false
 margin_right = 1920.0
 margin_bottom = 120.0
 
@@ -194,10 +269,10 @@ shortcut = SubResource( 5 )
 text = "finish"
 
 [node name="Button_AutoPlay" parent="." instance=ExtResource( 9 )]
-margin_left = 370.0
-margin_top = 900.0
-margin_right = 470.0
-margin_bottom = 1000.0
+margin_left = 291.0
+margin_top = 895.0
+margin_right = 391.0
+margin_bottom = 995.0
 rect_scale = Vector2( 1.8, 1.5 )
 texture_normal = ExtResource( 14 )
 texture_pressed = ExtResource( 16 )
