@@ -319,11 +319,11 @@ public class RaceMain : Node2D
         LoadCardScript(card, p);
         p = p + 1;
       }
+      HideSlotTurnIndicators();
       HandleAbilitiesPhase(turnPhase);
     }
     else if (turnPhase == TurnPhases.Abilities2 || turnPhase == TurnPhases.Abilities3 || turnPhase == TurnPhases.Abilities4 || turnPhase == TurnPhases.Abilities5)
     {
-      HideSlotTurnIndicators();
       _updateTurnPhaseLabel = $"T{_currentTurn}: Abilities Phase {(int)turnPhase}";
       HandleAbilitiesPhase(turnPhase);
     }
@@ -378,7 +378,9 @@ public class RaceMain : Node2D
       _abilityPhasePlayerId = -1;
       if (turnPhase == TurnPhases.Abilities5)
       {
-        Pause(1f);
+        var allNotActivated = ShowNotActivatedSlotTurnIndicators();
+        var pauseAmount = allNotActivated ? 0.5f : 1f;
+        Pause(pauseAmount);
       }
     }
   }
@@ -455,6 +457,24 @@ public class RaceMain : Node2D
     {
       indicator.Visible = false;
     }
+  }
+
+  private bool ShowNotActivatedSlotTurnIndicators()
+  {
+    var allNonActivated = true;
+    foreach (var indicator in _slotTurnIndicators)
+    {
+      if (indicator.Visible == false)
+      {
+        indicator.Visible = true;
+        indicator.Modulate = new Color(1, 0.16f, 0.24f, 0.5f);
+      }
+      else
+      {
+        allNonActivated = false;
+      }
+    }
+    return allNonActivated;
   }
 
   private void TogglePhaseIndicator(int turn, TurnPhases turnPhase)

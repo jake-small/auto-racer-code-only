@@ -152,7 +152,7 @@ public class CharacterScript : Node2D
       projectileInstance.Target = target;
       projectileInstance.IsPositive = isPositive;
       projectileInstance.Length = (duration - 1) * 10;
-      projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
+      projectileInstance.DelayedTakeoffAmount = (i + 6) * 0.1f;
       GetTree().Root.AddChild(projectileInstance);
     }
   }
