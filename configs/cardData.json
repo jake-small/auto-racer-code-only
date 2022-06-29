@@ -7,7 +7,7 @@
       "Icon": "icon132.png",
       "Description": "All opponents within 3 gain {V} move for {R} turn(s)",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -79,7 +79,7 @@
       "Icon": "icon273.png",
       "Description": "Gain {M} move for each negative token on you",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -604,7 +604,7 @@
       "Icon": "icon310.png",
       "Description": "Gain {V} move for {D} turns",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -669,7 +669,7 @@
       "Icon": "icon347.png",
       "Description": "Gain -1 move for {D} turns",
       "BaseMove": 8,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -722,7 +722,7 @@
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V} for {D} turns",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -863,9 +863,9 @@
       "Guid": "f3f4b7d2-1d29-424f-832c-62e02452f587",
       "Name": "Ba-dum-tss",
       "Icon": "icon405.png",
-      "Description": "Give everyone +1 move and -1 move for {D} turns",
+      "Description": "Give everyone -1 [negative] and +1 [positive] for {D} turns",
       "BaseMove": 5,
-      "Tier": 2,
+      "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
           {
@@ -1011,7 +1011,7 @@
       "Icon": "icon1006.png",
       "Description": "When sold, give {A} base move to random card",
       "BaseMove": 2,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1068,7 +1068,7 @@
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A} base move",
       "BaseMove": 3,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1230,7 +1230,7 @@
       "Icon": "icon922_c.png",
       "Description": "Start of turn{D}, gain {A} base move",
       "BaseMove": 3,
-      "Tier": 1,
+      "Tier": 4,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -1533,7 +1533,7 @@
     },
     {
       "Guid": "63aa289f-7119-456a-878c-e2758d28758e",
-      "Name": "Anti Wizard",
+      "Name": "Anti Mage",
       "Icon": "icon648.png",
       "Description": "Give other players {M} for each negative token on you",
       "BaseMove": 3,

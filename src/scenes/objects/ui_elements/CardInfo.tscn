@@ -42,17 +42,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label_selected_description" type="Label" parent="MarginContainer/VBoxContainer"]
+[node name="Label_selected_description" type="RichTextLabel" parent="MarginContainer/VBoxContainer"]
 margin_top = 103.0
 margin_right = 284.0
-margin_bottom = 330.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_fonts/font = ExtResource( 1 )
+margin_bottom = 323.0
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+custom_fonts/normal_font = ExtResource( 1 )
 text = "Card Description Card Description Card Description Card Description Card Description"
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+fit_content_height = true
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer"]
 margin_left = 10.0

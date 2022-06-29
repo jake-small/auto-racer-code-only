@@ -423,7 +423,7 @@ public class RaceMain : Node2D
     var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
-    var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
+    var selectedCardDescriptionLabel = GetNode<RichTextLabel>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
     var selectedCardPhaseLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedPhaseRelPath);
     var selectedCardTierLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedTierRelPath);
     selectedCardPanel.Visible = true;
@@ -438,7 +438,7 @@ public class RaceMain : Node2D
     var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
     var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
     var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
-    var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
+    var selectedCardDescriptionLabel = GetNode<RichTextLabel>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
     selectedCardPanel.Visible = false;
     selectedCardNameLabel.Text = "";
     selectedCardDescriptionLabel.Text = "";
