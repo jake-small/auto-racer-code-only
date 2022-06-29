@@ -863,7 +863,7 @@
       "Guid": "f3f4b7d2-1d29-424f-832c-62e02452f587",
       "Name": "Ba-dum-tss",
       "Icon": "icon405.png",
-      "Description": "Give everyone -1 [negative] and +1 [positive] for {D} turns",
+      "Description": "Give everyone -1 [negative] and 1 [positive] for {D} turns",
       "BaseMove": 5,
       "Tier": 2,
       "Abilities": {

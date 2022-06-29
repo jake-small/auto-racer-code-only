@@ -89,6 +89,10 @@ public class Card : ICloneable
 
   public string GetAbilityPhase()
   {
+    if (Abilities == null || !Abilities.MoveTokenAbilities.Any())
+    {
+      return "";
+    }
     var phases = new HashSet<string>();
     foreach (var ability in Abilities.MoveTokenAbilities)
     {

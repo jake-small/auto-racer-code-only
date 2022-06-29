@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://src/scripts/prep/PrepFirebase.gd" type="Script" id=26]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardBM.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
@@ -198,11 +199,47 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="Sprite_move_icon" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 884, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 818.0
+margin_top = 357.0
+margin_right = 873.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
+
 [node name="slot_1" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 952, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Sprite_move_icon2" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1076, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default2" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1010.0
+margin_top = 357.0
+margin_right = 1065.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
 
 [node name="slot_2" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1144, 256 )
@@ -210,17 +247,71 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="Sprite_move_icon3" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1268, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default3" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1202.0
+margin_top = 357.0
+margin_right = 1257.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
+
 [node name="slot_3" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1336, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="Sprite_move_icon4" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1460, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default4" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1394.0
+margin_top = 357.0
+margin_right = 1449.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
+
 [node name="slot_4" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1528, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Sprite_move_icon5" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1652, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default5" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1586.0
+margin_top = 357.0
+margin_right = 1641.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
 
 [node name="arrow_next_item" type="Sprite" parent="."]
 position = Vector2( 928, 330 )
