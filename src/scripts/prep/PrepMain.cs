@@ -315,6 +315,8 @@ public class PrepMain : Node2D
   {
     _goButton.Disabled = true;
     Console.WriteLine("Go button pressed");
+    var goButtonLabel = _goButton.GetNode<Label>("Label");
+    goButtonLabel.Text = "searching...";
     var prepAbilityResults = GameManager.PrepEngine.CalculateEndTurnAbilities();
     AnimatePrepAbilityEffects(prepAbilityResults);
     // TODO: wait for animations to finish
