@@ -1,11 +1,11 @@
 {
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
       "Name": "Curse",
       "Icon": "icon132.png",
-      "Description": "All opponents within 3 gain {V} move for {R} turn(s)",
+      "Description": "All opponents within 3 get {V} [negative] for {R} turn(s)",
       "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
@@ -77,7 +77,7 @@
       "Guid": "a2481a29-a4f4-4466-9133-86e1aab09c33",
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
-      "Description": "Gain {M} move for each negative token on you",
+      "Description": "Gain {M} [positive] for each [negative] on you",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -85,7 +85,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -143,7 +143,7 @@
       "Guid": "a53d188a-ebbc-4199-8284-ad99ab1b7aa6",
       "Name": "Vendor's Pouch",
       "Icon": "icon259.png",
-      "Description": "On any Sell, gain {A} base move",
+      "Description": "On any Sell, give {A} [basemove] to random player card",
       "BaseMove": 0,
       "Tier": 2,
       "Abilities": {
@@ -155,8 +155,12 @@
             "Effect": "BaseMove",
             "Value": "{A}",
             "Target": {
-              "Type": "self",
-              "Inventory": "player"
+              "Type": "others",
+              "Inventory": "player",
+              "Slot": "",
+              "Direction": "any",
+              "Priority": "random",
+              "Amount": "1"
             },
             "Functions": []
           }
@@ -196,9 +200,9 @@
       "Guid": "cfb3a58a-8afb-473a-aa12-6a0707db0467",
       "Name": "Robin's Hood",
       "Icon": "icon702.png",
-      "Description": "When Sold, give other cards in player inventory {A} base move",
+      "Description": "When Sold, give other cards in player inventory {A} [basemove]",
       "BaseMove": 1,
-      "Tier": 1,
+      "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
         "PrepAbilities": [
@@ -253,7 +257,7 @@
       "Guid": "1ead9156-f736-4557-b0a2-e53dc0fcb78b",
       "Name": "escape rune",
       "Icon": "icon851.png",
-      "Description": "For each opponent on your current space, gain {A} move",
+      "Description": "For each opponent on your current space, gain {A} [positive]",
       "BaseMove": 1,
       "Tier": 2,
       "Abilities": {
@@ -328,7 +332,7 @@
       "Guid": "29127562-6207-403b-a5ec-3410aa889213",
       "Name": "Charge Boots",
       "Icon": "icon754.png",
-      "Description": "Gain {A} move for 2 turns",
+      "Description": "Gain {A} [positive] for 2 turns",
       "BaseMove": 0,
       "Tier": 2,
       "Abilities": {
@@ -388,7 +392,7 @@
       "Guid": "6620a26e-eb27-4d55-825d-8b85d3f6d88a",
       "Name": "Dragon Plate",
       "Icon": "icon638.png",
-      "Description": "If you have no positive tokens, gain {M}",
+      "Description": "If you have no [positive], gain {M} [positive]",
       "BaseMove": 5,
       "Tier": 3,
       "Abilities": {
@@ -396,7 +400,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -458,7 +462,7 @@
       "Guid": "d6d1ab3c-d788-4712-9b18-b1cc7473e776",
       "Name": "Lasting Shield",
       "Icon": "icon600.png",
-      "Description": "Gain {M} move for each negative token on you for {D} turns",
+      "Description": "Gain {M} [positive] for each [negative] on you for {D} turns",
       "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
@@ -466,7 +470,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{F}",
             "Duration": "{D}",
             "Target": {
@@ -536,7 +540,7 @@
       "Guid": "75349081-b1a4-454c-beb9-d9befb92808a",
       "Name": "Blue Spell",
       "Icon": "icon155.png",
-      "Description": "Highest placing opponent gets negative move equal to the distance between you",
+      "Description": "Highest placing opponent gets [negative] equal to the distance between you",
       "BaseMove": 1,
       "Tier": 3,
       "Abilities": {
@@ -598,7 +602,7 @@
       "Guid": "215a2700-a37f-45a6-82b2-bcd8d8e6d43e",
       "Name": "Kakarot",
       "Icon": "icon310.png",
-      "Description": "Gain {V} move for {D} turns",
+      "Description": "Gain {V} [positive] for {D} turns",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -663,7 +667,7 @@
       "Guid": "10c63130-1eca-4a25-85f9-cfb16ef040d3",
       "Name": "Abyss Brew",
       "Icon": "icon347.png",
-      "Description": "Gain -1 move for {D} turns",
+      "Description": "Gain -1 [negative] for {D} turns",
       "BaseMove": 8,
       "Tier": 1,
       "Abilities": {
@@ -716,7 +720,7 @@
       "Guid": "2c28167c-d4ae-4ca1-9766-47552a9b1f7a",
       "Name": "Super True Shot",
       "Icon": "icon534.png",
-      "Description": "Opponents ahead get {V} for {D} turns",
+      "Description": "Opponents ahead get {V} [negative] for {D} turns",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -788,7 +792,7 @@
       "Guid": "ef36013f-5ee4-468e-b33e-ad1be780ab5d",
       "Name": "Dream Siphon",
       "Icon": "icon133.png",
-      "Description": "Gain {M} for each token given to opponents",
+      "Description": "Gain {M} [positive] for each [negative] on opponents",
       "BaseMove": 2,
       "Tier": 3,
       "Abilities": {
@@ -796,7 +800,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities1",
+            "Phase": "Abilities4",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -811,8 +815,8 @@
                   "count = 0 ",
                   "for key,value in ipairs(otherPlayers) ",
                   "do ",
-                  "  allTokens = scriptData.GetAllTokens(value.Id, playerId) ",
-                  "  for key,value in ipairs(allTokens) ",
+                  "  negativeTokens = scriptData.GetNegativeTokens(value.Id) ",
+                  "  for key,value in ipairs(negativeTokens) ",
                   "  do ",
                   "    count = count + 1",
                   "  end ",
@@ -859,7 +863,7 @@
       "Guid": "f3f4b7d2-1d29-424f-832c-62e02452f587",
       "Name": "Ba-dum-tss",
       "Icon": "icon405.png",
-      "Description": "Give everyone +1 move and -1 move for {D} turns",
+      "Description": "Give everyone -1 [negative] and 1 [positive] for {D} turns",
       "BaseMove": 5,
       "Tier": 2,
       "Abilities": {
@@ -937,7 +941,7 @@
       "Guid": "bea34660-4362-4f34-9733-bc735904a9a6",
       "Name": "Burning Agate",
       "Icon": "icon913.png",
-      "Description": "Gain {M} for each opponent ahead",
+      "Description": "Gain {M} [positive] for each opponent ahead",
       "BaseMove": 5,
       "Tier": 3,
       "Abilities": {
@@ -1005,7 +1009,7 @@
       "Guid": "2d6c454a-3b36-4671-b217-08d63750d380",
       "Name": "Leaky Gem",
       "Icon": "icon1006.png",
-      "Description": "When sold, give {A} base move to random card",
+      "Description": "When sold, give {A} [basemove] to random card",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -1034,7 +1038,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "3"
+              "Value": "2"
             }
           ]
         },
@@ -1043,7 +1047,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "6"
+              "Value": "4"
             }
           ]
         },
@@ -1052,7 +1056,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "12"
+              "Value": "8"
             }
           ]
         }
@@ -1062,7 +1066,7 @@
       "Guid": "09b9aeaa-366a-4b65-97b6-812f7941b02a",
       "Name": "Jolt Infuser",
       "Icon": "icon995.png",
-      "Description": "On buy, give bought card {A} base move",
+      "Description": "On buy, give bought card {A} [basemove]",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
@@ -1114,7 +1118,7 @@
       "Guid": "54f9c12b-c4ac-44b0-b48c-3a70161cd132",
       "Name": "Dwarven Reconfigurator",
       "Icon": "icon940.png",
-      "Description": "Start of turn, give card to the right {A} base move",
+      "Description": "Start of turn, give card to the right {A} [basemove]",
       "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
@@ -1224,7 +1228,7 @@
       "Guid": "63ad7436-587b-4d81-b22f-6989c8ec1145",
       "Name": "Snowball",
       "Icon": "icon922_c.png",
-      "Description": "Start of turn, if frozen, gain {A} base move",
+      "Description": "Start of turn{D}, gain {A} [basemove]",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
@@ -1237,13 +1241,13 @@
             "Value": "{F}",
             "Target": {
               "Type": "self",
-              "Inventory": "Shop"
+              "Inventory": "Any"
             },
             "Functions": [
               {
                 "Key": "F",
                 "BodyMultiline": [
-                  "if (scriptData.Card.IsFrozen) then",
+                  "if (scriptData.Card.IsFrozen or '{D}' == '') then",
                   "  return {A}",
                   "else ",
                   "  return 0",
@@ -1261,6 +1265,10 @@
             {
               "Key": "A",
               "Value": "2"
+            },
+            {
+              "Key": "D",
+              "Value": ", if frozen"
             }
           ]
         },
@@ -1269,7 +1277,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "2"
+            },
+            {
+              "Key": "D",
+              "Value": ""
             }
           ]
         },
@@ -1278,7 +1290,11 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "8"
+              "Value": "4"
+            },
+            {
+              "Key": "D",
+              "Value": ""
             }
           ]
         }
@@ -1413,7 +1429,7 @@
       "Guid": "b2fbba84-f232-4f33-85ab-90158b5e477a",
       "Name": "Focus Ring",
       "Icon": "icon801.png",
-      "Description": "Gain {M} move for each of your positive tokens{D}",
+      "Description": "Gain {M} [positive] for each of your [positive]{D}",
       "BaseMove": 0,
       "Tier": 3,
       "Abilities": {
@@ -1421,7 +1437,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{P}",
             "Duration": "1",
             "Target": {
@@ -1445,7 +1461,7 @@
           {
             "Name": "ability2",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities5",
             "Value": "{N}",
             "Duration": "1",
             "Target": {
@@ -1461,7 +1477,7 @@
                   "do ",
                   "  amount = amount + value.Value ",
                   "end ",
-                  "if ('{D}' == 'positive and negative') then",
+                  "if ('{D}' ~= '') then",
                   "  return {M} * amount",
                   "else ",
                   "  return 0",
@@ -1483,7 +1499,7 @@
             },
             {
               "Key": "D",
-              "Value": " and -1 foreach of your negative tokens"
+              "Value": " and -1 [negative] for each of your [negative]"
             }
           ]
         },
@@ -1517,9 +1533,9 @@
     },
     {
       "Guid": "63aa289f-7119-456a-878c-e2758d28758e",
-      "Name": "Anti Wizard",
+      "Name": "Anti Mage",
       "Icon": "icon648.png",
-      "Description": "Give other players {M} for each negative token on you",
+      "Description": "Give other players {M} [negative] for each [negative] on you",
       "BaseMove": 3,
       "Tier": 3,
       "Abilities": {
@@ -1527,7 +1543,7 @@
           {
             "Name": "ability1",
             "Type": "Additive",
-            "Phase": "Abilities2",
+            "Phase": "Abilities3",
             "Value": "{F}",
             "Duration": "1",
             "Target": {
@@ -1564,7 +1580,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-1"
+              "Value": "-2"
             }
           ]
         },
@@ -1573,7 +1589,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-2"
+              "Value": "-4"
             }
           ]
         },
@@ -1582,7 +1598,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-4"
+              "Value": "-8"
             }
           ]
         }
