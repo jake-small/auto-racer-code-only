@@ -13,6 +13,11 @@ public class CardInfoScript : Node2D
   private const string LabelSelectedDescriptionPath = "MarginContainer/VBoxContainer/Label_selected_description";
   private const string LabelSelectedPhasePath = "MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_phase";
   private const string LabelSelectedTierPath = "MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_tier";
+  private Dictionary<string, string> Tags = new Dictionary<string, string>{
+      {"[positive]", "res://assets/effects/icon102_c.png"},
+      {"[negative]", "res://assets/effects/icon105_c.png"},
+      {"[basemove]", "res://assets/effects/icon066_c.png"}
+    };
 
   public override void _Ready()
   {
@@ -38,11 +43,7 @@ public class CardInfoScript : Node2D
     Visible = true;
     _selectedCardNameLabel.Text = card.GetName();
     var cardDescription = card.GetDescription();
-    var tags = new Dictionary<string, string>{
-      {"[positive]", "res://assets/effects/icon102_c.png"},
-      {"[negative]", "res://assets/effects/icon105_c.png"},
-    };
-    ReplaceTagsInRichText(cardDescription, _selectedCardDescriptionLabel, tags);
+    ReplaceTagsInRichText(cardDescription, _selectedCardDescriptionLabel, Tags);
     _selectedCardPhaseLabel.Text = card.GetAbilityPhase();
     _selectedCardTierLabel.Text = $"Tier {card.Tier}";
   }

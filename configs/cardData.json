@@ -143,7 +143,7 @@
       "Guid": "a53d188a-ebbc-4199-8284-ad99ab1b7aa6",
       "Name": "Vendor's Pouch",
       "Icon": "icon259.png",
-      "Description": "On any Sell, give {A} base move to random player card",
+      "Description": "On any Sell, give {A} [basemove] to random player card",
       "BaseMove": 0,
       "Tier": 2,
       "Abilities": {
@@ -200,7 +200,7 @@
       "Guid": "cfb3a58a-8afb-473a-aa12-6a0707db0467",
       "Name": "Robin's Hood",
       "Icon": "icon702.png",
-      "Description": "When Sold, give other cards in player inventory {A} base move",
+      "Description": "When Sold, give other cards in player inventory {A} [basemove]",
       "BaseMove": 1,
       "Tier": 2,
       "Abilities": {
@@ -1009,7 +1009,7 @@
       "Guid": "2d6c454a-3b36-4671-b217-08d63750d380",
       "Name": "Leaky Gem",
       "Icon": "icon1006.png",
-      "Description": "When sold, give {A} base move to random card",
+      "Description": "When sold, give {A} [basemove] to random card",
       "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
@@ -1066,7 +1066,7 @@
       "Guid": "09b9aeaa-366a-4b65-97b6-812f7941b02a",
       "Name": "Jolt Infuser",
       "Icon": "icon995.png",
-      "Description": "On buy, give bought card {A} base move",
+      "Description": "On buy, give bought card {A} [basemove]",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
@@ -1118,7 +1118,7 @@
       "Guid": "54f9c12b-c4ac-44b0-b48c-3a70161cd132",
       "Name": "Dwarven Reconfigurator",
       "Icon": "icon940.png",
-      "Description": "Start of turn, give card to the right {A} base move",
+      "Description": "Start of turn, give card to the right {A} [basemove]",
       "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
@@ -1228,7 +1228,7 @@
       "Guid": "63ad7436-587b-4d81-b22f-6989c8ec1145",
       "Name": "Snowball",
       "Icon": "icon922_c.png",
-      "Description": "Start of turn{D}, gain {A} base move",
+      "Description": "Start of turn{D}, gain {A} [basemove]",
       "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
