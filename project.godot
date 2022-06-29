@@ -183,6 +183,13 @@ window/stretch/aspect="keep_width"
 
 enabled=PoolStringArray( "res://addons/godot-firebase/plugin.cfg", "res://addons/http-sse-client/plugin.cfg" )
 
+[importer_defaults]
+
+texture={
+"detect_3d": false,
+"flags/filter": false
+}
+
 [input]
 
 ui_accept={

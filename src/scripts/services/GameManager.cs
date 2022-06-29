@@ -3,7 +3,8 @@ using System.Collections.ObjectModel;
 
 public static class GameManager
 {
-  public static bool Online { get; set; } = false;
+  public static bool FFA { get; set; } = true;
+  public static bool VsBots { get; set; } = false;
   public static bool ShowTutorial { get; set; } = true;
   public static Player LocalPlayer { get; set; }
   public static Score Score { get; set; } = new Score();
