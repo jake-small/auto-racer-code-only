@@ -8,11 +8,7 @@ public class PrepMain : Node2D
   private Node2D _firebaseNode;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
-  private Node2D _selectedCardPanel;
-  private Label _selectedCardNameLabel;
-  private RichTextLabel _selectedCardDescriptionLabel;
-  private Label _selectedCardPhaseLabel;
-  private Label _selectedCardTierLabel;
+  private CardInfoScript _selectedCardInfo;
   private CardScript _selectedCard = null;
   private CostButtonUi _rerollButton;
   private TextureButton _freezeButton;
@@ -55,12 +51,7 @@ public class PrepMain : Node2D
     raceLabel.Text = $"{GameManager.CurrentRace + 1}/{GameManager.TotalRaces}";
     var heartLabel = GetNode<Label>(PrepSceneData.LabelHeartsPath);
     heartLabel.Text = GameManager.LifeTotal.ToString();
-
-    _selectedCardPanel = GetNode<Node2D>(PrepSceneData.ContainerSelectedCard);
-    _selectedCardNameLabel = GetNode<Label>(PrepSceneData.LabelSelectedNamePath);
-    _selectedCardDescriptionLabel = GetNode<RichTextLabel>(PrepSceneData.LabelSelectedDescriptionPath);
-    _selectedCardPhaseLabel = GetNode<Label>(PrepSceneData.LabelSelectedPhasePath);
-    _selectedCardTierLabel = GetNode<Label>(PrepSceneData.LabelSelectedTierPath);
+    _selectedCardInfo = GetNode<CardInfoScript>(PrepSceneData.SelectedCardInfo);
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
@@ -633,83 +624,10 @@ public class PrepMain : Node2D
       _cardCostContainers[cardScript.Slot].Visible = true;
     }
     var card = cardScript.Card;
-    _selectedCardPanel.Visible = true;
-    _selectedCardNameLabel.Text = card.GetName();
-
-    var cardDescription = card.GetDescription();
-    var tags = new Dictionary<string, string>{
-      {"[positive]", "res://assets/effects/icon102_c.png"},
-      {"[negative]", "res://assets/effects/icon105_c.png"},
-    };
-    ReplaceTagsInRichText(cardDescription, _selectedCardDescriptionLabel, tags);
-
-    _selectedCardPhaseLabel.Text = card.GetAbilityPhase();
-    _selectedCardTierLabel.Text = $"Tier {card.Tier}";
+    _selectedCardInfo.SetCard(card);
     _sellButton.Cost = GameManager.PrepEngine.Bank.GetSellValue(card);
     _sellButton.CostVisible = true;
   }
-
-  private void ReplaceTagsInRichText(string description, RichTextLabel richLabel, Dictionary<string, string> tags)
-  {
-    richLabel.Text = "";
-    while (description.Length > 0)
-    {
-      var tagStartIndex = description.IndexOf("[");
-      if (tagStartIndex == -1)
-      {
-        richLabel.AddText(description);
-        return;
-      }
-      var preTagString = description.Substring(0, tagStartIndex);
-      richLabel.AddText(preTagString);
-      description = description.Substring(tagStartIndex);
-
-      var tagEndIndex = description.IndexOf("]");
-      if (tagEndIndex == -1)
-      {
-        richLabel.AddText(description);
-        return;
-      }
-      var tagString = description.Substring(0, tagEndIndex + 1);
-      richLabel.AddImage((Texture)GD.Load(tags[tagString]));
-      description = description.Substring(tagEndIndex + 1);
-    }
-
-
-    // var text = "";
-    // var currentTag = "";
-    // for (int i = 0; i < description.Length; i++)
-    // {
-    //   var c = description[i];
-    //   if (c != '[')
-    //   {
-    //     richLabel.AddText(c);
-    //   }
-    // }
-  }
-
-  // private void AddIconsToRichText(string description, RichTextLabel richLabel, string tag, string resource)
-  // {
-  //   // richLabel.Text = "";
-  //   if (description.Contains(tag))
-  //   {
-  //     var split = description.Split(tag);
-  //     var x = -1;
-  //     foreach (var text in split)
-  //     {
-  //       x = x + 1;
-  //       richLabel.AddText(text);
-  //       if (x < split.Length - 1)
-  //       {
-  //         richLabel.AddImage((Texture)GD.Load(resource));
-  //       }
-  //     }
-  //   }
-  //   else
-  //   {
-  //     // richLabel.Text = description;
-  //   }
-  // }
 
   private void HideSelectedCardData()
   {
@@ -717,11 +635,7 @@ public class PrepMain : Node2D
     {
       container.Visible = false;
     }
-    _selectedCardPanel.Visible = false;
-    _selectedCardNameLabel.Text = "";
-    _selectedCardDescriptionLabel.Text = "";
-    _selectedCardPhaseLabel.Text = "";
-    _selectedCardTierLabel.Text = "";
+    _selectedCardInfo.Clear();
     _sellButton.CostVisible = false;
   }
 

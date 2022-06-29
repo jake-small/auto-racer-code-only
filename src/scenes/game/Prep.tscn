@@ -168,7 +168,7 @@ rotation = -3.14159
 scale = Vector2( 1, 0.85063 )
 texture = ExtResource( 33 )
 
-[node name="Container_selected_card" parent="." instance=ExtResource( 24 )]
+[node name="Selected_card_info" parent="." instance=ExtResource( 24 )]
 visible = false
 position = Vector2( 407.2, 66.0357 )
 

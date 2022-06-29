@@ -102,13 +102,13 @@ public class Card : ICloneable
 
     if (phases.Count() == 1)
     {
-      return $"Phase {phases.First()}";
+      return $"p{phases.First()}";
     }
 
-    var phaseText = "Phases ";
+    var phaseText = "p";
     foreach (var phase in phases)
     {
-      phaseText = phaseText + $"{phase}, ";
+      phaseText = phaseText + $"{phase},";
     }
     phaseText.Remove(phaseText.Length - 2, 2); // remove last two characters from string: ", "
     return phaseText;

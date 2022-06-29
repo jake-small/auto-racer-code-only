@@ -421,27 +421,15 @@ public class RaceMain : Node2D
   private void DisplaySelectedCardData(Card card, int playerId)
   {
     var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
-    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
-    var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
-    var selectedCardDescriptionLabel = GetNode<RichTextLabel>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    var selectedCardPhaseLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedPhaseRelPath);
-    var selectedCardTierLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedTierRelPath);
-    selectedCardPanel.Visible = true;
-    selectedCardNameLabel.Text = card.GetName();
-    selectedCardDescriptionLabel.Text = card.GetDescription();
-    selectedCardPhaseLabel.Text = card.GetAbilityPhase();
-    selectedCardTierLabel.Text = $"Tier {card.Tier}";
+    var selectedCardInfo = GetNode<CardInfoScript>(selectedCardPath);
+    selectedCardInfo.SetCard(card);
   }
 
   private void HideSelectedCardData(int playerId)
   {
     var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
-    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
-    var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
-    var selectedCardDescriptionLabel = GetNode<RichTextLabel>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    selectedCardPanel.Visible = false;
-    selectedCardNameLabel.Text = "";
-    selectedCardDescriptionLabel.Text = "";
+    var selectedCardInfo = GetNode<CardInfoScript>(selectedCardPath);
+    selectedCardInfo.Clear();
   }
 
   private void ShowSlotTurnIndicator(int turnId, bool abilityActivated)
