@@ -1,21 +1,123 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/characters/animation_frames/chara2_1_animations.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://src/scripts/race/CharacterScript.cs" type="Script" id=2]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCharStat3.tres" type="DynamicFont" id=3]
-[ext_resource path="res://assets/card_icons/icon102.png" type="Texture" id=4]
-[ext_resource path="res://assets/card_icons/icon105.png" type="Texture" id=5]
+[ext_resource path="res://assets/effects/icon105_c.png" type="Texture" id=4]
+[ext_resource path="res://assets/effects/icon102_c.png" type="Texture" id=5]
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(255, 255, 255, 255);
+uniform float flashState : hint_range(0,1) = 0.0;
+
+void fragment() {
+	vec4 pixelColor = texture(TEXTURE, UV);
+	COLOR = mix(pixelColor, color, flashState);
+	COLOR.a *= pixelColor.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = SubResource( 4 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/flashState = 0.0
+
+[sub_resource type="Animation" id=8]
+resource_name = "OnBuff"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.388235, 0.74902, 0.137255, 1 ), Color( 0.0823529, 0.392157, 0.266667, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "OnHit"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.823529, 0.521569, 0.890196, 1 ), Color( 0.4, 0.133333, 0.615686, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Character" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 5 )
 scale = Vector2( 4, 4 )
 frames = ExtResource( 1 )
 animation = "facing_front"
-__meta__ = {
-"_edit_lock_": true
-}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="AnimatedSprite"]
+anims/OnBuff = SubResource( 8 )
+anims/OnHit = SubResource( 6 )
+anims/RESET = SubResource( 7 )
 
 [node name="Label_token_positive" type="Label" parent="."]
 visible = false
@@ -28,9 +130,8 @@ text = "+0"
 
 [node name="Sprite_positive_icon" type="Sprite" parent="Label_token_positive"]
 position = Vector2( -29, 28 )
-rotation = 1.57079
-scale = Vector2( 1, 1.6 )
-texture = ExtResource( 4 )
+scale = Vector2( 1.6, 1.6 )
+texture = ExtResource( 5 )
 
 [node name="Label_token_negative" type="Label" parent="."]
 visible = false
@@ -46,6 +147,5 @@ align = 2
 
 [node name="Sprite_negative_icon" type="Sprite" parent="Label_token_negative"]
 position = Vector2( 426, 28 )
-rotation = 1.57079
-scale = Vector2( 1, 1.6 )
-texture = ExtResource( 5 )
+scale = Vector2( 1.6, 1.6 )
+texture = ExtResource( 4 )

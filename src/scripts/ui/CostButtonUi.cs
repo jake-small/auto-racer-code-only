@@ -50,12 +50,14 @@ public class CostButtonUi : ButtonUi
 
   private Control _costContainer;
   private Label _costLabel;
+  private AnimationPlayer _animationPlayer;
 
   public override void _Ready()
   {
     _startingPosition = this.RectGlobalPosition;
     _costContainer = GetNode<Control>("Control_cost");
     _costLabel = GetNode<Label>("Control_cost/Label_cost");
+    _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     UpdateCostVisibility(CostVisible);
     UpdateCostLabel(Cost);
   }
@@ -79,6 +81,12 @@ public class CostButtonUi : ButtonUi
   public new void _on_TextureButton_up()
   {
     SetGlobalPosition(_startingPosition);
+  }
+
+  public void OnHitEffect()
+  {
+    _animationPlayer.Stop(true);
+    _animationPlayer.Play("OnHit");
   }
 
   private void DisableCostButton(bool disabled)

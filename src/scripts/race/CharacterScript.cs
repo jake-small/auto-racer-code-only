@@ -39,6 +39,7 @@ public class CharacterScript : Node2D
   public bool Moving { get; private set; } = false;
 
   private AnimatedSprite _sprite;
+  private AnimationPlayer _animationPlayer;
   private Label _positiveTokenLabel;
   private Label _negativeTokenLabel;
   private bool raceOver = false;
@@ -46,6 +47,7 @@ public class CharacterScript : Node2D
   public override void _Ready()
   {
     _sprite = GetNode<AnimatedSprite>(RaceSceneData.CharacterSpritePath);
+    _animationPlayer = GetNode<AnimationPlayer>(RaceSceneData.CharacterAnimationPlayerPath);
     _positiveTokenLabel = GetNode<Label>(RaceSceneData.CharacterTokenPositiveLabel);
     _negativeTokenLabel = GetNode<Label>(RaceSceneData.CharacterTokenNegativeLabel);
     if (CharacterSkin == null)
@@ -152,9 +154,21 @@ public class CharacterScript : Node2D
       projectileInstance.Target = target;
       projectileInstance.IsPositive = isPositive;
       projectileInstance.Length = (duration - 1) * 10;
-      projectileInstance.DelayedTakeoffAmount = (i + 2) * 0.1f;
+      projectileInstance.DelayedTakeoffAmount = (i + 6) * 0.1f;
       GetTree().Root.AddChild(projectileInstance);
     }
+  }
+
+  public void OnHitAnimate()
+  {
+    _animationPlayer.Stop(true);
+    _animationPlayer.Play("OnHit");
+  }
+
+  public void OnBuffAnimate()
+  {
+    _animationPlayer.Stop(true);
+    _animationPlayer.Play("OnBuff");
   }
 
   public void RaceOverAnimation()

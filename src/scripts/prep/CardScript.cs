@@ -22,6 +22,9 @@ public class CardScript : KinematicBody2D
   private List<Sprite> _expFullIcons;
   private Sprite _expEmpty3;
   private Label _baseMoveLabel;
+  private AnimationPlayer _animationPlayerBackground;
+  private AnimationPlayer _animationPlayerIcon;
+
 
   public bool DisplayOnly { get; set; } = false;
   public bool Selected = false;
@@ -72,6 +75,9 @@ public class CardScript : KinematicBody2D
     var frozenSprite2 = GetNode(PrepSceneData.PanelSpriteFrozen2) as Sprite;
     _frozenSprites.Add(frozenSprite1);
     _frozenSprites.Add(frozenSprite2);
+
+    _animationPlayerBackground = GetNode<AnimationPlayer>("Panel_blue/AnimationPlayer");
+    _animationPlayerIcon = GetNode<AnimationPlayer>("Icon/AnimationPlayer");
   }
 
   public override void _Process(float delta)
@@ -256,6 +262,30 @@ public class CardScript : KinematicBody2D
   public bool IsInShop()
   {
     return Card.InventoryType == InventoryType.Shop;
+  }
+
+  public void OnShopSpawn()
+  {
+    _animationPlayerBackground.Stop(true);
+    _animationPlayerBackground.Play("OnShopSpawn");
+  }
+
+  public void OnLevelUp()
+  {
+    _animationPlayerBackground.Stop(true);
+    _animationPlayerBackground.Play("OnLevelUp");
+  }
+
+  public void OnBuffAnimate()
+  {
+    _animationPlayerIcon.Stop(true);
+    _animationPlayerIcon.Play("OnBuff");
+  }
+
+  public void OnExpGainAnimate()
+  {
+    _animationPlayerIcon.Stop(true);
+    _animationPlayerIcon.Play("OnExpGain");
   }
 
   private void StartDraggingCard()

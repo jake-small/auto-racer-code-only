@@ -7,6 +7,7 @@ public class MainMenu : Control
   private int _characterSelectIndex;
   private Label _firstNameLabel;
   private Label _adjectiveLabel;
+  private TextureButton _vsBotsToggle;
 
   public override void _EnterTree()
   {
@@ -24,8 +25,11 @@ public class MainMenu : Control
     adjectiveRandomButton.Connect("pressed", this, nameof(Button_adjective_random_pressed));
     var nameRandomButton = GetNode<TextureButton>(MainMenuData.ButtonRandomName);
     nameRandomButton.Connect("pressed", this, nameof(Button_name_random_pressed));
-    var startButton = GetNode<TextureButton>(MainMenuData.ButtonStart);
-    startButton.Connect("pressed", this, nameof(Button_start_pressed));
+    var startFfaButton = GetNode<TextureButton>(MainMenuData.ButtonStartFFA);
+    startFfaButton.Connect("pressed", this, nameof(Button_start_ffa_pressed));
+    var start1v1Button = GetNode<TextureButton>(MainMenuData.ButtonStart1v1);
+    start1v1Button.Connect("pressed", this, nameof(Button_start_1v1_pressed));
+    _vsBotsToggle = GetNode<TextureButton>(MainMenuData.ButtonToggleVsBots);
     // var quitButton = GetNode<TextureButton>(MainMenuData.ButtonQuit);
     // quitButton.Connect("pressed", this, nameof(Button_quit_pressed));
 
@@ -89,19 +93,18 @@ public class MainMenu : Control
     _adjectiveLabel.Text = GameManager.NameGenerator.GetRandomAdjective();
   }
 
-  private void Button_start_pressed()
+  private void Button_start_ffa_pressed()
   {
-    Console.WriteLine("Start Game button pressed");
-    var playerName = $"{_firstNameLabel.Text} the {_adjectiveLabel.Text}";
-    GameManager.LocalPlayer = new Player
-    {
-      Id = 0,
-      Name = playerName,
-      Cards = GameManager.PrepEngine.PlayerInventory.GetCards(),
-      Position = 0
-    };
-    GameManager.LocalPlayer.Skin = _playerCharacter.CharacterSkin;
-    GetTree().ChangeScene(MainMenuData.PrepScenePath);
+    Console.WriteLine("Start FFA button pressed");
+    GameManager.FFA = true;
+    StartGame();
+  }
+
+  private void Button_start_1v1_pressed()
+  {
+    Console.WriteLine("Start 1v1 button pressed");
+    GameManager.FFA = false;
+    StartGame();
   }
 
   private void Button_quit_pressed()
@@ -114,6 +117,21 @@ public class MainMenu : Control
   {
     Console.WriteLine("Credits button pressed");
     GetTree().ChangeScene(MainMenuData.CreditsScenePath);
+  }
+
+  private void StartGame()
+  {
+    GameManager.VsBots = _vsBotsToggle.Pressed;
+    var playerName = $"{_firstNameLabel.Text} the {_adjectiveLabel.Text}";
+    GameManager.LocalPlayer = new Player
+    {
+      Id = 0,
+      Name = playerName,
+      Cards = GameManager.PrepEngine.PlayerInventory.GetCards(),
+      Position = 0
+    };
+    GameManager.LocalPlayer.Skin = _playerCharacter.CharacterSkin;
+    GetTree().ChangeScene(MainMenuData.PrepScenePath);
   }
 
   private void LoadCharacterSkins()

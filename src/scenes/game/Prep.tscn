@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -26,6 +26,7 @@
 [ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://src/scripts/prep/PrepFirebase.gd" type="Script" id=26]
+[ext_resource path="res://assets/fonts/dynamic/PoppinsCardBM.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
@@ -61,6 +62,77 @@ size = 46
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 font_data = ExtResource( 25 )
+
+[sub_resource type="Shader" id=10]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(255, 255, 255, 255);
+uniform float flashState : hint_range(0,1) = 0.0;
+
+void fragment() {
+	vec4 pixelColor = texture(TEXTURE, UV);
+	COLOR = mix(pixelColor, color, flashState);
+	COLOR.a *= pixelColor.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
+shader_param/color = Color( 0.972549, 0.784314, 0.282353, 1 )
+shader_param/flashState = 0.0
+
+[sub_resource type="Animation" id=12]
+resource_name = "OnGoldGain"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.972549, 0.784314, 0.282353, 1 ), Color( 0.972549, 0.784314, 0.282353, 0 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.972549, 0.784314, 0.282353, 1 ) ]
+}
 
 [node name="Node2D2" type="Node2D"]
 script = ExtResource( 6 )
@@ -111,7 +183,7 @@ margin_right = 578.0
 margin_bottom = 55.0
 shortcut = SubResource( 6 )
 
-[node name="Label" parent="Control/HBoxContainerLeft/Button_Sell" index="0"]
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Sell" index="1"]
 text = "sell"
 
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
@@ -168,7 +240,7 @@ rotation = -3.14159
 scale = Vector2( 1, 0.85063 )
 texture = ExtResource( 33 )
 
-[node name="Container_selected_card" parent="." instance=ExtResource( 24 )]
+[node name="Selected_card_info" parent="." instance=ExtResource( 24 )]
 visible = false
 position = Vector2( 407.2, 66.0357 )
 
@@ -198,11 +270,47 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="Sprite_move_icon" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 884, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 818.0
+margin_top = 357.0
+margin_right = 873.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
+
 [node name="slot_1" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 952, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Sprite_move_icon2" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1076, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default2" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1010.0
+margin_top = 357.0
+margin_right = 1065.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
 
 [node name="slot_2" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1144, 256 )
@@ -210,17 +318,71 @@ scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="Sprite_move_icon3" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1268, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default3" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1202.0
+margin_top = 357.0
+margin_right = 1257.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
+
 [node name="slot_3" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1336, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
 
+[node name="Sprite_move_icon4" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1460, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default4" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1394.0
+margin_top = 357.0
+margin_right = 1449.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
+
 [node name="slot_4" type="Sprite" parent="." groups=["CardSlots"]]
 position = Vector2( 1528, 256 )
 scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 4 )
 centered = false
+
+[node name="Sprite_move_icon5" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+position = Vector2( 1652, 380 )
+scale = Vector2( 1.5, 1.5 )
+texture = ExtResource( 8 )
+
+[node name="Label_basemove_default5" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 1586.0
+margin_top = 357.0
+margin_right = 1641.0
+margin_bottom = 405.0
+rect_pivot_offset = Vector2( -253.727, -52.4615 )
+custom_fonts/font = ExtResource( 28 )
+text = "1"
+align = 2
+valign = 2
 
 [node name="arrow_next_item" type="Sprite" parent="."]
 position = Vector2( 928, 330 )
@@ -543,9 +705,14 @@ __meta__ = {
 position = Vector2( 592, 530 )
 
 [node name="panel_runeBlue2" type="Sprite" parent="Container_info"]
+material = SubResource( 11 )
 position = Vector2( 0, 5.00001 )
 scale = Vector2( 0.34, 0.7 )
 texture = ExtResource( 31 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Container_info/panel_runeBlue2"]
+anims/OnGoldGain = SubResource( 12 )
+anims/RESET = SubResource( 13 )
 
 [node name="heart" type="Sprite" parent="Container_info"]
 visible = false

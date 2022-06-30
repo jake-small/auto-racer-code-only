@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=1]
 [ext_resource path="res://src/scripts/menus/MainMenu.cs" type="Script" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://src/scripts/menus/MainMenuAuth.gd" type="Script" id=10]
 [ext_resource path="res://assets/buttons/arrowRight.png" type="Texture" id=11]
 [ext_resource path="res://assets/buttons/arrowLeft.png" type="Texture" id=12]
+[ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary_Toggle.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Theme" id=1]
 
@@ -141,16 +142,33 @@ text = "Fantasy Auto Racer"
 align = 1
 valign = 1
 
-[node name="Button_Start" parent="." instance=ExtResource( 4 )]
-margin_left = 819.0
-margin_top = 770.0
-margin_right = 1009.0
-margin_bottom = 819.0
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+margin_left = 507.0
+margin_top = 730.0
+margin_right = 1117.0
+margin_bottom = 779.0
 rect_scale = Vector2( 1.5, 1.5 )
+custom_constants/separation = 20
+alignment = 1
+
+[node name="Button_FFA" parent="HBoxContainer2" instance=ExtResource( 4 )]
+margin_left = 105.0
+margin_right = 295.0
+margin_bottom = 49.0
 shortcut = SubResource( 4 )
 
-[node name="Label" parent="Button_Start" index="0"]
-text = "start"
+[node name="Label" parent="HBoxContainer2/Button_FFA" index="0"]
+text = "FFA"
+
+[node name="Button_1v1" parent="HBoxContainer2" instance=ExtResource( 4 )]
+margin_left = 315.0
+margin_right = 505.0
+margin_bottom = 49.0
+disabled = true
+shortcut = SubResource( 4 )
+
+[node name="Label" parent="HBoxContainer2/Button_1v1" index="0"]
+text = "1 vs 1"
 
 [node name="Label_version" type="Label" parent="."]
 margin_left = 1658.71
@@ -182,5 +200,18 @@ text = "uuid"
 align = 1
 script = ExtResource( 10 )
 
-[editable path="Button_Start"]
+[node name="TextureButton_vs_bots" parent="." instance=ExtResource( 13 )]
+margin_left = 872.0
+margin_top = 852.0
+margin_right = 1062.0
+margin_bottom = 901.0
+rect_scale = Vector2( 1, 1 )
+
+[node name="Label" parent="TextureButton_vs_bots" index="0"]
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "vs bots"
+
+[editable path="HBoxContainer2/Button_FFA"]
+[editable path="HBoxContainer2/Button_1v1"]
 [editable path="Button_Credits"]
+[editable path="TextureButton_vs_bots"]

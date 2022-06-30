@@ -115,10 +115,12 @@ public class Projectile : Sprite
       if (IsPositive)
       {
         Target.PositiveTokenValue += 1;
+        Target.OnBuffAnimate();
       }
       else
       {
         Target.NegativeTokenValue -= 1;
+        Target.OnHitAnimate();
       }
     }
 

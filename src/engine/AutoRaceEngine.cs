@@ -53,6 +53,25 @@ public class AutoRaceEngine
     return _turnManager.PlayerTurns;
   }
 
+  public IEnumerable<int> GetTriggeredAbilitySlots()
+  {
+    var triggeredAbilitySlots = new List<int>();
+    var abilityPhases = new List<TurnPhases>() {
+      TurnPhases.Abilities1, TurnPhases.Abilities2, TurnPhases.Abilities3, TurnPhases.Abilities4, TurnPhases.Abilities5 };
+    foreach (var player in _players)
+    {
+      foreach (var abilityPhase in abilityPhases)
+      {
+        var turnResult = CalculatePlayerTurn(player, abilityPhase);
+        if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
+        {
+          triggeredAbilitySlots.Add(player.Id);
+        }
+      }
+    }
+    return triggeredAbilitySlots;
+  }
+
   public void Clear()
   {
     _turnManager.ClearPlayerTurns();
@@ -84,10 +103,19 @@ public class AutoRaceEngine
         StartTurnPhase();
         break;
       case TurnPhases.Abilities1:
-        Abilities1Phase();
+        AbilitiesPhase(_phase);
         break;
       case TurnPhases.Abilities2:
-        Abilities2Phase();
+        AbilitiesPhase(_phase);
+        break;
+      case TurnPhases.Abilities3:
+        AbilitiesPhase(_phase);
+        break;
+      case TurnPhases.Abilities4:
+        AbilitiesPhase(_phase);
+        break;
+      case TurnPhases.Abilities5:
+        AbilitiesPhase(_phase);
         break;
       case TurnPhases.Move:
         MovePhase();
@@ -113,23 +141,18 @@ public class AutoRaceEngine
     Console.WriteLine($"engine turn: {_turn}");
   }
 
-  private void Abilities1Phase()
+  private void AbilitiesPhase(TurnPhases phase)
   {
-    Console.WriteLine("Abilities1Phase");
-    foreach (var player in _players)
+    if (!phase.ToString().StartsWith("Abilities"))
     {
-      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player, TurnPhases.Abilities1));
+      Console.WriteLine($"Error: given phase is not an ability phase: {phase}");
+      throw new Exception($"Error: given phase is not an ability phase: {phase}");
     }
-    _turnManager.DistributeTokens();
-  }
-
-  private void Abilities2Phase()
-  {
-    Console.WriteLine("Abilities2Phase");
+    Console.WriteLine($"{phase} Phase");
     _turnManager.ClearPlayerTurns();
     foreach (var player in _players)
     {
-      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player, TurnPhases.Abilities2));
+      _turnManager.AddPlayerTurn(CalculatePlayerTurn(player, phase));
     }
     _turnManager.DistributeTokens();
   }
@@ -252,22 +275,28 @@ public class AutoRaceEngine
       {
         moveTokenType = MoveTokenType.Additive;
       }
-      var token = new MoveToken
-      {
-        CreatedBy = player.Id,
-        Duration = moveTokenAbililty.Duration.ToInt(),
-        Type = moveTokenType,
-        Target = target,
-        Value = moveTokenAbililty.Value.ToInt()
-      };
 
-      if (tokensGiven.ContainsKey(target))
+      var individualTokenValue = moveTokenAbililty.Value.ToInt() >= 0 ? 1 : -1;
+      var numTokens = Math.Abs(moveTokenAbililty.Value.ToInt());
+      for (int i = 0; i < numTokens; i++)
       {
-        tokensGiven[target].Add(token);
-      }
-      else
-      {
-        tokensGiven.Add(target, new List<Token> { token });
+        var token = new MoveToken
+        {
+          CreatedBy = player.Id,
+          Duration = moveTokenAbililty.Duration.ToInt(),
+          Type = moveTokenType,
+          Target = target,
+          Value = individualTokenValue
+        };
+
+        if (tokensGiven.ContainsKey(target))
+        {
+          tokensGiven[target].Add(token);
+        }
+        else
+        {
+          tokensGiven.Add(target, new List<Token> { token });
+        }
       }
     }
     return tokensGiven;
@@ -371,16 +400,11 @@ public enum TurnPhases
   PreRace = -1,
   Start = 0,
   Abilities1 = 1,
-  AbilitiesP0 = 2,
-  AbilitiesP1 = 3,
-  AbilitiesP2 = 4,
-  AbilitiesP3 = 5,
-  Abilities2 = 6,
-  Abilities2P0 = 7,
-  Abilities2P1 = 8,
-  Abilities2P2 = 9,
-  Abilities2P3 = 10,
-  Move = 11,
-  End = 12,
+  Abilities2 = 2,
+  Abilities3 = 3,
+  Abilities4 = 4,
+  Abilities5 = 5,
+  Move = 6,
+  End = 7,
   HandleRemainingTokens = -2
 }

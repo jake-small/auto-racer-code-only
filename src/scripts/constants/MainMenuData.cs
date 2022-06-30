@@ -6,7 +6,9 @@ public static class MainMenuData
   public const string ButtonRandomFirstName = "HBoxContainer/Button_RandomFirstName";
   public const string ButtonRandomAdjective = "HBoxContainer/Button_RandomAdjective";
   public const string ButtonRandomName = "Button_RandomName";
-  public const string ButtonStart = "Button_Start";
+  public const string ButtonStartFFA = "HBoxContainer2/Button_FFA";
+  public const string ButtonStart1v1 = "HBoxContainer2/Button_1v1";
+  public const string ButtonToggleVsBots = "TextureButton_vs_bots";
   // public const string ButtonQuit = "HBoxContainer/Button_Quit";
   public const string ButtonCredits = "Button_Credits";
   public const string ButtonSkinPrevious = "HBoxContainerCharSelect/Button_Prev_Skin";

@@ -8,26 +8,23 @@ public class RaceMain : Node2D
   private AutoRaceEngine _autoRaceEngine;
   private RaceViewManager _raceViewManager;
   private TextureButton _forwardButton;
-  // private TextureButton _backButton;
   private TextureButton _endRaceButton;
   private TextureButton _autoPlayButton;
   private Label _labelTurnPhase;
-  // private RichTextLabel _labelGameState;
-  // private Label[] _labelCardArray;
   private string _updateTurnPhaseLabel;
-  // private string _updatePositionStateLabel;
-  // private List<string> _updateCardStateLabel = new List<string>();
-  // private List<string> _positionStates = new List<string>();
-  // private List<List<string>> _cardStates = new List<List<string>>();
   private List<CardScript> _displayCards;
   private List<Sprite> _slotTurnIndicators;
-  private int _currentTurnView;
+  private List<Sprite> _phaseAbilityIndicators;
+  private List<Sprite> _phaseMoveIndicators;
+  private Sprite _phaseRemainingTokensIndicator;
+  private int _currentTurn;
   private bool _raceOver = false;
   private bool _isPaused = false;
   private float _pauseDuration = 0;
   private bool _waitingOnCardEffect = false;
   private bool _waitingOnMovement = false;
   private bool _autoplay = false;
+  private int _abilityPhasePlayerId = -1;
 
   public override void _Ready()
   {
@@ -36,7 +33,7 @@ public class RaceMain : Node2D
 
     var players = _autoRaceEngine.GetPlayers();
     LoadPlayerNames(players);
-    _currentTurnView = _autoRaceEngine.GetTurn();
+    _currentTurn = _autoRaceEngine.GetTurn();
 
     var tileMapManager = new TileMapManager(
       new[] {
@@ -55,23 +52,12 @@ public class RaceMain : Node2D
       characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
-    // _labelGameState = GetNode(RaceSceneData.RichTextLabel_GameState) as RichTextLabel;
-
-    // var labelCardP1 = GetNode(RaceSceneData.Label_CardP1) as Label;
-    // var labelCardP2 = GetNode(RaceSceneData.Label_CardP2) as Label;
-    // var labelCardP3 = GetNode(RaceSceneData.Label_CardP3) as Label;
-    // var labelCardP4 = GetNode(RaceSceneData.Label_CardP4) as Label;
-    // _labelCardArray = new Label[] {
-    //   labelCardP1, labelCardP2, labelCardP3, labelCardP4
-    // };
 
     _endRaceButton = GetNode<TextureButton>(RaceSceneData.ButtonFinishPath);
     _endRaceButton.Disabled = true;
     _endRaceButton.Connect("pressed", this, nameof(Button_finish_pressed));
     _forwardButton = GetNode<TextureButton>(RaceSceneData.ButtonForwardPath);
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
-    // _backButton = GetNode<TextureButton>(RaceSceneData.ButtonBackPath);
-    // _backButton.Connect("pressed", this, nameof(Button_back_pressed));
     _autoPlayButton = GetNode<TextureButton>(RaceSceneData.ButtonAutoPlay);
     _autoPlayButton.Connect("pressed", this, nameof(Button_autoplay_pressed));
 
@@ -81,6 +67,22 @@ public class RaceMain : Node2D
       GetNode<Sprite>(RaceSceneData.SelectedSlot2),
       GetNode<Sprite>(RaceSceneData.SelectedSlot3)
     };
+
+    _phaseAbilityIndicators = new List<Sprite>{
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "1"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "2"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "3"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "4"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorAbilitiesPrefix + "5"),
+    };
+    _phaseMoveIndicators = new List<Sprite>{
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "1"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "2"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "3"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "4"),
+      GetNode<Sprite>(RaceSceneData.PhaseIndicatorMovePrefix + "5"),
+    };
+    _phaseRemainingTokensIndicator = GetNode<Sprite>(RaceSceneData.PhaseIndicatorRemainingTokens);
   }
 
   public override void _Process(float delta)
@@ -90,18 +92,6 @@ public class RaceMain : Node2D
       _labelTurnPhase.Text = _updateTurnPhaseLabel;
       _updateTurnPhaseLabel = "";
     }
-
-    // if (!string.IsNullOrWhiteSpace(_updatePositionStateLabel))
-    // {
-    //   _labelGameState.Text = _updatePositionStateLabel;
-    //   _updatePositionStateLabel = "";
-    // }
-
-    // if (_updateCardStateLabel.Any())
-    // {
-    //   UpdateCardStates(_updateCardStateLabel);
-    //   _updateCardStateLabel.Clear();
-    // }
 
     if (_raceOver && _endRaceButton.Disabled == true)
     {
@@ -129,6 +119,7 @@ public class RaceMain : Node2D
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
+        Pause(0.5f);
       }
     }
 
@@ -138,6 +129,7 @@ public class RaceMain : Node2D
       if (!_raceViewManager.AreCharactersMoving && !_raceViewManager.IsScrolling)
       {
         _waitingOnMovement = false;
+        Pause(1f);
       }
     }
 
@@ -203,6 +195,14 @@ public class RaceMain : Node2D
       characterInstance.Id = player.Id;
       characters.Add(characterInstance);
       AddChild(characterInstance);
+
+      var cardSlotPosition = GetNode<Sprite>($"CardSlots/slot_{player.Id}").Position;
+      var characterUiInstance = (CharacterScript)characterScene.Instance();
+      characterUiInstance.CharacterSkin = player.Skin;
+      characterUiInstance.Position = new Vector2(cardSlotPosition.x - 64, cardSlotPosition.y + 64);
+      characterUiInstance.AnimationState = AnimationStates.facing_front;
+      characterUiInstance.Id = player.Id;
+      AddChild(characterUiInstance);
     }
     return characters;
   }
@@ -271,117 +271,77 @@ public class RaceMain : Node2D
     }
   }
 
-  // TODO Big Refactor Needed Here
   private void Button_forward_pressed()
   {
     GD.Print("Forward button pressed");
     AdvanceRace();
   }
 
-  // private void Button_back_pressed()
-  // {
-  //   GD.Print("Back button pressed");
-  //   _currentTurnView = _currentTurnView - 1;
-  //   if (_currentTurnView < 2)
-  //   {
-  //     _currentTurnView = 1;
-  //     _backButton.Disabled = true;
-  //   }
-  //   _forwardButton.Disabled = false;
-  //   _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
-  //   GD.Print($"current turn after back press: {_currentTurnView}");
-  //   // GD.Print($"position states after back press: {_positionStates.Count()}");
-  //   // _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
-  //   if (_cardStates.Count > _currentTurnView - 1)
-  //   {
-  //     _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
-  //   }
-  // }
-
-  // private void UpdateCardStates(List<string> states)
-  // {
-  //   var p = 0;
-  //   foreach (var state in states)
-  //   {
-  //     GD.Print($"Updating Card States: {state}");
-  //     _labelCardArray[p].Text = state;
-  //     p = p + 1;
-  //   }
-  // }
-
   private void Button_autoplay_pressed()
   {
     _autoplay = !_autoplay;
   }
 
+  // TODO Big Refactor Needed Here
   private void AdvanceRace()
   {
-    if (_autoRaceEngine.GetTurn() != _currentTurnView)
+    if (_autoRaceEngine.GetTurn() != _currentTurn)
     {
-      _currentTurnView = _currentTurnView + 1;
-      GD.Print($"history turn view: {_currentTurnView}");
-      // GD.Print($"position states after forward history press: {_positionStates.Count()}");
-      _updateTurnPhaseLabel = $"Viewing T{_currentTurnView}";
-      // _updatePositionStateLabel = _positionStates[_currentTurnView - 1];
-      // if (_cardStates.Count > _currentTurnView - 1)
-      // {
-      //   _updateCardStateLabel.AddRange(_cardStates[_currentTurnView - 1]);
-      // }
-      // _backButton.Disabled = false;
+      _currentTurn = _currentTurn + 1;
+      GD.Print($"history turn view: {_currentTurn}");
+      _updateTurnPhaseLabel = $"Viewing T{_currentTurn}";
       return;
     }
 
-    if (_raceOver && _autoRaceEngine.GetTurn() == _currentTurnView)
+    if (_raceOver && _autoRaceEngine.GetTurn() == _currentTurn)
     {
       _forwardButton.Disabled = true;
       return;
     }
 
-    var didWin = _autoRaceEngine.AdvanceRace();
+    // If we start and are in an ability phase, handle the remaining players
     var turnPhase = _autoRaceEngine.GetTurnPhase();
-    if (turnPhase == TurnPhases.Start)
+    if (_abilityPhasePlayerId != -1
+      && (turnPhase == TurnPhases.Abilities1 || turnPhase == TurnPhases.Abilities3 || turnPhase == TurnPhases.Abilities4
+          || turnPhase == TurnPhases.Abilities5))
     {
-      didWin = _autoRaceEngine.AdvanceRace();
-      turnPhase = _autoRaceEngine.GetTurnPhase();
+      HandleAbilitiesPhase(turnPhase);
+      return;
     }
 
-    _currentTurnView = _autoRaceEngine.GetTurn();
-    GD.Print($"current turn: {_currentTurnView}");
+    var didWin = _autoRaceEngine.AdvanceRace();
+    turnPhase = _autoRaceEngine.GetTurnPhase();
+
+    _currentTurn = _autoRaceEngine.GetTurn();
+    GD.Print($"current turn: {_currentTurn}");
 
     if (turnPhase == TurnPhases.Abilities1)
     {
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 1";
+      TogglePhaseIndicator(_currentTurn, turnPhase);
+      _updateTurnPhaseLabel = $"T{_currentTurn}: Abilities Phase 1";
       var turnResults = _autoRaceEngine.GetTurnResults();
-      // var currentCardStates = new List<string>();
       var p = 0;
       foreach (var turnResult in turnResults)
       {
-        var card = turnResult.Player.Cards[_currentTurnView - 1];
+        var card = turnResult.Player.Cards[_currentTurn - 1];
         LoadCardScript(card, p);
-        // var cardState = $"{card.GetName()}\n{card.BaseMove}\n{card.GetDescription()}";
-        // _labelCardArray[p].Text = cardState;
-        // currentCardStates.Add(cardState);
         p = p + 1;
       }
-      // _cardStates.Add(currentCardStates);
-    }
-
-    if (turnPhase == TurnPhases.AbilitiesP0 || turnPhase == TurnPhases.AbilitiesP1 || turnPhase == TurnPhases.AbilitiesP2 || turnPhase == TurnPhases.AbilitiesP3
-      || turnPhase == TurnPhases.Abilities2P0 || turnPhase == TurnPhases.Abilities2P1 || turnPhase == TurnPhases.Abilities2P2 || turnPhase == TurnPhases.Abilities2P3)
-    {
+      HideSlotTurnIndicators();
+      HighlightUpcomingAbilities();
       HandleAbilitiesPhase(turnPhase);
     }
-
-    if (turnPhase == TurnPhases.Abilities2)
+    else if (turnPhase == TurnPhases.Abilities2 || turnPhase == TurnPhases.Abilities3 || turnPhase == TurnPhases.Abilities4 || turnPhase == TurnPhases.Abilities5)
     {
-      HideSlotTurnIndicators();
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: Abilities Phase 2";
+      _updateTurnPhaseLabel = $"T{_currentTurn}: Abilities Phase {(int)turnPhase}";
+      HandleAbilitiesPhase(turnPhase);
     }
 
     if (turnPhase == TurnPhases.Move || turnPhase == TurnPhases.HandleRemainingTokens)
     {
+      TogglePhaseIndicator(_currentTurn, turnPhase);
       var phase = turnPhase == TurnPhases.Move ? "Move" : "Handle Remaining Tokens";
-      _updateTurnPhaseLabel = $"T{_currentTurnView}: {phase}";
+      _updateTurnPhaseLabel = $"T{_currentTurn}: {phase}";
       HideSlotTurnIndicators();
       var turnResults = _autoRaceEngine.GetTurnResults();
       _autoRaceEngine.PrintPositions();
@@ -390,26 +350,8 @@ public class RaceMain : Node2D
       {
         _waitingOnMovement = true;
         _raceViewManager.MovePlayers(turnResults);
-        // var positionState = EngineTesting.GetPositionTextView(turnResults);
-        // _updatePositionStateLabel = positionState;
-        // _positionStates.Add(positionState);
       }
     }
-
-    if (turnPhase == TurnPhases.Move)
-    {
-      // didWin = _autoRaceEngine.AdvanceRace();
-      didWin = _autoRaceEngine.AdvanceRace();
-      turnPhase = _autoRaceEngine.GetTurnPhase();
-    }
-    // if (turnPhase == TurnPhases.End || turnPhase == TurnPhases.HandleRemainingTokens)
-    // {
-    //   _backButton.Disabled = false;
-    // }
-    // else
-    // {
-    //   _backButton.Disabled = true;
-    // }
 
     if (didWin)
     {
@@ -423,21 +365,30 @@ public class RaceMain : Node2D
 
   private void HandleAbilitiesPhase(TurnPhases turnPhase)
   {
-    // _updateTurnPhaseLabel = $"T{_currentTurnView}: {turnPhase}";
-    var turnResults = _autoRaceEngine.GetTurnResults();
-    var turnId = int.Parse(turnPhase.ToString().Last().ToString());
-    var abilityPhase = turnPhase.ToString().StartsWith("Abilities2") ? TurnPhases.Abilities2 : TurnPhases.Abilities1;
-    var turnResult = turnResults.Where(r => r.Phase == abilityPhase).FirstOrDefault(r => r.Player.Id == turnId);
+    if (_abilityPhasePlayerId == -1)
+    {
+      _abilityPhasePlayerId = 0;
+    }
+    var turnResult = _autoRaceEngine.GetTurnResults().Where(t => t.Phase == turnPhase).FirstOrDefault(t => t.Player.Id == _abilityPhasePlayerId);
     if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
     {
-      ShowSlotTurnIndicator(turnId, true);
+      ShowSlotTurnIndicator(turnResult.Player.Id, true);
       _raceViewManager.GiveTokens(turnResult);
       _waitingOnCardEffect = true;
     }
-    else
+    // else
+    // {
+    //   ShowSlotTurnIndicator(turnResult.Player.Id, false);
+    //   // Pause(0.3f);
+    // }
+    _abilityPhasePlayerId = _abilityPhasePlayerId + 1;
+    if (_abilityPhasePlayerId > GameData.NumPlayers - 1)
     {
-      ShowSlotTurnIndicator(turnId, false);
-      Pause(0.3f);
+      _abilityPhasePlayerId = -1;
+      if (turnPhase == TurnPhases.Abilities5)
+      {
+        Pause(0.5f);
+      }
     }
   }
 
@@ -477,34 +428,31 @@ public class RaceMain : Node2D
   private void DisplaySelectedCardData(Card card, int playerId)
   {
     var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
-    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
-    var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
-    var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    var selectedCardPhaseLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedPhaseRelPath);
-    var selectedCardTierLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedTierRelPath);
-    selectedCardPanel.Visible = true;
-    selectedCardNameLabel.Text = card.GetName();
-    selectedCardDescriptionLabel.Text = card.GetDescription();
-    selectedCardPhaseLabel.Text = card.GetAbilityPhase();
-    selectedCardTierLabel.Text = $"Tier {card.Tier}";
+    var selectedCardInfo = GetNode<CardInfoScript>(selectedCardPath);
+    selectedCardInfo.SetCard(card);
   }
 
   private void HideSelectedCardData(int playerId)
   {
     var selectedCardPath = RaceSceneData.ContainerSelectedCard + playerId.ToString();
-    var selectedCardPanel = GetNode<Node2D>(selectedCardPath);
-    var selectedCardNameLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedNameRelPath);
-    var selectedCardDescriptionLabel = GetNode<Label>(selectedCardPath + RaceSceneData.LabelSelectedDescriptionRelPath);
-    selectedCardPanel.Visible = false;
-    selectedCardNameLabel.Text = "";
-    selectedCardDescriptionLabel.Text = "";
+    var selectedCardInfo = GetNode<CardInfoScript>(selectedCardPath);
+    selectedCardInfo.Clear();
   }
 
-  private void ShowSlotTurnIndicator(int turnId, bool abilityActivated)
+  private void HighlightUpcomingAbilities()
+  {
+    var triggeredAbilitySlots = _autoRaceEngine.GetTriggeredAbilitySlots();
+    foreach (var slot in triggeredAbilitySlots)
+    {
+      ShowSlotTurnIndicator(slot, false);
+    }
+  }
+
+  private void ShowSlotTurnIndicator(int turnId, bool isOpaque)
   {
     _slotTurnIndicators[turnId].Visible = true;
-    var transparentValue = abilityActivated ? 1f : 0.5f;
-    _slotTurnIndicators[turnId].Modulate = new Color(1, 0.16f, 0.24f, transparentValue);
+    var transparentValue = isOpaque ? 1f : 0.5f;
+    _slotTurnIndicators[turnId].Modulate = new Color(212f / 255f, 26f / 255f, 48f / 255f, transparentValue);
   }
 
   private void HideSlotTurnIndicators()
@@ -512,6 +460,30 @@ public class RaceMain : Node2D
     foreach (var indicator in _slotTurnIndicators)
     {
       indicator.Visible = false;
+    }
+  }
+
+  private void TogglePhaseIndicator(int turn, TurnPhases turnPhase)
+  {
+    var _transparentValue = 0.4f;
+    for (int i = 0; i < _phaseAbilityIndicators.Count; i++)
+    {
+      _phaseAbilityIndicators[i].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
+      _phaseMoveIndicators[i].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, _transparentValue);
+    }
+
+    if (turnPhase == TurnPhases.Abilities1 || turnPhase == TurnPhases.Abilities2 || turnPhase == TurnPhases.Abilities3
+      || turnPhase == TurnPhases.Abilities4 || turnPhase == TurnPhases.Abilities5)
+    {
+      _phaseAbilityIndicators[turn - 1].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
+    }
+    else if (turnPhase == TurnPhases.Move)
+    {
+      _phaseMoveIndicators[turn - 1].Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
+    }
+    else if (turnPhase == TurnPhases.HandleRemainingTokens)
+    {
+      _phaseRemainingTokensIndicator.Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
     }
   }
 

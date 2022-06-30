@@ -8,16 +8,13 @@ public class PrepMain : Node2D
   private Node2D _firebaseNode;
   private int? _newCoinTotal;
   private Label _coinTotalLabel;
-  private Node2D _selectedCardPanel;
-  private Label _selectedCardNameLabel;
-  private Label _selectedCardDescriptionLabel;
-  private Label _selectedCardPhaseLabel;
-  private Label _selectedCardTierLabel;
+  private CardInfoScript _selectedCardInfo;
   private CardScript _selectedCard = null;
   private CostButtonUi _rerollButton;
   private TextureButton _freezeButton;
   private CostButtonUi _sellButton;
   private TextureButton _goButton;
+  private AnimationPlayer _animationPlayerGold;
   private List<Node2D> _cardCostContainers;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
@@ -55,12 +52,7 @@ public class PrepMain : Node2D
     raceLabel.Text = $"{GameManager.CurrentRace + 1}/{GameManager.TotalRaces}";
     var heartLabel = GetNode<Label>(PrepSceneData.LabelHeartsPath);
     heartLabel.Text = GameManager.LifeTotal.ToString();
-
-    _selectedCardPanel = GetNode<Node2D>(PrepSceneData.ContainerSelectedCard);
-    _selectedCardNameLabel = GetNode<Label>(PrepSceneData.LabelSelectedNamePath);
-    _selectedCardDescriptionLabel = GetNode<Label>(PrepSceneData.LabelSelectedDescriptionPath);
-    _selectedCardPhaseLabel = GetNode<Label>(PrepSceneData.LabelSelectedPhasePath);
-    _selectedCardTierLabel = GetNode<Label>(PrepSceneData.LabelSelectedTierPath);
+    _selectedCardInfo = GetNode<CardInfoScript>(PrepSceneData.SelectedCardInfo);
     _coinTotalLabel = GetNode<Label>(PrepSceneData.LabelCoinsPath);
     _debugInventoryLabel = GetNode<Label>(PrepSceneData.LabelDebugInventory);
 
@@ -88,6 +80,7 @@ public class PrepMain : Node2D
     _goButton = GetNode<TextureButton>(PrepSceneData.ButtonGoPath);
     _goButton.Connect("pressed", this, nameof(Button_go_pressed));
     _goButton.Disabled = false;
+    _animationPlayerGold = GetNode<AnimationPlayer>(PrepSceneData.AnimationPlayerGoldPath);
 
     PlayerInventoryFill();
     var frozenCards = GetFrozenCards().ToList();
@@ -111,11 +104,11 @@ public class PrepMain : Node2D
 
     if (_waitingOnCardEffect)
     {
-      SetButtonsDisabled(true);
+      DisableNonCardActionButtons();
       if (GetTree().GetNodesInGroup(RaceSceneData.GroupProjectiles).Count <= 0)
       {
         _waitingOnCardEffect = false;
-        SetButtonsDisabled(false);
+        EnableNonCardActionButtons();
       }
     }
 
@@ -324,12 +317,19 @@ public class PrepMain : Node2D
   {
     _goButton.Disabled = true;
     Console.WriteLine("Go button pressed");
+    var goButtonLabel = _goButton.GetNode<Label>("Label");
+    goButtonLabel.Text = "searching...";
     var prepAbilityResults = GameManager.PrepEngine.CalculateEndTurnAbilities();
     AnimatePrepAbilityEffects(prepAbilityResults);
     // TODO: wait for animations to finish
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
     GameManager.ShowTutorial = false;
+    if (GameManager.VsBots)
+    {
+      GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
+      return;
+    }
     var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
     _firebaseNode.Call("SendPlayerTurn", this, GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
       GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
@@ -356,14 +356,6 @@ public class PrepMain : Node2D
   {
     Console.WriteLine("Sell button pressed");
     SellCard();
-  }
-
-  private void SetButtonsDisabled(bool disabled)
-  {
-    _rerollButton.Disabled = disabled;
-    _freezeButton.Disabled = disabled;
-    _sellButton.Disabled = disabled;
-    _goButton.Disabled = disabled;
   }
 
   private void Reroll()
@@ -405,6 +397,18 @@ public class PrepMain : Node2D
     {
       cardScript.Selected = false;
     }
+  }
+
+  private void EnableNonCardActionButtons()
+  {
+    _rerollButton.Disabled = false;
+    _goButton.Disabled = false;
+  }
+
+  private void DisableNonCardActionButtons()
+  {
+    _rerollButton.Disabled = true;
+    _goButton.Disabled = true;
   }
 
   private void EnableCardActionButtons(bool isInShop)
@@ -483,6 +487,7 @@ public class PrepMain : Node2D
     cardInstance.Connect(nameof(CardScript.cardSelected), this, nameof(_on_Card_selected));
     cardInstance.Connect(nameof(CardScript.cardDeselected), this, nameof(_on_Card_deselected));
     AddChild(cardInstance);
+    cardInstance.OnShopSpawn();
   }
 
   private void CardShopClear()
@@ -552,7 +557,11 @@ public class PrepMain : Node2D
 
     if (targetCardScript.Card.Level >= droppedCardScript.Card.Level || fromShopInventory)
     {
-      targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
+      var leveledUp = targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
+      if (leveledUp)
+      {
+        targetCardScript.OnLevelUp();
+      }
       targetCardScript.Card.CombineBaseMove(droppedCardScript.Card.BaseMove);
       targetCardScript.UpdateUi();
       if (fromShopInventory)
@@ -564,10 +573,15 @@ public class PrepMain : Node2D
         GameManager.PrepEngine.PlayerInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
       }
       droppedCardScript.QueueFree(); // Remove dropped card node
+      targetCardScript.OnExpGainAnimate();
     }
     else
     {
-      droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
+      var leveledUp = droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
+      if (leveledUp)
+      {
+        droppedCardScript.OnLevelUp();
+      }
       droppedCardScript.Card.CombineBaseMove(targetCardScript.Card.BaseMove);
       DropCard(droppedCardScript, targetCardScript.Position);
       var targetSlot = targetCardScript.Slot;
@@ -580,6 +594,7 @@ public class PrepMain : Node2D
       }
       droppedCardScript.Slot = targetSlot;
       targetCardScript.QueueFree(); // Remove dropped card node
+      droppedCardScript.OnExpGainAnimate();
     }
     return true;
   }
@@ -624,11 +639,7 @@ public class PrepMain : Node2D
       _cardCostContainers[cardScript.Slot].Visible = true;
     }
     var card = cardScript.Card;
-    _selectedCardPanel.Visible = true;
-    _selectedCardNameLabel.Text = card.GetName();
-    _selectedCardDescriptionLabel.Text = card.GetDescription();
-    _selectedCardPhaseLabel.Text = card.GetAbilityPhase();
-    _selectedCardTierLabel.Text = $"Tier {card.Tier}";
+    _selectedCardInfo.SetCard(card);
     _sellButton.Cost = GameManager.PrepEngine.Bank.GetSellValue(card);
     _sellButton.CostVisible = true;
   }
@@ -639,11 +650,7 @@ public class PrepMain : Node2D
     {
       container.Visible = false;
     }
-    _selectedCardPanel.Visible = false;
-    _selectedCardNameLabel.Text = "";
-    _selectedCardDescriptionLabel.Text = "";
-    _selectedCardPhaseLabel.Text = "";
-    _selectedCardTierLabel.Text = "";
+    _selectedCardInfo.Clear();
     _sellButton.CostVisible = false;
   }
 
@@ -752,23 +759,40 @@ public class PrepMain : Node2D
   // TODO: try to solve these problems with closures
   private void RerollCallback(Card card)
   {
+    _rerollButton.OnHitEffect();
     Reroll();
   }
 
   private void AddToBankCallback(Card card)
   {
     _newCoinTotal = GameManager.PrepEngine.Bank.AddCoins(1);
+    _animationPlayerGold.Stop(true);
+    _animationPlayerGold.Play("OnGoldGain");
   }
 
   private void AddBaseMoveCallBack(Card card)
   {
     card.BaseMove += 1;
+    var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == card);
+    if (targetCardScript != null)
+    {
+      targetCardScript.OnBuffAnimate();
+    }
     UpdateUiForAllCards();
   }
 
   private void AddExpCallBack(Card card)
   {
-    card.AddExp(1);
+    var leveledUp = card.AddExp(1);
+    var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == card);
+    if (targetCardScript != null)
+    {
+      if (leveledUp)
+      {
+        targetCardScript.OnLevelUp();
+      }
+      targetCardScript.OnExpGainAnimate();
+    }
     UpdateUiForAllCards();
   }
 }

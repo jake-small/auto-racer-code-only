@@ -18,6 +18,7 @@ public static class RaceSceneData
   public const string CharacterTokenNegativeLabel = "Label_token_negative";
   public const string CharacterScenePath = "res://src/scenes/objects/characters/character.tscn";
   public const string CharacterSpritePath = "AnimatedSprite";
+  public const string CharacterAnimationPlayerPath = "AnimatedSprite/AnimationPlayer";
   public const string CharacterSoftLeftBoundPath = "Positions/p3";
   public const string CharacterSoftRightBoundPath = "Positions/p11";
   public const string CharacterHardLeftBoundPath = "Positions/p0";
@@ -50,4 +51,9 @@ public static class RaceSceneData
   public const string LabelSelectedDescriptionRelPath = "/MarginContainer/VBoxContainer/Label_selected_description";
   public const string LabelSelectedPhaseRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_phase";
   public const string LabelSelectedTierRelPath = "/MarginContainer/VBoxContainer2/HSplitContainer/Label_selected_tier";
+
+  // Phase Indicator
+  public const string PhaseIndicatorAbilitiesPrefix = "Phase_display/Abilities";
+  public const string PhaseIndicatorMovePrefix = "Phase_display/Move";
+  public const string PhaseIndicatorRemainingTokens = "Phase_display/RemainingTokens";
 }

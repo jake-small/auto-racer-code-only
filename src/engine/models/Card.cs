@@ -89,21 +89,33 @@ public class Card : ICloneable
 
   public string GetAbilityPhase()
   {
-    var phase1 = Abilities.MoveTokenAbilities.Any(a => a.GetAbilityPhase() == AbilityPhase.Abilities1);
-    var phase2 = Abilities.MoveTokenAbilities.Any(a => a.GetAbilityPhase() == AbilityPhase.Abilities2);
-    if (phase1 && phase2)
+    if (Abilities == null || !Abilities.MoveTokenAbilities.Any())
     {
-      return "Phases 1 & 2";
+      return "";
     }
-    else if (phase1)
+    var phases = new HashSet<string>();
+    foreach (var ability in Abilities.MoveTokenAbilities)
     {
-      return "Phase 1";
+      phases.Add(ability.GetAbilityPhase().ToString().Last().ToString());
     }
-    else if (phase2)
+
+    if (!phases.Any())
     {
-      return "Phase 2";
+      return "";
     }
-    return "";
+
+    if (phases.Count() == 1)
+    {
+      return $"p{phases.First()}";
+    }
+
+    var phaseText = "p";
+    foreach (var phase in phases)
+    {
+      phaseText = phaseText + $"{phase},";
+    }
+    phaseText.Remove(phaseText.Length - 2, 2); // remove last two characters from string: ", "
+    return phaseText;
   }
 
   public bool IsMaxLevel()
@@ -111,11 +123,11 @@ public class Card : ICloneable
     return Level == MaxCardLevel;
   }
 
-  public void AddExp(int exp)
+  public bool AddExp(int exp)
   {
     if (Level >= MaxCardLevel)
     {
-      return;
+      return false;
     }
     Exp += exp;
     if (Exp >= ExpToLvl)
@@ -124,13 +136,15 @@ public class Card : ICloneable
       if (Level >= MaxCardLevel)
       {
         Exp = ExpToLvl;
-        return;
+        return true;
       }
       var extraExp = Exp - ExpToLvl;
       ExpToLvl = ExpToLvl + 1;
       Exp = 1;
       AddExp(extraExp);
+      return true;
     }
+    return false;
   }
 
   public void CombineBaseMove(int otherBaseMove)

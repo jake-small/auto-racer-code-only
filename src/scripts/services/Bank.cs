@@ -62,7 +62,7 @@ public class Bank
   {
     EngineTesting.Log("Sold card", _shouldLog);
     CoinTotal = CoinTotal + GetSellValue(card);
-    var sellResults = GameManager.PrepEngine.CalculateOnSellAbilities();
+    var sellResults = GameManager.PrepEngine.CalculateOnSellAbilities(card);
     var soldResults = GameManager.PrepEngine.CalculateOnSoldAbilities(card);
     var prepAbilityResults = sellResults.Concat(soldResults);
     return new BankActionResult(true, CoinTotal, prepAbilityResults);
