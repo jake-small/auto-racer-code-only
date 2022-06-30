@@ -462,19 +462,20 @@ position = Vector2( 1680, 700 )
 [node name="CardSlots" type="Node2D" parent="."]
 
 [node name="slot_0" parent="CardSlots" instance=ExtResource( 3 )]
+position = Vector2( 310, 625 )
 
 [node name="slot_1" parent="CardSlots" instance=ExtResource( 3 )]
-position = Vector2( 720, 625 )
+position = Vector2( 693, 625 )
 
 [node name="Label_PlayerName" parent="CardSlots/slot_1" index="0"]
 margin_top = -58.0
 margin_bottom = -18.0
 
 [node name="slot_2" parent="CardSlots" instance=ExtResource( 3 )]
-position = Vector2( 1050, 625 )
+position = Vector2( 1077, 625 )
 
 [node name="slot_3" parent="CardSlots" instance=ExtResource( 3 )]
-position = Vector2( 1380, 625 )
+position = Vector2( 1460, 625 )
 
 [node name="Label_PlayerName" parent="CardSlots/slot_3" index="0"]
 margin_top = -58.0

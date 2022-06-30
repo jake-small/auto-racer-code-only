@@ -195,6 +195,14 @@ public class RaceMain : Node2D
       characterInstance.Id = player.Id;
       characters.Add(characterInstance);
       AddChild(characterInstance);
+
+      var cardSlotPosition = GetNode<Sprite>($"CardSlots/slot_{player.Id}").Position;
+      var characterUiInstance = (CharacterScript)characterScene.Instance();
+      characterUiInstance.CharacterSkin = player.Skin;
+      characterUiInstance.Position = new Vector2(cardSlotPosition.x - 64, cardSlotPosition.y + 64);
+      characterUiInstance.AnimationState = AnimationStates.facing_front;
+      characterUiInstance.Id = player.Id;
+      AddChild(characterUiInstance);
     }
     return characters;
   }
