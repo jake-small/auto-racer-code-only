@@ -123,11 +123,11 @@ public class Card : ICloneable
     return Level == MaxCardLevel;
   }
 
-  public void AddExp(int exp)
+  public bool AddExp(int exp)
   {
     if (Level >= MaxCardLevel)
     {
-      return;
+      return false;
     }
     Exp += exp;
     if (Exp >= ExpToLvl)
@@ -136,13 +136,15 @@ public class Card : ICloneable
       if (Level >= MaxCardLevel)
       {
         Exp = ExpToLvl;
-        return;
+        return true;
       }
       var extraExp = Exp - ExpToLvl;
       ExpToLvl = ExpToLvl + 1;
       Exp = 1;
       AddExp(extraExp);
+      return true;
     }
+    return false;
   }
 
   public void CombineBaseMove(int otherBaseMove)

@@ -14,6 +14,7 @@ public class PrepMain : Node2D
   private TextureButton _freezeButton;
   private CostButtonUi _sellButton;
   private TextureButton _goButton;
+  private AnimationPlayer _animationPlayerGold;
   private List<Node2D> _cardCostContainers;
   private Label _debugInventoryLabel;
   private Timer _dropCardTimer;
@@ -79,6 +80,7 @@ public class PrepMain : Node2D
     _goButton = GetNode<TextureButton>(PrepSceneData.ButtonGoPath);
     _goButton.Connect("pressed", this, nameof(Button_go_pressed));
     _goButton.Disabled = false;
+    _animationPlayerGold = GetNode<AnimationPlayer>(PrepSceneData.AnimationPlayerGoldPath);
 
     PlayerInventoryFill();
     var frozenCards = GetFrozenCards().ToList();
@@ -554,7 +556,11 @@ public class PrepMain : Node2D
 
     if (targetCardScript.Card.Level >= droppedCardScript.Card.Level || fromShopInventory)
     {
-      targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
+      var leveledUp = targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
+      if (leveledUp)
+      {
+        targetCardScript.OnLevelUp();
+      }
       targetCardScript.Card.CombineBaseMove(droppedCardScript.Card.BaseMove);
       targetCardScript.UpdateUi();
       if (fromShopInventory)
@@ -566,10 +572,15 @@ public class PrepMain : Node2D
         GameManager.PrepEngine.PlayerInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
       }
       droppedCardScript.QueueFree(); // Remove dropped card node
+      targetCardScript.OnExpGainAnimate();
     }
     else
     {
-      droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
+      var leveledUp = droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
+      if (leveledUp)
+      {
+        droppedCardScript.OnLevelUp();
+      }
       droppedCardScript.Card.CombineBaseMove(targetCardScript.Card.BaseMove);
       DropCard(droppedCardScript, targetCardScript.Position);
       var targetSlot = targetCardScript.Slot;
@@ -582,6 +593,7 @@ public class PrepMain : Node2D
       }
       droppedCardScript.Slot = targetSlot;
       targetCardScript.QueueFree(); // Remove dropped card node
+      droppedCardScript.OnExpGainAnimate();
     }
     return true;
   }
@@ -746,12 +758,15 @@ public class PrepMain : Node2D
   // TODO: try to solve these problems with closures
   private void RerollCallback(Card card)
   {
+    _rerollButton.OnHitEffect();
     Reroll();
   }
 
   private void AddToBankCallback(Card card)
   {
     _newCoinTotal = GameManager.PrepEngine.Bank.AddCoins(1);
+    _animationPlayerGold.Stop(true);
+    _animationPlayerGold.Play("OnGoldGain");
   }
 
   private void AddBaseMoveCallBack(Card card)
@@ -767,10 +782,14 @@ public class PrepMain : Node2D
 
   private void AddExpCallBack(Card card)
   {
-    card.AddExp(1);
+    var leveledUp = card.AddExp(1);
     var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == card);
     if (targetCardScript != null)
     {
+      if (leveledUp)
+      {
+        targetCardScript.OnLevelUp();
+      }
       targetCardScript.OnExpGainAnimate();
     }
     UpdateUiForAllCards();

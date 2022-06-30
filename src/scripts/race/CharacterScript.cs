@@ -162,13 +162,13 @@ public class CharacterScript : Node2D
   public void OnHitAnimate()
   {
     _animationPlayer.Stop(true);
-    _animationPlayer.Play(("OnHit"));
+    _animationPlayer.Play("OnHit");
   }
 
   public void OnBuffAnimate()
   {
     _animationPlayer.Stop(true);
-    _animationPlayer.Play(("OnBuff"));
+    _animationPlayer.Play("OnBuff");
   }
 
   public void RaceOverAnimation()

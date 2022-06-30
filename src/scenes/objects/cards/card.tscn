@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
@@ -11,6 +11,129 @@
 [ext_resource path="res://assets/card_icons/icon004.png" type="Texture" id=9]
 [ext_resource path="res://assets/card_icons/icon003.png" type="Texture" id=10]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=11]
+
+[sub_resource type="Shader" id=13]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(101, 186, 241, 255);
+uniform float flashState : hint_range(0,1) = 0.0;
+
+void fragment() {
+	vec4 pixelColor = texture(TEXTURE, UV);
+	COLOR = mix(pixelColor, color, flashState);
+	COLOR.a *= pixelColor.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+resource_local_to_scene = true
+shader = SubResource( 13 )
+shader_param/color = Color( 255, 255, 255, 255 )
+shader_param/flashState = 0.5
+
+[sub_resource type="Animation" id=15]
+resource_name = "FixBug"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "OnLevelUp"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 1.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.396078, 0.729412, 0.945098, 1 ), Color( 0.396078, 0.729412, 0.945098, 1 ), Color( 0.396078, 0.729412, 0.945098, 0 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.5 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 255, 255, 255, 255 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Panel_blue:material:shader_param/flashState")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Panel_blue:material:shader_param/color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.396078, 0.729412, 0.945098, 1 ) ]
+}
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
@@ -196,9 +319,16 @@ centered = false
 offset = Vector2( 2105.21, -50.0002 )
 
 [node name="Panel_blue" type="Sprite" parent="."]
+material = SubResource( 14 )
 scale = Vector2( 1.47, 1.47 )
 texture = ExtResource( 2 )
 centered = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Panel_blue"]
+autoplay = "FixBug"
+anims/FixBug = SubResource( 15 )
+anims/OnLevelUp = SubResource( 11 )
+anims/RESET = SubResource( 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false

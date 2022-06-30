@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -63,6 +63,77 @@ outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 font_data = ExtResource( 25 )
 
+[sub_resource type="Shader" id=10]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(255, 255, 255, 255);
+uniform float flashState : hint_range(0,1) = 0.0;
+
+void fragment() {
+	vec4 pixelColor = texture(TEXTURE, UV);
+	COLOR = mix(pixelColor, color, flashState);
+	COLOR.a *= pixelColor.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=11]
+shader = SubResource( 10 )
+shader_param/color = Color( 0.972549, 0.784314, 0.282353, 1 )
+shader_param/flashState = 0.0
+
+[sub_resource type="Animation" id=12]
+resource_name = "OnGoldGain"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.972549, 0.784314, 0.282353, 1 ), Color( 0.972549, 0.784314, 0.282353, 0 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0.972549, 0.784314, 0.282353, 1 ) ]
+}
+
 [node name="Node2D2" type="Node2D"]
 script = ExtResource( 6 )
 __meta__ = {
@@ -112,7 +183,7 @@ margin_right = 578.0
 margin_bottom = 55.0
 shortcut = SubResource( 6 )
 
-[node name="Label" parent="Control/HBoxContainerLeft/Button_Sell" index="0"]
+[node name="Label" parent="Control/HBoxContainerLeft/Button_Sell" index="1"]
 text = "sell"
 
 [node name="HBoxContainerRight" type="HBoxContainer" parent="Control"]
@@ -634,9 +705,14 @@ __meta__ = {
 position = Vector2( 592, 530 )
 
 [node name="panel_runeBlue2" type="Sprite" parent="Container_info"]
+material = SubResource( 11 )
 position = Vector2( 0, 5.00001 )
 scale = Vector2( 0.34, 0.7 )
 texture = ExtResource( 31 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Container_info/panel_runeBlue2"]
+anims/OnGoldGain = SubResource( 12 )
+anims/RESET = SubResource( 13 )
 
 [node name="heart" type="Sprite" parent="Container_info"]
 visible = false
