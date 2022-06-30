@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
@@ -14,6 +14,105 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 80, 80 )
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(255, 255, 255, 255);
+uniform float flashState : hint_range(0,1) = 0.5;
+
+void fragment() {
+	vec4 pixelColor = texture(TEXTURE, UV);
+	COLOR = mix(pixelColor, color, flashState);
+	COLOR.a *= pixelColor.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+resource_local_to_scene = true
+shader = SubResource( 4 )
+shader_param/color = Color( 255, 255, 255, 255 )
+shader_param/flashState = 0.0
+
+[sub_resource type="Animation" id=6]
+resource_name = "OnBuff"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.388235, 0.74902, 0.137255, 1 ), Color( 0.388235, 0.74902, 0.137255, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "OnExpGain"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.396078, 0.729412, 0.945098, 1 ), Color( 0.396078, 0.729412, 0.945098, 0 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 255, 255, 255, 255 ) ]
+}
 
 [sub_resource type="DynamicFont" id=3]
 size = 28
@@ -107,8 +206,14 @@ position = Vector2( 68, 68 )
 shape = SubResource( 1 )
 
 [node name="Icon" type="Sprite" parent="."]
+material = SubResource( 5 )
 position = Vector2( 69, 68 )
 scale = Vector2( 4, 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Icon"]
+anims/OnBuff = SubResource( 6 )
+anims/OnExpGain = SubResource( 8 )
+anims/RESET = SubResource( 7 )
 
 [node name="Exp" type="Node2D" parent="."]
 position = Vector2( 12, -29 )

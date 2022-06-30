@@ -757,12 +757,22 @@ public class PrepMain : Node2D
   private void AddBaseMoveCallBack(Card card)
   {
     card.BaseMove += 1;
+    var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == card);
+    if (targetCardScript != null)
+    {
+      targetCardScript.OnBuffAnimate();
+    }
     UpdateUiForAllCards();
   }
 
   private void AddExpCallBack(Card card)
   {
     card.AddExp(1);
+    var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == card);
+    if (targetCardScript != null)
+    {
+      targetCardScript.OnExpGainAnimate();
+    }
     UpdateUiForAllCards();
   }
 }
