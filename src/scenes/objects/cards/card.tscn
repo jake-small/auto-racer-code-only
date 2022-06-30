@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://src/scripts/prep/CardScript.cs" type="Script" id=1]
 [ext_resource path="res://assets/panels/panelInset_blue.png" type="Texture" id=2]
@@ -82,6 +82,33 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0.396078, 0.729412, 0.945098, 1 ), Color( 0.396078, 0.729412, 0.945098, 1 ), Color( 0.396078, 0.729412, 0.945098, 0 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "OnShopSpawn"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/flashState")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:material:shader_param/color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -328,6 +355,7 @@ centered = false
 autoplay = "FixBug"
 anims/FixBug = SubResource( 15 )
 anims/OnLevelUp = SubResource( 11 )
+anims/OnShopSpawn = SubResource( 16 )
 anims/RESET = SubResource( 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -264,6 +264,12 @@ public class CardScript : KinematicBody2D
     return Card.InventoryType == InventoryType.Shop;
   }
 
+  public void OnShopSpawn()
+  {
+    _animationPlayerBackground.Stop(true);
+    _animationPlayerBackground.Play("OnShopSpawn");
+  }
+
   public void OnLevelUp()
   {
     _animationPlayerBackground.Stop(true);

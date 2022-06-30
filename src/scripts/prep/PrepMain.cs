@@ -487,6 +487,7 @@ public class PrepMain : Node2D
     cardInstance.Connect(nameof(CardScript.cardSelected), this, nameof(_on_Card_selected));
     cardInstance.Connect(nameof(CardScript.cardDeselected), this, nameof(_on_Card_deselected));
     AddChild(cardInstance);
+    cardInstance.OnShopSpawn();
   }
 
   private void CardShopClear()
