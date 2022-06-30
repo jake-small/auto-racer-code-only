@@ -26,12 +26,16 @@ func _on_FirebaseAuth_login_failed(error_code, message):
 # `result_code` -> Either `1` if auth succeeded or `error_code` if unsuccessful auth request
 # `result_content` -> Either `auth_result` if auth succeeded or `error_message` if unsuccessful auth request
 func _on_FirebaseAuth_auth_request(result_code, result_content):
-	if (result_code == ERR_DOES_NOT_EXIST || result_code == 400):
+	if (result_code == 1):
+		get_node("Label_login_info").text = "log in successfull"
+		get_tree().change_scene("res://src/scenes/menus/MainMenu.tscn")
+#	elif (result_code == "Connection error"):
+#		get_node("Label_login_info").text = "no internet connection"
+	elif (result_code == ERR_DOES_NOT_EXIST || result_code == 400):
 		get_node("Label_login_info").text = "logging in anonymously..."
 		Firebase.Auth.login_anonymous()
 	else:
-		get_node("Label_login_info").text = "log in successfull"
-		get_tree().change_scene("res://src/scenes/menus/MainMenu.tscn")
+		get_node("Label_login_info").text = "unknown error logging in"
 		
 func _on_Login_button_up():
 	print("Login button clicked")
