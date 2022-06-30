@@ -320,6 +320,7 @@ public class RaceMain : Node2D
         p = p + 1;
       }
       HideSlotTurnIndicators();
+      HighlightUpcomingAbilities();
       HandleAbilitiesPhase(turnPhase);
     }
     else if (turnPhase == TurnPhases.Abilities2 || turnPhase == TurnPhases.Abilities3 || turnPhase == TurnPhases.Abilities4 || turnPhase == TurnPhases.Abilities5)
@@ -378,9 +379,7 @@ public class RaceMain : Node2D
       _abilityPhasePlayerId = -1;
       if (turnPhase == TurnPhases.Abilities5)
       {
-        var allNotActivated = ShowNotActivatedSlotTurnIndicators();
-        var pauseAmount = allNotActivated ? 0.5f : 1f;
-        Pause(pauseAmount);
+        Pause(0.5f);
       }
     }
   }
@@ -432,11 +431,20 @@ public class RaceMain : Node2D
     selectedCardInfo.Clear();
   }
 
-  private void ShowSlotTurnIndicator(int turnId, bool abilityActivated)
+  private void HighlightUpcomingAbilities()
+  {
+    var triggeredAbilitySlots = _autoRaceEngine.GetTriggeredAbilitySlots();
+    foreach (var slot in triggeredAbilitySlots)
+    {
+      ShowSlotTurnIndicator(slot, false);
+    }
+  }
+
+  private void ShowSlotTurnIndicator(int turnId, bool isOpaque)
   {
     _slotTurnIndicators[turnId].Visible = true;
-    var transparentValue = abilityActivated ? 1f : 0.5f;
-    _slotTurnIndicators[turnId].Modulate = new Color(1, 0.16f, 0.24f, transparentValue);
+    var transparentValue = isOpaque ? 1f : 0.5f;
+    _slotTurnIndicators[turnId].Modulate = new Color(212f / 255f, 26f / 255f, 48f / 255f, transparentValue);
   }
 
   private void HideSlotTurnIndicators()
@@ -445,24 +453,6 @@ public class RaceMain : Node2D
     {
       indicator.Visible = false;
     }
-  }
-
-  private bool ShowNotActivatedSlotTurnIndicators()
-  {
-    var allNonActivated = true;
-    foreach (var indicator in _slotTurnIndicators)
-    {
-      if (indicator.Visible == false)
-      {
-        indicator.Visible = true;
-        indicator.Modulate = new Color(1, 0.16f, 0.24f, 0.5f);
-      }
-      else
-      {
-        allNonActivated = false;
-      }
-    }
-    return allNonActivated;
   }
 
   private void TogglePhaseIndicator(int turn, TurnPhases turnPhase)

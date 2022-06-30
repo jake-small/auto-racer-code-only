@@ -53,6 +53,25 @@ public class AutoRaceEngine
     return _turnManager.PlayerTurns;
   }
 
+  public IEnumerable<int> GetTriggeredAbilitySlots()
+  {
+    var triggeredAbilitySlots = new List<int>();
+    var abilityPhases = new List<TurnPhases>() {
+      TurnPhases.Abilities1, TurnPhases.Abilities2, TurnPhases.Abilities3, TurnPhases.Abilities4, TurnPhases.Abilities5 };
+    foreach (var player in _players)
+    {
+      foreach (var abilityPhase in abilityPhases)
+      {
+        var turnResult = CalculatePlayerTurn(player, abilityPhase);
+        if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
+        {
+          triggeredAbilitySlots.Add(player.Id);
+        }
+      }
+    }
+    return triggeredAbilitySlots;
+  }
+
   public void Clear()
   {
     _turnManager.ClearPlayerTurns();
