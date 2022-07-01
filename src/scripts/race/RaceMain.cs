@@ -12,6 +12,7 @@ public class RaceMain : Node2D
   private TextureButton _autoPlayButton;
   private Label _labelTurnPhase;
   private string _updateTurnPhaseLabel;
+  private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> _offscreenIndicatorPairs;
   private List<CardScript> _displayCards;
   private List<Sprite> _slotTurnIndicators;
   private List<Sprite> _phaseAbilityIndicators;
@@ -47,8 +48,8 @@ public class RaceMain : Node2D
     var characterHardLeftBound = GetNode<Position2D>(RaceSceneData.CharacterHardLeftBoundPath).Position;
     var characterHardRightBound = GetNode<Position2D>(RaceSceneData.CharacterHardRightBoundPath).Position;
     var characters = LoadCharacterSprites(players, characterSoftLeftBound);
-    var offscreenIndicatorPairs = LoadOffscreenIndicators(characters);
-    _raceViewManager = new RaceViewManager(tileMapManager, characters, offscreenIndicatorPairs,
+    _offscreenIndicatorPairs = LoadOffscreenIndicators(characters);
+    _raceViewManager = new RaceViewManager(tileMapManager, characters, _offscreenIndicatorPairs,
       characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
@@ -219,6 +220,8 @@ public class RaceMain : Node2D
     {
       GetNode<Sprite>("CardSlots/slot_2").Visible = false;
       GetNode<Sprite>("CardSlots/slot_3").Visible = false;
+      characters[0].Position = new Vector2(characters[0].Position.x, characters[0].Position.y + 50);
+      characters[1].Position = new Vector2(characters[1].Position.x, characters[1].Position.y + 150);
     }
     return characters;
   }
@@ -243,6 +246,15 @@ public class RaceMain : Node2D
       indicatorPair.Item2.Id = i;
       indicatorPair.Item1.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
       indicatorPair.Item2.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
+
+      if (GameManager.NumPlayers == 2)
+      {
+        var indicatorLeft = indicatorPair.Item1;
+        var indicatorRight = indicatorPair.Item2;
+        indicatorLeft.Position = new Vector2(indicatorLeft.Position.x, indicatorLeft.Position.y + 150);
+        indicatorRight.Position = new Vector2(indicatorRight.Position.x, indicatorRight.Position.y + 150);
+      }
+
       i = i + 1;
     }
 
