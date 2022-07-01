@@ -176,7 +176,7 @@ margin_right = 1855.71
 margin_bottom = 1024.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 6 )
-text = "Alpha v0.5.0"
+text = "Alpha v0.5.1"
 
 [node name="Button_Credits" parent="." instance=ExtResource( 8 )]
 margin_left = 129.0
