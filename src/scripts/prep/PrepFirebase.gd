@@ -1,6 +1,6 @@
 extends Node2D
 
-const collectionPrefix = "test_v"#"player_turns_v"
+const collectionPrefix = "player_turns_v"
 const retryAttempts = 5
 
 var playerId : String
@@ -41,6 +41,8 @@ func SendPlayerTurn(csharpNode: Node, characterName: String, skin: String, numOp
 	var firestore_collection : FirestoreCollection = Firebase.Firestore.collection(collectionPrefix + cardMajorVersion)
 	var add_task : FirestoreTask = firestore_collection.add("", player_turn)
 	var document : FirestoreTask = yield(add_task, "task_finished")
+	if document.error:
+		print("Error sending turn to firestore with message: " + document.error["message"])
 	csharpNode.SetupRace(opponentTurns)
 	
 func GetOpponentTurns(numOpponents: int, turn: int, cardMajorVersion: String, characterName: String):
