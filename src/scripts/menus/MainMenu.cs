@@ -96,14 +96,14 @@ public class MainMenu : Control
   private void Button_start_ffa_pressed()
   {
     Console.WriteLine("Start FFA button pressed");
-    GameManager.FFA = true;
+    GameManager.NumPlayers = 4;
     StartGame();
   }
 
   private void Button_start_1v1_pressed()
   {
     Console.WriteLine("Start 1v1 button pressed");
-    GameManager.FFA = false;
+    GameManager.NumPlayers = 2;
     StartGame();
   }
 
@@ -131,6 +131,7 @@ public class MainMenu : Control
       Position = 0
     };
     GameManager.LocalPlayer.Skin = _playerCharacter.CharacterSkin;
+    GameManager.Score = new Score(GameManager.NumPlayers);
     GetTree().ChangeScene(MainMenuData.PrepScenePath);
   }
 

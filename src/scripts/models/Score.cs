@@ -4,9 +4,9 @@ public class Score
 {
   private Dictionary<int, int> _placements = new Dictionary<int, int>();
 
-  public Score()
+  public Score(int numPlayers)
   {
-    for (int i = 0; i < GameData.NumPlayers; i++)
+    for (int i = 0; i < numPlayers; i++)
     {
       _placements[i] = 0;
     }

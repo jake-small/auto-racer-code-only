@@ -1229,7 +1229,7 @@
       "Name": "Snowball",
       "Icon": "icon922_c.png",
       "Description": "Start of turn{D}, gain {A} [basemove]",
-      "BaseMove": 3,
+      "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],

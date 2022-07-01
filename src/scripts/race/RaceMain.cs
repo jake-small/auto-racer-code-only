@@ -12,7 +12,9 @@ public class RaceMain : Node2D
   private TextureButton _autoPlayButton;
   private Label _labelTurnPhase;
   private string _updateTurnPhaseLabel;
+  private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> _offscreenIndicatorPairs;
   private List<CardScript> _displayCards;
+  private List<CharacterScript> _characterUiDisplays;
   private List<Sprite> _slotTurnIndicators;
   private List<Sprite> _phaseAbilityIndicators;
   private List<Sprite> _phaseMoveIndicators;
@@ -47,8 +49,8 @@ public class RaceMain : Node2D
     var characterHardLeftBound = GetNode<Position2D>(RaceSceneData.CharacterHardLeftBoundPath).Position;
     var characterHardRightBound = GetNode<Position2D>(RaceSceneData.CharacterHardRightBoundPath).Position;
     var characters = LoadCharacterSprites(players, characterSoftLeftBound);
-    var offscreenIndicatorPairs = LoadOffscreenIndicators(characters);
-    _raceViewManager = new RaceViewManager(tileMapManager, characters, offscreenIndicatorPairs,
+    _offscreenIndicatorPairs = LoadOffscreenIndicators(characters);
+    _raceViewManager = new RaceViewManager(tileMapManager, characters, _offscreenIndicatorPairs,
       characterSoftLeftBound, characterSoftRightBound, characterHardLeftBound, characterHardRightBound);
 
     _labelTurnPhase = GetNode(RaceSceneData.Label_TurnPhase) as Label;
@@ -149,13 +151,19 @@ public class RaceMain : Node2D
     players.Add(player1);
     if (GameManager.Opponents != null && GameManager.Opponents.Any())
     {
+      var expectedNumOpponents = GameManager.NumPlayers - 1;
+      if (GameManager.Opponents.Count() > expectedNumOpponents)
+      {
+        GD.Print($"Too many opponents given, expected {expectedNumOpponents} got {GameManager.Opponents.Count()}");
+        GameManager.Opponents = GameManager.Opponents.Take(expectedNumOpponents);
+      }
       players.AddRange(GameManager.Opponents);
     }
     GameManager.Opponents = null;
-    GD.Print($"Number of bots: {GameData.NumPlayers - players.Count}");
-    if (players.Count < GameData.NumPlayers)
+    GD.Print($"Number of bots: {GameManager.NumPlayers - players.Count}");
+    if (players.Count < GameManager.NumPlayers)
     {
-      players.AddRange(GetBots(GameData.NumPlayers - players.Count, nameGenerator));
+      players.AddRange(GetBots(GameManager.NumPlayers - players.Count, nameGenerator));
     }
     return new AutoRaceEngine(players, 5, 5);
   }
@@ -185,6 +193,7 @@ public class RaceMain : Node2D
   private IEnumerable<CharacterScript> LoadCharacterSprites(IEnumerable<Player> players, Vector2 topSpawnPosition)
   {
     var characters = new List<CharacterScript>();
+    _characterUiDisplays = new List<CharacterScript>();
     foreach (var player in players.OrderBy(p => p.Id))
     {
       var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
@@ -194,19 +203,37 @@ public class RaceMain : Node2D
       characterInstance.AnimationState = AnimationStates.running;
       characterInstance.Id = player.Id;
       characters.Add(characterInstance);
-      AddChild(characterInstance);
 
-      var cardSlotPosition = GetNode<Sprite>($"CardSlots/slot_{player.Id}").Position;
+      var cardSlot = GetNode<Sprite>($"CardSlots/slot_{player.Id}");
+      if (GameManager.NumPlayers == 2)
+      {
+        cardSlot.Position = new Vector2(cardSlot.Position.x + 383, cardSlot.Position.y);
+      }
       var characterUiInstance = (CharacterScript)characterScene.Instance();
       characterUiInstance.CharacterSkin = player.Skin;
-      characterUiInstance.Position = new Vector2(cardSlotPosition.x - 64, cardSlotPosition.y + 64);
+      characterUiInstance.Position = new Vector2(cardSlot.Position.x - 64, cardSlot.Position.y + 64);
       characterUiInstance.AnimationState = AnimationStates.facing_front;
       characterUiInstance.Id = player.Id;
+      _characterUiDisplays.Add(characterUiInstance);
+
+      characterInstance.Connect(nameof(CharacterScript.onHit), this, nameof(CharacterOnHit));
+      characterInstance.Connect(nameof(CharacterScript.onBuff), this, nameof(CharacterOnBuff));
+
+      AddChild(characterInstance);
       AddChild(characterUiInstance);
+    }
+
+    if (GameManager.NumPlayers == 2)
+    {
+      GetNode<Sprite>("CardSlots/slot_2").Visible = false;
+      GetNode<Sprite>("CardSlots/slot_3").Visible = false;
+      characters[0].Position = new Vector2(characters[0].Position.x, characters[0].Position.y + 50);
+      characters[1].Position = new Vector2(characters[1].Position.x, characters[1].Position.y + 150);
     }
     return characters;
   }
 
+  // Offscreen indicators for OPPONENTS
   private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> LoadOffscreenIndicators(IEnumerable<CharacterScript> characters)
   {
     var offscreenIndicatorPairs = new List<(OffscreenIndicatorScript, OffscreenIndicatorScript)> {
@@ -218,10 +245,23 @@ public class RaceMain : Node2D
     var i = 1;
     foreach (var indicatorPair in offscreenIndicatorPairs)
     {
+      if (i > GameManager.NumPlayers - 1)
+      {
+        break;
+      }
       indicatorPair.Item1.Id = i;
       indicatorPair.Item2.Id = i;
       indicatorPair.Item1.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
       indicatorPair.Item2.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
+
+      if (GameManager.NumPlayers == 2)
+      {
+        var indicatorLeft = indicatorPair.Item1;
+        var indicatorRight = indicatorPair.Item2;
+        indicatorLeft.Position = new Vector2(indicatorLeft.Position.x, indicatorLeft.Position.y + 150);
+        indicatorRight.Position = new Vector2(indicatorRight.Position.x, indicatorRight.Position.y + 150);
+      }
+
       i = i + 1;
     }
 
@@ -252,6 +292,21 @@ public class RaceMain : Node2D
     }
     _displayCards.Add(cardInstance);
     AddChild(cardInstance);
+  }
+
+  private void HideCardScripts()
+  {
+    var i = 0;
+    foreach (var existingDisplayCard in _displayCards)
+    {
+      if (existingDisplayCard != null)
+      {
+        existingDisplayCard.QueueFree();
+      }
+      HideSelectedCardData(i);
+      i = i + 1;
+    }
+    _displayCards.Clear();
   }
 
   private void _on_Card_display_selected(CardScript cardScript)
@@ -351,6 +406,10 @@ public class RaceMain : Node2D
         _waitingOnMovement = true;
         _raceViewManager.MovePlayers(turnResults);
       }
+      if (turnPhase == TurnPhases.HandleRemainingTokens)
+      {
+        HideCardScripts();
+      }
     }
 
     if (didWin)
@@ -382,7 +441,7 @@ public class RaceMain : Node2D
     //   // Pause(0.3f);
     // }
     _abilityPhasePlayerId = _abilityPhasePlayerId + 1;
-    if (_abilityPhasePlayerId > GameData.NumPlayers - 1)
+    if (_abilityPhasePlayerId > GameManager.NumPlayers - 1)
     {
       _abilityPhasePlayerId = -1;
       if (turnPhase == TurnPhases.Abilities5)
@@ -487,6 +546,18 @@ public class RaceMain : Node2D
     }
   }
 
+  private void CharacterOnBuff(CharacterScript character)
+  {
+    var characterUiDisplay = _characterUiDisplays.FirstOrDefault(c => c.Id == character.Id);
+    characterUiDisplay.OnBuffAnimate();
+  }
+
+  private void CharacterOnHit(CharacterScript character)
+  {
+    var characterUiDisplay = _characterUiDisplays.FirstOrDefault(c => c.Id == character.Id);
+    characterUiDisplay.OnHitAnimate();
+  }
+
   private void Pause(float duration)
   {
     _isPaused = true;
@@ -498,7 +569,7 @@ public class RaceMain : Node2D
     var bots = new List<Player>();
     for (var i = 0; i < numBots; i++)
     {
-      var id = GameData.NumPlayers - numBots + i;
+      var id = GameManager.NumPlayers - numBots + i;
       bots.Add(GetBot(id, nameGenerator.GetRandomName()));
     }
     return bots;

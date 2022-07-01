@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Primary.tscn" type="PackedScene" id=2]
@@ -26,24 +26,50 @@
 [ext_resource path="res://src/scenes/objects/ui_elements/CardInfo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=25]
 [ext_resource path="res://src/scripts/prep/PrepFirebase.gd" type="Script" id=26]
+[ext_resource path="res://assets/card_icons/icon002.png" type="Texture" id=27]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardBM.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
 [ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
+[ext_resource path="res://assets/card_icons/icon001.png" type="Texture" id=32]
 [ext_resource path="res://assets/misc/arrow_short.png" type="Texture" id=33]
 [ext_resource path="res://assets/misc/arrow.png" type="Texture" id=34]
 
-[sub_resource type="InputEventAction" id=1]
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 color : hint_color = vec4(255, 255, 255, 255);
+uniform float flashState : hint_range(0,1) = 0.0;
+
+void fragment() {
+	vec4 pixelColor = texture(TEXTURE, UV);
+	COLOR = mix(pixelColor, color, flashState);
+	COLOR.a *= pixelColor.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=14]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/color = Color( 0.831373, 0.101961, 0.188235, 1 )
+shader_param/flashState = 0.0
+
+[sub_resource type="InputEventAction" id=15]
 action = "reroll"
 
 [sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
+shortcut = SubResource( 15 )
 
 [sub_resource type="InputEventAction" id=3]
 action = "freeze"
 
 [sub_resource type="ShortCut" id=4]
 shortcut = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=16]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/color = Color( 0.831373, 0.101961, 0.188235, 1 )
+shader_param/flashState = 0.0
 
 [sub_resource type="InputEventAction" id=5]
 action = "sell"
@@ -162,6 +188,7 @@ margin_bottom = 55.0
 rect_scale = Vector2( 1.5, 1.5 )
 
 [node name="Button_Reroll" parent="Control/HBoxContainerLeft" instance=ExtResource( 3 )]
+material = SubResource( 14 )
 margin_right = 190.0
 margin_bottom = 55.0
 shortcut = SubResource( 2 )
@@ -178,6 +205,7 @@ shortcut = SubResource( 4 )
 text = "freeze"
 
 [node name="Button_Sell" parent="Control/HBoxContainerLeft" instance=ExtResource( 3 )]
+material = SubResource( 16 )
 margin_left = 388.0
 margin_right = 578.0
 margin_bottom = 55.0
@@ -200,6 +228,49 @@ shortcut = SubResource( 8 )
 
 [node name="Label" parent="Control/HBoxContainerRight/Button_Go" index="0"]
 text = "race!"
+
+[node name="HeartContainer" type="Node2D" parent="."]
+visible = false
+
+[node name="heart_empty_0" type="Sprite" parent="HeartContainer"]
+position = Vector2( 205, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 27 )
+
+[node name="heart_full_0" type="Sprite" parent="HeartContainer"]
+position = Vector2( 205, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 32 )
+
+[node name="heart_empty_1" type="Sprite" parent="HeartContainer"]
+position = Vector2( 261, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 27 )
+
+[node name="heart_full_1" type="Sprite" parent="HeartContainer"]
+position = Vector2( 261, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 32 )
+
+[node name="heart_empty_2" type="Sprite" parent="HeartContainer"]
+position = Vector2( 317, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 27 )
+
+[node name="heart_full_2" type="Sprite" parent="HeartContainer"]
+position = Vector2( 317, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 32 )
+
+[node name="heart_empty_3" type="Sprite" parent="HeartContainer"]
+position = Vector2( 373, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 27 )
+
+[node name="heart_full_3" type="Sprite" parent="HeartContainer"]
+position = Vector2( 373, 217 )
+scale = Vector2( 2.5, 2.5 )
+texture = ExtResource( 32 )
 
 [node name="grey_divider" type="Sprite" parent="."]
 position = Vector2( 1230, 536 )

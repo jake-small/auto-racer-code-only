@@ -150,9 +150,6 @@ margin_bottom = 132.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 13 )
 text = "1st"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label_first_player" type="Label" parent="Control_placements/Label_first"]
 margin_top = 64.0
