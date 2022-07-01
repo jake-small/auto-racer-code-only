@@ -131,7 +131,7 @@ public class RaceMain : Node2D
       if (!_raceViewManager.AreCharactersMoving && !_raceViewManager.IsScrolling)
       {
         _waitingOnMovement = false;
-        Pause(1f);
+        Pause(0.5f);
       }
     }
 
