@@ -202,13 +202,23 @@ public class RaceMain : Node2D
       characters.Add(characterInstance);
       AddChild(characterInstance);
 
-      var cardSlotPosition = GetNode<Sprite>($"CardSlots/slot_{player.Id}").Position;
+      var cardSlot = GetNode<Sprite>($"CardSlots/slot_{player.Id}");
+      if (GameManager.NumPlayers == 2)
+      {
+        cardSlot.Position = new Vector2(cardSlot.Position.x + 383, cardSlot.Position.y);
+      }
       var characterUiInstance = (CharacterScript)characterScene.Instance();
       characterUiInstance.CharacterSkin = player.Skin;
-      characterUiInstance.Position = new Vector2(cardSlotPosition.x - 64, cardSlotPosition.y + 64);
+      characterUiInstance.Position = new Vector2(cardSlot.Position.x - 64, cardSlot.Position.y + 64);
       characterUiInstance.AnimationState = AnimationStates.facing_front;
       characterUiInstance.Id = player.Id;
       AddChild(characterUiInstance);
+    }
+
+    if (GameManager.NumPlayers == 2)
+    {
+      GetNode<Sprite>("CardSlots/slot_2").Visible = false;
+      GetNode<Sprite>("CardSlots/slot_3").Visible = false;
     }
     return characters;
   }
