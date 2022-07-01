@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 
 public static class GameManager
 {
-  public static bool FFA { get; set; } = true;
+  public static int NumPlayers { get; set; }
   public static bool VsBots { get; set; } = false;
   public static bool ShowTutorial { get; set; } = true;
   public static Player LocalPlayer { get; set; }
-  public static Score Score { get; set; } = new Score();
+  public static Score Score { get; set; }
   public static RaceHistory RaceHistory { get; set; } = new RaceHistory();
   public static int CurrentRace { get; set; } = 0;
   public static int TotalRaces { get; set; } = 9;
@@ -22,7 +22,7 @@ public static class GameManager
   public static void Reset()
   {
     LocalPlayer = null;
-    Score = new Score();
+    Score = null;
     RaceHistory = new RaceHistory();
     CurrentRace = 0;
     TotalRaces = 9;

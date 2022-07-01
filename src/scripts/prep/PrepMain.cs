@@ -43,10 +43,52 @@ public class PrepMain : Node2D
     var secondPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumSecondPlaces);
     var thirdPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumThirdPlaces);
     var fourthPlacesLabel = GetNode<Label>(PrepSceneData.LabelNumFourthPlaces);
-    firstPlacesLabel.Text = GameManager.Score.GetResult(0).ToString();
-    secondPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
-    thirdPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
-    fourthPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
+    if (GameManager.NumPlayers > 0)
+    {
+      firstPlacesLabel.Text = GameManager.Score.GetResult(0).ToString();
+    }
+    else
+    {
+      GetNode<Sprite>("Container_win_record/trophy").Visible = false;
+      firstPlacesLabel.Visible = false;
+    }
+    if (GameManager.NumPlayers > 1)
+    {
+      secondPlacesLabel.Text = GameManager.Score.GetResult(1).ToString();
+    }
+    else
+    {
+      GetNode<Sprite>("Container_win_record/medal2").Visible = false;
+      secondPlacesLabel.Visible = false;
+    }
+    if (GameManager.NumPlayers > 2)
+    {
+      thirdPlacesLabel.Text = GameManager.Score.GetResult(2).ToString();
+    }
+    else
+    {
+      GetNode<Sprite>("Container_win_record/medal1").Visible = false;
+      thirdPlacesLabel.Visible = false;
+    }
+    if (GameManager.NumPlayers > 3)
+    {
+      fourthPlacesLabel.Text = GameManager.Score.GetResult(3).ToString();
+    }
+    else
+    {
+      GetNode<Sprite>("Container_win_record/star").Visible = false;
+      fourthPlacesLabel.Visible = false;
+    }
+
+    if (GameManager.NumPlayers == 2)
+    {
+      firstPlacesLabel.RectPosition = new Vector2(firstPlacesLabel.RectPosition.x + 55, firstPlacesLabel.RectPosition.y);
+      var firstPlaceIcon = GetNode<Sprite>("Container_win_record/trophy");
+      firstPlaceIcon.Position = new Vector2(firstPlaceIcon.Position.x + 55, firstPlaceIcon.Position.y);
+      secondPlacesLabel.RectPosition = new Vector2(secondPlacesLabel.RectPosition.x + 55, secondPlacesLabel.RectPosition.y);
+      var secondPlaceIcon = GetNode<Sprite>("Container_win_record/medal2");
+      secondPlaceIcon.Position = new Vector2(secondPlaceIcon.Position.x + 55, secondPlaceIcon.Position.y);
+    }
 
     var raceLabel = GetNode<Label>(PrepSceneData.LabelRaceTotalPath);
     raceLabel.Text = $"{GameManager.CurrentRace + 1}/{GameManager.TotalRaces}";
@@ -332,7 +374,8 @@ public class PrepMain : Node2D
     }
     var firebaseCards = new FirebaseCards(GameManager.LocalPlayer.Cards).GodotCards;
     _firebaseNode.Call("SendPlayerTurn", this, GameManager.LocalPlayer.Name, GameManager.LocalPlayer.Skin,
-      GameManager.CurrentRace, firebaseCards, GameManager.PrepEngine.ShopService.CardVersion ?? "null");
+      GameManager.NumPlayers, GameManager.CurrentRace, firebaseCards,
+      GameManager.PrepEngine.ShopService.CardVersion ?? "null");
   }
 
   private void Button_reroll_pressed()

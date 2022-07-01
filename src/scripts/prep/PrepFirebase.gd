@@ -28,9 +28,9 @@ func _on_FirebaseAuth_userdata_received(userdata: FirebaseUserData):
 	playerId = str(userdata.local_id)
 	playerName = "anon-" + str(userdata.local_id)
 	
-func SendPlayerTurn(csharpNode: Node, characterName: String, skin: String, turn: int, cards: Array, cardVersion: String) -> void:
+func SendPlayerTurn(csharpNode: Node, characterName: String, skin: String, numOpponents: int, turn: int, cards: Array, cardVersion: String) -> void:
 	var cardMajorVersion = cardVersion.left(cardVersion.find('.'))
-	var opponentTurns = yield(GetOpponentTurns(turn, cardMajorVersion, characterName), "completed")
+	var opponentTurns = yield(GetOpponentTurns(numOpponents, turn, cardMajorVersion, characterName), "completed")
 	if opponentTurns == null:
 		opponentTurns = []
 	
@@ -43,20 +43,26 @@ func SendPlayerTurn(csharpNode: Node, characterName: String, skin: String, turn:
 	var document : FirestoreTask = yield(add_task, "task_finished")
 	csharpNode.SetupRace(opponentTurns)
 	
-func GetOpponentTurns(turn: int, cardMajorVersion: String, characterName: String):
+func GetOpponentTurns(numOpponents: int, turn: int, cardMajorVersion: String, characterName: String):
 	print("Getting opposing player turns from firestore")
 	var opponents = []
+	if numOpponents < 1:
+		return opponents
 	var characterNameFilter = [characterName]
 	print("Querying for opponent 1")
 	var opponent1 = yield(QueryPlayerTurn(turn, cardMajorVersion, characterNameFilter), "completed")
 	if opponent1 != null:
 		characterNameFilter.append(opponent1["character_name"])
 		opponents.append(opponent1)
+	if numOpponents < 2:
+		return opponents
 	print("Querying for opponent 2")
 	var opponent2 = yield(QueryPlayerTurn(turn, cardMajorVersion, characterNameFilter), "completed")
 	if opponent2 != null:
 		characterNameFilter.append(opponent2["character_name"])
 		opponents.append(opponent2)
+	if numOpponents < 3:
+		return opponents
 	print("Querying for opponent 3")
 	var opponent3 = yield(QueryPlayerTurn(turn, cardMajorVersion, characterNameFilter), "completed")
 	if opponent3 != null:

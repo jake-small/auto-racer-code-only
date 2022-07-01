@@ -164,7 +164,6 @@ text = "FFA"
 margin_left = 315.0
 margin_right = 505.0
 margin_bottom = 49.0
-disabled = true
 shortcut = SubResource( 4 )
 
 [node name="Label" parent="HBoxContainer2/Button_1v1" index="0"]

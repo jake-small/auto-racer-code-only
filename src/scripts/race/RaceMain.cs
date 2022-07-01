@@ -149,13 +149,19 @@ public class RaceMain : Node2D
     players.Add(player1);
     if (GameManager.Opponents != null && GameManager.Opponents.Any())
     {
+      var expectedNumOpponents = GameManager.NumPlayers - 1;
+      if (GameManager.Opponents.Count() > expectedNumOpponents)
+      {
+        GD.Print($"Too many opponents given, expected {expectedNumOpponents} got {GameManager.Opponents.Count()}");
+        GameManager.Opponents = GameManager.Opponents.Take(expectedNumOpponents);
+      }
       players.AddRange(GameManager.Opponents);
     }
     GameManager.Opponents = null;
-    GD.Print($"Number of bots: {GameData.NumPlayers - players.Count}");
-    if (players.Count < GameData.NumPlayers)
+    GD.Print($"Number of bots: {GameManager.NumPlayers - players.Count}");
+    if (players.Count < GameManager.NumPlayers)
     {
-      players.AddRange(GetBots(GameData.NumPlayers - players.Count, nameGenerator));
+      players.AddRange(GetBots(GameManager.NumPlayers - players.Count, nameGenerator));
     }
     return new AutoRaceEngine(players, 5, 5);
   }
@@ -207,6 +213,7 @@ public class RaceMain : Node2D
     return characters;
   }
 
+  // Offscreen indicators for OPPONENTS
   private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> LoadOffscreenIndicators(IEnumerable<CharacterScript> characters)
   {
     var offscreenIndicatorPairs = new List<(OffscreenIndicatorScript, OffscreenIndicatorScript)> {
@@ -218,6 +225,10 @@ public class RaceMain : Node2D
     var i = 1;
     foreach (var indicatorPair in offscreenIndicatorPairs)
     {
+      if (i > GameManager.NumPlayers - 1)
+      {
+        break;
+      }
       indicatorPair.Item1.Id = i;
       indicatorPair.Item2.Id = i;
       indicatorPair.Item1.CharacterRef = characters.FirstOrDefault(c => c.Id == i);
@@ -382,7 +393,7 @@ public class RaceMain : Node2D
     //   // Pause(0.3f);
     // }
     _abilityPhasePlayerId = _abilityPhasePlayerId + 1;
-    if (_abilityPhasePlayerId > GameData.NumPlayers - 1)
+    if (_abilityPhasePlayerId > GameManager.NumPlayers - 1)
     {
       _abilityPhasePlayerId = -1;
       if (turnPhase == TurnPhases.Abilities5)
@@ -498,7 +509,7 @@ public class RaceMain : Node2D
     var bots = new List<Player>();
     for (var i = 0; i < numBots; i++)
     {
-      var id = GameData.NumPlayers - numBots + i;
+      var id = GameManager.NumPlayers - numBots + i;
       bots.Add(GetBot(id, nameGenerator.GetRandomName()));
     }
     return bots;
