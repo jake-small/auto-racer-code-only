@@ -287,6 +287,21 @@ public class RaceMain : Node2D
     AddChild(cardInstance);
   }
 
+  private void HideCardScripts()
+  {
+    var i = 0;
+    foreach (var existingDisplayCard in _displayCards)
+    {
+      if (existingDisplayCard != null)
+      {
+        existingDisplayCard.QueueFree();
+      }
+      HideSelectedCardData(i);
+      i = i + 1;
+    }
+    _displayCards.Clear();
+  }
+
   private void _on_Card_display_selected(CardScript cardScript)
   {
     ToggleDisplaySelectedCardData(cardScript.Card, cardScript.Slot);
@@ -383,6 +398,10 @@ public class RaceMain : Node2D
       {
         _waitingOnMovement = true;
         _raceViewManager.MovePlayers(turnResults);
+      }
+      if (turnPhase == TurnPhases.HandleRemainingTokens)
+      {
+        HideCardScripts();
       }
     }
 
