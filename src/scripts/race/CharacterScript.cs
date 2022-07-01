@@ -163,12 +163,14 @@ public class CharacterScript : Node2D
   {
     _animationPlayer.Stop(true);
     _animationPlayer.Play("OnHit");
+    emitOnHitSignal();
   }
 
   public void OnBuffAnimate()
   {
     _animationPlayer.Stop(true);
     _animationPlayer.Play("OnBuff");
+    emitOnBuffSignal();
   }
 
   public void RaceOverAnimation()
@@ -203,6 +205,22 @@ public class CharacterScript : Node2D
       _sprite.Animation = AnimationState.ToString();
       _sprite.Playing = animationState == AnimationStates.running;
     }
+  }
+
+  [Signal]
+  public delegate void onHit(CharacterScript characterScript);
+  public void emitOnHitSignal()
+  {
+    GD.Print($"OnHit signal EMITTED for CharacterScript with Id: {Id}");
+    EmitSignal(nameof(onHit), this);
+  }
+
+  [Signal]
+  public delegate void onBuff(CharacterScript characterScript);
+  public void emitOnBuffSignal()
+  {
+    GD.Print($"OnBuff signal EMITTED for CharacterScript with Id: {Id}");
+    EmitSignal(nameof(onBuff), this);
   }
 }
 

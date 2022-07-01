@@ -14,6 +14,7 @@ public class RaceMain : Node2D
   private string _updateTurnPhaseLabel;
   private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> _offscreenIndicatorPairs;
   private List<CardScript> _displayCards;
+  private List<CharacterScript> _characterUiDisplays;
   private List<Sprite> _slotTurnIndicators;
   private List<Sprite> _phaseAbilityIndicators;
   private List<Sprite> _phaseMoveIndicators;
@@ -192,6 +193,7 @@ public class RaceMain : Node2D
   private IEnumerable<CharacterScript> LoadCharacterSprites(IEnumerable<Player> players, Vector2 topSpawnPosition)
   {
     var characters = new List<CharacterScript>();
+    _characterUiDisplays = new List<CharacterScript>();
     foreach (var player in players.OrderBy(p => p.Id))
     {
       var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
@@ -201,7 +203,6 @@ public class RaceMain : Node2D
       characterInstance.AnimationState = AnimationStates.running;
       characterInstance.Id = player.Id;
       characters.Add(characterInstance);
-      AddChild(characterInstance);
 
       var cardSlot = GetNode<Sprite>($"CardSlots/slot_{player.Id}");
       if (GameManager.NumPlayers == 2)
@@ -213,6 +214,12 @@ public class RaceMain : Node2D
       characterUiInstance.Position = new Vector2(cardSlot.Position.x - 64, cardSlot.Position.y + 64);
       characterUiInstance.AnimationState = AnimationStates.facing_front;
       characterUiInstance.Id = player.Id;
+      _characterUiDisplays.Add(characterUiInstance);
+
+      characterInstance.Connect(nameof(CharacterScript.onHit), this, nameof(CharacterOnHit));
+      characterInstance.Connect(nameof(CharacterScript.onBuff), this, nameof(CharacterOnBuff));
+
+      AddChild(characterInstance);
       AddChild(characterUiInstance);
     }
 
@@ -537,6 +544,18 @@ public class RaceMain : Node2D
     {
       _phaseRemainingTokensIndicator.Modulate = new Color(Modulate.r, Modulate.g, Modulate.b, 1f);
     }
+  }
+
+  private void CharacterOnBuff(CharacterScript character)
+  {
+    var characterUiDisplay = _characterUiDisplays.FirstOrDefault(c => c.Id == character.Id);
+    characterUiDisplay.OnBuffAnimate();
+  }
+
+  private void CharacterOnHit(CharacterScript character)
+  {
+    var characterUiDisplay = _characterUiDisplays.FirstOrDefault(c => c.Id == character.Id);
+    characterUiDisplay.OnHitAnimate();
   }
 
   private void Pause(float duration)
