@@ -1,5 +1,5 @@
 {
-  "Version": "2.1.0",
+  "Version": "2.2.0",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -792,7 +792,7 @@
       "Guid": "ef36013f-5ee4-468e-b33e-ad1be780ab5d",
       "Name": "Dream Siphon",
       "Icon": "icon133.png",
-      "Description": "Gain {M} [positive] for each [negative] on opponents",
+      "Description": "Gain {M} [positive] for each of your [negative] on opponents",
       "BaseMove": 2,
       "Tier": 3,
       "Abilities": {
@@ -810,7 +810,6 @@
               {
                 "Key": "F",
                 "BodyMultiline": [
-                  "playerId = scriptData.Player.Id",
                   "otherPlayers = scriptData.GetOtherPlayers()",
                   "count = 0 ",
                   "for key,value in ipairs(otherPlayers) ",
@@ -818,7 +817,9 @@
                   "  negativeTokens = scriptData.GetNegativeTokens(value.Id) ",
                   "  for key,value in ipairs(negativeTokens) ",
                   "  do ",
-                  "    count = count + 1",
+                  "    if (value.CreatedBy == scriptData.Player.Id) then",
+                  "      count = count + 1",
+                  "    end ",
                   "  end ",
                   "end ",
                   "return count * {M}"
