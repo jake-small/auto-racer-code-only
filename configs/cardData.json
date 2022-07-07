@@ -1,5 +1,5 @@
 {
-  "Version": "2.0.0",
+  "Version": "2.1.0",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -78,7 +78,7 @@
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
       "Description": "Gain {M} [positive] for each [negative] on you",
-      "BaseMove": 2,
+      "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -718,7 +718,7 @@
     },
     {
       "Guid": "2c28167c-d4ae-4ca1-9766-47552a9b1f7a",
-      "Name": "Super True Shot",
+      "Name": "Crippling Shot",
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V} [negative] for {D} turns",
       "BaseMove": 2,
@@ -730,7 +730,7 @@
             "Type": "Additive",
             "Phase": "Abilities1",
             "Value": "{V}",
-            "Duration": "1",
+            "Duration": "{D}",
             "Target": {
               "Type": "others",
               "Direction": "Forward",
