@@ -35,7 +35,7 @@ func _on_FirebaseAuth_auth_request(result_code, result_content):
 		get_node("Label_login_info").text = "logging in anonymously..."
 		Firebase.Auth.login_anonymous()
 	else:
-		get_node("Label_login_info").text = "unknown error logging in"
+		get_node("Label_login_info").text = "error logging in: " + str(result_code)
 		
 func _on_Login_button_up():
 	print("Login button clicked")
