@@ -38,6 +38,7 @@ public class CharacterScript : Node2D
   public float MoveToX { get; private set; } = 0;
   public bool Moving { get; private set; } = false;
 
+  private float _speedMultiplier = 1;
   private AnimatedSprite _sprite;
   private AnimationPlayer _animationPlayer;
   private Label _positiveTokenLabel;
@@ -78,21 +79,36 @@ public class CharacterScript : Node2D
       float newX;
       if (MoveToX > Position.x)
       {
-        newX = Position.x + (RaceSceneData.GameSpeed * delta);
+        newX = Position.x + (RaceSceneData.GameSpeed * _speedMultiplier * delta);
         if (newX >= MoveToX)
         {
           newX = MoveToX;
           doneMoving = true;
         }
-
+        else if (newX + 1200 > MoveToX && (newX > 0 && newX < GetViewportRect().Size.x))
+        {
+          _speedMultiplier = _speedMultiplier <= 1 ? 1 : _speedMultiplier / 10;
+        }
+        else if (newX < 0 || newX > GetViewportRect().Size.x)
+        {
+          _speedMultiplier = _speedMultiplier + 0.1f;
+        }
       }
       else
       {
-        newX = Position.x - (RaceSceneData.GameSpeed * delta);
+        newX = Position.x - (RaceSceneData.GameSpeed * _speedMultiplier * delta);
         if (newX <= MoveToX)
         {
           newX = MoveToX;
           doneMoving = true;
+        }
+        else if (newX - 1200 < MoveToX && (newX > 0 && newX < GetViewportRect().Size.x))
+        {
+          _speedMultiplier = _speedMultiplier <= 1 ? 1 : _speedMultiplier / 10;
+        }
+        else if (newX < 0 || newX > GetViewportRect().Size.x)
+        {
+          _speedMultiplier = _speedMultiplier + 0.1f;
         }
       }
       Position = (new Vector2(newX, Position.y));
