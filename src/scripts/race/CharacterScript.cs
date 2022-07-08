@@ -163,6 +163,8 @@ public class CharacterScript : Node2D
 
   private void SpawnProjectiles(CharacterScript target, int amount, int duration, PackedScene projectileScene, bool isPositive)
   {
+    var n = amount >= 10 ? amount / 20 : 1;
+    var delayedTakeoffMultiplier = 0.1f / n;
     for (int i = 0; i < amount; i++)
     {
       var projectileInstance = (Projectile)projectileScene.Instance();
@@ -170,7 +172,8 @@ public class CharacterScript : Node2D
       projectileInstance.Target = target;
       projectileInstance.IsPositive = isPositive;
       projectileInstance.Length = (duration - 1) * 10;
-      projectileInstance.DelayedTakeoffAmount = (i + 6) * 0.1f;
+      var delayedTakeoff = (i * 2 + 6) * delayedTakeoffMultiplier;
+      projectileInstance.DelayedTakeoffAmount = delayedTakeoff;
       GetTree().Root.AddChild(projectileInstance);
     }
   }
