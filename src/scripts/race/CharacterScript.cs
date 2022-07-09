@@ -230,7 +230,7 @@ public class CharacterScript : Node2D
   public delegate void onHit(CharacterScript characterScript);
   public void emitOnHitSignal()
   {
-    GD.Print($"OnHit signal EMITTED for CharacterScript with Id: {Id}");
+    // GD.Print($"OnHit signal EMITTED for CharacterScript with Id: {Id}");
     EmitSignal(nameof(onHit), this);
   }
 
@@ -238,7 +238,7 @@ public class CharacterScript : Node2D
   public delegate void onBuff(CharacterScript characterScript);
   public void emitOnBuffSignal()
   {
-    GD.Print($"OnBuff signal EMITTED for CharacterScript with Id: {Id}");
+    // GD.Print($"OnBuff signal EMITTED for CharacterScript with Id: {Id}");
     EmitSignal(nameof(onBuff), this);
   }
 }

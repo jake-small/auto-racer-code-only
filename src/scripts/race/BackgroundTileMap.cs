@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class BackgroundTileMap : Godot.TileMap
 {
@@ -41,50 +42,46 @@ public class BackgroundTileMap : Godot.TileMap
 
   public void ScrollRight(float amount)
   {
-    if (amount == 0)
-    {
-      return;
-    }
     IsScrolling = true;
     _moveToX = Position.x - amount;
     _scrollRight = true;
-    var n = Mathf.Log(amount / 100f) + 0.5f;
-    if (n > 4f)
-    {
-      _scrollSpeedMultiplier = 3.5f;
-    }
-    else if (n < 1f)
-    {
-      _scrollSpeedMultiplier = 1f;
-    }
-    else
-    {
-      _scrollSpeedMultiplier = n;
-    }
+    // var n = Mathf.Log(amount / 100f) + 0.5f;
+    // if (n > 4f)
+    // {
+    //   _scrollSpeedMultiplier = 4f;
+    // }
+    // else if (n < 1f)
+    // {
+    //   _scrollSpeedMultiplier = 1f;
+    // }
+    // else
+    // {
+    //   _scrollSpeedMultiplier = n;
+    // }
+    _scrollSpeedMultiplier = CalculateSpeedMultiplier(amount);
+    Console.WriteLine($"ScrollRight: amount={amount} multiplier={_scrollSpeedMultiplier} moveToX={_moveToX}");
   }
 
   public void ScrollLeft(float amount)
   {
-    if (amount == 0)
-    {
-      return;
-    }
     IsScrolling = true;
     _moveToX = Position.x + amount;
     _scrollLeft = true;
-    var n = Mathf.Log(amount / 100f) + 0.5f;
-    if (n > 4f)
-    {
-      _scrollSpeedMultiplier = 3.5f;
-    }
-    else if (n < 1f)
-    {
-      _scrollSpeedMultiplier = 1f;
-    }
-    else
-    {
-      _scrollSpeedMultiplier = n;
-    }
+    // var n = Mathf.Log(amount / 100f) + 0.5f;
+    // if (n > 4f)
+    // {
+    //   _scrollSpeedMultiplier = 4f;
+    // }
+    // else if (n < 1f)
+    // {
+    //   _scrollSpeedMultiplier = 1f;
+    // }
+    // else
+    // {
+    //   _scrollSpeedMultiplier = n;
+    // }
+    _scrollSpeedMultiplier = CalculateSpeedMultiplier(amount);
+    Console.WriteLine($"ScrollLeft: amount={amount} multiplier={_scrollSpeedMultiplier} moveToX={_moveToX}");
   }
 
   private void AttemptToRepositionRight()
@@ -104,6 +101,39 @@ public class BackgroundTileMap : Godot.TileMap
       var m = _moveToX - Position.x;
       Position = new Vector2(Position.x + (3 * -GetViewportRect().Size.x), Position.y);
       _moveToX = Position.x + m;
+    }
+  }
+
+  private float CalculateSpeedMultiplier(float distanceToMove)
+  {
+    var spaces = distanceToMove / RaceSceneData.SpaceWidth;
+    if (spaces < 2)
+    {
+      return 1f;
+    }
+    else if (spaces < 10)
+    {
+      return 1.5f;
+    }
+    else if (spaces < 20)
+    {
+      return 2f;
+    }
+    else if (spaces < 30)
+    {
+      return 2.5f;
+    }
+    else if (spaces < 40)
+    {
+      return 3f;
+    }
+    else if (spaces < 50)
+    {
+      return 3.5f;
+    }
+    else
+    {
+      return 4f;
     }
   }
 }
