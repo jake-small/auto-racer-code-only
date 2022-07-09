@@ -1,5 +1,5 @@
 {
-  "Version": "2.2.0",
+  "Version": "2.2.1",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -558,7 +558,7 @@
               "Amount": "1",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": [
@@ -738,7 +738,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "1",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": []
@@ -862,9 +862,9 @@
     },
     {
       "Guid": "f3f4b7d2-1d29-424f-832c-62e02452f587",
-      "Name": "Ba-dum-tss",
+      "Name": "Rimshot",
       "Icon": "icon405.png",
-      "Description": "Give everyone -1 [negative] and 1 [positive] for {D} turns",
+      "Description": "Give everyone {N} [negative] and {P} [positive] for {D} turns",
       "BaseMove": 5,
       "Tier": 2,
       "Abilities": {
@@ -873,7 +873,7 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Abilities1",
-            "Value": "1",
+            "Value": "{P}",
             "Duration": "{D}",
             "Target": {
               "Type": "all",
@@ -882,7 +882,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": []
@@ -891,7 +891,7 @@
             "Name": "ability2",
             "Type": "Additive",
             "Phase": "Abilities1",
-            "Value": "-1",
+            "Value": "{N}",
             "Duration": "{D}",
             "Target": {
               "Type": "all",
@@ -900,7 +900,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": []
@@ -913,6 +913,14 @@
           "Id": 1,
           "OutKeys": [
             {
+              "Key": "N",
+              "Value": "-1"
+            },
+            {
+              "Key": "P",
+              "Value": "1"
+            },
+            {
               "Key": "D",
               "Value": "5"
             }
@@ -922,8 +930,16 @@
           "Id": 2,
           "OutKeys": [
             {
+              "Key": "N",
+              "Value": "-3"
+            },
+            {
+              "Key": "P",
+              "Value": "3"
+            },
+            {
               "Key": "D",
-              "Value": "10"
+              "Value": "5"
             }
           ]
         },
@@ -931,8 +947,16 @@
           "Id": 3,
           "OutKeys": [
             {
+              "Key": "N",
+              "Value": "-9"
+            },
+            {
+              "Key": "P",
+              "Value": "9"
+            },
+            {
               "Key": "D",
-              "Value": "15"
+              "Value": "5"
             }
           ]
         }
@@ -1554,7 +1578,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": [
