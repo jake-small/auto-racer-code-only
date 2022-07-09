@@ -41,18 +41,50 @@ public class BackgroundTileMap : Godot.TileMap
 
   public void ScrollRight(float amount)
   {
+    if (amount == 0)
+    {
+      return;
+    }
     IsScrolling = true;
     _moveToX = Position.x - amount;
     _scrollRight = true;
-    _scrollSpeedMultiplier = Mathf.Log(amount / 100) + 0.5f;
+    var n = Mathf.Log(amount / 100f) + 0.5f;
+    if (n > 4f)
+    {
+      _scrollSpeedMultiplier = 3.5f;
+    }
+    else if (n < 1f)
+    {
+      _scrollSpeedMultiplier = 1f;
+    }
+    else
+    {
+      _scrollSpeedMultiplier = n;
+    }
   }
 
   public void ScrollLeft(float amount)
   {
+    if (amount == 0)
+    {
+      return;
+    }
     IsScrolling = true;
     _moveToX = Position.x + amount;
     _scrollLeft = true;
-    _scrollSpeedMultiplier = Mathf.Log(amount / 100) + 0.5f;
+    var n = Mathf.Log(amount / 100f) + 0.5f;
+    if (n > 4f)
+    {
+      _scrollSpeedMultiplier = 3.5f;
+    }
+    else if (n < 1f)
+    {
+      _scrollSpeedMultiplier = 1f;
+    }
+    else
+    {
+      _scrollSpeedMultiplier = n;
+    }
   }
 
   private void AttemptToRepositionRight()

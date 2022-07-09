@@ -163,7 +163,7 @@ public class CharacterScript : Node2D
 
   private void SpawnProjectiles(CharacterScript target, int amount, int duration, PackedScene projectileScene, bool isPositive)
   {
-    var n = amount >= 10 ? amount / 20 : 1;
+    var n = amount >= 20 ? amount / 20f : 1;
     var delayedTakeoffMultiplier = 0.1f / n;
     for (int i = 0; i < amount; i++)
     {
