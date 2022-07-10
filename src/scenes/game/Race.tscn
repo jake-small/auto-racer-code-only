@@ -465,17 +465,17 @@ position = Vector2( 1680, 700 )
 position = Vector2( 310, 625 )
 
 [node name="slot_1" parent="CardSlots" instance=ExtResource( 3 )]
-position = Vector2( 693, 625 )
+position = Vector2( 694, 625 )
 
 [node name="Label_PlayerName" parent="CardSlots/slot_1" index="0"]
 margin_top = -58.0
 margin_bottom = -18.0
 
 [node name="slot_2" parent="CardSlots" instance=ExtResource( 3 )]
-position = Vector2( 1077, 625 )
+position = Vector2( 1078, 625 )
 
 [node name="slot_3" parent="CardSlots" instance=ExtResource( 3 )]
-position = Vector2( 1460, 625 )
+position = Vector2( 1462, 625 )
 
 [node name="Label_PlayerName" parent="CardSlots/slot_3" index="0"]
 margin_top = -58.0
@@ -484,25 +484,25 @@ margin_bottom = -18.0
 [node name="Container_selected_card_0" parent="CardSlots" instance=ExtResource( 13 )]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 291, 188.574 )
+position = Vector2( 204, 182 )
 z_index = 2
 
 [node name="Container_selected_card_1" parent="CardSlots" instance=ExtResource( 13 )]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 631, 188.574 )
+position = Vector2( 588, 182 )
 z_index = 2
 
 [node name="Container_selected_card_2" parent="CardSlots" instance=ExtResource( 13 )]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 971, 188.574 )
+position = Vector2( 972, 182 )
 z_index = 2
 
 [node name="Container_selected_card_3" parent="CardSlots" instance=ExtResource( 13 )]
 visible = false
 modulate = Color( 1, 1, 1, 0.607843 )
-position = Vector2( 1311, 188.574 )
+position = Vector2( 1356, 182 )
 z_index = 2
 
 [node name="Container_selected_card_0_old" type="Node2D" parent="CardSlots"]
