@@ -1,5 +1,9 @@
 extends Control
 
+const RetryAttempts : int = 5
+
+var retriesAttempted : int = 1
+
 func _ready():
 	Firebase.Auth.connect("signup_succeeded", self, "_on_FirebaseAuth_signup_success")
 	Firebase.Auth.connect("login_succeeded", self, "_on_FirebaseAuth_login_success")
@@ -20,7 +24,11 @@ func _on_FirebaseAuth_login_failed(error_code, message):
 	print("Login failed")
 	print("error code: " + str(error_code))
 	print("message: " + str(message))
-	get_node("Label_login_info").text = "error code: " + str(error_code) + " message: " + str(message)
+	get_node("Label_login_info").text = "Error: " + str(error_code) + ". " + str(message)
+	retriesAttempted = retriesAttempted + 1
+	if (retriesAttempted < RetryAttempts):
+		get_node("Label_login_info").text = "Error: " + str(error_code) + ". " + str(message) + ". Retrying (" + str(retriesAttempted) + ")"
+		Firebase.Auth.check_auth_file()
 
 # Emitted for each Auth request issued.
 # `result_code` -> Either `1` if auth succeeded or `error_code` if unsuccessful auth request
@@ -35,7 +43,7 @@ func _on_FirebaseAuth_auth_request(result_code, result_content):
 		get_node("Label_login_info").text = "logging in anonymously..."
 		Firebase.Auth.login_anonymous()
 	else:
-		get_node("Label_login_info").text = "unknown error logging in"
+		get_node("Label_login_info").text = "error logging in: " + str(result_code)
 		
 func _on_Login_button_up():
 	print("Login button clicked")

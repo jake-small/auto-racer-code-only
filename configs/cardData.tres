@@ -1,5 +1,5 @@
 {
-  "Version": "2.0.0",
+  "Version": "2.2.1",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -78,7 +78,7 @@
       "Name": "Stamina Elixir",
       "Icon": "icon273.png",
       "Description": "Gain {M} [positive] for each [negative] on you",
-      "BaseMove": 2,
+      "BaseMove": 3,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -558,7 +558,7 @@
               "Amount": "1",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": [
@@ -718,7 +718,7 @@
     },
     {
       "Guid": "2c28167c-d4ae-4ca1-9766-47552a9b1f7a",
-      "Name": "Super True Shot",
+      "Name": "Crippling Shot",
       "Icon": "icon534.png",
       "Description": "Opponents ahead get {V} [negative] for {D} turns",
       "BaseMove": 2,
@@ -730,7 +730,7 @@
             "Type": "Additive",
             "Phase": "Abilities1",
             "Value": "{V}",
-            "Duration": "1",
+            "Duration": "{D}",
             "Target": {
               "Type": "others",
               "Direction": "Forward",
@@ -738,7 +738,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "1",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": []
@@ -792,7 +792,7 @@
       "Guid": "ef36013f-5ee4-468e-b33e-ad1be780ab5d",
       "Name": "Dream Siphon",
       "Icon": "icon133.png",
-      "Description": "Gain {M} [positive] for each [negative] on opponents",
+      "Description": "Gain {M} [positive] for each of your [negative] on opponents",
       "BaseMove": 2,
       "Tier": 3,
       "Abilities": {
@@ -810,7 +810,6 @@
               {
                 "Key": "F",
                 "BodyMultiline": [
-                  "playerId = scriptData.Player.Id",
                   "otherPlayers = scriptData.GetOtherPlayers()",
                   "count = 0 ",
                   "for key,value in ipairs(otherPlayers) ",
@@ -818,7 +817,9 @@
                   "  negativeTokens = scriptData.GetNegativeTokens(value.Id) ",
                   "  for key,value in ipairs(negativeTokens) ",
                   "  do ",
-                  "    count = count + 1",
+                  "    if (value.CreatedBy == scriptData.Player.Id) then",
+                  "      count = count + 1",
+                  "    end ",
                   "  end ",
                   "end ",
                   "return count * {M}"
@@ -861,9 +862,9 @@
     },
     {
       "Guid": "f3f4b7d2-1d29-424f-832c-62e02452f587",
-      "Name": "Ba-dum-tss",
+      "Name": "Rimshot",
       "Icon": "icon405.png",
-      "Description": "Give everyone -1 [negative] and 1 [positive] for {D} turns",
+      "Description": "Give everyone {N} [negative] and {P} [positive] for {D} turns",
       "BaseMove": 5,
       "Tier": 2,
       "Abilities": {
@@ -872,7 +873,7 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Abilities1",
-            "Value": "1",
+            "Value": "{P}",
             "Duration": "{D}",
             "Target": {
               "Type": "all",
@@ -881,7 +882,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": []
@@ -890,7 +891,7 @@
             "Name": "ability2",
             "Type": "Additive",
             "Phase": "Abilities1",
-            "Value": "-1",
+            "Value": "{N}",
             "Duration": "{D}",
             "Target": {
               "Type": "all",
@@ -899,7 +900,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": []
@@ -912,6 +913,14 @@
           "Id": 1,
           "OutKeys": [
             {
+              "Key": "N",
+              "Value": "-1"
+            },
+            {
+              "Key": "P",
+              "Value": "1"
+            },
+            {
               "Key": "D",
               "Value": "5"
             }
@@ -921,8 +930,16 @@
           "Id": 2,
           "OutKeys": [
             {
+              "Key": "N",
+              "Value": "-3"
+            },
+            {
+              "Key": "P",
+              "Value": "3"
+            },
+            {
               "Key": "D",
-              "Value": "10"
+              "Value": "5"
             }
           ]
         },
@@ -930,8 +947,16 @@
           "Id": 3,
           "OutKeys": [
             {
+              "Key": "N",
+              "Value": "-9"
+            },
+            {
+              "Key": "P",
+              "Value": "9"
+            },
+            {
               "Key": "D",
-              "Value": "15"
+              "Value": "5"
             }
           ]
         }
@@ -1553,7 +1578,7 @@
               "Amount": "4",
               "Range": {
                 "Min": "0",
-                "Max": "999"
+                "Max": "99999"
               }
             },
             "Functions": [

@@ -199,7 +199,10 @@ public class RaceMain : Node2D
       var characterScene = ResourceLoader.Load(RaceSceneData.CharacterScenePath) as PackedScene;
       var characterInstance = (CharacterScript)characterScene.Instance();
       characterInstance.CharacterSkin = player.Skin;
-      characterInstance.Position = new Vector2(topSpawnPosition.x, topSpawnPosition.y + (RaceSceneData.CharacterSpawnYOffset * player.Id));
+      characterInstance.Position = new Vector2(
+        topSpawnPosition.x + (RaceSceneData.SpaceWidth * player.Position),
+        topSpawnPosition.y + (RaceSceneData.CharacterSpawnYOffset * player.Id)
+      );
       characterInstance.AnimationState = AnimationStates.running;
       characterInstance.Id = player.Id;
       characters.Add(characterInstance);
@@ -566,11 +569,26 @@ public class RaceMain : Node2D
 
   private List<Player> GetBots(int numBots, NameGenerator nameGenerator)
   {
+    // Used to debug movement speed
+    // var debugStartingPositions = new List<int> { 0, -20, 30 };
+    // var debugStartingMoveTokens = new List<int> { 1000, 20, -25 };
     var bots = new List<Player>();
     for (var i = 0; i < numBots; i++)
     {
       var id = GameManager.NumPlayers - numBots + i;
-      bots.Add(GetBot(id, nameGenerator.GetRandomName()));
+      var bot = GetBot(id, nameGenerator.GetRandomName());
+      // Used to debug movement speed
+      // bot.Position = debugStartingPositions[i];
+      // var testToken = new MoveToken
+      // {
+      //   CreatedBy = bot.Id,
+      //   Duration = 1,
+      //   Type = MoveTokenType.Additive,
+      //   Target = i + 1,
+      //   Value = debugStartingMoveTokens[i]
+      // };
+      // bot.Tokens.Add(testToken);
+      bots.Add(bot);
     }
     return bots;
   }

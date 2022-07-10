@@ -38,6 +38,7 @@ public class CharacterScript : Node2D
   public float MoveToX { get; private set; } = 0;
   public bool Moving { get; private set; } = false;
 
+  private float _speedMultiplier = 1;
   private AnimatedSprite _sprite;
   private AnimationPlayer _animationPlayer;
   private Label _positiveTokenLabel;
@@ -78,21 +79,36 @@ public class CharacterScript : Node2D
       float newX;
       if (MoveToX > Position.x)
       {
-        newX = Position.x + (RaceSceneData.GameSpeed * delta);
+        newX = Position.x + (RaceSceneData.GameSpeed * _speedMultiplier * delta);
         if (newX >= MoveToX)
         {
           newX = MoveToX;
           doneMoving = true;
         }
-
+        else if (newX + 1200 > MoveToX && (newX > 0 && newX < GetViewportRect().Size.x))
+        {
+          _speedMultiplier = _speedMultiplier <= 1 ? 1 : _speedMultiplier / 10;
+        }
+        else if (newX < 0 || newX > GetViewportRect().Size.x)
+        {
+          _speedMultiplier = _speedMultiplier + 0.1f;
+        }
       }
       else
       {
-        newX = Position.x - (RaceSceneData.GameSpeed * delta);
+        newX = Position.x - (RaceSceneData.GameSpeed * _speedMultiplier * delta);
         if (newX <= MoveToX)
         {
           newX = MoveToX;
           doneMoving = true;
+        }
+        else if (newX - 1200 < MoveToX && (newX > 0 && newX < GetViewportRect().Size.x))
+        {
+          _speedMultiplier = _speedMultiplier <= 1 ? 1 : _speedMultiplier / 10;
+        }
+        else if (newX < 0 || newX > GetViewportRect().Size.x)
+        {
+          _speedMultiplier = _speedMultiplier + 0.1f;
         }
       }
       Position = (new Vector2(newX, Position.y));
@@ -147,6 +163,8 @@ public class CharacterScript : Node2D
 
   private void SpawnProjectiles(CharacterScript target, int amount, int duration, PackedScene projectileScene, bool isPositive)
   {
+    var n = amount >= 20 ? amount / 20f : 1;
+    var delayedTakeoffMultiplier = 0.1f / n;
     for (int i = 0; i < amount; i++)
     {
       var projectileInstance = (Projectile)projectileScene.Instance();
@@ -154,7 +172,8 @@ public class CharacterScript : Node2D
       projectileInstance.Target = target;
       projectileInstance.IsPositive = isPositive;
       projectileInstance.Length = (duration - 1) * 10;
-      projectileInstance.DelayedTakeoffAmount = (i + 6) * 0.1f;
+      var delayedTakeoff = (i * 2 + 6) * delayedTakeoffMultiplier;
+      projectileInstance.DelayedTakeoffAmount = delayedTakeoff;
       GetTree().Root.AddChild(projectileInstance);
     }
   }
@@ -211,7 +230,7 @@ public class CharacterScript : Node2D
   public delegate void onHit(CharacterScript characterScript);
   public void emitOnHitSignal()
   {
-    GD.Print($"OnHit signal EMITTED for CharacterScript with Id: {Id}");
+    // GD.Print($"OnHit signal EMITTED for CharacterScript with Id: {Id}");
     EmitSignal(nameof(onHit), this);
   }
 
@@ -219,7 +238,7 @@ public class CharacterScript : Node2D
   public delegate void onBuff(CharacterScript characterScript);
   public void emitOnBuffSignal()
   {
-    GD.Print($"OnBuff signal EMITTED for CharacterScript with Id: {Id}");
+    // GD.Print($"OnBuff signal EMITTED for CharacterScript with Id: {Id}");
     EmitSignal(nameof(onBuff), this);
   }
 }

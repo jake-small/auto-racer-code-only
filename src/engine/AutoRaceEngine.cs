@@ -96,7 +96,7 @@ public class AutoRaceEngine
   public bool AdvanceRace()
   {
     _phase = NextTurnPhase(_phase);
-    Console.WriteLine($"engine phase: {_phase}");
+    // Console.WriteLine($"engine phase: {_phase}");
     switch (_phase)
     {
       case TurnPhases.Start:
