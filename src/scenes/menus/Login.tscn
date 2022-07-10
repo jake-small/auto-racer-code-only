@@ -33,7 +33,7 @@ margin_right = 1920.0
 margin_bottom = 519.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 2 )
-text = " logging in anonymously"
+text = "connecting..."
 align = 1
 
 [node name="TextureButton" parent="." instance=ExtResource( 4 )]
