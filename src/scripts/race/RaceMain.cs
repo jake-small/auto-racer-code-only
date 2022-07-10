@@ -210,7 +210,11 @@ public class RaceMain : Node2D
       var cardSlot = GetNode<Sprite>($"CardSlots/slot_{player.Id}");
       if (GameManager.NumPlayers == 2)
       {
-        cardSlot.Position = new Vector2(cardSlot.Position.x + 383, cardSlot.Position.y);
+        cardSlot.Position = new Vector2(cardSlot.Position.x + 384, cardSlot.Position.y);
+        var selectedCardPanel0 = GetNode<Node2D>(RaceSceneData.ContainerSelectedCard + 0);
+        selectedCardPanel0.Position = new Vector2(selectedCardPanel0.Position.x + 192, selectedCardPanel0.Position.y);
+        var selectedCardPanel1 = GetNode<Node2D>(RaceSceneData.ContainerSelectedCard + 1);
+        selectedCardPanel1.Position = new Vector2(selectedCardPanel1.Position.x + 192, selectedCardPanel1.Position.y);
       }
       var characterUiInstance = (CharacterScript)characterScene.Instance();
       characterUiInstance.CharacterSkin = player.Skin;
