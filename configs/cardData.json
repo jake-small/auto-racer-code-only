@@ -540,7 +540,7 @@
       "Guid": "75349081-b1a4-454c-beb9-d9befb92808a",
       "Name": "Blue Spell",
       "Icon": "icon155.png",
-      "Description": "Highest placing opponent gets [negative] equal to the distance between you",
+      "Description": "Give opponent in 1st [negative] equal to the distance between you",
       "BaseMove": 1,
       "Tier": 3,
       "Abilities": {
@@ -549,7 +549,7 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Abilities1",
-            "Value": "{F}",
+            "Value": "{A}",
             "Duration": "1",
             "Target": {
               "Type": "others",
@@ -563,7 +563,7 @@
             },
             "Functions": [
               {
-                "Key": "F",
+                "Key": "A",
                 "BodyMultiline": [
                   "highestOppenent = nil",
                   "otherPlayers = scriptData.GetOtherPlayers()",
@@ -575,7 +575,11 @@
                   "    highestOppenent = value",
                   "  end ",
                   "end ",
-                  "return scriptData.Player.Position - highestOppenent.Position"
+                  "if (highestOppenent.Position > scriptData.Player.Position) then",
+                  "  return scriptData.Player.Position - highestOppenent.Position",
+                  "else",
+                  "  return 0",
+                  "end "
                 ]
               }
             ]
@@ -583,20 +587,7 @@
         ],
         "PrepAbilities": []
       },
-      "LevelValues": [
-        {
-          "Id": 1,
-          "OutKeys": []
-        },
-        {
-          "Id": 2,
-          "OutKeys": []
-        },
-        {
-          "Id": 3,
-          "OutKeys": []
-        }
-      ]
+      "LevelValues": []
     },
     {
       "Guid": "215a2700-a37f-45a6-82b2-bcd8d8e6d43e",

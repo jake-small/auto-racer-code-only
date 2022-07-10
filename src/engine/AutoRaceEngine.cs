@@ -319,6 +319,10 @@ public class AutoRaceEngine
     {
       return new List<int>();
     }
+    if (tokenTarget.GetTargetType() == TargetType.Id)
+    {
+      return new List<int> { tokenTarget.Id.ToInt() };
+    }
 
     var checkForward = false;
     var checkBack = false;
