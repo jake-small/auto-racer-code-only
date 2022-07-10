@@ -294,6 +294,7 @@ scale = Vector2( 6, 3 )
 texture = ExtResource( 7 )
 
 [node name="Container_tutorial" type="Node2D" parent="."]
+visible = false
 
 [node name="Label" type="Label" parent="Container_tutorial"]
 margin_left = 451.0
@@ -325,6 +326,41 @@ texture = ExtResource( 34 )
 position = Vector2( 556, 427 )
 rotation = -3.14159
 scale = Vector2( 1, 0.85063 )
+texture = ExtResource( 33 )
+
+[node name="Container_tutorial2" type="Node2D" parent="."]
+visible = false
+
+[node name="Label" type="Label" parent="Container_tutorial2"]
+margin_left = 130.23
+margin_top = 764.0
+margin_right = 491.23
+margin_bottom = 907.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 29 )
+text = "Reroll to refill the shop
+Frozen cards will be kept"
+
+[node name="Label2" type="Label" parent="Container_tutorial2"]
+margin_left = 800.683
+margin_top = 841.0
+margin_right = 1228.68
+margin_bottom = 946.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = ExtResource( 29 )
+text = "Freeze shop items to 
+keep them for the next round"
+
+[node name="Sprite" type="Sprite" parent="Container_tutorial2"]
+position = Vector2( 782.508, 864 )
+rotation = 3.66519
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 34 )
+
+[node name="Sprite2" type="Sprite" parent="Container_tutorial2"]
+position = Vector2( 261, 903 )
+rotation = -3.14159
+scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 33 )
 
 [node name="Selected_card_info" parent="." instance=ExtResource( 24 )]

@@ -29,9 +29,23 @@ public class PrepMain : Node2D
       GameManager.ShopSize += 1;
     }
 
-    if (!GameManager.ShowTutorial)
+    if (GameManager.ShowTutorial)
     {
-      var tutorialContainer = GetNode<Node2D>(PrepSceneData.TutorialPath).Visible = false;
+      if (GameManager.CurrentRace == 0)
+      {
+        GetNode<Node2D>(PrepSceneData.TutorialPath1).Visible = true;
+        GetNode<Node2D>(PrepSceneData.TutorialPath2).Visible = false;
+      }
+      else if (GameManager.CurrentRace == 1)
+      {
+        GetNode<Node2D>(PrepSceneData.TutorialPath1).Visible = false;
+        GetNode<Node2D>(PrepSceneData.TutorialPath2).Visible = true;
+      }
+      else
+      {
+        GetNode<Node2D>(PrepSceneData.TutorialPath1).Visible = false;
+        GetNode<Node2D>(PrepSceneData.TutorialPath2).Visible = false;
+      }
     }
     _firebaseNode = GetNode<Node2D>("PrepFirebase");
     var playerNameLabel = GetNode<Label>(PrepSceneData.LabelPlayerName);
@@ -366,7 +380,6 @@ public class PrepMain : Node2D
     // TODO: wait for animations to finish
     GameManager.CurrentRace = GameManager.CurrentRace + 1;
     GameManager.LocalPlayer.Cards = GameManager.PrepEngine.PlayerInventory.GetCards();
-    GameManager.ShowTutorial = false;
     if (GameManager.VsBots)
     {
       GetTree().ChangeScene("res://src/scenes/game/Race.tscn");
