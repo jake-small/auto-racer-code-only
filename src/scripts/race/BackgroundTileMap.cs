@@ -45,19 +45,6 @@ public class BackgroundTileMap : Godot.TileMap
     IsScrolling = true;
     _moveToX = Position.x - amount;
     _scrollRight = true;
-    // var n = Mathf.Log(amount / 100f) + 0.5f;
-    // if (n > 4f)
-    // {
-    //   _scrollSpeedMultiplier = 4f;
-    // }
-    // else if (n < 1f)
-    // {
-    //   _scrollSpeedMultiplier = 1f;
-    // }
-    // else
-    // {
-    //   _scrollSpeedMultiplier = n;
-    // }
     _scrollSpeedMultiplier = CalculateSpeedMultiplier(amount);
     Console.WriteLine($"ScrollRight: amount={amount} multiplier={_scrollSpeedMultiplier} moveToX={_moveToX}");
   }
@@ -67,19 +54,6 @@ public class BackgroundTileMap : Godot.TileMap
     IsScrolling = true;
     _moveToX = Position.x + amount;
     _scrollLeft = true;
-    // var n = Mathf.Log(amount / 100f) + 0.5f;
-    // if (n > 4f)
-    // {
-    //   _scrollSpeedMultiplier = 4f;
-    // }
-    // else if (n < 1f)
-    // {
-    //   _scrollSpeedMultiplier = 1f;
-    // }
-    // else
-    // {
-    //   _scrollSpeedMultiplier = n;
-    // }
     _scrollSpeedMultiplier = CalculateSpeedMultiplier(amount);
     Console.WriteLine($"ScrollLeft: amount={amount} multiplier={_scrollSpeedMultiplier} moveToX={_moveToX}");
   }

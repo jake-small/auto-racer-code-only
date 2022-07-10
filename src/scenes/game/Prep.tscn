@@ -177,6 +177,7 @@ __meta__ = {
 script = ExtResource( 26 )
 
 [node name="Label_errors" type="Label" parent="PrepFirebase"]
+visible = false
 margin_left = 63.0
 margin_top = 882.0
 margin_right = 1859.0
