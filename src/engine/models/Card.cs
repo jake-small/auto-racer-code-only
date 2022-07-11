@@ -147,6 +147,13 @@ public class Card : ICloneable
     return false;
   }
 
+  public bool CombineExp(Card otherCard)
+  {
+    var levelExp = ConvertLevelToExp(otherCard.Level);
+    var leveledUp = AddExp(levelExp + otherCard.Exp);
+    return leveledUp;
+  }
+
   public void CombineBaseMove(int otherBaseMove)
   {
     if (BaseMove > otherBaseMove)
@@ -155,6 +162,20 @@ public class Card : ICloneable
       return;
     }
     BaseMove = otherBaseMove + 1;
+  }
+
+  private int ConvertLevelToExp(int level)
+  {
+    switch (level)
+    {
+      case 1:
+        return 0;
+      case 2:
+        return 2;
+      case 3:
+        return 3;
+    }
+    return 0;
   }
 }
 

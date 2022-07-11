@@ -608,10 +608,34 @@ public class PrepMain : Node2D
   {
     if (droppedCardScript.Card.IsMaxLevel() || targetCardScript.Card.IsMaxLevel())
     {
-      return false;
+      droppedCardScript.Card.CombineBaseMove(targetCardScript.Card.BaseMove);
     }
 
-    if (targetCardScript.Card.Level >= droppedCardScript.Card.Level || fromShopInventory)
+    if (fromShopInventory)
+    {
+      var leveledUp = droppedCardScript.Card.CombineExp(targetCardScript.Card); //droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
+      if (leveledUp)
+      {
+        droppedCardScript.OnLevelUp();
+      }
+      droppedCardScript.Card.CombineBaseMove(targetCardScript.Card.BaseMove);
+      var targetSlot = targetCardScript.Slot;
+      GameManager.PrepEngine.ShopInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
+      GameManager.PrepEngine.PlayerInventory.RemoveCard(targetSlot); // Remove target card
+      var addResult = GameManager.PrepEngine.PlayerInventory.AddCard(droppedCardScript.Card, targetSlot);
+      if (!addResult)
+      {
+        throw new Exception("Unable to add card in PrepMain.CombineCards()");
+      }
+      var fromSlot = droppedCardScript.Slot;
+      GameManager.PrepEngine.ShopInventory.RemoveCard(fromSlot);
+      droppedCardScript.Slot = targetSlot;
+      droppedCardScript.Card.Frozen = false;
+      DropCard(droppedCardScript, targetCardScript.Position);
+      targetCardScript.QueueFree(); // Remove dropped card node
+      droppedCardScript.OnExpGainAnimate();
+    }
+    else if (targetCardScript.Card.Level >= droppedCardScript.Card.Level)
     {
       var leveledUp = targetCardScript.Card.AddExp(droppedCardScript.Card.Exp);
       if (leveledUp)
@@ -620,14 +644,7 @@ public class PrepMain : Node2D
       }
       targetCardScript.Card.CombineBaseMove(droppedCardScript.Card.BaseMove);
       targetCardScript.UpdateUi();
-      if (fromShopInventory)
-      {
-        GameManager.PrepEngine.ShopInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
-      }
-      else
-      {
-        GameManager.PrepEngine.PlayerInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
-      }
+      GameManager.PrepEngine.PlayerInventory.RemoveCard(droppedCardScript.Slot); // Remove dropped card
       droppedCardScript.QueueFree(); // Remove dropped card node
       targetCardScript.OnExpGainAnimate();
     }
