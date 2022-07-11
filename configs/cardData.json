@@ -1,5 +1,5 @@
 {
-  "Version": "2.2.2",
+  "Version": "2.2.3",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -1080,7 +1080,7 @@
     },
     {
       "Guid": "09b9aeaa-366a-4b65-97b6-812f7941b02a",
-      "Name": "Jolt Infuser",
+      "Name": "Infuser",
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A} [basemove]",
       "BaseMove": 3,
