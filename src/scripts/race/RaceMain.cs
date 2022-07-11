@@ -10,6 +10,7 @@ public class RaceMain : Node2D
   private TextureButton _forwardButton;
   private TextureButton _endRaceButton;
   private TextureButton _autoPlayButton;
+  private Material _autoPlayButtonPulseMaterial;
   private Label _labelTurnPhase;
   private string _updateTurnPhaseLabel;
   private IEnumerable<(OffscreenIndicatorScript, OffscreenIndicatorScript)> _offscreenIndicatorPairs;
@@ -61,6 +62,7 @@ public class RaceMain : Node2D
     _forwardButton = GetNode<TextureButton>(RaceSceneData.ButtonForwardPath);
     _forwardButton.Connect("pressed", this, nameof(Button_forward_pressed));
     _autoPlayButton = GetNode<TextureButton>(RaceSceneData.ButtonAutoPlay);
+    _autoPlayButtonPulseMaterial = _autoPlayButton.Material;
     _autoPlayButton.Connect("pressed", this, nameof(Button_autoplay_pressed));
 
     _slotTurnIndicators = new List<Sprite>{
@@ -342,6 +344,14 @@ public class RaceMain : Node2D
   private void Button_autoplay_pressed()
   {
     _autoplay = !_autoplay;
+    if (_autoplay)
+    {
+      _autoPlayButton.Material = null;
+    }
+    else
+    {
+      _autoPlayButton.Material = _autoPlayButtonPulseMaterial;
+    }
   }
 
   // TODO Big Refactor Needed Here
