@@ -233,7 +233,7 @@ public class PrepMain : Node2D
       DeselectAllCards();
       var targetCard = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
-      if (cardScript.Card.GetName() == targetCardScript.Card.GetName() && !targetCardScript.Card.IsMaxLevel()) // Combine cards of same type
+      if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
         var combineResult = CombineCards(cardScript, targetCardScript, false);
         if (combineResult)
@@ -257,7 +257,7 @@ public class PrepMain : Node2D
       DeselectAllCards();
       var targetCard = GameManager.PrepEngine.PlayerInventory.GetCardInSlot(slot);
       var targetCardScript = GetCardScriptsInScene().FirstOrDefault(c => c.Card == targetCard);
-      if (cardScript.Card.GetName() == targetCardScript.Card.GetName() && !targetCardScript.Card.IsMaxLevel()) // Combine cards of same type
+      if (cardScript.Card.GetName() == targetCardScript.Card.GetName()) // Combine cards of same type
       {
         DeselectAllCards();
         var bankResult = GameManager.PrepEngine.Bank.Buy(cardScript.Card);
@@ -606,11 +606,6 @@ public class PrepMain : Node2D
 
   private bool CombineCards(CardScript droppedCardScript, CardScript targetCardScript, bool fromShopInventory)
   {
-    if (droppedCardScript.Card.IsMaxLevel() || targetCardScript.Card.IsMaxLevel())
-    {
-      droppedCardScript.Card.CombineBaseMove(targetCardScript.Card.BaseMove);
-    }
-
     if (fromShopInventory)
     {
       var leveledUp = droppedCardScript.Card.CombineExp(targetCardScript.Card); //droppedCardScript.Card.AddExp(targetCardScript.Card.Exp);
