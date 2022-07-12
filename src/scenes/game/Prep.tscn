@@ -13,10 +13,10 @@
 [ext_resource path="res://assets/misc/ui_num4.png" type="Texture" id=11]
 [ext_resource path="res://assets/misc/ui_num1.png" type="Texture" id=12]
 [ext_resource path="res://assets/misc/ui_num2.png" type="Texture" id=13]
-[ext_resource path="res://assets/stats/medal2.png" type="Texture" id=14]
-[ext_resource path="res://assets/stats/trophy.png" type="Texture" id=15]
-[ext_resource path="res://assets/stats/medal1.png" type="Texture" id=16]
-[ext_resource path="res://assets/stats/star.png" type="Texture" id=17]
+[ext_resource path="res://assets/card_icons/icon827.png" type="Texture" id=14]
+[ext_resource path="res://assets/card_icons/icon828.png" type="Texture" id=15]
+[ext_resource path="res://assets/card_icons/icon829.png" type="Texture" id=16]
+[ext_resource path="res://assets/card_icons/icon824.png" type="Texture" id=17]
 [ext_resource path="res://assets/panels/runeBlue_tileOutline_035.png" type="Texture" id=18]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsUIStat3.tres" type="DynamicFont" id=19]
 [ext_resource path="res://assets/stats/heart.png" type="Texture" id=20]
@@ -29,7 +29,7 @@
 [ext_resource path="res://assets/card_icons/icon002.png" type="Texture" id=27]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsCardBM.tres" type="DynamicFont" id=28]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsBase.tres" type="DynamicFont" id=29]
-[ext_resource path="res://assets/misc/shop_sign.png" type="Texture" id=30]
+[ext_resource path="res://assets/misc/shop_sign_text.png" type="Texture" id=30]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=31]
 [ext_resource path="res://assets/card_icons/icon001.png" type="Texture" id=32]
 [ext_resource path="res://assets/misc/arrow_short.png" type="Texture" id=33]
@@ -756,24 +756,24 @@ scale = Vector2( 0.744533, 1.02891 )
 texture = ExtResource( 31 )
 offset = Vector2( 577.64, 123.797 )
 
-[node name="trophy" type="Sprite" parent="Container_win_record"]
+[node name="Icon_first" type="Sprite" parent="Container_win_record"]
 position = Vector2( 261.64, 613.833 )
-scale = Vector2( 0.62, 0.590278 )
-texture = ExtResource( 15 )
-
-[node name="medal2" type="Sprite" parent="Container_win_record"]
-position = Vector2( 316.2, 613.833 )
-scale = Vector2( 0.62, 0.590278 )
-texture = ExtResource( 14 )
-
-[node name="medal1" type="Sprite" parent="Container_win_record"]
-position = Vector2( 370.76, 613.833 )
-scale = Vector2( 0.62, 0.590278 )
+scale = Vector2( 1.8, 1.8 )
 texture = ExtResource( 16 )
 
-[node name="star" type="Sprite" parent="Container_win_record"]
-position = Vector2( 420.36, 613.833 )
-scale = Vector2( 0.62, 0.590278 )
+[node name="Icon_second" type="Sprite" parent="Container_win_record"]
+position = Vector2( 316.2, 613.833 )
+scale = Vector2( 1.8, 1.8 )
+texture = ExtResource( 15 )
+
+[node name="Icon_third" type="Sprite" parent="Container_win_record"]
+position = Vector2( 370.76, 613.833 )
+scale = Vector2( 1.8, 1.8 )
+texture = ExtResource( 14 )
+
+[node name="Icon_fourth" type="Sprite" parent="Container_win_record"]
+position = Vector2( 424.36, 613.833 )
+scale = Vector2( 1.7, 1.7 )
 texture = ExtResource( 17 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
@@ -784,9 +784,6 @@ margin_bottom = 691.332
 custom_fonts/font = ExtResource( 19 )
 text = "0"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label_secondPlaceTotal" type="Label" parent="Container_win_record"]
 margin_left = 298.296

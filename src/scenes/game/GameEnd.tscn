@@ -11,11 +11,11 @@
 [ext_resource path="res://assets/misc/ui_num3.png" type="Texture" id=9]
 [ext_resource path="res://assets/misc/ui_num2.png" type="Texture" id=10]
 [ext_resource path="res://assets/panels/dark_grey_panel.png" type="Texture" id=11]
-[ext_resource path="res://assets/stats/trophy.png" type="Texture" id=12]
-[ext_resource path="res://assets/stats/medal1.png" type="Texture" id=13]
+[ext_resource path="res://assets/card_icons/icon827.png" type="Texture" id=12]
+[ext_resource path="res://assets/card_icons/icon828.png" type="Texture" id=13]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsUIStat3.tres" type="DynamicFont" id=14]
-[ext_resource path="res://assets/stats/medal2.png" type="Texture" id=15]
-[ext_resource path="res://assets/stats/star.png" type="Texture" id=16]
+[ext_resource path="res://assets/card_icons/icon829.png" type="Texture" id=15]
+[ext_resource path="res://assets/card_icons/icon824.png" type="Texture" id=16]
 [ext_resource path="res://assets/card_icons/icon066.png" type="Texture" id=17]
 
 [sub_resource type="InputEventAction" id=1]
@@ -155,24 +155,24 @@ position = Vector2( 319.204, 601.5 )
 scale = Vector2( 0.826667, 1.11 )
 texture = ExtResource( 11 )
 
-[node name="trophy" type="Sprite" parent="Container_win_record"]
-position = Vector2( 240.64, 577.833 )
-scale = Vector2( 0.62, 0.590278 )
-texture = ExtResource( 12 )
-
-[node name="medal2" type="Sprite" parent="Container_win_record"]
-position = Vector2( 295.2, 577.833 )
-scale = Vector2( 0.62, 0.590278 )
+[node name="Icon_first" type="Sprite" parent="Container_win_record"]
+position = Vector2( 241.64, 576.333 )
+scale = Vector2( 1.8, 1.8 )
 texture = ExtResource( 15 )
 
-[node name="medal1" type="Sprite" parent="Container_win_record"]
-position = Vector2( 349.76, 577.833 )
-scale = Vector2( 0.62, 0.590278 )
+[node name="Icon_second" type="Sprite" parent="Container_win_record"]
+position = Vector2( 296.2, 576.333 )
+scale = Vector2( 1.8, 1.8 )
 texture = ExtResource( 13 )
 
-[node name="star" type="Sprite" parent="Container_win_record"]
-position = Vector2( 399.36, 577.833 )
-scale = Vector2( 0.62, 0.590278 )
+[node name="Icon_third" type="Sprite" parent="Container_win_record"]
+position = Vector2( 350.76, 576.333 )
+scale = Vector2( 1.8, 1.8 )
+texture = ExtResource( 12 )
+
+[node name="Icon_fourth" type="Sprite" parent="Container_win_record"]
+position = Vector2( 404.36, 576.333 )
+scale = Vector2( 1.7, 1.7 )
 texture = ExtResource( 16 )
 
 [node name="Label_firstPlaceTotal" type="Label" parent="Container_win_record"]
