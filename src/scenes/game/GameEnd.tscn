@@ -43,10 +43,7 @@ margin_right = 1177.2
 margin_bottom = 120.595
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 5 )
-text = "Game Over"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "Well Played"
 
 [node name="Control" type="Control" parent="."]
 margin_top = 940.0
