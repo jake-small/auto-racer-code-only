@@ -20,9 +20,9 @@ public class Target
   public string Amount { get; set; }
   public Range Range { get; set; }
   /// <summary>
-  ///  Possible values: "0", "1", "2", "3"
+  ///  Possible values: "1,2,3", "2", "2,3"
   /// </summary>
-  public string Id { get; set; }
+  public string PlayerId { get; set; }
 
   public TargetType GetTargetType()
   {
@@ -66,7 +66,7 @@ public class Target
       Priority = Priority,
       Amount = Amount,
       Range = Range?.Clone() as Range,
-      Id = Id
+      PlayerId = PlayerId
     };
   }
 }
@@ -76,7 +76,7 @@ public enum TargetType
   Others,
   Self,
   All,
-  Id
+  PlayerId
 }
 
 public enum Direction

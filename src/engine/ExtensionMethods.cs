@@ -54,6 +54,31 @@ public static class ExtensionMethods
     return list;
   }
 
+  public static IList<T> Shuffle<T>(this IList<T> list, int seed)
+  {
+    // var n = list.Count;
+    // while (n > 1)
+    // {
+    //   var k = (rnd.Next(0, n) % n);
+    //   n--;
+    //   T value = list[k];
+    //   list[k] = list[n];
+    //   list[n] = value;
+    // }
+    // return list;
+    var rng = new Random(seed);
+    int n = list.Count;
+    while (n > 1)
+    {
+      n--;
+      int k = rng.Next(n + 1);
+      T value = list[k];
+      list[k] = list[n];
+      list[n] = value;
+    }
+    return list;
+  }
+
   public static string IntToPlaceStr(this int i)
   {
     switch (i)
