@@ -305,7 +305,7 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
 text = "Spend all of 
 your money 
-before the race"
+before the race."
 
 [node name="Label2" type="Label" parent="Container_tutorial"]
 margin_left = 873.0
@@ -315,7 +315,7 @@ margin_bottom = 539.909
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
 text = "Drag items from the 
-shop to your inventory"
+shop to your inventory."
 
 [node name="Sprite" type="Sprite" parent="Container_tutorial"]
 position = Vector2( 822, 530 )
@@ -338,8 +338,8 @@ margin_right = 491.23
 margin_bottom = 907.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
-text = "Reroll to refill the shop
-Frozen cards will be kept"
+text = "Reroll to refill the shop.
+Frozen cards will be kept."
 
 [node name="Label2" type="Label" parent="Container_tutorial2"]
 margin_left = 800.683
@@ -349,7 +349,7 @@ margin_bottom = 946.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 29 )
 text = "Freeze shop items to 
-keep them for the next round"
+keep them for the next round."
 
 [node name="Sprite" type="Sprite" parent="Container_tutorial2"]
 position = Vector2( 782.508, 864 )
