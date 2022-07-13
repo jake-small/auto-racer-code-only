@@ -315,6 +315,14 @@ public class AutoRaceEngine
     {
       return new List<int> { player.Id };
     }
+    if (tokenTarget.GetTargetType() == TargetType.PlayerId)
+    {
+      if (tokenTarget.PlayerId.Contains(','))
+      {
+        return tokenTarget.PlayerId.Split(',').Select(p => p.ToInt());
+      }
+      return new List<int> { tokenTarget.PlayerId.ToInt() };
+    }
     if (tokenTarget.Amount.ToInt() == 0)
     {
       return new List<int>();

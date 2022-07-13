@@ -1,12 +1,17 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/backgrounds/cloud_panorama_3_bright.png" type="Texture" id=1]
-[ext_resource path="res://assets/fonts/dynamic/PoppinsHeader2.tres" type="DynamicFont" id=2]
+[ext_resource path="res://assets/fonts/ttfs/Poppins-Regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://assets/fonts/dynamic/PoppinsTitle1.tres" type="DynamicFont" id=3]
 [ext_resource path="res://src/scenes/objects/ui_elements/Button_Secondary.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/scripts/menus/Credits.cs" type="Script" id=5]
 
 [sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFont" id=2]
+size = 44
+use_mipmaps = true
+font_data = ExtResource( 2 )
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -44,20 +49,22 @@ margin_top = 280.0
 margin_right = 1872.0
 margin_bottom = 928.0
 custom_colors/default_color = Color( 0, 0, 0, 1 )
-custom_fonts/normal_font = ExtResource( 2 )
+custom_fonts/normal_font = SubResource( 2 )
 bbcode_enabled = true
-bbcode_text = "Made with Godot:  [color=blue][url=https://godotengine.org/]godotengine.org[/url][/color]
+bbcode_text = "Created by Jake Small
 
-Pixel Art by finalbossblues:  [color=blue][url=http://www.timefantasy.net/]timefantasy.net[/url][/color]
-                                                  [color=blue][url=https://finalbossblues.itch.io/]finalbossblues.itch.io[/url][/color]
+Made with Godot:  [color=blue][url=https://godotengine.org/]godotengine.org[/url][/color]
+
+Pixel Art by finalbossblues:  [color=blue][url=http://www.timefantasy.net/]timefantasy.net[/url][/color] & [color=blue][url=https://finalbossblues.itch.io/]finalbossblues.itch.io[/url][/color]
 
 UI Elements by Kenney:  [color=blue][url=https://www.kenney.nl/]kenney.nl[/url][/color]
 
 Inspired by Super Auto Pets: [color=blue][url=https://teamwoodgames.com/]teamwoodgames.com[/url][/color]"
-text = "Made with Godot:  godotengine.org
+text = "Created by Jake Small
 
-Pixel Art by finalbossblues:  timefantasy.net
-                                                  finalbossblues.itch.io
+Made with Godot:  godotengine.org
+
+Pixel Art by finalbossblues:  timefantasy.net & finalbossblues.itch.io
 
 UI Elements by Kenney:  kenney.nl
 

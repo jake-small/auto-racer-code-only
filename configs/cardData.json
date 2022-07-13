@@ -1,5 +1,5 @@
 {
-  "Version": "2.2.1",
+  "Version": "2.3.0",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -540,7 +540,7 @@
       "Guid": "75349081-b1a4-454c-beb9-d9befb92808a",
       "Name": "Blue Spell",
       "Icon": "icon155.png",
-      "Description": "Highest placing opponent gets [negative] equal to the distance between you",
+      "Description": "Give {D} [negative] equal to the distance between you",
       "BaseMove": 1,
       "Tier": 3,
       "Abilities": {
@@ -549,33 +549,175 @@
             "Name": "ability1",
             "Type": "Additive",
             "Phase": "Abilities1",
-            "Value": "{F}",
+            "Value": "{A}",
             "Duration": "1",
             "Target": {
-              "Type": "others",
-              "Direction": "any",
-              "Priority": "PositionDescending",
-              "Amount": "1",
-              "Range": {
-                "Min": "0",
-                "Max": "99999"
-              }
+              "Type": "playerId",
+              "PlayerId": "{F}"
             },
             "Functions": [
               {
-                "Key": "F",
+                "Key": "A",
                 "BodyMultiline": [
-                  "highestOppenent = nil",
-                  "otherPlayers = scriptData.GetOtherPlayers()",
-                  "for key,value in ipairs(otherPlayers) ",
+                  "local highestOppenentA = nil",
+                  "local otherPlayersA = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayersA) ",
                   "do ",
-                  "  if (highestOppenent == nil) then",
-                  "    highestOppenent = value",
-                  "  elseif(value.Position > highestOppenent.Position) then",
-                  "    highestOppenent = value",
+                  "  if (highestOppenentA == nil) then",
+                  "    highestOppenentA = value",
+                  "  elseif(value.Position > highestOppenentA.Position) then",
+                  "    highestOppenentA = value",
                   "  end ",
                   "end ",
-                  "return scriptData.Player.Position - highestOppenent.Position"
+                  "if (highestOppenentA.Position > scriptData.Player.Position) then",
+                  "  return scriptData.Player.Position - highestOppenentA.Position",
+                  "else",
+                  "  return 0",
+                  "end "
+                ]
+              },
+              {
+                "Key": "F",
+                "BodyMultiline": [
+                  "local highestOppenentF = nil",
+                  "local otherPlayersF = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayersF) ",
+                  "do ",
+                  "  if (highestOppenentF == nil) then",
+                  "    highestOppenentF = value",
+                  "  elseif(value.Position > highestOppenentF.Position) then",
+                  "    highestOppenentF = value",
+                  "  end ",
+                  "end ",
+                  "if (highestOppenentF ~= nil) then",
+                  "  return highestOppenentF.Id",
+                  "else",
+                  "  return -1",
+                  "end "
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "ability2",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{B}",
+            "Duration": "1",
+            "Target": {
+              "Type": "playerId",
+              "PlayerId": "{S}"
+            },
+            "Functions": [
+              {
+                "Key": "B",
+                "BodyMultiline": [
+                  "if ('{L}' == '1') then",
+                  "  return 0",
+                  "end",
+                  "local highestOppenentB = nil",
+                  "local secondHighestOppenentB = nil",
+                  "local otherPlayersB = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayersB) ",
+                  "do ",
+                  "  if (highestOppenentB == nil) then",
+                  "    highestOppenentB = value",
+                  "  elseif(value.Position > highestOppenentB.Position) then",
+                  "    secondHighestOppenentB = highestOppenentB",
+                  "    highestOppenentB = value",
+                  "  elseif(secondHighestOppenentB == nil) then",
+                  "    secondHighestOppenentB = value",
+                  "  elseif(value.Position > secondHighestOppenentB.Position) then",
+                  "    secondHighestOppenentB = value",
+                  "  end ",
+                  "end ",
+                  "if (secondHighestOppenentB.Position > scriptData.Player.Position) then",
+                  "  return scriptData.Player.Position - secondHighestOppenentB.Position",
+                  "else",
+                  "  return 0",
+                  "end "
+                ]
+              },
+              {
+                "Key": "S",
+                "BodyMultiline": [
+                  "local highestOppenentS = nil",
+                  "local secondHighestOppenentS = nil",
+                  "local otherPlayersS = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayersS) ",
+                  "do ",
+                  "  if (highestOppenentS == nil) then",
+                  "    highestOppenentS = value",
+                  "  elseif(value.Position > highestOppenentS.Position) then",
+                  "    secondHighestOppenentS = highestOppenentS",
+                  "    highestOppenentS = value",
+                  "  elseif(secondHighestOppenentS == nil) then",
+                  "    secondHighestOppenentS = value",
+                  "  elseif(value.Position > secondHighestOppenentS.Position) then",
+                  "    secondHighestOppenentS = value",
+                  "  end ",
+                  "end ",
+                  "if (secondHighestOppenentS ~= nil) then",
+                  "  return secondHighestOppenentS.Id",
+                  "else",
+                  "  return -1",
+                  "end "
+                ]
+              }
+            ]
+          },
+          {
+            "Name": "ability3",
+            "Type": "Additive",
+            "Phase": "Abilities1",
+            "Value": "{C}",
+            "Duration": "1",
+            "Target": {
+              "Type": "playerId",
+              "PlayerId": "{T}"
+            },
+            "Functions": [
+              {
+                "Key": "C",
+                "BodyMultiline": [
+                  "if ('{L}' == '1' or '{L}' == '2') then",
+                  "  return 0",
+                  "end",
+                  "local lowestOppenent = nil",
+                  "local otherPlayersC = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayersC) ",
+                  "do ",
+                  "  if (lowestOppenent == nil) then",
+                  "    lowestOppenent = value",
+                  "  elseif(value.Position <= lowestOppenent.Position) then",
+                  "    lowestOppenent = value",
+                  "  end ",
+                  "end ",
+                  "if (lowestOppenent.Position > scriptData.Player.Position) then",
+                  "  return scriptData.Player.Position - lowestOppenent.Position",
+                  "else",
+                  "  return 0",
+                  "end "
+                ]
+              },
+              {
+                "Key": "T",
+                "BodyMultiline": [
+                  "local lowestOppenent = nil",
+                  "local otherPlayersC = scriptData.GetOtherPlayers()",
+                  "for key,value in ipairs(otherPlayersC) ",
+                  "do ",
+                  "  if (lowestOppenent == nil) then",
+                  "    lowestOppenent = value",
+                  "  elseif(value.Position <= lowestOppenent.Position) then",
+                  "    lowestOppenent = value",
+                  "  end ",
+                  "end ",
+                  "if (lowestOppenent ~= nil) then",
+                  "  return lowestOppenent.Id",
+                  "else",
+                  "  return -1",
+                  "end "
                 ]
               }
             ]
@@ -586,15 +728,42 @@
       "LevelValues": [
         {
           "Id": 1,
-          "OutKeys": []
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "opponent in 1st"
+            },
+            {
+              "Key": "L",
+              "Value": "1"
+            }
+          ]
         },
         {
           "Id": 2,
-          "OutKeys": []
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "opponents in 1st and 2nd"
+            },
+            {
+              "Key": "L",
+              "Value": "2"
+            }
+          ]
         },
         {
           "Id": 3,
-          "OutKeys": []
+          "OutKeys": [
+            {
+              "Key": "D",
+              "Value": "all opponents ahead"
+            },
+            {
+              "Key": "L",
+              "Value": "3"
+            }
+          ]
         }
       ]
     },
@@ -1089,10 +1258,10 @@
     },
     {
       "Guid": "09b9aeaa-366a-4b65-97b6-812f7941b02a",
-      "Name": "Jolt Infuser",
+      "Name": "Infuser",
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A} [basemove]",
-      "BaseMove": 3,
+      "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
@@ -1558,8 +1727,8 @@
     },
     {
       "Guid": "63aa289f-7119-456a-878c-e2758d28758e",
-      "Name": "Anti Mage",
-      "Icon": "icon648.png",
+      "Name": "Retribution",
+      "Icon": "icon130.png",
       "Description": "Give other players {M} [negative] for each [negative] on you",
       "BaseMove": 3,
       "Tier": 3,

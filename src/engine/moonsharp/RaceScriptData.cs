@@ -8,16 +8,19 @@ public class RaceScriptData : MoonSharpScriptData
 {
   public MoonSharpPlayer Player { get; set; }
   public List<MoonSharpPlayer> AllPlayers { get; private set; }
+  public int Turn { get; set; }
 
-  public RaceScriptData(MoonSharpPlayer player, IEnumerable<MoonSharpPlayer> allPlayers)
+  public RaceScriptData(MoonSharpPlayer player, IEnumerable<MoonSharpPlayer> allPlayers, int turn)
   {
     Player = player;
     AllPlayers = allPlayers.ToList();
+    Turn = turn;
   }
 
   public List<MoonSharpPlayer> GetOtherPlayers()
   {
-    return AllPlayers.Where(p => p.Id != Player.Id).ToList();
+    // Shuffle with a seed, that way multiple abilities can get lists in the same order, but random
+    return AllPlayers.Shuffle(Turn + Player.Id).Where(p => p.Id != Player.Id).ToList();
   }
 
   public MoonSharpPlayer GetPlayer(int id)
@@ -35,7 +38,8 @@ public class RaceScriptData : MoonSharpScriptData
         playersInRange.Add(player);
       }
     }
-    return playersInRange;
+    // Shuffle with a seed, that way multiple abilities can get lists in the same order, but random
+    return playersInRange.Shuffle(Turn + Player.Id).ToList();
   }
 
   public List<MoonSharpMoveTokens> GetAllTokens(int forId = -1, int fromId = -1)

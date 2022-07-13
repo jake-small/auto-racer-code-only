@@ -96,7 +96,7 @@ public class CalculationLayer
       }
 
       var scriptPlayers = players.Select(p => new MoonSharpPlayer(p));
-      var scriptData = new RaceScriptData(new MoonSharpPlayer(player), scriptPlayers);
+      var scriptData = new RaceScriptData(new MoonSharpPlayer(player), scriptPlayers, GameManager.CurrentRace);
       var calculatedOutKeys = CalculateFunctions(functions, scriptData).ToList();
       UpdateAllNestedStrings(card, calculatedOutKeys);
     }

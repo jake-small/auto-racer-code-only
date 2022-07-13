@@ -6,7 +6,8 @@ public static class PrepSceneData
 
   public const string LabelPlayerName = "Label_player_name";
   public const string CharacterPath = "Character";
-  public const string TutorialPath = "Container_tutorial";
+  public const string TutorialPath1 = "Container_tutorial";
+  public const string TutorialPath2 = "Container_tutorial2";
   public const string CardDataRelativePath = @"configs\cardData.json";
   public const string BankDataConfigRelativePath = @"configs\bankData.json";
   public const string NameDataRelativePath = @"configs\nameData.json";
