@@ -1,5 +1,5 @@
 {
-  "Version": "2.3.0",
+  "Version": "3.0.0",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -63,7 +63,7 @@
           "OutKeys": [
             {
               "Key": "R",
-              "Value": "4"
+              "Value": "3"
             },
             {
               "Key": "V",
@@ -133,7 +133,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "4"
+              "Value": "3"
             }
           ]
         }
@@ -190,7 +190,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "3"
             }
           ]
         }
@@ -247,7 +247,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "3"
             }
           ]
         }
@@ -313,7 +313,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "3"
+              "Value": "4"
             }
           ]
         },
@@ -322,7 +322,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "6"
             }
           ]
         }
@@ -392,8 +392,8 @@
       "Guid": "6620a26e-eb27-4d55-825d-8b85d3f6d88a",
       "Name": "Dragon Plate",
       "Icon": "icon638.png",
-      "Description": "If you have no [positive], gain {M} [positive]",
-      "BaseMove": 5,
+      "Description": "If you have no [positive], gain {M} [positive] for 3 turns",
+      "BaseMove": 3,
       "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -402,7 +402,7 @@
             "Type": "Additive",
             "Phase": "Abilities5",
             "Value": "{F}",
-            "Duration": "1",
+            "Duration": "3",
             "Target": {
               "Type": "self"
             },
@@ -434,7 +434,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "5"
+              "Value": "3"
             }
           ]
         },
@@ -443,7 +443,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "10"
+              "Value": "6"
             }
           ]
         },
@@ -452,7 +452,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "15"
+              "Value": "9"
             }
           ]
         }
@@ -530,7 +530,7 @@
             },
             {
               "Key": "D",
-              "Value": "8"
+              "Value": "6"
             }
           ]
         }
@@ -826,7 +826,7 @@
             },
             {
               "Key": "D",
-              "Value": "12"
+              "Value": "9"
             }
           ]
         }
@@ -837,7 +837,7 @@
       "Name": "Abyss Brew",
       "Icon": "icon347.png",
       "Description": "Gain -1 [negative] for {D} turns",
-      "BaseMove": 8,
+      "BaseMove": 10,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -879,7 +879,7 @@
           "OutKeys": [
             {
               "Key": "D",
-              "Value": "1"
+              "Value": "2"
             }
           ]
         }
@@ -934,11 +934,11 @@
           "OutKeys": [
             {
               "Key": "V",
-              "Value": "-3"
+              "Value": "-2"
             },
             {
               "Key": "D",
-              "Value": "3"
+              "Value": "4"
             }
           ]
         },
@@ -947,11 +947,11 @@
           "OutKeys": [
             {
               "Key": "V",
-              "Value": "-4"
+              "Value": "-2"
             },
             {
               "Key": "D",
-              "Value": "4"
+              "Value": "6"
             }
           ]
         }
@@ -962,7 +962,7 @@
       "Name": "Dream Siphon",
       "Icon": "icon133.png",
       "Description": "Gain {M} [positive] for each of your [negative] on opponents",
-      "BaseMove": 2,
+      "BaseMove": 1,
       "Tier": 3,
       "Abilities": {
         "MoveTokenAbilities": [
@@ -1023,7 +1023,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "8"
+              "Value": "6"
             }
           ]
         }
@@ -1083,11 +1083,11 @@
           "OutKeys": [
             {
               "Key": "N",
-              "Value": "-1"
+              "Value": "-2"
             },
             {
               "Key": "P",
-              "Value": "1"
+              "Value": "2"
             },
             {
               "Key": "D",
@@ -1100,11 +1100,11 @@
           "OutKeys": [
             {
               "Key": "N",
-              "Value": "-3"
+              "Value": "-4"
             },
             {
               "Key": "P",
-              "Value": "3"
+              "Value": "4"
             },
             {
               "Key": "D",
@@ -1117,11 +1117,11 @@
           "OutKeys": [
             {
               "Key": "N",
-              "Value": "-9"
+              "Value": "-6"
             },
             {
               "Key": "P",
-              "Value": "9"
+              "Value": "6"
             },
             {
               "Key": "D",
@@ -1193,7 +1193,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "20"
+              "Value": "15"
             }
           ]
         }
@@ -1250,7 +1250,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "8"
+              "Value": "6"
             }
           ]
         }
@@ -1261,7 +1261,7 @@
       "Name": "Infuser",
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A} [basemove]",
-      "BaseMove": 2,
+      "BaseMove": 1,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
@@ -1302,7 +1302,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "3"
             }
           ]
         }
@@ -1313,7 +1313,7 @@
       "Name": "Dwarven Reconfigurator",
       "Icon": "icon940.png",
       "Description": "Start of turn, give card to the right {A} [basemove]",
-      "BaseMove": 2,
+      "BaseMove": 1,
       "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
@@ -1341,7 +1341,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "1"
+              "Value": "2"
             }
           ]
         },
@@ -1350,7 +1350,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "2"
+              "Value": "4"
             }
           ]
         },
@@ -1359,7 +1359,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "6"
             }
           ]
         }
@@ -1370,7 +1370,7 @@
       "Name": "Jamestown",
       "Icon": "icon021.png",
       "Description": "When Sold, reroll and gain {A} gold",
-      "BaseMove": 3,
+      "BaseMove": 2,
       "Tier": 2,
       "Abilities": {
         "MoveTokenAbilities": [],
@@ -1412,7 +1412,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "8"
+              "Value": "6"
             }
           ]
         }
@@ -1423,7 +1423,7 @@
       "Name": "Snowball",
       "Icon": "icon922_c.png",
       "Description": "Start of turn{D}, gain {A} [basemove]",
-      "BaseMove": 1,
+      "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
@@ -1556,7 +1556,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "3"
             }
           ]
         }
@@ -1613,7 +1613,7 @@
           "OutKeys": [
             {
               "Key": "A",
-              "Value": "4"
+              "Value": "3"
             }
           ]
         }
@@ -1792,7 +1792,7 @@
           "OutKeys": [
             {
               "Key": "M",
-              "Value": "-8"
+              "Value": "-6"
             }
           ]
         }
