@@ -130,11 +130,11 @@ func QueryPlayerTurn(turn: int, cardMajorVersion: String, characterNameFilter: A
 	if result.data == null || result.data.empty():
 		if lookLeft:
 			print("Unable to find a document to the left, trying again")
-			get_node("Label_errors").text = "Unable to find a document to the left, trying again"
+#			get_node("Label_errors").text = "Unable to find a document to the left, trying again"
 			opponent = yield(QueryPlayerTurn(turn, cardMajorVersion, characterNameFilter, false, attemptNum), "completed")
 		else:
 			print("Unable to find a document to the right, stopping...")
-			get_node("Label_errors").text = "Unable to find a document to the right, stopping..."
+#			get_node("Label_errors").text = "Unable to find a document to the right, stopping..."
 			yield(get_tree().create_timer(0.01), "timeout")
 			return null
 	else:
