@@ -294,6 +294,10 @@ public class RaceMain : Node2D
     cardInstance.Slot = playerId;
     cardInstance.Position = position;
     cardInstance.DisplayOnly = true;
+    if (playerId != 0)
+    {
+      cardInstance.HideExp = true;
+    }
     cardInstance.Connect(nameof(CardScript.cardDisplaySelected), this, nameof(_on_Card_display_selected));
     if (_displayCards == null)
     {

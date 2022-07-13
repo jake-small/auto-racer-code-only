@@ -30,6 +30,8 @@ public static class PrepSceneData
   public const string SpriteExpFull1 = "Exp/Sprite_exp_1_full";
   public const string SpriteExpFull2 = "Exp/Sprite_exp_2_full";
   public const string SpriteExpFull3 = "Exp/Sprite_exp_3_full";
+  public const string SpriteExpEmpty1 = "Exp/Sprite_exp_1_empty";
+  public const string SpriteExpEmpty2 = "Exp/Sprite_exp_2_empty";
   public const string SpriteExpEmpty3 = "Exp/Sprite_exp_3_empty";
   public const string LabelCardBaseMove = "Base_move/Label_basemove";
   public const string LabelNumFirstPlaces = "Container_win_record/Label_firstPlaceTotal";

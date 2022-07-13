@@ -20,6 +20,8 @@ public class CardScript : KinematicBody2D
   private Sprite _expFull2;
   private Sprite _expFull3;
   private List<Sprite> _expFullIcons;
+  private Sprite _expEmpty1;
+  private Sprite _expEmpty2;
   private Sprite _expEmpty3;
   private Label _baseMoveLabel;
   private AnimationPlayer _animationPlayerBackground;
@@ -27,6 +29,7 @@ public class CardScript : KinematicBody2D
 
 
   public bool DisplayOnly { get; set; } = false;
+  public bool HideExp { get; set; } = false;
   public bool Selected = false;
   public bool Dropped = false;
   public Vector2 DroppedPosition = new Vector2();
@@ -59,6 +62,8 @@ public class CardScript : KinematicBody2D
     _expFull1 = GetNode<Sprite>(PrepSceneData.SpriteExpFull1);
     _expFull2 = GetNode<Sprite>(PrepSceneData.SpriteExpFull2);
     _expFull3 = GetNode<Sprite>(PrepSceneData.SpriteExpFull3);
+    _expEmpty1 = GetNode<Sprite>(PrepSceneData.SpriteExpEmpty1);
+    _expEmpty2 = GetNode<Sprite>(PrepSceneData.SpriteExpEmpty2);
     _expEmpty3 = GetNode<Sprite>(PrepSceneData.SpriteExpEmpty3);
     _expFullIcons = new List<Sprite>() { _expFull1, _expFull2, _expFull3 };
     _baseMoveLabel = GetNode<Label>(PrepSceneData.LabelCardBaseMove);
@@ -234,6 +239,17 @@ public class CardScript : KinematicBody2D
     }
     _expNode.Visible = true;
     _levelLabel.Text = Card.Level.ToString();
+
+    if (HideExp)
+    {
+      _expEmpty1.Visible = false;
+      _expEmpty2.Visible = false;
+      _expEmpty3.Visible = false;
+      _expFull1.Visible = false;
+      _expFull2.Visible = false;
+      _expFull3.Visible = false;
+      return;
+    }
     var exp = Card.Exp;
     var expToLvl = Card.ExpToLvl;
     if (expToLvl == 3)
