@@ -63,7 +63,7 @@ public class PrepMain : Node2D
     }
     else
     {
-      GetNode<Sprite>("Container_win_record/trophy").Visible = false;
+      GetNode<Sprite>(PrepSceneData.PlaceIconFirst).Visible = false;
       firstPlacesLabel.Visible = false;
     }
     if (GameManager.NumPlayers > 1)
@@ -72,7 +72,7 @@ public class PrepMain : Node2D
     }
     else
     {
-      GetNode<Sprite>("Container_win_record/medal2").Visible = false;
+      GetNode<Sprite>(PrepSceneData.PlaceIconSecond).Visible = false;
       secondPlacesLabel.Visible = false;
     }
     if (GameManager.NumPlayers > 2)
@@ -81,7 +81,7 @@ public class PrepMain : Node2D
     }
     else
     {
-      GetNode<Sprite>("Container_win_record/medal1").Visible = false;
+      GetNode<Sprite>(PrepSceneData.PlaceIconThird).Visible = false;
       thirdPlacesLabel.Visible = false;
     }
     if (GameManager.NumPlayers > 3)
@@ -90,17 +90,17 @@ public class PrepMain : Node2D
     }
     else
     {
-      GetNode<Sprite>("Container_win_record/star").Visible = false;
+      GetNode<Sprite>(PrepSceneData.PlaceIconFourth).Visible = false;
       fourthPlacesLabel.Visible = false;
     }
 
     if (GameManager.NumPlayers == 2)
     {
       firstPlacesLabel.RectPosition = new Vector2(firstPlacesLabel.RectPosition.x + 55, firstPlacesLabel.RectPosition.y);
-      var firstPlaceIcon = GetNode<Sprite>("Container_win_record/trophy");
+      var firstPlaceIcon = GetNode<Sprite>(PrepSceneData.PlaceIconFirst);
       firstPlaceIcon.Position = new Vector2(firstPlaceIcon.Position.x + 55, firstPlaceIcon.Position.y);
       secondPlacesLabel.RectPosition = new Vector2(secondPlacesLabel.RectPosition.x + 55, secondPlacesLabel.RectPosition.y);
-      var secondPlaceIcon = GetNode<Sprite>("Container_win_record/medal2");
+      var secondPlaceIcon = GetNode<Sprite>(PrepSceneData.PlaceIconSecond);
       secondPlaceIcon.Position = new Vector2(secondPlaceIcon.Position.x + 55, secondPlaceIcon.Position.y);
     }
 

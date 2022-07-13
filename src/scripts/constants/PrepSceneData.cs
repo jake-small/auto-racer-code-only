@@ -42,5 +42,9 @@ public static class PrepSceneData
   public const string SelectedCardInfo = "Selected_card_info";
   public const string ShopSlotPrefix = "shop_slot_";
   public const string ContainerCardCostPrefix = "Shop_cost_";
+  public const string PlaceIconFirst = "Container_win_record/Icon_first";
+  public const string PlaceIconSecond = "Container_win_record/Icon_second";
+  public const string PlaceIconThird = "Container_win_record/Icon_third";
+  public const string PlaceIconFourth = "Container_win_record/Icon_fourth";
   public const string LabelDebugInventory = "Debug/Label_inventory";
 }
