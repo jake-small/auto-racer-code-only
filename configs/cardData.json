@@ -1754,8 +1754,8 @@
               {
                 "Key": "F",
                 "BodyMultiline": [
-                  "negativeTokens = scriptData.GetNegativeTokens()",
-                  "count = 0 ",
+                  "local negativeTokens = scriptData.GetNegativeTokens()",
+                  "local count = 0 ",
                   "for key,value in ipairs(negativeTokens) ",
                   "do ",
                   "  count = count + (value.Value * -1) ",

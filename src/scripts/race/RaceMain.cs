@@ -383,6 +383,7 @@ public class RaceMain : Node2D
 
     var didWin = _autoRaceEngine.AdvanceRace();
     turnPhase = _autoRaceEngine.GetTurnPhase();
+    _abilityPhasePlayerId = -1;
 
     _currentTurn = _autoRaceEngine.GetTurn();
     GD.Print($"current turn: {_currentTurn}");
@@ -446,7 +447,7 @@ public class RaceMain : Node2D
       _abilityPhasePlayerId = 0;
     }
     var turnResult = _autoRaceEngine.GetTurnResults().Where(t => t.Phase == turnPhase).FirstOrDefault(t => t.Player.Id == _abilityPhasePlayerId);
-    if (turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
+    if (turnResult != null && turnResult.TokensGiven != null && turnResult.TokensGiven.Any())
     {
       ShowSlotTurnIndicator(turnResult.Player.Id, true);
       _raceViewManager.GiveTokens(turnResult);
