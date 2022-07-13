@@ -66,7 +66,7 @@ margin_right = 1855.71
 margin_bottom = 1024.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 custom_fonts/font = ExtResource( 6 )
-text = "Alpha v0.6.0"
+text = "Alpha v0.7.0"
 
 [connection signal="button_up" from="TextureButton" to="." method="_on_Login_button_up"]
 
