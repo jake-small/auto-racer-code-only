@@ -1,5 +1,5 @@
 {
-  "Version": "2.2.3",
+  "Version": "2.3.0",
   "Cards": [
     {
       "Guid": "0dc6f997-6773-4350-b0c6-b454519ab4dc",
@@ -1261,7 +1261,7 @@
       "Name": "Infuser",
       "Icon": "icon995.png",
       "Description": "On buy, give bought card {A} [basemove]",
-      "BaseMove": 3,
+      "BaseMove": 2,
       "Tier": 1,
       "Abilities": {
         "MoveTokenAbilities": [],
