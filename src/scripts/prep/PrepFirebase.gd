@@ -9,20 +9,32 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	Firebase.Auth.connect("userdata_received", self, "_on_FirebaseAuth_userdata_received")
+	Firebase.Auth.connect("request_completed", self, "_on_request_completed")
+	Firebase.Firestore.connect("task_error", self, "_on_task_error")
+#	Firebase.Auth.connect("task_query_error", self, "_on_task_query_error")
+#	Firebase.Auth.connect("task_error", self, "_on_task_error")
 	Firebase.Auth.get_user_data()
 	rng.randomize()
-
+	
 #func _on_task_query_error(error_code, message):
 #	print("task query error " + str(error_code) + " message " + message)
-#
-#func _on_task_error(error_code, message):
-#	print("task error " + str(error_code) + " message " + message)
+#	get_node("Label_errors").text = "task query error " + str(error_code) + " message " + message
 
-func on_document_error(error, errorCode, errorMessage):
-	print("firebase document error")
-	print(error)
-	print(errorCode)
-	print(errorMessage)
+func _on_task_error(error_code, message):
+	print("task error " + str(error_code) + " message " + message)
+	get_node("Label_errors").text = "task error " + str(error_code) + " message " + message
+
+func _on_request_completed(result : int, response_code : int, headers : PoolStringArray, body : PoolByteArray) -> void:
+	if response_code != 200:
+		print("received bad firebase response: " + str(response_code))
+		get_node("Label_errors").text = "received bad firebase response: " + str(response_code)
+	return
+	
+#func on_document_error(error, errorCode, errorMessage):
+#	print("firebase document error")
+#	print(error)
+#	print(errorCode)
+#	print(errorMessage)
 #	get_node("Label_errors").text = "firebase document error: " + str(error) + " code:" + str(errorCode) + " msg: " + str(errorMessage)
 	
 func _on_FirebaseAuth_userdata_received(userdata: FirebaseUserData):
@@ -106,22 +118,23 @@ func QueryPlayerTurn(turn: int, cardMajorVersion: String, characterNameFilter: A
 	query.limit(1)
 #	get_node("Label_errors").text = "Querying for opponent turn, attempt number " + str(attemptNum) + ". Querying..."
 	var query_task : FirestoreTask = Firebase.Firestore.query(query)
+	# this yield OCCASSIONALLY doesn't on android html5 PWA....
 	var result : FirestoreTask = yield(query_task, "task_finished")
 #	get_node("Label_errors").text = "Querying for opponent turn, attempt number " + str(attemptNum) + ". Got response"
 	if result.error:
 		print("Result error message: " + result.error["message"])
-#		get_node("Label_errors").text = "Result error message: " + result.error["message"]
+		get_node("Label_errors").text = "Result error message: " + result.error["message"]
 		yield(get_tree().create_timer(0.01), "timeout")
 		return null
 	var opponent = {}
 	if result.data == null || result.data.empty():
 		if lookLeft:
 			print("Unable to find a document to the left, trying again")
-#			get_node("Label_errors").text = "Unable to find a document to the left, trying again"
+			get_node("Label_errors").text = "Unable to find a document to the left, trying again"
 			opponent = yield(QueryPlayerTurn(turn, cardMajorVersion, characterNameFilter, false, attemptNum), "completed")
 		else:
 			print("Unable to find a document to the right, stopping...")
-#			get_node("Label_errors").text = "Unable to find a document to the right, stopping..."
+			get_node("Label_errors").text = "Unable to find a document to the right, stopping..."
 			yield(get_tree().create_timer(0.01), "timeout")
 			return null
 	else:
