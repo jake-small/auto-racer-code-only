@@ -1,6 +1,6 @@
 # Fantasy Auto Racer
 
-#### *This is a clone of the main repository with all of the licensed art assets stripped out*
+#### *This is a clone of the main repository with all of the licensed art assets stripped out and all of the releases removed*
 
 ## Project Layout
 - Code is found in [`/src`](https://github.com/jake-small/auto-racer-code-only/tree/main/src) which includes:
